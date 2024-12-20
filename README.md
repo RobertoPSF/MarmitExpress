@@ -1,5 +1,40 @@
-# Pré-requisitos
+# Estrutura geral do projeto
 
+MarmitExpress
+│
+├── back
+│   ├── src
+│   │   ├── main
+│   │   │   ├── java
+│   │   │   │   └── com
+│   │   │   │       └── marmitexpress
+│   │   │   │           ├── controllers
+│   │   │   │           ├── services
+│   │   │   │           ├── repositorys
+│   │   │   │           ├── models
+│   │   │   │           └── Application.java
+│   │   │   └── resources
+│   │   └── test
+│   │       └── java
+│   │           └── com
+│   │               └── marmitexpress
+│   │                   └── ApplicationTests.java
+│   │
+│   └── Dockerfile
+│
+├── front
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── App.tsx
+│   │   └── index.tsx
+│   │
+│   ├── package.json
+│   └── Dockerfile
+│
+└── docker-compose.yml
+
+# Pré-requisitos
 Antes de começar, certifique-se de que você tenha o seguinte instalado em sua máquina:
 
 - [Docker](https://www.docker.com/)
