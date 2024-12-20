@@ -1,5 +1,6 @@
 # Estrutura geral do projeto
 
+```
 MarmitExpress
 │
 ├── back
@@ -45,6 +46,7 @@ MarmitExpress
 │   └── Dockerfile
 │
 └── docker-compose.yml
+```
 
 # Pré-requisitos
 Antes de começar, certifique-se de que você tenha o seguinte instalado em sua máquina:
