@@ -9,9 +9,17 @@ MarmitExpress
 │   │   │   │   └── com
 │   │   │   │       └── marmitexpress
 │   │   │   │           ├── controllers
+│   │   │   │           │   └── Controller.java
+│   │   │   │           │
 │   │   │   │           ├── services
+│   │   │   │           │   └── Service.java
+│   │   │   │           │
 │   │   │   │           ├── repositorys
+│   │   │   │           │   └── Repository.java
+│   │   │   │           │
 │   │   │   │           ├── models
+│   │   │   │           │   └── Model.java
+│   │   │   │           │
 │   │   │   │           └── Application.java
 │   │   │   └── resources
 │   │   └── test
@@ -25,7 +33,11 @@ MarmitExpress
 ├── front
 │   ├── src
 │   │   ├── components
+│   │   │   └── Footer.tsx
+│   │   │
 │   │   ├── pages
+│   │   │   └── Home.tsx
+│   │   │
 │   │   ├── App.tsx
 │   │   └── index.tsx
 │   │
