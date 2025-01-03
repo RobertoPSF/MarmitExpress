@@ -30,7 +30,8 @@ MarmitExpress
 │   │               └── marmitexpress
 │   │                   └── ApplicationTests.java
 │   │
-│   └── Dockerfile
+│   ├── Dockerfile
+│   └── pom.xml
 │
 ├── front
 │   ├── src
