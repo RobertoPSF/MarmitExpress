@@ -23,6 +23,7 @@ MarmitExpress
 │   │   │   │           │
 │   │   │   │           └── Application.java
 │   │   │   └── resources
+│   │   │       └── application.yml
 │   │   └── test
 │   │       └── java
 │   │           └── com
