@@ -8,6 +8,10 @@
 
 - cd/back
 
+## 3. Utilize o wrapper
+
+- mvn wrapper:wrapper
+
 ## 3. Instale as dependências:
 
 - ./mvnw clean install
