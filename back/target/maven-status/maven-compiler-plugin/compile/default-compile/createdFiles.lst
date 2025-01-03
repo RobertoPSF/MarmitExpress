@@ -1,0 +1,6 @@
+main/java/com/marmitexpress/controllers/Controller.class
+main/java/com/marmitexpress/controllers/HealthController.class
+main/java/com/marmitexpress/services/Service.class
+main/java/com/marmitexpress/repositorys/Repository.class
+main/java/com/marmitexpress/models/Model.class
+main/java/com/marmitexpress/Application.class

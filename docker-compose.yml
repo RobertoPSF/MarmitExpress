@@ -1,16 +1,39 @@
 version: '3.8'
 
 services:
-  frontend:
+  front:
     build:
       context: ./front
       dockerfile: Dockerfile
+    container_name: marmitexpress-frontend
     ports:
       - "80:80"
 
-  backend:
+  back:
     build:
       context: ./back
       dockerfile: Dockerfile
+    container_name: marmitexpress-backend
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/marmitexpress
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: marmitexpress-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: marmitexpress
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

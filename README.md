@@ -48,6 +48,8 @@ MarmitExpress
 └── docker-compose.yml
 ```
 
+# Leia os READMES do back e do front, dependendo do seu time
+
 # Pré-requisitos
 Antes de começar, certifique-se de que você tenha o seguinte instalado em sua máquina:
 
@@ -63,6 +65,12 @@ Navegue até o diretório raiz do seu projeto (onde o arquivo docker-compose.yml
 Após a construção das imagens, você pode iniciar os contêineres com o seguinte comando:
 
 - docker-compose up
+- docker-compose up {service-name (front ou back)}
+
+# Alternativa para o docker-compose
+Também é possível rodar o buildar e executar o projeto usando apenas 
+
+- docker-compose up --build {service-name (front ou back)}
 
 # Passo 3: Acessar a Aplicação
 Após os contêineres estarem em execução, você pode acessar a aplicação da seguinte forma:
