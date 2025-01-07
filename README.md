@@ -72,6 +72,7 @@ Após a construção das imagens, você pode iniciar os contêineres com o segui
 # Alternativa para o docker-compose
 Também é possível rodar o buildar e executar o projeto usando apenas 
 
+- docker-compose up --build
 - docker-compose up --build {service-name (front ou back)}
 
 # Passo 3: Acessar a Aplicação

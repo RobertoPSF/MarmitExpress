@@ -21,3 +21,10 @@
 - ./mvnw clean package
 
 ## 5. Agora é possível utilizar o docker
+
+- docker build -t nome-da-imagem .
+- docker run -p 8080:8080 nome-da-imagem
+
+## 6. Teste a comunicação com a rota /health
+
+- curl http://localhost:8080/health
