@@ -1,4 +1,4 @@
-package main.java.com.marmitexpress.services;
+package com.marmitexpress.services;
 
 public class Service {
     

@@ -1,4 +1,4 @@
-package main.java.com.marmitexpress.models;
+package com.marmitexpress.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,5 +12,5 @@ public class Model {
     private Long id;
     private String name;
 
-    // Getters e Setters
+    // Getters e Setters  
 }

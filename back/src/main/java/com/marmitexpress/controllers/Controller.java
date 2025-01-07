@@ -1,4 +1,4 @@
-package main.java.com.marmitexpress.controllers;
+package com.marmitexpress.controllers;
 
 public class Controller {
     

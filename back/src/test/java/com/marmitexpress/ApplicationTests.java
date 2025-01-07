@@ -1,4 +1,4 @@
-package test.java.com.marmitexpress;
+package com.marmitexpress;
 
 public class ApplicationTests {
     

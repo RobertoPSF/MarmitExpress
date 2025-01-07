@@ -1,4 +1,4 @@
-package main.java.com.marmitexpress.controllers;
+package com.marmitexpress.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
