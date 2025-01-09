@@ -31,4 +31,5 @@ front/package-lock.json
 
 # GENERAL
 
-.vscode
+./.vscode
+.vscode/*
