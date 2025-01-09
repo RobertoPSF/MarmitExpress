@@ -50,8 +50,6 @@ MarmitExpress
 └── docker-compose.yml
 ```
 
-# Leia os READMES do back e do front, dependendo do seu time
-
 # Pré-requisitos
 Antes de começar, certifique-se de que você tenha o seguinte instalado em sua máquina:
 
