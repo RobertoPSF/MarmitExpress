@@ -29,3 +29,6 @@ front/*.sln
 front/*.sw?
 front/package-lock.json
 
+# GENERAL
+
+.vscode
