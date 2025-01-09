@@ -19,9 +19,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     // Buscar restaurantes por endereço
     List<Restaurante> findByEndereco(String endereco);
 
-    // Buscar restaurante por telefone
-    Optional<Restaurante> findByTelefone(String telefone);
-
     // Buscar restaurantes com marmitas disponíveis
     List<Restaurante> findByMarmitasIsNotEmpty();
 
