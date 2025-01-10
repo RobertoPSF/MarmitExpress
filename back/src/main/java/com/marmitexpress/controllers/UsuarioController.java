@@ -26,6 +26,7 @@ public class UsuarioController {
         usuario.setNome(usuario2.getNome());
         usuario.setEmail(usuario2.getEmail());
         usuario.setSenha(usuario2.getSenha());
+        usuario.setTelefone(usuario2.getTelefone());
 
         // Salva o usuário no banco de dados
         Usuario novoUsuario = usuarioService.criarUsuario(usuario);
@@ -96,6 +97,7 @@ public class UsuarioController {
         usuarioAtualizado.setNome(usuarioDTO.getNome());
         usuarioAtualizado.setEmail(usuarioDTO.getEmail());
         usuarioAtualizado.setSenha(usuarioDTO.getSenha());
+        usuarioAtualizado.setTelefone(usuarioDTO.getTelefone());
 
         // Atualiza o usuário no banco de dados
         Usuario usuario = usuarioService.atualizarUsuario(id, usuarioAtualizado);
