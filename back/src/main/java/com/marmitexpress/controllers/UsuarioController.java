@@ -20,15 +20,20 @@ public class UsuarioController {
 
     // Criar um novo usuário (RF-01)
     @PostMapping
-    public ResponseEntity<UsuarioDTO> criarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioDTO> criarUsuario(@RequestBody Usuario usuario2) {
         // Converte o DTO para a entidade Usuario
         Usuario usuario = new Usuario();
-        usuario.setNome(usuarioDTO.getNome());
-        usuario.setEmail(usuarioDTO.getEmail());
-        usuario.setSenha(usuarioDTO.getSenha());
+        usuario.setNome(usuario2.getNome());
+        usuario.setEmail(usuario2.getEmail());
+        usuario.setSenha(usuario2.getSenha());
 
         // Salva o usuário no banco de dados
         Usuario novoUsuario = usuarioService.criarUsuario(usuario);
+
+        // Verifica se o usuário foi salvo com sucesso
+        if (novoUsuario == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Retorna erro 500 se o usuário não foi salvo
+        }
 
         // Converte a entidade salva de volta para DTO
         UsuarioDTO responseDTO = new UsuarioDTO(

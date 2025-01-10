@@ -1,5 +1,6 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.dto.UsuarioDTO;
 import com.marmitexpress.models.Usuario;
 import com.marmitexpress.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,16 +27,17 @@ class UsuarioControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @SuppressWarnings("null")
     @Test
     void testCriarUsuario() {
         // Arrange
         Usuario usuario = new Usuario();
         usuario.setNome("Carlos Souza");
 
-        when(usuarioService.criarUsuario(usuario)).thenReturn(usuario);
+        when(usuarioService.criarUsuario(usuario)).thenReturn(usuario); // Certifique-se de que o mock retorna um usuário válido
 
         // Act
-        ResponseEntity<Usuario> response = usuarioController.criarUsuario(usuario);
+        ResponseEntity<UsuarioDTO> response = usuarioController.criarUsuario(usuario);
 
         // Assert
         assertNotNull(response.getBody());

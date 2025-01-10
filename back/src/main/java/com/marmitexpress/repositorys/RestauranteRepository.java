@@ -47,6 +47,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     List<Restaurante> findByIdIn(List<Long> ids);
 
     // Verificar se um restaurante existe por ID
+    @SuppressWarnings("null")
     boolean existsById(Long id);
 
     // Buscar restaurante por ID e nome
