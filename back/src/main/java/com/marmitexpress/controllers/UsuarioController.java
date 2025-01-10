@@ -1,6 +1,7 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.UsuarioDTO;
+import com.marmitexpress.dto.UsuarioResponseDTO;
 import com.marmitexpress.models.Usuario;
 import com.marmitexpress.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ public class UsuarioController {
 
     // Criar um novo usuário (RF-01)
     @PostMapping
-    public ResponseEntity<UsuarioDTO> criarUsuario(@RequestBody Usuario usuario2) {
+    public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         // Converte o DTO para a entidade Usuario
         Usuario usuario = new Usuario();
-        usuario.setNome(usuario2.getNome());
-        usuario.setEmail(usuario2.getEmail());
-        usuario.setSenha(usuario2.getSenha());
-        usuario.setTelefone(usuario2.getTelefone());
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setSenha(usuarioDTO.getSenha());
+        usuario.setTelefone(usuarioDTO.getTelefone());
 
         // Salva o usuário no banco de dados
         Usuario novoUsuario = usuarioService.criarUsuario(usuario);
@@ -37,11 +38,10 @@ public class UsuarioController {
         }
 
         // Converte a entidade salva de volta para DTO
-        UsuarioDTO responseDTO = new UsuarioDTO(
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(
                 novoUsuario.getId(),
                 novoUsuario.getNome(),
                 novoUsuario.getEmail(),
-                novoUsuario.getSenha(),
                 novoUsuario.getTelefone()
         );
 
@@ -50,17 +50,16 @@ public class UsuarioController {
 
     // Listar todos os usuários
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
+    public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
         // Busca todos os usuários no banco de dados
         List<Usuario> usuarios = usuarioService.listarUsuarios();
 
         // Converte a lista de entidades para DTOs
-        List<UsuarioDTO> usuariosDTO = usuarios.stream()
-                .map(usuario -> new UsuarioDTO(
+        List<UsuarioResponseDTO> usuariosDTO = usuarios.stream()
+                .map(usuario -> new UsuarioResponseDTO(
                         usuario.getId(),
                         usuario.getNome(),
                         usuario.getEmail(),
-                        usuario.getSenha(),
                         usuario.getTelefone()
                 ))
                 .collect(Collectors.toList());
@@ -91,7 +90,7 @@ public class UsuarioController {
 
     // Atualizar um usuário
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
         // Converte o DTO para a entidade Usuario
         Usuario usuarioAtualizado = new Usuario();
         usuarioAtualizado.setNome(usuarioDTO.getNome());
@@ -104,11 +103,10 @@ public class UsuarioController {
 
         if (usuario != null) {
             // Converte a entidade atualizada de volta para DTO
-            UsuarioDTO responseDTO = new UsuarioDTO(
+            UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getSenha(),
                     usuario.getTelefone()
             );
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
@@ -126,17 +124,16 @@ public class UsuarioController {
 
     // Buscar um usuário por email
     @GetMapping("/email/{email}")
-    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@PathVariable String email) {
+    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@PathVariable String email) {
         // Busca o usuário pelo email
         Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
 
         if (usuario != null) {
             // Converte a entidade para DTO
-            UsuarioDTO usuarioDTO = new UsuarioDTO(
+            UsuarioResponseDTO usuarioDTO = new UsuarioResponseDTO(
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getSenha(),
                     usuario.getTelefone()
             );
             return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);

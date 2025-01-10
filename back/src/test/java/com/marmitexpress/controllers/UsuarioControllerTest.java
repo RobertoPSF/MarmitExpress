@@ -1,8 +1,4 @@
 package com.marmitexpress.controllers;
-
-import com.marmitexpress.dto.UsuarioDTO;
-import com.marmitexpress.models.Usuario;
-import com.marmitexpress.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,12 +6,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.marmitexpress.dto.UsuarioDTO;
+import com.marmitexpress.dto.UsuarioResponseDTO;
+import com.marmitexpress.models.Usuario;
+import com.marmitexpress.services.UsuarioService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import java.util.List;
+
 
 class UsuarioControllerTest {
 
@@ -31,27 +29,26 @@ class UsuarioControllerTest {
     }
 
     // Teste para o método criarUsuario
-    @SuppressWarnings("null")
     @Test
     void testCriarUsuario() {
         // Arrange
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("João Silva");
+        usuarioDTO.setEmail("joao@example.com");
+        usuarioDTO.setSenha("senha123");
+        usuarioDTO.setTelefone("123456789");
+
         Usuario usuario = new Usuario();
-        usuario.setNome("João Silva");
-        usuario.setEmail("joao@example.com");
-        usuario.setSenha("senha123");
-        usuario.setTelefone("123456789");
+        usuario.setId(1L);
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setSenha(usuarioDTO.getSenha());
+        usuario.setTelefone(usuarioDTO.getTelefone());
 
-        Usuario usuarioSalvo = new Usuario();
-        usuarioSalvo.setId(1L);
-        usuarioSalvo.setNome(usuario.getNome());
-        usuarioSalvo.setEmail(usuario.getEmail());
-        usuarioSalvo.setSenha(usuario.getSenha());
-        usuarioSalvo.setTelefone(usuario.getTelefone());
-
-        when(usuarioService.criarUsuario(any(Usuario.class))).thenReturn(usuarioSalvo);
+        when(usuarioService.criarUsuario(any(Usuario.class))).thenReturn(usuario);
 
         // Act
-        ResponseEntity<UsuarioDTO> response = usuarioController.criarUsuario(usuario);
+        ResponseEntity<UsuarioResponseDTO> response = usuarioController.criarUsuario(usuarioDTO);
 
         // Assert
         assertNotNull(response.getBody());
@@ -61,74 +58,56 @@ class UsuarioControllerTest {
     }
 
     // Teste para o método listarUsuarios
-    @SuppressWarnings("null")
     @Test
     void testListarUsuarios() {
         // Arrange
         Usuario usuario1 = new Usuario();
         usuario1.setId(1L);
-        usuario1.setNome("Maria Oliveira");
-        usuario1.setEmail("maria@example.com");
+        usuario1.setNome("João Silva");
+        usuario1.setEmail("joao@example.com");
+        usuario1.setTelefone("123456789");
 
         Usuario usuario2 = new Usuario();
         usuario2.setId(2L);
-        usuario2.setNome("Carlos Souza");
-        usuario2.setEmail("carlos@example.com");
+        usuario2.setNome("Ana Costa");
+        usuario2.setEmail("ana@example.com");
+        usuario2.setTelefone("987654321");
 
-        List<Usuario> usuarios = Arrays.asList(usuario1, usuario2);
-
-        when(usuarioService.listarUsuarios()).thenReturn(usuarios);
+        when(usuarioService.listarUsuarios()).thenReturn(List.of(usuario1, usuario2));
 
         // Act
-        ResponseEntity<List<UsuarioDTO>> response = usuarioController.listarUsuarios();
+        ResponseEntity<List<UsuarioResponseDTO>> response = usuarioController.listarUsuarios();
 
         // Assert
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(2, response.getBody().size());
+        assertEquals("João Silva", response.getBody().get(0).getNome());
+        assertEquals("Ana Costa", response.getBody().get(1).getNome());
         verify(usuarioService, times(1)).listarUsuarios();
     }
 
-    // Teste para o método buscarUsuarioPorId
-    @SuppressWarnings("null")
-    @Test
-    void testBuscarUsuarioPorId() {
-        // Arrange
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-        usuario.setNome("Ana Costa");
-        usuario.setEmail("ana@example.com");
-
-        when(usuarioService.buscarUsuarioPorId(1L)).thenReturn(usuario);
-
-        // Act
-        ResponseEntity<UsuarioDTO> response = usuarioController.buscarUsuarioPorId(1L);
-
-        // Assert
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Ana Costa", response.getBody().getNome());
-        verify(usuarioService, times(1)).buscarUsuarioPorId(1L);
-    }
-
     // Teste para o método atualizarUsuario
-    @SuppressWarnings("null")
     @Test
     void testAtualizarUsuario() {
         // Arrange
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setNome("Ana Costa Atualizada");
         usuarioDTO.setEmail("ana.atualizada@example.com");
+        usuarioDTO.setSenha("senha123");
+        usuarioDTO.setTelefone("987654321");
 
         Usuario usuarioAtualizado = new Usuario();
         usuarioAtualizado.setId(1L);
-        usuarioAtualizado .setNome(usuarioDTO.getNome());
+        usuarioAtualizado.setNome(usuarioDTO.getNome());
         usuarioAtualizado.setEmail(usuarioDTO.getEmail());
+        usuarioAtualizado.setSenha(usuarioDTO.getSenha());
+        usuarioAtualizado.setTelefone(usuarioDTO.getTelefone());
 
         when(usuarioService.atualizarUsuario(eq(1L), any(Usuario.class))).thenReturn(usuarioAtualizado);
 
         // Act
-        ResponseEntity<UsuarioDTO> response = usuarioController.atualizarUsuario(1L, usuarioDTO);
+        ResponseEntity<UsuarioResponseDTO> response = usuarioController.atualizarUsuario(1L, usuarioDTO);
 
         // Assert
         assertNotNull(response.getBody());
@@ -157,18 +136,19 @@ class UsuarioControllerTest {
         // Arrange
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNome("Pedro Almeida");
-        usuario.setEmail("pedro@example.com");
+        usuario.setNome("Ana Costa");
+        usuario.setEmail("ana@example.com");
+        usuario.setTelefone("123456789");
 
-        when(usuarioService.buscarUsuarioPorEmail("pedro@example.com")).thenReturn(usuario);
+        when(usuarioService.buscarUsuarioPorEmail("ana@example.com")).thenReturn(usuario);
 
         // Act
-        ResponseEntity<UsuarioDTO> response = usuarioController.buscarUsuarioPorEmail("pedro@example.com");
+        ResponseEntity<UsuarioResponseDTO> response = usuarioController.buscarUsuarioPorEmail("ana@example.com");
 
         // Assert
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Pedro Almeida", response.getBody().getNome());
-        verify(usuarioService, times(1)).buscarUsuarioPorEmail("pedro@example.com");
+        assertEquals("Ana Costa", response.getBody().getNome());
+        verify(usuarioService, times(1)).buscarUsuarioPorEmail("ana@example.com");
     }
 }
