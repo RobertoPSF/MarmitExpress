@@ -49,4 +49,8 @@ public class Marmita {
         this.preco = preco;
     }
 
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
 }
