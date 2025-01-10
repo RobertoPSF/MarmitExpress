@@ -12,6 +12,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private String telefone;
 
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos;
@@ -55,5 +56,13 @@ public class Usuario {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

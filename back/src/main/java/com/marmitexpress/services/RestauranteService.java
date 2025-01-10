@@ -56,11 +56,6 @@ public class RestauranteService {
         return restauranteRepository.findByEndereco(endereco);
     }
 
-    // Buscar restaurante por telefone
-    public Optional<Restaurante> buscarRestaurantePorTelefone(String telefone) {
-        return restauranteRepository.findByTelefone(telefone);
-    }
-
     // Verificar se um restaurante existe por ID
     public boolean existeRestaurantePorId(Long id) {
         return restauranteRepository.existsById(id);

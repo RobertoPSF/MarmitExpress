@@ -71,14 +71,6 @@ public class RestauranteController {
         return new ResponseEntity<>(restaurantes, HttpStatus.OK);
     }
 
-    // Buscar restaurante por telefone
-    @GetMapping("/telefone/{telefone}")
-    public ResponseEntity<Restaurante> buscarRestaurantePorTelefone(@PathVariable String telefone) {
-        Optional<Restaurante> restaurante = restauranteService.buscarRestaurantePorTelefone(telefone);
-        return restaurante.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     // Buscar restaurantes com marmitas disponíveis
     @GetMapping("/com-marmitas")
     public ResponseEntity<List<Restaurante>> buscarRestaurantesComMarmitas() {
