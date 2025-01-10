@@ -1,5 +1,6 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.dto.UsuarioDTO;
 import com.marmitexpress.models.Usuario;
 import com.marmitexpress.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -18,24 +20,61 @@ public class UsuarioController {
 
     // Criar um novo usuário (RF-01)
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDTO> criarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        // Converte o DTO para a entidade Usuario
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setSenha(usuarioDTO.getSenha());
+
+        // Salva o usuário no banco de dados
         Usuario novoUsuario = usuarioService.criarUsuario(usuario);
-        return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
+
+        // Converte a entidade salva de volta para DTO
+        UsuarioDTO responseDTO = new UsuarioDTO(
+                novoUsuario.getId(),
+                novoUsuario.getNome(),
+                novoUsuario.getEmail(),
+                novoUsuario.getSenha()
+        );
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     // Listar todos os usuários
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios() {
+    public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
+        // Busca todos os usuários no banco de dados
         List<Usuario> usuarios = usuarioService.listarUsuarios();
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+
+        // Converte a lista de entidades para DTOs
+        List<UsuarioDTO> usuariosDTO = usuarios.stream()
+                .map(usuario -> new UsuarioDTO(
+                        usuario.getId(),
+                        usuario.getNome(),
+                        usuario.getEmail(),
+                        usuario.getSenha()
+                ))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
     }
 
     // Buscar um usuário por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) {
+        // Busca o usuário pelo ID
         Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+
         if (usuario != null) {
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            // Converte a entidade para DTO
+            UsuarioDTO usuarioDTO = new UsuarioDTO(
+                    usuario.getId(),
+                    usuario.getNome(),
+                    usuario.getEmail(),
+                    usuario.getSenha()
+            );
+            return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -43,10 +82,25 @@ public class UsuarioController {
 
     // Atualizar um usuário
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        // Converte o DTO para a entidade Usuario
+        Usuario usuarioAtualizado = new Usuario();
+        usuarioAtualizado.setNome(usuarioDTO.getNome());
+        usuarioAtualizado.setEmail(usuarioDTO.getEmail());
+        usuarioAtualizado.setSenha(usuarioDTO.getSenha());
+
+        // Atualiza o usuário no banco de dados
         Usuario usuario = usuarioService.atualizarUsuario(id, usuarioAtualizado);
+
         if (usuario != null) {
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            // Converte a entidade atualizada de volta para DTO
+            UsuarioDTO responseDTO = new UsuarioDTO(
+                    usuario.getId(),
+                    usuario.getNome(),
+                    usuario.getEmail(),
+                    usuario.getSenha()
+            );
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,10 +115,19 @@ public class UsuarioController {
 
     // Buscar um usuário por email
     @GetMapping("/email/{email}")
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@PathVariable String email) {
+        // Busca o usuário pelo email
         Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
+
         if (usuario != null) {
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            // Converte a entidade para DTO
+            UsuarioDTO usuarioDTO = new UsuarioDTO(
+                    usuario.getId(),
+                    usuario.getNome(),
+                    usuario.getEmail(),
+                    usuario.getSenha()
+            );
+            return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
