@@ -35,7 +35,8 @@ public class UsuarioController {
                 novoUsuario.getId(),
                 novoUsuario.getNome(),
                 novoUsuario.getEmail(),
-                novoUsuario.getSenha()
+                novoUsuario.getSenha(),
+                novoUsuario.getTelefone()
         );
 
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
@@ -53,7 +54,8 @@ public class UsuarioController {
                         usuario.getId(),
                         usuario.getNome(),
                         usuario.getEmail(),
-                        usuario.getSenha()
+                        usuario.getSenha(),
+                        usuario.getTelefone()
                 ))
                 .collect(Collectors.toList());
 
@@ -72,7 +74,8 @@ public class UsuarioController {
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getSenha()
+                    usuario.getSenha(),
+                    usuario.getTelefone()
             );
             return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {
@@ -98,7 +101,8 @@ public class UsuarioController {
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getSenha()
+                    usuario.getSenha(),
+                    usuario.getTelefone()
             );
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         } else {
@@ -125,7 +129,8 @@ public class UsuarioController {
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getSenha()
+                    usuario.getSenha(),
+                    usuario.getTelefone()
             );
             return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {
