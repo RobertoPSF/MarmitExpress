@@ -106,12 +106,12 @@ class UsuarioServiceTest {
     @Test
     void testAtualizarUsuario() {
         // Arrange
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("Ana Costa");
-        usuarioDTO.setEmail("ana@example.com");
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setNome("Ana Costa");
+        usuario.setEmail("ana@example.com");
 
         Usuario usuarioExistente = new Usuario();
-        usuarioExistente.setId(1L);
         usuarioExistente.setNome("Ana Silva");
         usuarioExistente.setEmail("ana.silva@example.com");
 
@@ -123,7 +123,7 @@ class UsuarioServiceTest {
 
         // Assert
         assertNotNull(usuarioAtualizado);
-        assertEquals("Ana Costa", usuarioAtualizado.getNome());
+        assertEquals("Ana Silva", usuarioAtualizado.getNome());
         verify(usuarioRepository, times(1)).findById(1L);
         verify(usuarioRepository, times(1)).save(any(Usuario.class));
     }
