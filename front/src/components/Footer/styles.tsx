@@ -9,7 +9,10 @@ export const Container = styled.div`
   border-radius: 30px 30px 0 0;
   flex-direction: column;
   justify-content: center;
-  color: #FFFFFF;
+  color: #FFFFFF;  
+  @media (max-width: 768px) {
+    padding: 100px 5%;
+  }
   `;
 
 export const NavLinksContainer = styled.div`
@@ -34,6 +37,7 @@ export const LogoContainer = styled.div`
 export const Logo = styled(logo)`
   width: auto;
   height: 2rem;
+  margin-right: 5px;
   
   &:hover,
   &:active {
