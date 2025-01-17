@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marmitexpress.dto.RestauranteDTO;
+import com.marmitexpress.dto.RestauranteResponseDTO;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.RestauranteService;
 
@@ -28,10 +29,11 @@ public class RestauranteController {
 
     // Criar um novo restaurante
     @PostMapping
-    public ResponseEntity<RestauranteDTO> criarRestaurante(@RequestBody RestauranteDTO restauranteDTO) {
+    public ResponseEntity<RestauranteResponseDTO> criarRestaurante(@RequestBody RestauranteDTO restauranteDTO) {
         // Converter DTO para entidade
         Restaurante restaurante = new Restaurante();
         restaurante.setNome(restauranteDTO.getNome());
+        restaurante.setSenha(restauranteDTO.getSenha());
         restaurante.setEndereco(restauranteDTO.getEndereco());
         restaurante.setTelefone(restauranteDTO.getTelefone());
 
@@ -39,7 +41,7 @@ public class RestauranteController {
         Restaurante novoRestaurante = restauranteService.criarRestaurante(restaurante);
 
         // Converter entidade para DTO
-        RestauranteDTO responseDTO = new RestauranteDTO();
+        RestauranteResponseDTO responseDTO = new RestauranteResponseDTO();
         responseDTO.setId(novoRestaurante.getId());
         responseDTO.setNome(novoRestaurante.getNome());
         responseDTO.setEndereco(novoRestaurante.getEndereco());
@@ -50,13 +52,13 @@ public class RestauranteController {
 
     // Listar todos os restaurantes
     @GetMapping
-    public ResponseEntity<List<RestauranteDTO>> listarRestaurantes() {
+    public ResponseEntity<List<RestauranteResponseDTO>> listarRestaurantes() {
         List<Restaurante> restaurantes = restauranteService.listarRestaurantes();
 
         // Converter lista de entidades para lista de DTOs
-        List<RestauranteDTO> restaurantesDTO = restaurantes.stream()
+        List<RestauranteResponseDTO> restaurantesDTO = restaurantes.stream()
                 .map(restaurante -> {
-                    RestauranteDTO dto = new RestauranteDTO();
+                    RestauranteResponseDTO dto = new RestauranteResponseDTO();
                     dto.setId(restaurante.getId());
                     dto.setNome(restaurante.getNome());
                     dto.setEndereco(restaurante.getEndereco());
@@ -70,12 +72,12 @@ public class RestauranteController {
 
     // Buscar um restaurante por ID
     @GetMapping("/{id}")
-    public ResponseEntity<RestauranteDTO> buscarRestaurantePorId(@PathVariable Long id) {
+    public ResponseEntity<RestauranteResponseDTO> buscarRestaurantePorId(@PathVariable Long id) {
         Restaurante restaurante = restauranteService.buscarRestaurantePorId(id).orElse(null);
 
         if (restaurante != null) {
             // Converter entidade para DTO
-            RestauranteDTO responseDTO = new RestauranteDTO();
+            RestauranteResponseDTO responseDTO = new RestauranteResponseDTO();
             responseDTO.setId(restaurante.getId());
             responseDTO.setNome(restaurante.getNome());
             responseDTO.setEndereco(restaurante.getEndereco());
@@ -89,10 +91,11 @@ public class RestauranteController {
 
     // Atualizar um restaurante
     @PutMapping("/{id}")
-    public ResponseEntity<RestauranteDTO> atualizarRestaurante(@PathVariable Long id, @RequestBody RestauranteDTO restauranteDTO) {
+    public ResponseEntity<RestauranteResponseDTO> atualizarRestaurante(@PathVariable Long id, @RequestBody RestauranteDTO restauranteDTO) {
         // Converter DTO para entidade
         Restaurante restauranteAtualizado = new Restaurante();
         restauranteAtualizado.setNome(restauranteDTO.getNome());
+        restauranteAtualizado.setSenha(restauranteDTO.getSenha());
         restauranteAtualizado.setEndereco(restauranteDTO.getEndereco());
         restauranteAtualizado.setTelefone(restauranteDTO.getTelefone());
 
@@ -101,7 +104,7 @@ public class RestauranteController {
 
         if (restaurante != null) {
             // Converter entidade para DTO
-            RestauranteDTO responseDTO = new RestauranteDTO();
+            RestauranteResponseDTO responseDTO = new RestauranteResponseDTO();
             responseDTO.setId(restaurante.getId());
             responseDTO.setNome(restaurante.getNome());
             responseDTO.setEndereco(restaurante.getEndereco());

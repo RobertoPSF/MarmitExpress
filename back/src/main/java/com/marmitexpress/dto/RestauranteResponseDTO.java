@@ -1,21 +1,18 @@
 package com.marmitexpress.dto;
 
-public class RestauranteDTO {
-
+public class RestauranteResponseDTO {
     private Long id;
     private String nome;
-    private String senha;
     private String endereco;
     private String telefone;
 
     // Construtores
-    public RestauranteDTO() {
+    public RestauranteResponseDTO() {
     }
 
-    public RestauranteDTO(Long id, String nome, String senha, String endereco, String telefone) {
+    public RestauranteResponseDTO(Long id, String nome, String endereco, String telefone) {
         this.id = id;
         this.nome = nome;
-        this.senha = senha;
         this.endereco = endereco;
         this.telefone = telefone;
     }
@@ -35,14 +32,6 @@ public class RestauranteDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getEndereco() {
@@ -67,7 +56,6 @@ public class RestauranteDTO {
         return "RestauranteDTO{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", senha='" + senha + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
                 '}';

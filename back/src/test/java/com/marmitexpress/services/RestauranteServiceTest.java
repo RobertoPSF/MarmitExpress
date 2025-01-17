@@ -33,6 +33,7 @@ public class RestauranteServiceTest {
         // Arrange
         Restaurante restaurante = new Restaurante();
         restaurante.setNome("Restaurante Teste");
+        restaurante.setSenha("Senha Teste");
         restaurante.setEndereco("Rua Teste, 123");
         restaurante.setTelefone("123456789");
 

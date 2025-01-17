@@ -34,6 +34,7 @@ public class RestauranteService {
         return restauranteRepository.findById(id)
                 .map(restauranteExistente -> {
                     restauranteExistente.setNome(restauranteAtualizado.getNome());
+                    restauranteExistente.setSenha(restauranteAtualizado.getSenha());
                     restauranteExistente.setEndereco(restauranteAtualizado.getEndereco());
                     restauranteExistente.setTelefone(restauranteAtualizado.getTelefone());
                     return restauranteRepository.save(restauranteExistente);
