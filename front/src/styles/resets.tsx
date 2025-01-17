@@ -11,7 +11,7 @@ const ResetStyles = createGlobalStyle`
     body {
         padding: 0;
         margin: 0;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Montserrat';
     }
 
     h1 {

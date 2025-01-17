@@ -1,11 +1,9 @@
-import { Div } from "./style";
+import { Container, Logo } from "./styles";
 
 export default function Home() {
 	return (
-		<>
-			<Div>
-				<h1>Hello, World!</h1>
-			</Div>
-		</>
+		<Container>
+			<Logo/>
+		</Container>
 	)
 }
