@@ -1,9 +1,14 @@
-import { Container, Logo } from "./styles";
+import { Container, Frase, Logo, TopContainer} from "./styles";
 
 export default function Home() {
 	return (
-		<Container>
-			<Logo/>
-		</Container>
+		<>
+			<TopContainer>
+				<Frase />
+			</TopContainer>
+			<Container>
+				<Logo/>
+			</Container>
+		</>
 	)
 }
