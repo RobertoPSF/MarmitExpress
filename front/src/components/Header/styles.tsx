@@ -12,7 +12,7 @@ export const Container = styled.div`
   background-color: #F6821F;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10vw;
+  padding: 0 7.8vw;
   color: #FFFFFF;
 
   @media (max-width: 768px) {
