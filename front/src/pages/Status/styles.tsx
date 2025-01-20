@@ -6,13 +6,3 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-
-export const TopContainer = styled.div`
-  display: flex;
-  height: 36vh;
-  padding-top: 10vh;
-  width: 100%;
-  background-color: #FCB827;
-  border-radius: 0 0 30px 30px;
-  justify-content: center;
-  `;

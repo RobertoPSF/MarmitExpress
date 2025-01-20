@@ -5,10 +5,14 @@ import MeusPedidos from "./pages/MeusPedidos"
 import Contato from "./pages/Contato"
 import Sobre from "./pages/Sobre"
 import Status from "./pages/Status"
+import TopContainer from "./components/TopContainer"
+import Header from "./components/Header"
 
 export default function AppRoutes() {
 	return (
 		<BrowserRouter>
+			<Header />
+		 	<TopContainer />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/restaurantes" element={<Restaurantes />} />
