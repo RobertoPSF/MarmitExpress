@@ -47,7 +47,7 @@ export const LinkComponent = styled(NavLink)`
   justify-content: center;
   align-items: center;
   height: auto;
-  width: 180px;
+  width: 165px;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.9rem;
