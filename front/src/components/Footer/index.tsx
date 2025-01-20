@@ -14,10 +14,10 @@ export default function Footer() {
           <p>© {currentYear} MarmitExpress</p>
         </LogoContainer>
         <p>Todos os direitos reservados</p>
-        <Link href="/" >Contato</Link>
+        <Link href="/contato" >Contato</Link>
         <Link href="https://github.com/RobertoPSF/MarmitExpress/" target="_blank">Github</Link>
-        <Link href="/" >Sobre</Link>
-        <Link href="/" >Status</Link>
+        <Link href="/sobre" >Sobre</Link>
+        <Link href="/status" >Status</Link>
       </NavLinksContainer>
     </Container>
   )
