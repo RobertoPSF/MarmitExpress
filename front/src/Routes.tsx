@@ -7,6 +7,7 @@ import Sobre from "./pages/Sobre"
 import Status from "./pages/Status"
 import TopContainer from "./components/TopContainer"
 import Header from "./components/Header"
+import Blank from "./pages/BlankPage"
 
 export default function AppRoutes() {
 	return (
@@ -20,6 +21,7 @@ export default function AppRoutes() {
 				<Route path="/contato" element={<Contato />} />
 				<Route path="/sobre" element={<Sobre/>} />
 				<Route path="/status" element={<Status/>} />
+				<Route path="/blank" element={<Blank />} />
 			</Routes>
 		</BrowserRouter>
 	)
