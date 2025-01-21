@@ -21,6 +21,7 @@ export const InputPhone = styled.input`
   border-radius: 10px;
   padding: 0.7em;
   width: 100%;
+  caret-color: #b338ac;
  
   &::placeholder {
     color: #F6821F;
