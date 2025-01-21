@@ -6,7 +6,7 @@ export default function InputContainer() {
     <>
       <Container>
         <Text>Telefone</Text>
-        <InputPhone></InputPhone>
+        <InputPhone placeholder="(81) ____-____"></InputPhone>
         <ButtonSubumit>Enviar</ButtonSubumit>
       </Container>
     </>

@@ -24,8 +24,12 @@ export const InputPhone = styled.input`
  
   &::placeholder {
     color: #F6821F;
-    content: "(81) ____-____";
+    opacity: 0.6;
   }
+  &:focus {
+      outline: none;
+      border-color: none;
+    }
   
 `;
 
