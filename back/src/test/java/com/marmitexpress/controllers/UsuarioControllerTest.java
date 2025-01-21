@@ -12,7 +12,6 @@ import com.marmitexpress.models.Usuario;
 import com.marmitexpress.services.UsuarioService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import java.util.List;
 
 
 class UsuarioControllerTest {
@@ -55,36 +54,6 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("João Silva", response.getBody().getNome());
         verify(usuarioService, times(1)).criarUsuario(any(Usuario.class));
-    }
-
-    // Teste para o método listarUsuarios
-    @Test
-    void testListarUsuarios() {
-        // Arrange
-        Usuario usuario1 = new Usuario();
-        usuario1.setId(1L);
-        usuario1.setNome("João Silva");
-        usuario1.setEmail("joao@example.com");
-        usuario1.setTelefone("123456789");
-
-        Usuario usuario2 = new Usuario();
-        usuario2.setId(2L);
-        usuario2.setNome("Ana Costa");
-        usuario2.setEmail("ana@example.com");
-        usuario2.setTelefone("987654321");
-
-        when(usuarioService.listarUsuarios()).thenReturn(List.of(usuario1, usuario2));
-
-        // Act
-        ResponseEntity<List<UsuarioResponseDTO>> response = usuarioController.listarUsuarios();
-
-        // Assert
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, response.getBody().size());
-        assertEquals("João Silva", response.getBody().get(0).getNome());
-        assertEquals("Ana Costa", response.getBody().get(1).getNome());
-        verify(usuarioService, times(1)).listarUsuarios();
     }
 
     // Teste para o método atualizarUsuario

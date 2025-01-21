@@ -36,6 +36,7 @@ public class UsuarioService {
             usuarioExistente.setEmail(usuarioAtualizado.getEmail());
             usuarioExistente.setSenha(usuarioAtualizado.getSenha());
             usuarioExistente.setTelefone(usuarioAtualizado.getTelefone());
+            usuarioExistente.setEndereco(usuarioAtualizado.getEndereco());
             return usuarioRepository.save(usuarioExistente);
         }
         return null;

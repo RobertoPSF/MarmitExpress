@@ -7,17 +7,19 @@ public class UsuarioDTO {
     private String email;
     private String senha;
     private String telefone;
+    private String endereco;
 
     // Construtores
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(Long id, String nome, String email, String senha, String telefone) {
+    public UsuarioDTO(Long id, String nome, String email, String senha, String telefone, String endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
+        this.endereco = endereco;
     }
 
     // Getters e Setters
@@ -61,6 +63,14 @@ public class UsuarioDTO {
         this.telefone = telefone;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
     // Método toString para facilitar a visualização do objeto
     @Override
     public String toString() {
@@ -70,6 +80,7 @@ public class UsuarioDTO {
                 ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
                 ", telefone='" + telefone + '\'' +
+                ", endereco='" + endereco + '\'' +
                 '}';
     }
 }

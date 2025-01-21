@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -42,50 +39,11 @@ public class UsuarioController {
                 novoUsuario.getId(),
                 novoUsuario.getNome(),
                 novoUsuario.getEmail(),
-                novoUsuario.getTelefone()
+                novoUsuario.getTelefone(),
+                novoUsuario.getEndereco()
         );
 
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-    }
-
-    // Listar todos os usuários
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
-        // Busca todos os usuários no banco de dados
-        List<Usuario> usuarios = usuarioService.listarUsuarios();
-
-        // Converte a lista de entidades para DTOs
-        List<UsuarioResponseDTO> usuariosDTO = usuarios.stream()
-                .map(usuario -> new UsuarioResponseDTO(
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getEmail(),
-                        usuario.getTelefone()
-                ))
-                .collect(Collectors.toList());
-
-        return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-    }
-
-    // Buscar um usuário por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) {
-        // Busca o usuário pelo ID
-        Usuario usuario = usuarioService.buscarUsuarioPorId(id);
-
-        if (usuario != null) {
-            // Converte a entidade para DTO
-            UsuarioDTO usuarioDTO = new UsuarioDTO(
-                    usuario.getId(),
-                    usuario.getNome(),
-                    usuario.getEmail(),
-                    usuario.getSenha(),
-                    usuario.getTelefone()
-            );
-            return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     // Atualizar um usuário
@@ -97,6 +55,7 @@ public class UsuarioController {
         usuarioAtualizado.setEmail(usuarioDTO.getEmail());
         usuarioAtualizado.setSenha(usuarioDTO.getSenha());
         usuarioAtualizado.setTelefone(usuarioDTO.getTelefone());
+        usuarioAtualizado.setEndereco(usuarioDTO.getEndereco());
 
         // Atualiza o usuário no banco de dados
         Usuario usuario = usuarioService.atualizarUsuario(id, usuarioAtualizado);
@@ -107,7 +66,8 @@ public class UsuarioController {
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getTelefone()
+                    usuario.getTelefone(),
+                    usuario.getEndereco()
             );
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         } else {
@@ -134,7 +94,8 @@ public class UsuarioController {
                     usuario.getId(),
                     usuario.getNome(),
                     usuario.getEmail(),
-                    usuario.getTelefone()
+                    usuario.getTelefone(),
+                    usuario.getEndereco()
             );
             return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {

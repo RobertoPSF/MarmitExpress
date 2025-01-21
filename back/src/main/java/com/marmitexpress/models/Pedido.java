@@ -22,6 +22,9 @@ public class Pedido {
     private String status; // Ex: "Pendente", "Em preparo", "Entregue", "Cancelado"
     private LocalDateTime dataPedido;
 
+    // New field for endereco
+    private String endereco;
+
     // Getters e Setters
     public Long getId() {
         return id;
@@ -77,5 +80,14 @@ public class Pedido {
 
     public void setDataPedido(LocalDateTime dataPedido) {
         this.dataPedido = dataPedido;
+    }
+
+    // New getter and setter for endereco
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

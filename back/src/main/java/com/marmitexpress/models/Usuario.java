@@ -13,6 +13,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String telefone;
+    private String endereco;
 
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos;
@@ -64,5 +65,13 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

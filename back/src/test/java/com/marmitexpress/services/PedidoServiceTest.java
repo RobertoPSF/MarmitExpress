@@ -41,10 +41,12 @@ public class PedidoServiceTest {
         Pedido pedido = new Pedido();
         pedido.setQuantidade(2);
         pedido.setValorTotal(20.0);
+        pedido.setEndereco("123 Main St"); // Set the endereco field
 
         Marmita marmita = new Marmita();
         marmita.setId(1L);
         marmita.setPreco(10.0);
+        pedido.setMarmita(marmita); // Set the marmita in the pedido
 
         Usuario usuario = new Usuario();
         usuario.setId(1L);
@@ -60,6 +62,7 @@ public class PedidoServiceTest {
         assertNotNull(resultado);
         assertEquals(2, resultado.getQuantidade());
         assertEquals(20.0, resultado.getValorTotal());
+        assertEquals("123 Main St", resultado.getEndereco()); // Verify the endereco field
         verify(pedidoRepository, times(1)).save(pedido);
     }
 
@@ -159,5 +162,4 @@ public class PedidoServiceTest {
         verify(pedidoRepository, times(1)).findById(1L);
         verify(pedidoRepository, times(1)).save(pedido);
     }
-
 }
