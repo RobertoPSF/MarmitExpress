@@ -38,6 +38,21 @@ export const CloseButton = styled.button`
   }
 `;
 
+export const OpenButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #67b173;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 export const StyledIcon = styled(Icon)`
   color: Black;
   height: 2rem;

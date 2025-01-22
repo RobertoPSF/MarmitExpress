@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
-import { OpenButton, BlankPageContainer } from './styles'; 
-import DefaultPopUp from '../../components/PopUp';
+import { BlankPageContainer } from './styles'; 
+import { Button } from '../../components/OrangeButton/styles';
 
-const BlankPage: React.FC = () => {
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-
+export default function BlankPage (){
   return (
     <BlankPageContainer>
-      <OpenButton onClick={() => setIsPopUpOpen(true)}>Abrir Pop-Up</OpenButton>
-      <DefaultPopUp isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)}> 
-        <h1>Conteúdo do Pop-Up</h1>
-        <p>Este é o conteúdo do Pop-Up</p>
-      </DefaultPopUp>
+     <Button>Teste</Button>
+
     </BlankPageContainer>
   );
-};
-
-export default BlankPage;
+}

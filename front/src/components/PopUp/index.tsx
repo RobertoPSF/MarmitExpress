@@ -4,10 +4,10 @@ import { PopUpContainer, PopUpContent, CloseButton, StyledIcon } from './styles'
 interface PopUpProps {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode; // Adicionado: prop children tipada
+  children: React.ReactNode;
 }
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, children }) => { // children como prop
+const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, children }) => { 
   if (!isOpen) {
     return null;
   }
@@ -18,7 +18,7 @@ const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, children }) => { // chil
         <CloseButton onClick={onClose}>
           <StyledIcon icon={"simple-line-icons:close"} />
         </CloseButton>
-        {children} {/* Adicionado: renderiza o conteúdo children */}
+        {children}
       </PopUpContent>
     </PopUpContainer>
   );
