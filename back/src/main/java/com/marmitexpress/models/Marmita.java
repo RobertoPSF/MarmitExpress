@@ -1,56 +1,35 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Marmita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // ID gerado automaticamente
+    private List<String> ingredientes; // Lista de ingredientes da marmita
 
-    private String nome;
-    private String descricao;
-    private Double preco;
+    // Default constructor
+    public Marmita() {
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "restaurante_id")
-    private Restaurante restaurante;
-
-    // Getters e Setters
+    public Marmita(boolean montada, List<String> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+    
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    
+    public List<String> getComponentes() {
+        return ingredientes;
     }
-
-    public String getNome() {
-        return nome;
+    
+    public void setComponentes(List<String> ingredientes) {
+        this.ingredientes = ingredientes;
     }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-
 }

@@ -1,47 +1,30 @@
 package com.marmitexpress.models;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
-public class Restaurante {
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID gerado automaticamente
-    private String avaliacao;
     private String usuario;
     private String senha;
-    private String nome;
     private String endereco;
+    private String nome;
     private String telefone;
-    private byte[] foto;
 
-    @OneToMany(mappedBy = "restaurante")
-    private List<Item> listaDeItens;
+    @OneToMany(mappedBy = "usuario")
+    private List<Pedido> listaDePedidos;
 
-    public Restaurante(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone) {
-        this.avaliacao = avaliacao;
-        this.usuario = usuario;
-        this.senha = senha;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.foto = foto;
-        this.telefone = telefone;
-    }
+    // Getters e Setters
 
     public Long getId() {
         return id;
-    }
-    public String getAvaliacao() {
-        return avaliacao;
-    }
-    public void setAvaliacao(String avaliacao) {
-        this.avaliacao = avaliacao;
     }
     public String getUsuario() {
         return usuario;
@@ -55,23 +38,17 @@ public class Restaurante {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
     public String getEndereco() {
         return endereco;
     }
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-    public byte[] getFoto() {
-        return foto;
+    public String getNome() {
+        return nome;
     }
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     public String getTelefone() {
         return telefone;
@@ -79,10 +56,10 @@ public class Restaurante {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public List<Item> getListaDeItens() {
-        return listaDeItens;
+    public List<Pedido> getListaDePedidos() {
+        return listaDePedidos;
     }
-    public void setListaDeItens(Item item) {
-        this.listaDeItens.add(item);
+    public void setListaDePedidos(Pedido pedido) {
+        this.listaDePedidos.add(pedido);
     }
 }
