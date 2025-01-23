@@ -1,22 +1,22 @@
 import React from 'react';
 import { Container } from './styles';
 import PopUp from '../PopUp';
-import { OpenButton } from '../PopUp/styles';
+import Input from '../InputComponent';
+import { Button } from '../ButtonComponent/styles';
 
 export default function GetPhone(){ 
   const [isOpen, setIsOpen] = React.useState(true);
 
   return (
     <Container>
-      <OpenButton onClick={() => setIsOpen(true)}>Abrir PopUp</OpenButton>
-
+      <Button onClick={() => setIsOpen(true)}>Abrir PopUp</Button>
       <PopUp isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <h1>Informe o seu número de telefone</h1>
+        <h2>Informe o seu número de telefone</h2>
         <p>É importante caso seja necessário o contato com você, cliente!</p>
-        <input type="text" placeholder="Seu número de telefone"/>
+        <Input />
         <button>Enviar</button>
       </PopUp>
-      
+
     </Container>
   );
 

@@ -1,12 +1,10 @@
 import { BlankPageContainer } from './styles'; 
-import { Button } from '../../components/OrangeButton/styles';
-import Input from '../../components/InputComponent';
+import  Button  from '../../components/ButtonComponent';
 
-export default function BlankPage (){
+export default function BlankPage() {
   return (
     <BlankPageContainer>
-     <Button>Teste</Button>
-      <Input />
+      <Button>Click me</Button>
     </BlankPageContainer>
   );
 }
