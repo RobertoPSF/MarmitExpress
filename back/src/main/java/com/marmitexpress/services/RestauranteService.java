@@ -1,5 +1,6 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.exceptions.RestauranteNotFoundException;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,8 @@ public class RestauranteService {
     }
 
     public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
-        Optional<Restaurante> restauranteExistente = restauranteRepository.findById(id);
-        if (restauranteExistente.isPresent()) {
-            Restaurante restaurante = restauranteExistente.get();
+        Restaurante restaurante = restauranteRepository.findById(id)
+        .orElseThrow(() -> new RestauranteNotFoundException(id));
             restaurante.setAvaliacao(restauranteAtualizado.getAvaliacao());
             restaurante.setUsuario(restauranteAtualizado.getUsuario());
             restaurante.setSenha(restauranteAtualizado.getSenha());
@@ -38,13 +38,12 @@ public class RestauranteService {
             restaurante.setFoto(restauranteAtualizado.getFoto());
             restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
             return restauranteRepository.save(restaurante);
-        } else {
-            // Lidar com o caso em que o restaurante não é encontrado
-            return null; // ou lançar uma exceção
         }
-    }
 
     public void deletarRestaurante(Long id) {
-        restauranteRepository.deleteById(id);
+       if(!restauranteRepository.existsById(id)) {
+           throw new RestauranteNotFoundException(id);
+       }
+       restauranteRepository.deleteById(id);
     }
 }
