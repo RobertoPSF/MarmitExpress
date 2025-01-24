@@ -36,6 +36,7 @@ public class RestauranteService {
             restaurante.setNome(restauranteAtualizado.getNome());
             restaurante.setEndereco(restauranteAtualizado.getEndereco());
             restaurante.setFoto(restauranteAtualizado.getFoto());
+            restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
             return restauranteRepository.save(restaurante);
         } else {
             // Lidar com o caso em que o restaurante não é encontrado

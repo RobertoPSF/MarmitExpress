@@ -13,8 +13,9 @@ public class RestauranteDTO {
     private String telefone;
     private List<Item> listaDeItens;
     private byte[] foto;
+    private boolean aceitandoPedidos;
 
-    public RestauranteDTO(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone) {
+    public RestauranteDTO(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone, boolean aceitandoPedidos) {
         this.avaliacao = avaliacao;
         this.usuario = usuario;
         this.senha = senha;
@@ -22,6 +23,7 @@ public class RestauranteDTO {
         this.endereco = endereco;
         this.foto = foto;
         this.telefone = telefone;
+        this.aceitandoPedidos = aceitandoPedidos;
     }
 
     public String getAvaliacao() {
@@ -66,24 +68,25 @@ public class RestauranteDTO {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public List<Item> getListaDeItens() {
-        return listaDeItens;
+    public boolean isAceitandoPedidos() {
+        return aceitandoPedidos;
     }
-    public void setListaDeItens(Item item) {
-        this.listaDeItens.add(item);
+    public void setAceitandoPedidos(boolean aceitandoPedidos) {
+        this.aceitandoPedidos = aceitandoPedidos;
     }
 
     @Override
     public String toString() {
         return "RestauranteDTO{" +
-                foto +
+                "foto=" + foto +
                 ", nome='" + nome + '\'' +
                 ", usuario='" + usuario + '\'' +
                 ", senha='" + senha + '\'' +
                 ", avaliacao='" + avaliacao + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", itens=" + listaDeItens + '\'' +
+                ", aceitandoPedidos=" + aceitandoPedidos +
+                ", itens=" + listaDeItens +
                 '}';
     }
 }

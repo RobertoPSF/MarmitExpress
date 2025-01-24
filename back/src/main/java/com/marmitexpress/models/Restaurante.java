@@ -20,11 +20,12 @@ public class Restaurante {
     private String endereco;
     private String telefone;
     private byte[] foto;
+    private boolean aceitandoPedidos;
 
     @OneToMany(mappedBy = "restaurante")
     private List<Item> listaDeItens;
 
-    public Restaurante(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone) {
+    public Restaurante(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone, boolean aceitandoPedidos) {
         this.avaliacao = avaliacao;
         this.usuario = usuario;
         this.senha = senha;
@@ -32,6 +33,7 @@ public class Restaurante {
         this.endereco = endereco;
         this.foto = foto;
         this.telefone = telefone;
+        this.aceitandoPedidos = aceitandoPedidos;
     }
 
     public Long getId() {
@@ -78,6 +80,12 @@ public class Restaurante {
     }
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+    public boolean isAceitandoPedidos() {
+        return aceitandoPedidos;
+    }
+    public void setAceitandoPedidos(boolean aceitandoPedidos) {
+        this.aceitandoPedidos = aceitandoPedidos;
     }
     public List<Item> getListaDeItens() {
         return listaDeItens;
