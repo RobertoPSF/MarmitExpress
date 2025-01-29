@@ -9,7 +9,7 @@ export const Container = styled.div`
   margin-top: 1em;
 `;
 
-export const InputPhone = styled.input`
+export const Input = styled.input`
   border-radius: 5px;
   padding: 1em;
   width: 100%;  

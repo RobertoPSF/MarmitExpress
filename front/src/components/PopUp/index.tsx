@@ -1,24 +1,19 @@
-import React from 'react';
-import { PopUpContainer, PopUpContent, CloseButton, StyledIcon } from './styles';
+import { PopUpContainer, PopUpContent, CloseButton, StyledIcon} from './styles';
 
 interface PopUpProps {
-  isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
+  onClose: () => void;
 }
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, children }) => { 
-  if (!isOpen) {
-    return null;
-  }
-
+const PopUp: React.FC<PopUpProps> = ({children, onClose}) => {
+  
   return (
     <PopUpContainer>
-      <PopUpContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
-          <StyledIcon icon={"simple-line-icons:close"} />
-        </CloseButton>
+      <PopUpContent>
         {children}
+        <CloseButton onClick={onClose} >
+          <StyledIcon icon="simple-line-icons:close" />
+        </CloseButton>
       </PopUpContent>
     </PopUpContainer>
   );

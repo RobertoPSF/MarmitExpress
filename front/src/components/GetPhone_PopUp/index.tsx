@@ -1,23 +1,24 @@
-import React from 'react';
-import { Container } from './styles';
-import PopUp from '../PopUp';
-import Input from '../InputComponent';
-import { Button } from '../ButtonComponent/styles';
+import PopUpComponent from '../PopUp';
+import { ButtonSubumit, InputPhone, TelefoneName, Text, Title} from './styles';
 
-export default function GetPhone(){ 
-  const [isOpen, setIsOpen] = React.useState(true);
+interface PopUpProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+const GetPhonePopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
+  if (!isOpen) {
+    return null;
+  }
   return (
-    <Container>
-      <Button onClick={() => setIsOpen(true)}>Abrir PopUp</Button>
-      <PopUp isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <h2>Informe o seu número de telefone</h2>
-        <p>É importante caso seja necessário o contato com você, cliente!</p>
-        <Input />
-        <button>Enviar</button>
-      </PopUp>
-
-    </Container>
+    <PopUpComponent onClose={onClose}>
+      <Title>Informe o seu número de telefone</Title>
+      <Text>É importante caso seja necessário o contato com você, cliente!</Text>
+      <TelefoneName>Telefone</TelefoneName>
+      <InputPhone placeholder='(00) 90000-0000'/>
+      <ButtonSubumit>Confirmar</ButtonSubumit>
+    </PopUpComponent>
   );
-
 };
+
+export default GetPhonePopUp;

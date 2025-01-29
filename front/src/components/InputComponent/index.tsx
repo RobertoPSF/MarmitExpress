@@ -1,11 +1,11 @@
-import { Container, InputPhone} from "./styles";
+import { Container, Input} from "./styles";
 
 
 export default function InputContainer() {
   return (
     <>
       <Container>
-        <InputPhone />
+        <Input />
       </Container>
     </>
   )
