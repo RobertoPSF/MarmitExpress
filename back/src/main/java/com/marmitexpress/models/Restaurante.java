@@ -24,6 +24,7 @@ public class Restaurante {
     private String nome;
     private String endereco;
     private String telefone;
+    private String descricao;
     
     @Lob
     private byte[] foto;
@@ -34,13 +35,14 @@ public class Restaurante {
 
     public Restaurante() {}
 
-    public Restaurante(String usuario, String senha, String nome, String endereco, byte[] foto, String telefone) {
+    public Restaurante(String usuario, String senha, String nome, String endereco, byte[] foto, String telefone, String descricao) {
         this.usuario = usuario;
         this.senha = senha;
         this.nome = nome;
         this.endereco = endereco;
         this.foto = foto;
         this.telefone = telefone;
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -109,5 +111,13 @@ public class Restaurante {
             this.listaDeItens = new ArrayList<>();
         }
         this.listaDeItens.add(item);
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }
