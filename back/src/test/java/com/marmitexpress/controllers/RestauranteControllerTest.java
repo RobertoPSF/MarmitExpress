@@ -2,104 +2,95 @@ package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.RestauranteService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class RestauranteControllerTest {
+@WebMvcTest(RestauranteController.class)
+class RestauranteControllerTest {
 
-    @InjectMocks
-    private RestauranteController restauranteController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private RestauranteService restauranteService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void testCriarRestaurante() {
+    void testCriarRestaurante() throws Exception {
         Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
-        
-        when(restauranteService.criarRestaurante(restaurante)).thenReturn(restaurante);
-        
-        ResponseEntity<Restaurante> response = restauranteController.criarRestaurante(restaurante);
-        
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Restaurante Teste", response.getBody().getNome());
+
+        when(restauranteService.criarRestaurante(any(Restaurante.class))).thenReturn(restaurante);
+
+        mockMvc.perform(post("/restaurantes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\",\"nome\":\"Restaurante Teste\",\"endereco\":\"Endereco\",\"telefone\":\"123456789\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
 
     @Test
-    public void testListarRestaurantes() {
-        List<Restaurante> restaurantes = new ArrayList<>();
-        restaurantes.add(new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789"));
-        
-        when(restauranteService.listarRestaurantes()).thenReturn(restaurantes);
-        
-        ResponseEntity<List<Restaurante>> response = restauranteController.listarRestaurantes();
-        
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(1, response.getBody().size());
+    void testListarRestaurantes() throws Exception {
+        when(restauranteService.listarRestaurantes()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/restaurantes"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
     }
 
     @Test
-    public void testBuscarRestaurantePorId() {
+    void testBuscarRestaurantePorId() throws Exception {
         Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
         restaurante.setId(1L);
-        
+
         when(restauranteService.buscarRestaurantePorId(1L)).thenReturn(Optional.of(restaurante));
-        
-        ResponseEntity<Restaurante> response = restauranteController.buscarRestaurantePorId(1L);
-        
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Restaurante Teste", response.getBody().getNome());
+
+        mockMvc.perform(get("/restaurantes/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
 
     @Test
-    public void testAtualizarRestaurante() {
+    void testAtualizarRestaurante() throws Exception {
         Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
         restauranteExistente.setId(1L);
-        
-        when(restauranteService.atualizarRestaurante(eq(1L), any(Restaurante.class))).thenReturn(restauranteExistente);
-        
-        ResponseEntity<Restaurante> response = restauranteController.atualizarRestaurante(1L, restauranteExistente);
-        
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Restaurante Teste", response.getBody().getNome());
+
+        when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", null, "123456789"));
+
+        mockMvc.perform(put("/restaurantes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"nome\":\"Restaurante Atualizado\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Restaurante Atualizado"));
     }
 
     @Test
-    public void testDeletarRestaurante() {
+    void testDeletarRestaurante() throws Exception {
         doNothing().when(restauranteService).deletarRestaurante(1L);
-        
-        ResponseEntity<Void> response = restauranteController.deletarRestaurante(1L);
-        
-        assertEquals(204, response.getStatusCodeValue());
-        verify(restauranteService, times(1)).deletarRestaurante(1L);
+
+        mockMvc.perform(delete("/restaurantes/1"))
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    public void testAdicionarAvaliacao() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
-        restaurante.setId(1L);
-        
+    void testAdicionarAvaliacao() throws Exception {
         when(restauranteService.registrarAvaliacao(1L, 4.5)).thenReturn("Avalição registrada com sucesso");
-        
-        ResponseEntity<String> response = restauranteController.adicionarAvaliacao(1L, 4.5);
-        
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Avalição registrada com sucesso", response.getBody());
+
+        mockMvc.perform(put("/restaurantes/1/avaliacao")
+                        .param("avaliacao", "4.5"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Avalição registrada com sucesso"));
     }
 }
