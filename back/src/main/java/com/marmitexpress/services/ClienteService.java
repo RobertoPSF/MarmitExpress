@@ -45,4 +45,12 @@ public class ClienteService {
     public void deletarCliente(Long id) {
         clienteRepository.deleteById(id);
     }
+
+    public Long loginCliente(String usuario, String senha) {
+        Optional<Cliente> cliente = clienteRepository.findByUsuario(usuario);
+        if (cliente.isPresent() && cliente.get().getSenha().equals(senha)) {
+            return cliente.get().getId(); // Retorna o ID do cliente
+        }
+        return null; // Retorna null se as credenciais estiverem incorretas
+    }
 }

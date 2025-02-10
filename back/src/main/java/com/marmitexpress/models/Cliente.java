@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,8 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID gerado automaticamente
+
+    @Column(unique = true)
     private String usuario;
     private String senha;
     private String endereco;
@@ -26,6 +29,11 @@ public class Cliente {
     public Long getId() {
         return id;
     }
+    
+    public void setId(Long id) { // Adicionando o método setId
+        this.id = id;
+    }
+
     public String getUsuario() {
         return usuario;
     }

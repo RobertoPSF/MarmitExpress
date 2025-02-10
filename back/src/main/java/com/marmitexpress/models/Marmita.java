@@ -17,7 +17,7 @@ public class Marmita {
     public Marmita() {
     }
 
-    public Marmita(boolean montada, List<String> ingredientes) {
+    public Marmita(List<String> ingredientes) {
         this.ingredientes = ingredientes;
     }
     

@@ -44,6 +44,12 @@ public class RestauranteController {
         }
     }
 
+    @PutMapping("/{id}/avaliacao")
+    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, Double avaliacao){
+        String mensagem = restauranteService.registrarAvaliacao(id, avaliacao);
+        return ResponseEntity.ok(mensagem);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarRestaurante(@PathVariable Long id) {
         restauranteService.deletarRestaurante(id);

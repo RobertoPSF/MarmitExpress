@@ -4,6 +4,7 @@ import com.marmitexpress.exceptions.RestauranteNotFoundException;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,17 @@ public class RestauranteService {
 
     public Optional<Restaurante> buscarRestaurantePorId(Long id) {
         return restauranteRepository.findById(id);
+    }
+
+    public String registrarAvaliacao(long id, double avaliacao){
+        Optional<Restaurante> restaurante = buscarRestaurantePorId(id);
+        if(restaurante.isPresent()){
+            restaurante.get().setAvaliacao(avaliacao);
+            return "Avalição registrada com sucesso";
+        }
+        else {
+            throw new RestauranteNotFoundException(id);
+        }
     }
 
     public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
