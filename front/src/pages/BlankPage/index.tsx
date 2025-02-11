@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GetPhone from '../../components/Login_PopUp'; 
+import GetPhone from '../../components/Login_PopUp';
 import { OpenButton, BlankPageContainer } from './styles';
 
 const BlankPage: React.FC = () => {

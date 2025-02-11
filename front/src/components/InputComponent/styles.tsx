@@ -6,7 +6,6 @@ export const Container = styled.div`
   flex-direction: column;
   height: 5em;
   width: auto;
-  margin-top: 1em;
 `;
 
 export const Input = styled.input`

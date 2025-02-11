@@ -1,33 +1,39 @@
 import PopUpComponent from '../PopUp';
-import { ButtonCriarConta, ButtonSubumit, ContentPopup, InputPhone} from './styles';
+import { ButtonSubumit, ContentPopup, InputPhone } from './styles';
 
 interface PopUpProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
+const Cadastro_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
   if (!isOpen) {
     return null;
   }
   return (
     <PopUpComponent onClose={onClose}>
       <ContentPopup>
-      <h2>Entre na sua conta</h2>
+      <h2>Adicione seus dados cadastrais</h2>
       <div className="imputDiv">
-        <p>Usuario</p>
-        <InputPhone placeholder='username'/>
-
+        <p>Telefone</p>
+        <InputPhone placeholder='(00) 90000-0000'/> 
+        <p>username</p>
+        <InputPhone placeholder='username'/> 
+        <p>Nome</p>
+        <InputPhone placeholder='Seu nome'/> 
         <p>Senha</p>
-        <InputPhone placeholder='********'/>
+        <InputPhone placeholder='******'/> 
+        <p>Email</p>
+        <InputPhone placeholder='user@gmail.com'/> 
+        <p>Data de Nascimento</p>
+        <InputPhone placeholder='dd/mm/aaaa'/> 
+        <p>Gênero</p>
+        <InputPhone placeholder='Outro'/> 
       </div>
-      <a>Esqueceu a senha?</a>
-      <ButtonSubumit>Confirmar</ButtonSubumit>
-      <p>ou</p>
-      <ButtonCriarConta>Criar uma conta</ButtonCriarConta>
+      <ButtonSubumit>Concluir Cadastro</ButtonSubumit>
       </ContentPopup>
     </PopUpComponent>
   );
 };
 
-export default Login_PopUp;
+export default Cadastro_PopUp;

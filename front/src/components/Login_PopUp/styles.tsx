@@ -10,7 +10,7 @@ export const ContentPopup = styled.div`
   h2 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    margin-top: 2rem;
+    margin-top: 1.2rem;
     font-size: 1.2rem;
   }
 
