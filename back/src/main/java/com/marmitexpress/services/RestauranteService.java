@@ -1,6 +1,7 @@
 package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.RestauranteNotFoundException;
+import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,13 @@ public class RestauranteService {
            throw new RestauranteNotFoundException(id);
        }
        restauranteRepository.deleteById(id);
+    }
+
+    public Long loginRestaurante(String usuario, String senha) {
+        Optional<Restaurante> restaurante = restauranteRepository.findByUsuario(usuario);
+        if (restaurante.isPresent() && restaurante.get().getSenha().equals(senha)) {
+            return restaurante.get().getId();
+        }
+        return null;
     }
 }

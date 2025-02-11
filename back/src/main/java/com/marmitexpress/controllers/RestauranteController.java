@@ -55,4 +55,10 @@ public class RestauranteController {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Long> loginRestaurante(@RequestParam String usuario, @RequestParam String senha) {
+        Long id = restauranteService.loginRestaurante(usuario, senha);
+        return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
+    }
 }

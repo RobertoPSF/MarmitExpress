@@ -93,4 +93,15 @@ class RestauranteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Avalição registrada com sucesso"));
     }
+
+    @Test
+    public void testLoginRestaurante() throws Exception {
+        when(restauranteService.loginRestaurante("usuario", "senha")).thenReturn(1L);
+
+        mockMvc.perform(post("/restaurantes/login")
+                        .param("usuario", "usuario")
+                        .param("senha", "senha"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("1"));
+    }
 }

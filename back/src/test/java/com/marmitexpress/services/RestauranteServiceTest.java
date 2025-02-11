@@ -1,6 +1,7 @@
 package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.RestauranteNotFoundException;
+import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,16 +85,17 @@ public class RestauranteServiceTest {
     }
 
     @Test
-    public void testDeletarRestaurante() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
-        restaurante.setId(1L);
-        
-        when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));
-        doNothing().when(restauranteRepository).deleteById(1L);
-        
-        restauranteService.deletarRestaurante(1L);
-        verify(restauranteRepository, times(1)).deleteById(1L);
-    }
+public void testDeletarRestaurante() {
+    Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
+    restaurante.setId(1L);
+    
+    when(restauranteRepository.existsById(1L)).thenReturn(true);
+    doNothing().when(restauranteRepository).deleteById(1L);
+    
+    restauranteService.deletarRestaurante(1L);
+    
+    verify(restauranteRepository, times(1)).deleteById(1L);
+}
 
     @Test
     public void testRegistrarAvaliacao() {
@@ -114,5 +116,19 @@ public class RestauranteServiceTest {
         assertThrows(RestauranteNotFoundException.class, () -> {
             restauranteService.registrarAvaliacao(1L, 4.5);
         });
+    }
+
+    @Test
+    public void testLoginRestaurante() {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId(1L);
+        restaurante.setUsuario("usuario");
+        restaurante.setSenha("senha");
+
+        when(restauranteRepository.findByUsuario("usuario")).thenReturn(Optional.of(restaurante));
+
+        Long id = restauranteService.loginRestaurante("usuario", "senha");
+        assertNotNull(id);
+        assertEquals(restaurante.getId(), id);
     }
 }
