@@ -30,7 +30,7 @@ class RestauranteControllerTest {
 
     @Test
     void testCriarRestaurante() throws Exception {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
+        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descricao");
 
         when(restauranteService.criarRestaurante(any(Restaurante.class))).thenReturn(restaurante);
 
@@ -52,7 +52,7 @@ class RestauranteControllerTest {
 
     @Test
     void testBuscarRestaurantePorId() throws Exception {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
+        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descricao");
         restaurante.setId(1L);
 
         when(restauranteService.buscarRestaurantePorId(1L)).thenReturn(Optional.of(restaurante));
@@ -64,10 +64,10 @@ class RestauranteControllerTest {
 
     @Test
     void testAtualizarRestaurante() throws Exception {
-        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789");
+        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descricao");
         restauranteExistente.setId(1L);
 
-        when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", null, "123456789"));
+        when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", null, "123456789", "Descricao"));
 
         mockMvc.perform(put("/restaurantes/1")
                         .contentType(MediaType.APPLICATION_JSON)

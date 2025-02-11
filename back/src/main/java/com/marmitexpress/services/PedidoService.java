@@ -1,5 +1,6 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.exceptions.PedidoNotFoundException;
 import com.marmitexpress.models.Pedido;
 import com.marmitexpress.repositorys.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class PedidoService {
 
     public Optional<Pedido> buscarPedidoPorId(Long id) {
         return pedidoRepository.findById(id);
+    }
+
+    public void deletarPedido(Long id) {
+        if (!pedidoRepository.existsById(id)) {
+            throw new PedidoNotFoundException();
+        }
+        pedidoRepository.deleteById(id);
     }
 }

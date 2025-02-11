@@ -1,5 +1,6 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.exceptions.ItemNotFoundException;
 import com.marmitexpress.models.Item;
 import com.marmitexpress.repositorys.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class ItemService {
 
     public Optional<Item> buscarItemPorId(Long id) {
         return itemRepository.findById(id);
+    }
+
+    public void deletarItem(Long id) {
+        if (!itemRepository.existsById(id)) {
+            throw new ItemNotFoundException();
+        }
+        itemRepository.deleteById(id);
     }
 }

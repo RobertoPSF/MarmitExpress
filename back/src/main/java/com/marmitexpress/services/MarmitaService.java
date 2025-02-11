@@ -1,5 +1,6 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.exceptions.MarmitaNotFoundException;
 import com.marmitexpress.models.Marmita;
 import com.marmitexpress.repositorys.MarmitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class MarmitaService {
 
     public Optional<Marmita> buscarMarmitaPorId(Long id) {
         return marmitaRepository.findById(id);
+    }
+
+    public void deletarMarmita(Long id) {
+        if (!marmitaRepository.existsById(id)) {
+            throw new MarmitaNotFoundException();
+        }
+        marmitaRepository.deleteById(id);
     }
 }
