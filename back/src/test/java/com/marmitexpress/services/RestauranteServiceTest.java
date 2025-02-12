@@ -1,7 +1,6 @@
 package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.RestauranteNotFoundException;
-import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,7 @@ public class RestauranteServiceTest {
 
     @Test
     public void testCriarRestaurante() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descricao");
+        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
 
         when(restauranteRepository.save(restaurante)).thenReturn(restaurante);
 
@@ -51,7 +50,7 @@ public class RestauranteServiceTest {
     @Test
     public void testListarRestaurantes() {
         List<Restaurante> restaurantes = new ArrayList<>();
-        restaurantes.add(new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descricao"));
+        restaurantes.add(new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao"));
         when(restauranteRepository.findAll()).thenReturn(restaurantes);
 
         List<Restaurante> resultado = restauranteService.listarRestaurantes();
@@ -60,7 +59,7 @@ public class RestauranteServiceTest {
 
     @Test
     public void testBuscarRestaurantePorId() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
+        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
         restaurante.setId(1L);
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));
 
@@ -71,13 +70,13 @@ public class RestauranteServiceTest {
 
     @Test
     public void testAtualizarRestaurante() {
-        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
+        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
         restauranteExistente.setId(1L);
 
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restauranteExistente));
         when(restauranteRepository.save(any(Restaurante.class))).thenReturn(restauranteExistente);
 
-        Restaurante restauranteAtualizado = new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", null, "123456789", "Nova Descrição");
+        Restaurante restauranteAtualizado = new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", "123456789", "Nova Descrição");
 
         Restaurante resultado = restauranteService.atualizarRestaurante(1L, restauranteAtualizado);
         assertNotNull(resultado);
@@ -86,7 +85,7 @@ public class RestauranteServiceTest {
 
     @Test
 public void testDeletarRestaurante() {
-    Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
+    Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
     restaurante.setId(1L);
     
     when(restauranteRepository.existsById(1L)).thenReturn(true);
@@ -99,7 +98,7 @@ public void testDeletarRestaurante() {
 
     @Test
     public void testRegistrarAvaliacao() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", null, "123456789", "Descrição");
+        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
         restaurante.setId(1L);
         
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));

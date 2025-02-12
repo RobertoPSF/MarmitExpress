@@ -1,7 +1,6 @@
 package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.RestauranteNotFoundException;
-import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,8 @@ public class RestauranteService {
             restaurante.setSenha(restauranteAtualizado.getSenha());
             restaurante.setNome(restauranteAtualizado.getNome());
             restaurante.setEndereco(restauranteAtualizado.getEndereco());
-            restaurante.setFoto(restauranteAtualizado.getFoto());
             restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
+            restaurante.setDescricao(restauranteAtualizado.getDescricao());
             return restauranteRepository.save(restaurante);
         }
 

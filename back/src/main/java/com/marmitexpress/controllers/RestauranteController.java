@@ -1,6 +1,7 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.LoginDTO;
+import com.marmitexpress.models.Avaliacao;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,8 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}/avaliacao")
-    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, Double avaliacao){
+    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest) {
+        Double avaliacao = avaliacaoRequest.getAvaliacao();
         String mensagem = restauranteService.registrarAvaliacao(id, avaliacao);
         return ResponseEntity.ok(mensagem);
     }

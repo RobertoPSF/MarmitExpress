@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -26,21 +25,18 @@ public class Restaurante {
     private String telefone;
     private String descricao;
     
-    @Lob
-    private byte[] foto;
-    private boolean aceitandoPedidos;
+    private boolean aceitandoPedidos = false;
 
     @OneToMany(mappedBy = "restaurante")
     private List<Item> listaDeItens = new ArrayList<>();
 
     public Restaurante() {}
 
-    public Restaurante(String usuario, String senha, String nome, String endereco, byte[] foto, String telefone, String descricao) {
+    public Restaurante(String usuario, String senha, String nome, String endereco, String telefone, String descricao) {
         this.usuario = usuario;
         this.senha = senha;
         this.nome = nome;
         this.endereco = endereco;
-        this.foto = foto;
         this.telefone = telefone;
         this.descricao = descricao;
     }
@@ -84,12 +80,6 @@ public class Restaurante {
     }
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-    public byte[] getFoto() {
-        return foto;
-    }
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
     }
     public String getTelefone() {
         return telefone;
