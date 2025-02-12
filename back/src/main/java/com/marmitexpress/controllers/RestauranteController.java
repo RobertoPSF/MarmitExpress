@@ -1,5 +1,6 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.dto.LoginDTO;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,8 @@ public class RestauranteController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Long> loginRestaurante(@RequestParam String usuario, @RequestParam String senha) {
-        Long id = restauranteService.loginRestaurante(usuario, senha);
+    public ResponseEntity<Long> loginRestaurante(@RequestBody LoginDTO loginDTO) {
+        Long id = restauranteService.loginRestaurante(loginDTO.getUsuario(), loginDTO.getSenha());
         return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
     }
 }

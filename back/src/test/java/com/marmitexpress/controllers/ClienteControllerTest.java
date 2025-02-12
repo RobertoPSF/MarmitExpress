@@ -75,8 +75,8 @@ class ClienteControllerTest {
         when(clienteService.loginCliente("usuario", "senha")).thenReturn(1L);
 
         mockMvc.perform(post("/clientes/login")
-                        .param("usuario", "usuario")
-                        .param("senha", "senha"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("1"));
     }

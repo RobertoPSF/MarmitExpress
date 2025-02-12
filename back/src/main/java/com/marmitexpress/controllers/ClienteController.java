@@ -1,5 +1,6 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.dto.LoginDTO;
 import com.marmitexpress.models.Cliente;
 import com.marmitexpress.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,9 @@ public class ClienteController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Long> loginCliente(@RequestParam String usuario, @RequestParam String senha) {
-        Long id = clienteService.loginCliente(usuario, senha);
+    public ResponseEntity<Long> loginCliente(@RequestBody LoginDTO loginDTO) {
+        Long id = clienteService.loginCliente(loginDTO.getUsuario(), loginDTO.getSenha());
         return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
     }
+
 }
