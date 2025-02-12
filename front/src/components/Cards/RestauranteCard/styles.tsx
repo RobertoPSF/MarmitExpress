@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import ImgCard from '../../assets/imageExemplo.svg?react'
-import presenteIcon from '../../assets/presenteIcon.svg?react'
-import verificadoFidelidade from '../../assets/iconFidelidadeOff.svg?react'
+import ImgCard from '../../../assets/imageExemplo.svg?react'
+import presenteIcon from '../../../assets/presenteIcon.svg?react'
+import verificadoFidelidade from '../../../assets/iconFidelidadeOff.svg?react'
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`

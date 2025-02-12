@@ -6,7 +6,7 @@ interface Restaurante {
   nome: string;
   imagem: string;
   estrelas: number;
-  descricao: string;
+  horario: string;
   fidelidade: boolean;
 }
 
@@ -15,8 +15,8 @@ export default function RestauranteCard() {
   const restaurante: Restaurante = {
     nome: "Casa Galiotto",
     imagem: "URL da Imagem",
-    estrelas: 5.0,
-    descricao: "Aberto das 10h as 13h",
+    estrelas: 4.4,
+    horario: "Aberto das 10h as 13h",
     fidelidade: true, 
   };
 
@@ -32,7 +32,7 @@ export default function RestauranteCard() {
                 <StyledIcon icon={"emojione:star"}/>
                 <p>{restaurante.estrelas}</p>
               </div>
-              <p id="horarioFuncionamento">Aberto das 10h as 13h</p>
+              <p id="horarioFuncionamento">{restaurante.horario}</p>
 
               <div className="programaFidelidade">
                 <Presente />

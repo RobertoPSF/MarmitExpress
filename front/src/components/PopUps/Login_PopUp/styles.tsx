@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../ButtonComponent/styles';
-import { Input } from '../InputComponent/styles';
+import { Button } from '../../ButtonComponent/styles';
+import { Input } from '../../InputComponent/styles';
 
 export const ContentPopup = styled.div`
   max-width: 23rem;
@@ -15,7 +15,7 @@ export const ContentPopup = styled.div`
   }
 
   p{
-    font-size: 0.85rem;
+    font-size: 0.6rem;
     margin: 0.8rem;
   }
 
@@ -58,8 +58,19 @@ export const InputPhone = styled(Input)`
     font-weight: 700;
   }
 `;
+
+export const ButtonSubumit = styled(Button)`
+  height: 2.7rem;
+  width: 100%;
+  margin: 0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 0.5em;
+  background-color: #F6821F;
+  `;
+
   
-export const ButtonSair = styled(Button)`
+export const ButtonCriarConta = styled(Button)`
   height: 2.7rem;
   width: 100%;
   margin: 0;
@@ -69,14 +80,4 @@ export const ButtonSair = styled(Button)`
   padding: 0.5em;
   border: 1px solid #F6821F;
   background-color: white;
-`;
-
-export const ButtonSubumit = styled(Button)`
-  height: 2.7rem;
-  width: 100%;
-  margin-top: 1rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  padding: 0.5em;
-  background-color: #F6821F;
 `;
