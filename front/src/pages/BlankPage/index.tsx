@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PopUp from '../../components/PopUps/AcessoNegado_PopUp';
 import { OpenButton, BlankPageContainer } from './styles';
-import Card from '../../components/Cards/RestauranteCard'
+import Card from '../../components/Cards/ComoSerParceiroHomeCard'
+import Card2 from '../../components/Cards/ParceiroHomeCard'
 
 const BlankPage: React.FC = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -10,8 +11,8 @@ const BlankPage: React.FC = () => {
     <BlankPageContainer>
       <OpenButton onClick={() => setIsPopUpOpen(true)}>Abrir Pop-Up</OpenButton>
       <PopUp isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)}/>
-
-      <Card></Card>
+      <Card />
+      <Card2 />
     </BlankPageContainer>
   );
 };
