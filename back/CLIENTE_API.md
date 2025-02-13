@@ -2,6 +2,7 @@
 
 ## 1. Create Client
 - **HTTP Method:** POST
+- **Content-Type:** application/json
 - **Endpoint:** `/clientes`
 - **Request Body:**
   ```json
@@ -51,6 +52,7 @@
 
 ## 3. Update Client
 - **HTTP Method:** PUT
+- **Content-Type:** application/json
 - **Endpoint:** `/clientes/{id}`
 - **Path Variable:** `id` (Long)
 - **Request Body:**
@@ -88,6 +90,7 @@
 
 ## 5. Login Client
 - **HTTP Method:** POST
+- **Content-Type:** application/json
 - **Endpoint:** `/clientes/login`
 - **Request Body:**
   ```json

@@ -2,6 +2,7 @@
 
 ## 1. Create Restaurant
 - **HTTP Method:** POST
+- **Content-Type:** application/json
 - **Endpoint:** `/restaurantes`
 - **Request Body:**
   ```json
@@ -78,6 +79,7 @@
 
 ## 4. Update Restaurant
 - **HTTP Method:** PUT
+- **Content-Type:** application/json
 - **Endpoint:** `/restaurantes/{id}`
 - **Path Variable:** `id` (Long)
 - **Request Body:**
@@ -111,6 +113,7 @@
 
 ## 5. Add Evaluation
 - **HTTP Method:** PUT
+- **Content-Type:** application/json
 - **Endpoint:** `/restaurantes/{id}/avaliacao`
 - **Path Variable:** `id` (Long)
 - **Request Body:**
@@ -135,6 +138,7 @@
 
 ## 7. Login Restaurant
 - **HTTP Method:** POST
+- **Content-Type:** application/json
 - **Endpoint:** `/restaurantes/login`
 - **Request Body:**
   ```json
