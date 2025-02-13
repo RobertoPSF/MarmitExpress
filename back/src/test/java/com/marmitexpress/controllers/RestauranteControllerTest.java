@@ -1,6 +1,7 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Restaurante;
+import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.RestauranteService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,15 +29,20 @@ class RestauranteControllerTest {
     @MockBean
     private RestauranteService restauranteService;
 
+    @MockBean
+    private Interceptor interceptor;
+
     @Test
     void testCriarRestaurante() throws Exception {
         Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
 
         when(restauranteService.criarRestaurante(any(Restaurante.class))).thenReturn(restaurante);
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(post("/restaurantes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\",\"nome\":\"Restaurante Teste\",\"endereco\":\"Endereco\",\"telefone\":\"123456789\"}"))
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\",\"nome\":\"Restaurante Teste\",\"endereco\":\"Endereco\",\"telefone\":\"123456789\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
@@ -44,8 +50,10 @@ class RestauranteControllerTest {
     @Test
     void testListarRestaurantes() throws Exception {
         when(restauranteService.listarRestaurantes()).thenReturn(Collections.emptyList());
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
-        mockMvc.perform(get("/restaurantes"))
+        mockMvc.perform(get("/restaurantes")
+                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
@@ -56,8 +64,10 @@ class RestauranteControllerTest {
         restaurante.setId(1L);
 
         when(restauranteService.buscarRestaurantePorId(1L)).thenReturn(Optional.of(restaurante));
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
-        mockMvc.perform(get("/restaurantes/1"))
+        mockMvc.perform(get("/restaurantes/1")
+                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
@@ -68,10 +78,12 @@ class RestauranteControllerTest {
         restauranteExistente.setId(1L);
 
         when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", "123456789", "Descricao"));
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(put("/restaurantes/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nome\":\"Restaurante Atualizado\"}"))
+                        .content("{\"nome\":\"Restaurante Atualizado\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Restaurante Atualizado"));
     }
@@ -80,27 +92,36 @@ class RestauranteControllerTest {
     void testDeletarRestaurante() throws Exception {
         doNothing().when(restauranteService).deletarRestaurante(1L);
 
-        mockMvc.perform(delete("/restaurantes/1"))
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
+
+        mockMvc.perform(delete("/restaurantes/1")
+                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void testAdicionarAvaliacao() throws Exception {
-        when(restauranteService.registrarAvaliacao(1L, 4.5)).thenReturn("Avalição registrada com sucesso");
+        when(restauranteService.registrarAvaliacao(1L, 4.5)).thenReturn("Avaliação registrada com sucesso");
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false);
 
         mockMvc.perform(put("/restaurantes/1/avaliacao")
-                        .param("avaliacao", "4.5"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"avaliacao\":4.5}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Avalição registrada com sucesso"));
+                .andExpect(content().string("Avaliação registrada com sucesso"));
     }
+
 
     @Test
     public void testLoginRestaurante() throws Exception {
         when(restauranteService.loginRestaurante("usuario", "senha")).thenReturn(1L);
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(post("/restaurantes/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}"))
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("1"));
     }

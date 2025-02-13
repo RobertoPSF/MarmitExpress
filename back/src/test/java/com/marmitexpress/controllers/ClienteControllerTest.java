@@ -2,6 +2,7 @@ package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Cliente;
 import com.marmitexpress.services.ClienteService;
+import com.marmitexpress.security.Interceptor; // Adding import for Interceptor
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ class ClienteControllerTest {
     @MockBean
     private ClienteService clienteService;
 
+    @MockBean
+    private Interceptor interceptor;
+
     @Test
     void testCriarCliente() throws Exception {
         Cliente cliente = new Cliente();
@@ -36,7 +40,8 @@ class ClienteControllerTest {
 
         mockMvc.perform(post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}"))
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.usuario").value("usuario"));
     }
@@ -44,11 +49,24 @@ class ClienteControllerTest {
     @Test
     void testListarClientes() throws Exception {
         when(clienteService.listarClientes()).thenReturn(Collections.emptyList());
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
-        mockMvc.perform(get("/clientes"))
+        mockMvc.perform(get("/clientes")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4")) 
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
+
+
+    @Test
+    void testListarClientesUnauthorized() throws Exception {
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(true);
+
+        mockMvc.perform(get("/clientes")
+                        .header("Authorization", "TokenInvalido")) 
+                .andExpect(status().isUnauthorized()); 
+    }
+
 
     @Test
     void testAtualizarCliente() throws Exception {
@@ -59,14 +77,16 @@ class ClienteControllerTest {
 
         mockMvc.perform(put("/clientes/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuarioAtualizado\"}"))
+                        .content("{\"usuario\":\"usuarioAtualizado\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4")) 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.usuario").value("usuarioAtualizado"));
     }
 
     @Test
     void testDeletarCliente() throws Exception {
-        mockMvc.perform(delete("/clientes/1"))
+        mockMvc.perform(delete("/clientes/1")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4")) 
                 .andExpect(status().isNoContent());
     }
 
@@ -76,7 +96,8 @@ class ClienteControllerTest {
 
         mockMvc.perform(post("/clientes/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}"))
+                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4")) 
                 .andExpect(status().isOk())
                 .andExpect(content().string("1"));
     }

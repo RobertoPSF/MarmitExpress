@@ -1,6 +1,8 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Marmita;
+import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.MarmitaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +27,20 @@ class MarmitaControllerTest {
     @MockBean
     private MarmitaService marmitaService;
 
+    @MockBean
+    private Interceptor interceptor;
+
     @Test
     void testCriarMarmita() throws Exception {
         Marmita marmita = new Marmita(Collections.singletonList("Ingrediente Teste"));
 
         when(marmitaService.criarMarmita(any(Marmita.class))).thenReturn(marmita);
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(post("/marmitas")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"componentes\":[\"Ingrediente Teste\"]}"))
+                        .content("{\"componentes\":[\"Ingrediente Teste\"]}")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.componentes[0]").value("Ingrediente Teste"));
     }
@@ -41,8 +48,10 @@ class MarmitaControllerTest {
     @Test
     void testListarMarmitas() throws Exception {
         when(marmitaService.listarMarmitas()).thenReturn(Collections.emptyList());
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
-        mockMvc.perform(get("/marmitas"))
+        mockMvc.perform(get("/marmitas")
+                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
@@ -50,8 +59,10 @@ class MarmitaControllerTest {
     @Test
     void testDeletarMarmita() throws Exception {
         doNothing().when(marmitaService).deletarMarmita(1L);
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
-        mockMvc.perform(delete("/marmitas/1"))
+        mockMvc.perform(delete("/marmitas/1")
+                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isNoContent());
     }
 }
