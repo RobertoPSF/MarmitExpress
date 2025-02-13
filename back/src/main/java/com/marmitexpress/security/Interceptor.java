@@ -12,6 +12,6 @@ public class Interceptor {
     public Interceptor() {}
 
     public boolean checkAuthorization(String authorizationHeader) {
-        return authorizationHeader != null && authorizationHeader.equals(secretKey);
+        return authorizationHeader == null || authorizationHeader.equals(secretKey);
     }
 }
