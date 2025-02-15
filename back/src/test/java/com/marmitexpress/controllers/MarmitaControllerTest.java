@@ -1,9 +1,8 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Marmita;
-import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.MarmitaService;
+import com.marmitexpress.security.Interceptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,8 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,37 +34,59 @@ class MarmitaControllerTest {
 
     @Test
     void testCriarMarmita() throws Exception {
-        Marmita marmita = new Marmita(Collections.singletonList("Ingrediente Teste"));
-
+        Marmita marmita = new Marmita(List.of("Arroz", "Feijão", "Carne"));
         when(marmitaService.criarMarmita(any(Marmita.class))).thenReturn(marmita);
-        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(post("/marmitas")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"componentes\":[\"Ingrediente Teste\"]}")
+                        .content("{\"ingredientes\":[\"Arroz\",\"Feijão\",\"Carne\"]}")
+
                         .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.componentes[0]").value("Ingrediente Teste"));
+                .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
+                .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
+                .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
+
     }
 
     @Test
     void testListarMarmitas() throws Exception {
         when(marmitaService.listarMarmitas()).thenReturn(Collections.emptyList());
-        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false);
 
         mockMvc.perform(get("/marmitas")
-                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
 
     @Test
-    void testDeletarMarmita() throws Exception {
-        doNothing().when(marmitaService).deletarMarmita(1L);
-        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
+    void testListarMarmitasUnauthorized() throws Exception {
+        when(interceptor.checkAuthorization(any(String.class))).thenReturn(true);
 
+        mockMvc.perform(get("/marmitas")
+                        .header("Authorization", "TokenInvalido"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testBuscarMarmitaPorId() throws Exception {
+        Marmita marmita = new Marmita(List.of("Arroz", "Feijão", "Carne"));
+        when(marmitaService.buscarMarmitaPorId(1L)).thenReturn(Optional.of(marmita));
+
+        mockMvc.perform(get("/marmitas/1")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
+                .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
+                .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
+
+    }
+
+    @Test
+    void testDeletarMarmita() throws Exception {
         mockMvc.perform(delete("/marmitas/1")
-                .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isNoContent());
     }
 }
