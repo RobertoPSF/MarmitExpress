@@ -8,9 +8,9 @@ export default function Footer() {
     <Container>
       <NavLinksContainer>
         <LogoContainer>
-          <a href="/">
+          <Link href="/">
             <Logo />
-          </a>
+          </Link>
           <p>© {currentYear} MarmitExpress</p>
         </LogoContainer>
         <p>Todos os direitos reservados</p>

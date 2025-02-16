@@ -23,7 +23,7 @@ export default function Header() {
         <StyledIcon icon={"solar:bag-check-outline"} />
         Meus Pedidos
       </LinkComponent>
-      <LinkComponent to="/auth/login">
+      <LinkComponent to="/auth/cliente">
         <StyledIcon icon={"ph:user-bold"}/>
         Entrar / Cadastrar
       </LinkComponent>

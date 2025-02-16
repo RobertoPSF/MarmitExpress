@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../ButtonComponent/styles';
-import { Input } from '../InputComponent/styles';
+import { Button } from '../../ButtonComponent/styles';
+import { Input } from '../../InputComponent/styles';
 
 export const ContentPopup = styled.div`
   max-width: 23rem;
@@ -49,13 +49,13 @@ export const ContentPopup = styled.div`
 export const InputPhone = styled(Input)`
   border: 1.3px solid #F6821F;
   border-radius: 10px;
-  padding: 0.5em;
+  padding: 0.8em;
   width: 100%;
 
   &::placeholder {
     color: #F6821F;
     font-weight: 700;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 `;
 

@@ -19,6 +19,7 @@ export const BlankPageContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     flex-direction: column;
+    width: 100vw;
+    padding: 20px;
 `;
