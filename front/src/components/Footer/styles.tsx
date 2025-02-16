@@ -32,12 +32,12 @@ export const NavLinksContainer = styled.div`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 5px;
 `;
 
 export const Logo = styled(logo)`
   width: auto;
   height: 2rem;
-  margin-right: 5px;
   
   &:hover,
   &:active {
@@ -47,6 +47,7 @@ export const Logo = styled(logo)`
 `;
 
 export const Link = styled.a`
+  display: flex;
   font-weight: 400;
   color: #FFFFFF;
   font-weight: bold;
