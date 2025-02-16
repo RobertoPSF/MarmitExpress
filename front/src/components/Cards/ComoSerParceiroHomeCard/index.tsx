@@ -1,17 +1,14 @@
-import { Container, Img } from "./styles"
-import BlankCard from "../BlankCard"
+import { Container, Img, Information } from "./styles"
 
 export default function ParceiroHomeCard() {
 
   return (
-    <BlankCard>
-      <Container>
-        <Img />
-          <div className="contente">
-            <h2>Como ser Parceiro</h2>
-            <p>Não perca tempo, veja nosso guia e trabalhe com entregas!</p>
-          </div>
-      </Container>
-    </BlankCard>
+    <Container to="/about/parceiro">
+      <Img />
+      <Information>
+        <h2>Como ser Parceiro</h2>
+        <p>Não perca tempo, veja nosso guia e trabalhe com entregas!</p>
+      </Information>
+    </Container>
   )
 }

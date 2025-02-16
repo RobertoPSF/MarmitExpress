@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
-import PopUp from '../../components/PopUps/AcessoNegado_PopUp';
-import { OpenButton, BlankPageContainer } from './styles';
-import Card from '../../components/Cards/ComoSerParceiroHomeCard'
-import Card2 from '../../components/Cards/ParceiroHomeCard'
+import React from 'react';
+import { BlankPageContainer } from './styles';
 
 const BlankPage: React.FC = () => {
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-
   return (
     <BlankPageContainer>
-      <OpenButton onClick={() => setIsPopUpOpen(true)}>Abrir Pop-Up</OpenButton>
-      <PopUp isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)}/>
-      <Card />
-      <Card2 />
     </BlankPageContainer>
   );
 };
