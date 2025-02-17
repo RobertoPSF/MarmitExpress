@@ -4,16 +4,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
 import java.util.List;
 
 @Entity
 public class Marmita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // ID gerado automaticamente
-    private List<String> ingredientes; // Lista de ingredientes da marmita
+    private Long id;
+    private List<String> ingredientes;
+    @ManyToOne
+    private Restaurante restaurante;
 
-    // Default constructor
     public Marmita() {
     }
 
@@ -25,11 +28,11 @@ public class Marmita {
         return id;
     }
     
-    public List<String> getComponentes() {
+    public List<String> getIngredientes() {
         return ingredientes;
     }
     
-    public void setComponentes(List<String> ingredientes) {
+    public void setIngredientes(List<String> ingredientes) {
         this.ingredientes = ingredientes;
     }
 }

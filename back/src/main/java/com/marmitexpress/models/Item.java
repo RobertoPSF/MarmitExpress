@@ -11,17 +11,17 @@ import jakarta.persistence.OneToOne;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // ID gerado automaticamente
-    private String tipo; // "marmita" ou "outros"
+    private Long id;
+    private String tipo;
     private double preco;
     private int quantidade;
-    private byte[] foto; // Armazenar a foto como um array de bytes
+    private byte[] foto; 
 
     @ManyToOne
-    private Restaurante restaurante; // Many items can belong to one restaurant
+    private Restaurante restaurante; 
 
     @OneToOne
-    private Marmita marmita; // Pode ser nula se não for uma marmita
+    private Marmita marmita;
 
     public Item(String tipo, double preco, int quantidade, byte[] foto, Restaurante restaurante, Marmita marmita) {
         this.tipo = tipo;

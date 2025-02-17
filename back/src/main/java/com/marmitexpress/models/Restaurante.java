@@ -13,7 +13,7 @@ import jakarta.persistence.OneToMany;
 public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // ID gerado automaticamente
+    private Long id;
     
     private List<Double> avaliacoes = new ArrayList<>();
     
@@ -29,6 +29,9 @@ public class Restaurante {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Item> listaDeItens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurante")
+    private List<Marmita> marmitas = new ArrayList<>();
 
     public Restaurante() {}
 
@@ -101,6 +104,14 @@ public class Restaurante {
             this.listaDeItens = new ArrayList<>();
         }
         this.listaDeItens.add(item);
+    }
+
+    public List<Marmita> getMarmitas() {
+        return marmitas;
+    }
+
+    public void setMarmitas(Marmita marmita) {
+        this.marmitas.add(marmita);
     }
 
     public String getDescricao() {

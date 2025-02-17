@@ -37,8 +37,8 @@ public class MarmitaServiceTest {
 
         Marmita marmitaCriada = marmitaService.criarMarmita(marmita);
         assertNotNull(marmitaCriada);
-        assertEquals(3, marmitaCriada.getComponentes().size());
-        assertEquals("Arroz", marmitaCriada.getComponentes().get(0));
+        assertEquals(3, marmitaCriada.getIngredientes().size());
+        assertEquals("Arroz", marmitaCriada.getIngredientes().get(0));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class MarmitaServiceTest {
 
         List<Marmita> resultado = marmitaService.listarMarmitas();
         assertEquals(2, resultado.size());
-        assertEquals("Macarrão", resultado.get(1).getComponentes().get(0));
+        assertEquals("Macarrão", resultado.get(1).getIngredientes().get(0));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class MarmitaServiceTest {
 
         Optional<Marmita> resultado = marmitaService.buscarMarmitaPorId(1L);
         assertTrue(resultado.isPresent());
-        assertEquals("Frango", resultado.get().getComponentes().get(2));
+        assertEquals("Frango", resultado.get().getIngredientes().get(2));
     }
 
     @Test
