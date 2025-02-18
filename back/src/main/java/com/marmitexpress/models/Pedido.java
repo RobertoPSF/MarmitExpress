@@ -1,81 +1,59 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
+    private Restaurante restaurante;
+    
+    private double preco;
+    
     @ManyToOne
-    @JoinColumn(name = "marmita_id", nullable = false)
-    private Marmita marmita;
+    private Cliente usuario;
+    
+    private String endereco;
 
-    private Integer quantidade;
-    private Double valorTotal;
-    private String status; // Ex: "Pendente", "Em preparo", "Entregue", "Cancelado"
-    private LocalDateTime dataPedido;
+    public Pedido(Restaurante restaurante, double preco, Cliente usuario, String endereco) {
+        this.restaurante = restaurante;
+        this.preco = preco;
+        this.usuario = usuario;
+        this.endereco = endereco;
+    }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Restaurante getRestaurante() {
+        return restaurante;
     }
-
-    public Usuario getUsuario() {
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
+    public double getPreco() {
+        return preco;
+    }
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+    public Cliente getUsuario() {
         return usuario;
     }
-
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Cliente usuario) {
         this.usuario = usuario;
     }
-
-    public Marmita getMarmita() {
-        return marmita;
+    public String getEndereco() {
+        return endereco;
     }
-
-    public void setMarmita(Marmita marmita) {
-        this.marmita = marmita;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public Double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(LocalDateTime dataPedido) {
-        this.dataPedido = dataPedido;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

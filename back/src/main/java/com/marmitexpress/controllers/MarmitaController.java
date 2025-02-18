@@ -1,68 +1,58 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Marmita;
+import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.MarmitaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/marmitas")
 public class MarmitaController {
 
     @Autowired
+    private Interceptor interceptor;
+
+    @Autowired
     private MarmitaService marmitaService;
 
-    // Criar uma nova marmita
     @PostMapping
-    public ResponseEntity<Marmita> criarMarmita(@RequestBody Marmita marmita) {
+    public ResponseEntity<Marmita> criarMarmita(@RequestBody Marmita marmita, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
+        if (interceptor.checkAuthorization(authorizationHeader)) {
+            return ResponseEntity.status(401).body(null);
+        }
         Marmita novaMarmita = marmitaService.criarMarmita(marmita);
-        return new ResponseEntity<>(novaMarmita, HttpStatus.CREATED);
+        return ResponseEntity.ok(novaMarmita);
     }
 
-    // Listar todas as marmitas
     @GetMapping
-    public ResponseEntity<List<Marmita>> listarMarmitas() {
+    public ResponseEntity<List<Marmita>> listarMarmitas(@RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
+        if (interceptor.checkAuthorization(authorizationHeader)) {
+            return ResponseEntity.status(401).body(null);
+        }
         List<Marmita> marmitas = marmitaService.listarMarmitas();
-        return new ResponseEntity<>(marmitas, HttpStatus.OK);
+        return ResponseEntity.ok(marmitas);
     }
 
-    // Buscar uma marmita por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Marmita> buscarMarmitaPorId(@PathVariable Long id) {
-        Marmita marmita = marmitaService.buscarMarmitaPorId(id);
-        if (marmita != null) {
-            return new ResponseEntity<>(marmita, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Marmita> buscarMarmitaPorId(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
+        if (interceptor.checkAuthorization(authorizationHeader)) {
+            return ResponseEntity.status(401).body(null);
         }
+        Optional<Marmita> marmita = marmitaService.buscarMarmitaPorId(id);
+        return marmita.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Atualizar uma marmita
-    @PutMapping("/{id}")
-    public ResponseEntity<Marmita> atualizarMarmita(@PathVariable Long id, @RequestBody Marmita marmitaAtualizada) {
-        Marmita marmita = marmitaService.atualizarMarmita(id, marmitaAtualizada);
-        if (marmita != null) {
-            return new ResponseEntity<>(marmita, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // Deletar uma marmita
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarMarmita(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarMarmita(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
+        if (interceptor.checkAuthorization(authorizationHeader)) {
+            return ResponseEntity.status(401).body(null);
+        }
         marmitaService.deletarMarmita(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    // Buscar marmitas por restaurante
-    @GetMapping("/restaurante/{restauranteId}")
-    public ResponseEntity<List<Marmita>> buscarMarmitasPorRestaurante(@PathVariable Long restauranteId) {
-        List<Marmita> marmitas = marmitaService.buscarMarmitasPorRestaurante(restauranteId);
-        return new ResponseEntity<>(marmitas, HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }

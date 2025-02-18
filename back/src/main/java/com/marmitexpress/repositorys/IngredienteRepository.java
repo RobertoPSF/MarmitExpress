@@ -1,8 +1,8 @@
 package com.marmitexpress.repositorys;
 
-import com.marmitexpress.models.Pedido;
+import com.marmitexpress.models.Ingrediente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+public interface IngredienteRepository extends JpaRepository<Ingrediente, Long> {
     // Métodos personalizados podem ser adicionados aqui, se necessário
 }
