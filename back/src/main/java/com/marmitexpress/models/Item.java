@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Item {
@@ -20,16 +19,15 @@ public class Item {
     @ManyToOne
     private Restaurante restaurante; 
 
-    @OneToOne
-    private Marmita marmita;
+    public Item() {
+    }
 
-    public Item(String tipo, double preco, int quantidade, byte[] foto, Restaurante restaurante, Marmita marmita) {
+    public Item(String tipo, double preco, int quantidade, byte[] foto, Restaurante restaurante) {
         this.tipo = tipo;
         this.preco = preco;
         this.quantidade = quantidade;
         this.foto = foto;
         this.restaurante = restaurante;
-        this.marmita = marmita;
     }
 
     public Long getId() {
@@ -64,11 +62,5 @@ public class Item {
     }
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
-    }
-    public Marmita getMarmita() {
-        return marmita;
-    }
-    public void setMarmita(Marmita marmita) {
-        this.marmita = marmita;
     }
 }

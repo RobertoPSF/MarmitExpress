@@ -1,31 +1,20 @@
 package com.marmitexpress.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 import java.util.List;
 
 @Entity
-public class Marmita {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Marmita extends Item {
     private List<String> ingredientes;
-    @ManyToOne
-    private Restaurante restaurante;
 
     public Marmita() {
+        super();
     }
 
-    public Marmita(List<String> ingredientes) {
+    public Marmita(String tipo, double preco, int quantidade, byte[] foto, Restaurante restaurante, List<String> ingredientes) {
+        super(tipo, preco, quantidade, foto, restaurante);
         this.ingredientes = ingredientes;
-    }
-    
-    public Long getId() {
-        return id;
     }
     
     public List<String> getIngredientes() {

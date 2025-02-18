@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,19 +33,17 @@ class MarmitaControllerTest {
 
     @Test
     void testCriarMarmita() throws Exception {
-        Marmita marmita = new Marmita(List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
         when(marmitaService.criarMarmita(any(Marmita.class))).thenReturn(marmita);
 
         mockMvc.perform(post("/marmitas")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"ingredientes\":[\"Arroz\",\"Feijão\",\"Carne\"]}")
-
+                        .content("{\"tipo\":\"Marmita Tradicional\",\"preco\":25.0,\"quantidade\":1,\"foto\":null,\"restaurante\":null,\"ingredientes\":[\"Arroz\",\"Feijão\",\"Carne\"]}")
                         .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
                 .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
                 .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
-
     }
 
     @Test
@@ -71,7 +68,7 @@ class MarmitaControllerTest {
 
     @Test
     void testBuscarMarmitaPorId() throws Exception {
-        Marmita marmita = new Marmita(List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
         when(marmitaService.buscarMarmitaPorId(1L)).thenReturn(Optional.of(marmita));
 
         mockMvc.perform(get("/marmitas/1")
@@ -80,7 +77,6 @@ class MarmitaControllerTest {
                 .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
                 .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
                 .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
-
     }
 
     @Test

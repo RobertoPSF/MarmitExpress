@@ -31,7 +31,7 @@ public class MarmitaServiceTest {
 
     @Test
     public void testCriarMarmita() {
-        Marmita marmita = new Marmita(Arrays.asList("Arroz", "Feijão", "Frango"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Frango"));
 
         when(marmitaRepository.save(marmita)).thenReturn(marmita);
 
@@ -44,8 +44,8 @@ public class MarmitaServiceTest {
     @Test
     public void testListarMarmitas() {
         List<Marmita> marmitas = Arrays.asList(
-            new Marmita(Arrays.asList("Arroz", "Feijão", "Bife")),
-            new Marmita(Arrays.asList("Macarrão", "Carne Moída", "Queijo"))
+            new Marmita("Marmita Bife", 30.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Bife")),
+            new Marmita("Marmita Macarrão", 28.0, 1, null, null, Arrays.asList("Macarrão", "Carne Moída", "Queijo"))
         );
 
         when(marmitaRepository.findAll()).thenReturn(marmitas);
@@ -57,7 +57,7 @@ public class MarmitaServiceTest {
 
     @Test
     public void testBuscarMarmitaPorId_Existe() {
-        Marmita marmita = new Marmita(Arrays.asList("Arroz", "Feijão", "Frango"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Frango"));
         when(marmitaRepository.findById(1L)).thenReturn(Optional.of(marmita));
 
         Optional<Marmita> resultado = marmitaService.buscarMarmitaPorId(1L);
