@@ -59,3 +59,5 @@
     "descricao": "string",
     "preco": "double",
     "ingredientes": ["string"]
+  }
+  ```
