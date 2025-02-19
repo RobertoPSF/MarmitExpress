@@ -25,6 +25,6 @@ export const Information = styled.div`
 `;
 
 export const Img = styled(house)`
-  min-height: 80px;
+  max-height: 80px;
   width: 80px;
 `;

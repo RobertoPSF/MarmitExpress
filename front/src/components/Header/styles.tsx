@@ -66,12 +66,28 @@ export const LinkComponent = styled(NavLink)`
     border: none;
   }
 
-  span {
-    &.activated {
-      border-bottom: 2px solid white;
-    }
+`;
+
+export const PopUpButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 165px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  background-color: #F6821F;
+  border: none;
+  color: white;
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+    border: 1px solid white;
   }
 `;
+
 
 
 export const StyledIcon = styled(Icon)`
