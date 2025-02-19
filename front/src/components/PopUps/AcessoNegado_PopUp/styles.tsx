@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from '../../ButtonComponent/styles';
+import { Button } from '../../Button/styles';
 
 export const ContentPopup = styled.div`
   max-width: 23rem;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../../ButtonComponent/styles';
-import { Input } from '../../InputComponent/styles';
+import { Button } from '../../Button/styles';
+import { Input } from '../../Input/styles';
 
 export const ContentPopup = styled.div`
   max-width: 23rem;
