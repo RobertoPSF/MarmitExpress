@@ -2,7 +2,7 @@ import { Container, Img, Information } from './styles';
 
 export default function ParceiroHomeCard() {
   return (
-    <Container to="/auth/restaurante">
+    <Container to="/auth/parceiro">
       <Img />
       <Information>
         <h2>Página do Parceiro</h2>

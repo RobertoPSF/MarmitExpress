@@ -9,7 +9,7 @@ export const Container = styled.div<{ $isHome: boolean }>`
   height: ${({ $isHome }) =>
     $isHome ? '50.5vh' : '37.5vh'}; /* Altura dinâmica */
   padding-top: 9.5vh;
-  background-color: #fcb827;
+  background-color: #24292e;
   color: white;
 
   h1 {

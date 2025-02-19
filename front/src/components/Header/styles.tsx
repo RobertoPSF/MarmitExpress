@@ -8,7 +8,7 @@ export const Container = styled.div`
     padding: 0 3vw;
   }
   align-items: center;
-  background-color: #f6821f;
+  background-color: #2b3137;
   color: #ffffff;
   display: flex;
   height: 9.5vh;
@@ -49,19 +49,16 @@ export const LinkComponent = styled(NavLink)`
   padding: 5px;
   border-radius: 5px;
   font-size: 0.9rem;
-  background-color: #f6821f;
+  background-color: #2b3137;
 
   &.active {
-    background-color: #fcb827;
+    background-color: #24292e;
   }
 
   &:hover,
   &:active {
     cursor: pointer;
-    border: 1px solid white;
-  }
-  &.active {
-    border: none;
+    background-color: #24292e;
   }
 `;
 
@@ -69,10 +66,9 @@ export const PopUpButton = styled.button`
   &:hover,
   &:active {
     cursor: pointer;
-    border: 1px solid white;
   }
   align-items: center;
-  background-color: #f6821f;
+  background-color: #2b3137;
   border: none;
   border-radius: 5px;
   color: white;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PopUpComponent from '../PopUp';
 import Button from '../../Button';
 import { ContentPopup } from './styles';
-import { ClienteLoginForm, ClienteCadastroForm } from '../../Forms';
+import { RestauranteLoginForm, RestauranteCadastroForm } from '../../Forms';
 
 interface PopUpProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface PopUpProps {
 }
 
 const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
-  const [isLoginForm, setIsLoginForm] = useState(true); // Estado para alternar entre login e cadastro
+  const [isLoginForm, setIsLoginForm] = useState(false); // Estado para alternar entre login e cadastro
 
   const handleOpenRegister = () => {
     setIsLoginForm(false); // Altera para o formulário de cadastro
@@ -30,7 +30,7 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
         {isLoginForm ? (
           <>
             <h2>Entre na sua conta</h2>
-            <ClienteLoginForm onClose={onClose} />
+            <RestauranteLoginForm onClose={onClose} />
             <p>ou</p>
             <Button type="white" onClick={handleOpenRegister}>
               Criar uma conta
@@ -39,7 +39,7 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
         ) : (
           <>
             <h2>Adicione seus dados cadastrais</h2>
-            <ClienteCadastroForm onClose={onClose} />
+            <RestauranteCadastroForm onClose={onClose} />
             <p>ou</p>
             <Button type="white" onClick={handleGoBackToLogin}>
               Voltar para o login

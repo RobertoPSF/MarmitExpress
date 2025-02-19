@@ -8,7 +8,7 @@ import {
   TituloLogo,
   PopUpButton,
 } from './styles';
-import Cliente_Login_Popup from '../PopUps/ClienteLoginPopUp'; // Importando a pop-up de login
+import ClienteLoginPopup from '../PopUps/ClienteLoginPopUp'; // Importando a pop-up de login
 
 export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function Header() {
         Entrar / Cadastrar
       </PopUpButton>
       {isLoginOpen && (
-        <Cliente_Login_Popup isOpen={isLoginOpen} onClose={toggleLoginPopup} />
+        <ClienteLoginPopup isOpen={isLoginOpen} onClose={toggleLoginPopup} />
       )}
     </Container>
   );

@@ -5,6 +5,7 @@ import MeusPedidos from './pages/MeusPedidos';
 import Contato from './pages/Contato';
 import Sobre from './pages/Sobre';
 import Status from './pages/Status';
+import Parceiro from './pages/Parceiro';
 import TopContainer from './components/TopContainer';
 import Header from './components/Header';
 import Blank from './pages/BlankPage';
@@ -21,6 +22,7 @@ export default function AppRoutes() {
         <Route path="/contato" element={<Contato />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/status" element={<Status />} />
+        <Route path="/auth/parceiro" element={<Parceiro />} />
         <Route path="/blank" element={<Blank />} />
       </Routes>
     </BrowserRouter>
