@@ -9,16 +9,15 @@ export const Container = styled.div`
 
 export const Div = styled.div`
   display: flex;
-  color: #F6821F;
+  color: #f6821f;
   font-weight: bold;
   font-size: small;
 `;
 
-
 export const ContainerInput = styled.div`
   width: 100%;
   display: block;
-  border: 1px solid #F6821F;
+  border: 1px solid #f6821f;
   border-radius: 10px;
   width: 100%;
 
@@ -33,11 +32,11 @@ export const InputStyled = styled.input`
   padding: 0 1.5vw;
   font-size: 1em;
   line-height: 2vh;
-  color: #FF9B3F;
+  color: #ff9b3f;
   border-radius: 10px;
-  border: #FFE6CF;
+  border: #ffe6cf;
   outline: none;
-  caret-color: #DB5807;
+  caret-color: #db5807;
 
   &:focus {
     border: none;
@@ -49,7 +48,6 @@ export const InputStyled = styled.input`
   }
 
   &::placeholder {
-    color: #FFB876;
+    color: #ffb876;
   }
-
 `;

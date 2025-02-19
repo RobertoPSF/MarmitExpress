@@ -1,4 +1,4 @@
-import { Container, Imagem } from "./styles"
+import { Container, Imagem } from './styles';
 
 interface MarmitaCard {
   imagem: string;
@@ -7,11 +7,10 @@ interface MarmitaCard {
 }
 
 export default function RestauranteCard() {
-
   const marmita: MarmitaCard = {
-    imagem: "URL da Imagem",
-    tamanho: "G",
-    valor: 19
+    imagem: 'URL da Imagem',
+    tamanho: 'G',
+    valor: 19,
   };
 
   return (
@@ -21,5 +20,5 @@ export default function RestauranteCard() {
       <p>Todos os acompanhamentos + 2 carnes</p>
       <h3 id="preco">R$ {marmita.valor}</h3>
     </Container>
-  )
+  );
 }

@@ -4,31 +4,29 @@ import { NavLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
-  display: flex;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 9.5vh;
-  background-color: #F6821F;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 7.8vw;
-  color: #FFFFFF;
-
   @media (max-width: 768px) {
     padding: 0 3vw;
   }
+  align-items: center;
+  background-color: #2b3137;
+  color: #ffffff;
+  display: flex;
+  height: 9.5vh;
+  justify-content: space-between;
+  padding: 0 7.8vw;
+  position: fixed;
+  top: 0;
+  width: 100%;
 `;
 
 export const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-
   &:hover,
   &:active {
     cursor: pointer;
   }
+  align-items: center;
+  display: flex;
+  font-size: 1rem;
 `;
 
 export const Logo = styled(logo)`
@@ -38,8 +36,8 @@ export const Logo = styled(logo)`
 `;
 
 export const TituloLogo = styled.p`
-  color: #FFFFFF;
   align-self: center;
+  color: #ffffff;
 `;
 
 export const LinkComponent = styled(NavLink)`
@@ -51,47 +49,41 @@ export const LinkComponent = styled(NavLink)`
   padding: 5px;
   border-radius: 5px;
   font-size: 0.9rem;
-  background-color: #F6821F;
+  background-color: #2b3137;
 
   &.active {
-    background-color: #FCB827;
+    background-color: #24292e;
+    text-decoration: underline;
+    text-underline-offset: 5px;
   }
 
   &:hover,
   &:active {
     cursor: pointer;
-    border: 1px solid white;
+    background-color: #24292e;
   }
-  &.active {
-    border: none;
-  }
-
 `;
 
 export const PopUpButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  width: 165px;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  background-color: #F6821F;
-  border: none;
-  color: white;
-
   &:hover,
   &:active {
     cursor: pointer;
-    border: 1px solid white;
   }
+  align-items: center;
+  background-color: #2b3137;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  font-size: 0.9rem;
+  height: auto;
+  justify-content: center;
+  padding: 5px;
+  width: 165px;
 `;
 
-
-
 export const StyledIcon = styled(Icon)`
-  color: #FFFFFF;
+  color: #ffffff;
   height: 2rem;
   font-size: 1.3rem;
   margin-right: 5px;

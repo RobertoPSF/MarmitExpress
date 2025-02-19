@@ -1,9 +1,20 @@
-import { createGlobalStyle } from "styled-components"
-import fonts from "google-fonts"
+import { createGlobalStyle } from 'styled-components';
+import fonts from 'google-fonts';
 
 fonts.add({
-    'Montserrat': ['1000', '900', '800', '700', '600', '500', '400', '300', '200', '100']
-})
+  Montserrat: [
+    '1000',
+    '900',
+    '800',
+    '700',
+    '600',
+    '500',
+    '400',
+    '300',
+    '200',
+    '100',
+  ],
+});
 
 const ResetStyles = createGlobalStyle`
 
@@ -47,6 +58,6 @@ const ResetStyles = createGlobalStyle`
         box-sizing: border-box;
     }
 
-`
+`;
 
-export default ResetStyles
+export default ResetStyles;

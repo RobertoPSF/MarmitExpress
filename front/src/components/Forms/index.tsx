@@ -1,4 +1,6 @@
 // forms/index.tsx
 
-export { default as ClienteLogin } from './ClienteLogin';
-export { default as ClienteCadastro } from './ClienteCadastro';
+export { default as ClienteLoginForm } from './ClienteLoginForm';
+export { default as ClienteCadastroForm } from './ClienteCadastroForm';
+export { default as RestauranteLoginForm } from './RestauranteLoginForm';
+export { default as RestauranteCadastroForm } from './RestauranteCadastroForm';
