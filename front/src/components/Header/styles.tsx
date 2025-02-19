@@ -53,6 +53,8 @@ export const LinkComponent = styled(NavLink)`
 
   &.active {
     background-color: #24292e;
+    text-decoration: underline;
+    text-underline-offset: 5px;
   }
 
   &:hover,
