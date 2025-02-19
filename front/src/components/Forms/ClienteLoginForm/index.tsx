@@ -18,7 +18,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
 
   const handleSubmitLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8080/clientes/login', {
+      const response = await fetch('http://localhost:8080/restaurantes/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

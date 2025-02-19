@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '../../Button/styles';
-import { Input } from '../../Input/styles';
 
 export const ContentPopup = styled.div`
   h2 {
@@ -44,25 +42,24 @@ export const ContentPopup = styled.div`
   padding: 1.7rem;
 `;
 
-export const InputPhone = styled(Input)`
-  border: 1.3px solid #f6821f;
-  border-radius: 10px;
-  padding: 0.8em;
-  width: 100%;
-
+export const InputPhone = styled.button`
   &::placeholder {
     color: #f6821f;
     font-weight: 700;
     font-size: 0.8rem;
   }
+  border: 1.3px solid #f6821f;
+  border-radius: 10px;
+  padding: 0.8em;
+  width: 100%;
 `;
 
-export const ButtonSubumit = styled(Button)`
-  height: auto;
-  width: 100%;
-  padding: 0.7rem;
-  margin-top: 1rem;
+export const ButtonSubumit = styled.button`
+  background-color: #f6821f;
   border-radius: 10px;
   font-size: 0.9rem;
-  background-color: #f6821f;
+  height: auto;
+  margin-top: 1rem;
+  padding: 0.7rem;
+  width: 100%;
 `;

@@ -4,74 +4,69 @@ import Input from '../../Input';
 
 // Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
-  // Remove qualquer caractere não numérico
-  const rawValue = value.replace(/\D/g, '');
+  const rawValue = value.replace(/\D/g, '').slice(0, 11); // Garante no máximo 11 números
 
-  // Aplica o formato da máscara (exemplo: (00) 90000-0000)
   if (rawValue.length <= 2) {
     return `(${rawValue}`;
   } else if (rawValue.length <= 6) {
     return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2)}`;
   } else {
-    return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2, 7)}-${rawValue.slice(
-      7,
-      11,
-    )}`;
+    return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2, 7)}-${rawValue.slice(7)}`;
   }
 };
 
-interface RestauranteCadastroProps {
-  onClose: () => void;
-}
-
-const RestauranteCadastroForm: React.FC<RestauranteCadastroProps> = ({
-  onClose,
-}) => {
+const RestauranteCadastroForm: React.FC = () => {
   const [formDataCadastro, setFormDataCadastro] = useState({
-    telefone: '',
     usuario: '',
-    nome: '',
     senha: '',
-    email: '',
+    nome: '',
     endereco: '',
+    telefone: '',
+    descricao: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // Se o campo for telefone, aplica a máscara
-    if (name === 'telefone') {
-      setFormDataCadastro({
-        ...formDataCadastro,
-        [name]: formatPhoneNumber(value),
-      });
-    } else {
-      setFormDataCadastro({ ...formDataCadastro, [name]: value });
+    setFormDataCadastro((prev) => ({
+      ...prev,
+      [name]: name === 'telefone' ? formatPhoneNumber(value) : value,
+    }));
+  };
+
+  const validarFormulario = () => {
+    const { usuario, senha, nome, endereco, telefone, descricao } =
+      formDataCadastro;
+    if (!usuario || !senha || !nome || !endereco || !telefone || !descricao) {
+      alert('Todos os campos são obrigatórios.');
+      return false;
     }
+    if (telefone.replace(/\D/g, '').length !== 11) {
+      alert('Telefone inválido. Use o formato correto: (XX) 9XXXX-XXXX.');
+      return false;
+    }
+    return true;
   };
 
   const handleSubmitCadastro = async () => {
+    if (!validarFormulario()) return;
+
     try {
-      const response = await fetch('http://localhost:8080/Restaurantes', {
+      const response = await fetch('http://localhost:8080/restaurantes', {
+        // Corrigido endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
         },
-        body: JSON.stringify({
-          usuario: formDataCadastro.usuario,
-          senha: formDataCadastro.senha,
-          endereco: formDataCadastro.endereco,
-          nome: formDataCadastro.nome,
-          telefone: formDataCadastro.telefone,
-        }),
+        body: JSON.stringify(formDataCadastro),
       });
 
       if (response.ok) {
         alert('Cadastro realizado com sucesso!');
-        onClose(); // Chamando o onClose para fechar o pop-up após o cadastro
       } else {
-        alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
+        const errorMessage = await response.text();
+        alert(`Erro ao cadastrar: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
@@ -94,23 +89,23 @@ const RestauranteCadastroForm: React.FC<RestauranteCadastroProps> = ({
         placeholder="username"
         value={formDataCadastro.usuario}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Username'}
+        placeHolderContainer="Username"
       />
 
       <Input
         name="nome"
-        placeholder="Seu nome"
+        placeholder="Nome do Restaurante"
         value={formDataCadastro.nome}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Nome'}
+        placeHolderContainer="Nome"
       />
 
       <Input
-        name="email"
-        placeholder="user@gmail.com"
-        value={formDataCadastro.email}
+        name="descricao"
+        placeholder="Comida caseira"
+        value={formDataCadastro.descricao}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Email'}
+        placeHolderContainer="Descrição"
       />
 
       <Input
@@ -118,7 +113,7 @@ const RestauranteCadastroForm: React.FC<RestauranteCadastroProps> = ({
         placeholder="Rua Exemplo, 123"
         value={formDataCadastro.endereco}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Endereço'}
+        placeHolderContainer="Endereço"
       />
 
       <Input
@@ -127,10 +122,10 @@ const RestauranteCadastroForm: React.FC<RestauranteCadastroProps> = ({
         placeholder="******"
         value={formDataCadastro.senha}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Senha'}
+        placeHolderContainer="Senha"
       />
 
-      <Button type={'orange'} onClick={handleSubmitCadastro}>
+      <Button type="orange" onClick={handleSubmitCadastro}>
         Concluir Cadastro
       </Button>
     </>

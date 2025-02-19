@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '../../Button/styles';
 
 export const ContentPopup = styled.div`
   h2 {
@@ -18,7 +17,7 @@ export const ContentPopup = styled.div`
   padding: 1.7rem;
 `;
 
-export const ButtonEntrar = styled(Button)`
+export const ButtonEntrar = styled.button`
   height: 2.7rem;
   width: 100%;
   margin-top: 1rem;

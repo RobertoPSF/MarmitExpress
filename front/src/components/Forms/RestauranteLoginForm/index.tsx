@@ -2,11 +2,7 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 
-interface RestauranteLoginProps {
-  onClose: () => void;
-}
-
-const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onClose }) => {
+const RestauranteLoginForm: React.FC = () => {
   const [formDataLogin, setFormDataLogin] = useState({
     usuario: '',
     senha: '',
@@ -18,7 +14,7 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onClose }) => {
 
   const handleSubmitLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8080/Restaurantes/login', {
+      const response = await fetch('http://localhost:8080/restaurantes/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +28,6 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onClose }) => {
 
       if (response.ok) {
         alert('Login realizado com sucesso!');
-        onClose();
       } else {
         alert('Erro ao fazer Login. Verifique os dados e tente novamente.');
       }

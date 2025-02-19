@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '../../Button/styles';
-import { Input } from '../../Input/styles';
 
 export const ContentPopup = styled.div`
   h2 {
@@ -45,7 +43,7 @@ export const ContentPopup = styled.div`
   padding: 1.7rem;
 `;
 
-export const InputPhone = styled(Input)`
+export const InputPhone = styled.input`
   border: 1.3px solid #f6821f;
   border-radius: 10px;
   padding: 0.7em;
@@ -57,7 +55,7 @@ export const InputPhone = styled(Input)`
   }
 `;
 
-export const ButtonSair = styled(Button)`
+export const ButtonSair = styled.button`
   height: 2.7rem;
   width: 100%;
   margin: 0;
@@ -69,7 +67,7 @@ export const ButtonSair = styled(Button)`
   background-color: white;
 `;
 
-export const ButtonSubumit = styled(Button)`
+export const ButtonSubumit = styled.button`
   height: 2.7rem;
   width: 100%;
   margin-top: 1rem;
