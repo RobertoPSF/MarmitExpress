@@ -3,6 +3,7 @@ package com.marmitexpress.controllers;
 import com.marmitexpress.models.Marmita;
 import com.marmitexpress.services.MarmitaService;
 import com.marmitexpress.security.Interceptor;
+import com.marmitexpress.exceptions.MarmitaNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,17 +35,21 @@ class MarmitaControllerTest {
 
     @Test
     void testCriarMarmita() throws Exception {
-        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita();
+        marmita.setNome("Marmita Tradicional");
+        marmita.setPreco(25.0);
+        marmita.setQuantidade(1);
+        marmita.setIngredientes(List.of("Arroz", "Feijão", "Frango"));
         when(marmitaService.criarMarmita(any(Marmita.class))).thenReturn(marmita);
 
         mockMvc.perform(post("/marmitas")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"tipo\":\"Marmita Tradicional\",\"preco\":25.0,\"quantidade\":1,\"foto\":null,\"restaurante\":null,\"ingredientes\":[\"Arroz\",\"Feijão\",\"Carne\"]}")
+                        .content("{\"nome\":\"Marmita Tradicional\",\"preco\":25.0,\"quantidade\":1,\"foto\":null,\"restaurante\":null,\"ingredientes\":[\"Arroz\",\"Feijão\",\"Frango\"]}")
                         .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
                 .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
-                .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
+                .andExpect(jsonPath("$.ingredientes[2]").value("Frango"));
     }
 
     @Test
@@ -68,7 +74,12 @@ class MarmitaControllerTest {
 
     @Test
     void testBuscarMarmitaPorId() throws Exception {
-        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita();
+        marmita.setNome("Marmita Tradicional");
+        marmita.setPreco(25.0);
+        marmita.setQuantidade(1);
+        marmita.setIngredientes(List.of("Arroz", "Feijão", "Frango"));
+
         when(marmitaService.buscarMarmitaPorId(1L)).thenReturn(Optional.of(marmita));
 
         mockMvc.perform(get("/marmitas/1")
@@ -76,7 +87,7 @@ class MarmitaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ingredientes[0]").value("Arroz"))
                 .andExpect(jsonPath("$.ingredientes[1]").value("Feijão"))
-                .andExpect(jsonPath("$.ingredientes[2]").value("Carne"));
+                .andExpect(jsonPath("$.ingredientes[2]").value("Frango"));
     }
 
     @Test
@@ -84,5 +95,23 @@ class MarmitaControllerTest {
         mockMvc.perform(delete("/marmitas/1")
                         .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testBuscarMarmitaPorId_NotFound() throws Exception {
+        when(marmitaService.buscarMarmitaPorId(99L)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/marmitas/99")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testDeletarMarmita_NotFound() throws Exception {
+        doThrow(new MarmitaNotFoundException()).when(marmitaService).deletarMarmita(99L);
+
+        mockMvc.perform(delete("/marmitas/99")
+                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
+                .andExpect(status().isNotFound());
     }
 }
