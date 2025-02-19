@@ -38,7 +38,7 @@ export default function Status() {
 	return (
 		<Container>
 			<StatusColumn>
-				<p>Health:<Response $isError={isError}>{statusMessage}</Response></p>
+				<div>Health:<Response $isError={isError}>{statusMessage}</Response></div>
 			</StatusColumn>
 		</Container>
 	);

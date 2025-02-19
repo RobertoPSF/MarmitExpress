@@ -10,7 +10,7 @@ export const Container = styled.div`
   width: 100%;
   flex-direction: column;
   margin-top: 10px;
-  padding-left: 15vw;
+  padding: 0 15vw;
 `;
 
 export const StatusColumn = styled.div`
@@ -18,7 +18,7 @@ export const StatusColumn = styled.div`
   font-weight: bold;
   flex-direction: column;
   
-  p {
+  div {
     gap: 10px;
     display: flex;
     flex-direction: row;

@@ -20,7 +20,10 @@ const ClienteLogin: React.FC<ClienteLoginProps> = ({ onClose }) => {
         try {
           const response = await fetch('http://localhost:8080/clientes/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': "Bearer O#~Sn]9fnojT3'OO*:W9?C4" 
+             },
             body: JSON.stringify({
               usuario: formDataLogin.usuario,
               senha: formDataLogin.senha

@@ -46,7 +46,10 @@ const ClienteCadastro: React.FC<ClienteCadastroProps> = ({ onClose }) => {
     try {
       const response = await fetch('http://localhost:8080/clientes', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': "application/json",
+          'Authorization': "Bearer O#~Sn]9fnojT3'OO*:W9?C4"
+        },
         body: JSON.stringify({
           usuario: formDataCadastro.usuario,
           senha: formDataCadastro.senha,
