@@ -1,10 +1,8 @@
-
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  height: 64.5vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #FAFBFC;
+  justify-content: center;
 `;
