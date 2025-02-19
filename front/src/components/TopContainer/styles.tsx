@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import frase from "../../assets/frase-home.svg?react";
 import logo from '../../assets/logo-marmitexpress.svg?react';
 
-export const Container = styled.div<{ isHome: boolean }>`
+export const Container = styled.div<{ $isHome: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: ${({ isHome }) => (isHome ? "50.5vh" : "37.5vh")};  /* Altura dinâmica */
+  height: ${({ $isHome }) => ($isHome ? "50.5vh" : "37.5vh")};  /* Altura dinâmica */
   padding-top: 9.5vh;
   background-color: #FCB827;
   color: white;

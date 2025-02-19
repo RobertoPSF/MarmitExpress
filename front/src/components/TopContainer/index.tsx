@@ -5,7 +5,7 @@ export default function TopContainer() {
   const location = useLocation();
 
   return (
-    <Container isHome={location.pathname === "/"}>
+    <Container $isHome={location.pathname === "/"}>
       {location.pathname === "/" ? 
       <>
         <Frase />
