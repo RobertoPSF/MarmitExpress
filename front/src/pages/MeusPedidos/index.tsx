@@ -1,10 +1,9 @@
-import { Container } from "./styles";
+import { Container } from './styles';
 
 export default function MeusPedidos() {
-	return (
-		<>
-			<Container>
-			</Container>
-		</>
-	)
+  return (
+    <>
+      <Container></Container>
+    </>
+  );
 }

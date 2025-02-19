@@ -2,41 +2,41 @@ import styled from 'styled-components';
 import { Icon } from '@iconify/react';
 
 export const PopUpContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  height: 100%;
   justify-content: center;
-  align-items: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
   z-index: 1000;
 `;
 
 export const PopUpContent = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-width: 300px;
+  position: relative;
   text-align: center;
 `;
 
 export const CloseButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 2px;
-  background: none;
-  border: none;
-  font-size: 1.2em;
   &:hover {
     cursor: pointer;
   }
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  position: absolute;
+  right: 2px;
+  top: 5px;
 `;
 export const StyledIcon = styled(Icon)`
   color: black;

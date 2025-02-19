@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import frase from "../../assets/frase-home.svg?react";
+import frase from '../../assets/frase-home.svg?react';
 import logo from '../../assets/logo-marmitexpress.svg?react';
 
 export const Container = styled.div<{ $isHome: boolean }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: ${({ $isHome }) => ($isHome ? "50.5vh" : "37.5vh")};  /* Altura dinâmica */
+  height: ${({ $isHome }) =>
+    $isHome ? '50.5vh' : '37.5vh'}; /* Altura dinâmica */
   padding-top: 9.5vh;
-  background-color: #FCB827;
+  background-color: #fcb827;
   color: white;
 
   h1 {
@@ -29,14 +30,14 @@ export const Frase = styled(frase)`
 `;
 
 export const LogoContainer = styled.div`
+  align-content: center;
+  align-self: center;
+  background-color: #fafbfc;
+  border-radius: 100%;
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
+  justify-content: center;
   min-height: 40vh;
   min-width: 40vh;
-  border-radius: 100%;
-  align-self: center;
-  align-content: center;
-  justify-content: center;
-  background-color: #FAFBFC;
-  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
 `;
 
 export const Logo = styled(logo)`

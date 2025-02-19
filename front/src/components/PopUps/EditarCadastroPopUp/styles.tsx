@@ -3,9 +3,6 @@ import { Button } from '../../Button/styles';
 import { Input } from '../../Input/styles';
 
 export const ContentPopup = styled.div`
-  max-width: 23rem;
-  padding: 1.7rem;
-
   h2 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -13,47 +10,48 @@ export const ContentPopup = styled.div`
     font-size: 1.2rem;
   }
 
-  p{
+  p {
     font-size: 0.6rem;
     margin: 0.8rem;
   }
 
-  a{
+  a {
     display: flex;
     font-weight: 500;
-    text-decoration:underline;
+    text-decoration: underline;
     justify-content: right;
     font-size: 0.68rem;
     margin: 0.7rem;
   }
 
-  .imputDiv{
+  .imputDiv {
     display: flex;
     flex-direction: column;
-    
-    p{
+
+    p {
       margin: 0.2rem;
       margin-top: 0.6rem;
       display: flex;
       justify-content: left;
       font-size: 0.8em;
-      color: #F6821F;
+      color: #f6821f;
       font-weight: 600;
       margin-right: 25rem;
       width: 100%;
     }
   }
+  max-width: 23rem;
+  padding: 1.7rem;
 `;
 
-
 export const InputPhone = styled(Input)`
-  border: 1.3px solid #F6821F;
+  border: 1.3px solid #f6821f;
   border-radius: 10px;
   padding: 0.8em;
   width: 100%;
 
   &::placeholder {
-    color: #F6821F;
+    color: #f6821f;
     font-weight: 700;
     font-size: 0.8rem;
   }
@@ -66,5 +64,5 @@ export const ButtonSubumit = styled(Button)`
   margin-top: 1rem;
   border-radius: 10px;
   font-size: 0.9rem;
-  background-color: #F6821F;
-  `;
+  background-color: #f6821f;
+`;

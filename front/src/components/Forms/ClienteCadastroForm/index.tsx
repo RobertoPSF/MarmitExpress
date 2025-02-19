@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Button from "../../Button";
-import Input from "../../Input";
+import { useState } from 'react';
+import Button from '../../Button';
+import Input from '../../Input';
 
 // Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
@@ -13,22 +13,25 @@ const formatPhoneNumber = (value: string) => {
   } else if (rawValue.length <= 6) {
     return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2)}`;
   } else {
-    return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2, 7)}-${rawValue.slice(7, 11)}`;
+    return `(${rawValue.slice(0, 2)}) ${rawValue.slice(2, 7)}-${rawValue.slice(
+      7,
+      11,
+    )}`;
   }
 };
 
 interface ClienteCadastroProps {
-  onClose: () => void; 
+  onClose: () => void;
 }
 
-const ClienteCadastro: React.FC<ClienteCadastroProps> = ({ onClose }) => {
+const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   const [formDataCadastro, setFormDataCadastro] = useState({
     telefone: '',
     usuario: '',
     nome: '',
     senha: '',
     email: '',
-    endereco: ''
+    endereco: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +39,10 @@ const ClienteCadastro: React.FC<ClienteCadastroProps> = ({ onClose }) => {
 
     // Se o campo for telefone, aplica a máscara
     if (name === 'telefone') {
-      setFormDataCadastro({ ...formDataCadastro, [name]: formatPhoneNumber(value) });
+      setFormDataCadastro({
+        ...formDataCadastro,
+        [name]: formatPhoneNumber(value),
+      });
     } else {
       setFormDataCadastro({ ...formDataCadastro, [name]: value });
     }
@@ -46,17 +52,17 @@ const ClienteCadastro: React.FC<ClienteCadastroProps> = ({ onClose }) => {
     try {
       const response = await fetch('http://localhost:8080/clientes', {
         method: 'POST',
-        headers: { 
-          'Content-Type': "application/json",
-          'Authorization': "Bearer O#~Sn]9fnojT3'OO*:W9?C4"
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
         },
         body: JSON.stringify({
           usuario: formDataCadastro.usuario,
           senha: formDataCadastro.senha,
           endereco: formDataCadastro.endereco,
           nome: formDataCadastro.nome,
-          telefone: formDataCadastro.telefone
-        })
+          telefone: formDataCadastro.telefone,
+        }),
       });
 
       if (response.ok) {
@@ -129,4 +135,4 @@ const ClienteCadastro: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   );
 };
 
-export default ClienteCadastro;
+export default ClienteCadastroForm;

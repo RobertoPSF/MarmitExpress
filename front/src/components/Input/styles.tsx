@@ -8,37 +8,24 @@ export const Container = styled.div`
 `;
 
 export const Div = styled.div`
+  color: #f6821f;
   display: flex;
-  color: #F6821F;
-  font-weight: bold;
   font-size: small;
+  font-weight: bold;
 `;
 
-
 export const ContainerInput = styled.div`
-  width: 100%;
-  display: block;
-  border: 1px solid #F6821F;
-  border-radius: 10px;
-  width: 100%;
-
   &::placeholder {
     font-weight: 700;
   }
+  border: 1px solid #f6821f;
+  border-radius: 10px;
+  display: block;
+  width: 100%;
+  width: 100%;
 `;
 
 export const InputStyled = styled.input`
-  width: 100%;
-  height: 6vh;
-  padding: 0 1.5vw;
-  font-size: 1em;
-  line-height: 2vh;
-  color: #FF9B3F;
-  border-radius: 10px;
-  border: #FFE6CF;
-  outline: none;
-  caret-color: #DB5807;
-
   &:focus {
     border: none;
     outline: none;
@@ -49,7 +36,16 @@ export const InputStyled = styled.input`
   }
 
   &::placeholder {
-    color: #FFB876;
+    color: #ffb876;
   }
-
+  border: #ffe6cf;
+  border-radius: 10px;
+  caret-color: #db5807;
+  color: #ff9b3f;
+  font-size: 1em;
+  height: 6vh;
+  line-height: 2vh;
+  outline: none;
+  padding: 0 1.5vw;
+  width: 100%;
 `;
