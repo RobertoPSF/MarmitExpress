@@ -1,32 +1,30 @@
-import styled from 'styled-components'
-import ImgCard from '../../../assets/marmita.svg?react'
+import styled from 'styled-components';
+import ImgCard from '../../../assets/marmita.svg?react';
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
   align-items: center;
-  margin: 50px;
+  align-items: center;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  align-items: center;
-
-  h3{
+  display: flex;
+  flex-direction: column;
+  h3 {
     font-size: 0.5rem;
     font-weight: 500;
     margin: 0;
   }
 
-  p{
+  p {
     font-size: 0.4rem;
-    color: #24292E;
+    color: #24292e;
     max-width: 75%;
   }
 
-  #preco{
+  #preco {
     margin-bottom: 0.5rem;
   }
-
+  justify-content: left;
+  margin: 50px;
 `;
 
 export const Imagem = styled(ImgCard)`

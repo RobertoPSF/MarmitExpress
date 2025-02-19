@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, ContainerInput, Div, InputStyled} from './styles';
-
+import { Container, ContainerInput, Div, InputStyled } from './styles';
 
 interface Props {
-  name?: string
+  name?: string;
   type?: string;
   placeHolderContainer: string;
   placeholder?: string;

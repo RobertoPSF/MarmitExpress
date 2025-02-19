@@ -1,20 +1,18 @@
-
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  margin-top: 20.5vh;
-  padding-top: 40px;
-  width: 100%;
-  gap: 40px;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 50px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   h1 {
     text-align: center;
   }
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 20.5vh;
+  padding-top: 40px;
+  width: 100%;
 `;
 
 export const Content = styled.div`
@@ -23,8 +21,8 @@ export const Content = styled.div`
   flex-wrap: wrap;
   gap: 40px;
   justify-content: center;
-  margin-right: 5%;
   margin-left: 5%;
+  margin-right: 5%;
 `;
 
 export const Hr = styled.hr`

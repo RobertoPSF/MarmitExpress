@@ -1,4 +1,4 @@
-import { Container, Imagem } from "./styles"
+import { Container, Imagem } from './styles';
 
 interface ItemCard {
   imagem: string;
@@ -7,11 +7,10 @@ interface ItemCard {
 }
 
 export default function RestauranteCard() {
-
   const item: ItemCard = {
-    imagem: "URL da Imagem",
-    nome: "Coca pet",
-    valor: 19
+    imagem: 'URL da Imagem',
+    nome: 'Coca pet',
+    valor: 19,
   };
 
   return (
@@ -20,5 +19,5 @@ export default function RestauranteCard() {
       <p>{item.nome}</p>
       <h3>R$ {item.valor}</h3>
     </Container>
-  )
+  );
 }

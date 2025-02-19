@@ -13,9 +13,12 @@ const AcessoNegado_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
   return (
     <PopUpComponent onClose={onClose}>
       <ContentPopup>
-      <h2>Entre na sua conta para acessar</h2>
-      <p>É necessário  que você entre na sua conta para ter acesso aos seus pedidos!</p>
-      <ButtonEntrar>Entrar</ButtonEntrar>
+        <h2>Entre na sua conta para acessar</h2>
+        <p>
+          É necessário que você entre na sua conta para ter acesso aos seus
+          pedidos!
+        </p>
+        <ButtonEntrar>Entrar</ButtonEntrar>
       </ContentPopup>
     </PopUpComponent>
   );

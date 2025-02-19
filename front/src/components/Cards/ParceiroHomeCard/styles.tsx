@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import house from '../../../assets/house-home.svg?react'
+import styled from 'styled-components';
+import house from '../../../assets/house-home.svg?react';
 import { NavLink } from 'react-router-dom';
 
 export const Container = styled(NavLink)`
@@ -7,7 +7,7 @@ export const Container = styled(NavLink)`
   width: 350px;
   height: 100px;
   align-items: center;
-  border-radius: 15px;  
+  border-radius: 15px;
   padding: 10px;
   gap: 10px;
   background-color: white;
@@ -20,8 +20,8 @@ export const Container = styled(NavLink)`
 
 export const Information = styled.div`
   display: flex;
-  width: 250px;
   flex-direction: column;
+  width: 250px;
 `;
 
 export const Img = styled(house)`

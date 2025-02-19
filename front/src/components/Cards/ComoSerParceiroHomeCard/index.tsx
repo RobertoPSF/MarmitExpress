@@ -1,7 +1,6 @@
-import { Container, Img, Information } from "./styles"
+import { Container, Img, Information } from './styles';
 
 export default function ParceiroHomeCard() {
-
   return (
     <Container to="/about/parceiro">
       <Img />
@@ -10,5 +9,5 @@ export default function ParceiroHomeCard() {
         <p>Não perca tempo, veja nosso guia e trabalhe com entregas!</p>
       </Information>
     </Container>
-  )
+  );
 }

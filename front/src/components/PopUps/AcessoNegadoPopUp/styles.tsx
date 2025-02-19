@@ -1,11 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../../Button/styles';
 
 export const ContentPopup = styled.div`
-  max-width: 23rem;
-  max-height: 40rem;
-  padding: 1.7rem;
-
   h2 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -13,18 +8,21 @@ export const ContentPopup = styled.div`
     font-size: 1rem;
   }
 
-  p{
+  p {
     font-size: 0.8rem;
     margin-top: 1rem;
   }
+  max-height: 40rem;
+  max-width: 23rem;
+  padding: 1.7rem;
 `;
 
-export const ButtonEntrar = styled(Button)`
+export const ButtonEntrar = styled.button`
   height: 2.7rem;
   width: 100%;
   margin-top: 1rem;
   border-radius: 10px;
   font-size: 0.9rem;
   padding: 0.5em;
-  background-color: #F6821F;
+  background-color: #f6821f;
 `;

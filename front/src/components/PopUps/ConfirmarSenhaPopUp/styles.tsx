@@ -1,12 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../../Button/styles';
-import { Input } from '../../Input/styles';
 
 export const ContentPopup = styled.div`
-  max-width: 23rem;
-  max-height: 40rem;
-  padding: 1.7rem;
-
   h2 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -14,69 +8,71 @@ export const ContentPopup = styled.div`
     font-size: 1.2rem;
   }
 
-  p{
+  p {
     font-size: 0.85rem;
     margin: 0.8rem;
   }
 
-  a{
+  a {
     display: flex;
     font-weight: 500;
-    text-decoration:underline;
+    text-decoration: underline;
     justify-content: right;
     font-size: 0.68rem;
     margin: 0.7rem;
   }
 
-  .imputDiv{
+  .imputDiv {
     display: flex;
     flex-direction: column;
-    
-    p{
+
+    p {
       margin: 0.2rem;
       margin-top: 1rem;
       display: flex;
       justify-content: left;
       font-size: 0.9em;
-      color: #F6821F;
+      color: #f6821f;
       font-weight: 600;
       margin-right: 25rem;
       width: 100%;
     }
   }
+  max-height: 40rem;
+  max-width: 23rem;
+  padding: 1.7rem;
 `;
 
-
-export const InputPhone = styled(Input)`
-  border: 1.3px solid #F6821F;
+export const InputPhone = styled.input`
+  border: 1.3px solid #f6821f;
   border-radius: 10px;
   padding: 0.7em;
   width: 100%;
 
   &::placeholder {
-    color: #F6821F;
+    color: #f6821f;
     font-weight: 700;
   }
 `;
-  
-export const ButtonSair = styled(Button)`
+
+export const ButtonSair = styled.button`
   height: 2.7rem;
   width: 100%;
   margin: 0;
   border-radius: 10px;
   font-size: 0.9rem;
-  color: #F6821F;
+  color: #f6821f;
   padding: 0.5em;
-  border: 1px solid #F6821F;
+  border: 1px solid #f6821f;
   background-color: white;
 `;
 
-export const ButtonSubumit = styled(Button)`
+export const ButtonSubumit = styled.button`
   height: 2.7rem;
   width: 100%;
   margin-top: 1rem;
   border-radius: 10px;
   font-size: 0.9rem;
   padding: 0.5em;
-  background-color: #F6821F;
+  background-color: #f6821f;
 `;

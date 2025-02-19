@@ -5,31 +5,30 @@ interface ResponseProps {
 }
 
 export const Container = styled.div`
-  height: 64.5vh;
   display: flex;
-  width: 100%;
   flex-direction: column;
+  height: 64.5vh;
   margin-top: 10px;
   padding: 0 15vw;
+  width: 100%;
 `;
 
 export const StatusColumn = styled.div`
   display: flex;
-  font-weight: bold;
-  flex-direction: column;
-  
   div {
     gap: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
   }
+  flex-direction: column;
+  font-weight: bold;
 `;
 
-export const Response = styled.div<ResponseProps>` 
+export const Response = styled.div<ResponseProps>`
   display: flex;
-  border: 2px solid ${({ $isError }) => ($isError ? "red" : "green")};
-  color: ${({ $isError }) => ($isError ? "red" : "green")};
+  border: 2px solid ${({ $isError }) => ($isError ? 'red' : 'green')};
+  color: ${({ $isError }) => ($isError ? 'red' : 'green')};
   padding: 2px 5px;
   border-radius: 20px;
 `;
