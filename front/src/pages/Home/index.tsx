@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <Container>
       <Hr />
-      <h1>Venha ser nosso parceiro!</h1>
+      <h1> nosso parceiro!</h1>
       <Content>
         <ParceiroHomeCard></ParceiroHomeCard>
         <ComoSerParceiroHomeCard></ComoSerParceiroHomeCard>
