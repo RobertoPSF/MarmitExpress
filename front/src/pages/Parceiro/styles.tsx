@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
   gap: 10px;
   justify-content: center;
   margin-top: -15vh;
-  width: 23rem;
   padding: 1.7rem;
   text-align: center;
+  width: 23rem;
 `;
