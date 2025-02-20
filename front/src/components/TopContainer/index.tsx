@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { Container, Frase, Logo, LogoContainer } from './styles';
+import { Container, Frase, Logo } from './styles';
 
 export default function TopContainer() {
   const location = useLocation();
@@ -9,9 +9,7 @@ export default function TopContainer() {
       {location.pathname === '/' ? (
         <>
           <Frase />
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
+          <Logo />
         </>
       ) : null}
       {location.pathname === '/restaurantes' ? <h1>Restaurantes</h1> : null}

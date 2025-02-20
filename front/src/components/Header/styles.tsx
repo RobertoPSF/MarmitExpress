@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 export const Container = styled.div`
   @media (max-width: 768px) {
     padding: 0 3vw;
+    justify-content: space-around;
   }
   align-items: center;
   background-color: #2b3137;
@@ -17,27 +18,17 @@ export const Container = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-`;
-
-export const LogoContainer = styled.div`
-  &:hover,
-  &:active {
-    cursor: pointer;
-  }
-  align-items: center;
-  display: flex;
-  font-size: 1rem;
+  z-index: 999;
 `;
 
 export const Logo = styled(logo)`
   width: auto;
   height: 2rem;
-  margin-right: 10px;
-`;
+  transition: transform 0.3s ease-in-out;
 
-export const TituloLogo = styled.p`
-  align-self: center;
-  color: #ffffff;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export const LinkComponent = styled(NavLink)`
@@ -45,11 +36,15 @@ export const LinkComponent = styled(NavLink)`
   justify-content: center;
   align-items: center;
   height: auto;
-  width: 165px;
+  width: 170px;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.9rem;
   background-color: #2b3137;
+  gap: 10px;
+  transition:
+    background-color 0.3s ease-in-out,
+    transform 1s ease-out;
 
   &.active {
     background-color: #24292e;
@@ -62,29 +57,58 @@ export const LinkComponent = styled(NavLink)`
     cursor: pointer;
     background-color: #24292e;
   }
+
+  @media (max-width: 768px) {
+    width: auto;
+    min-width: 50px;
+    padding: 8px;
+
+    p {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
 `;
 
 export const PopUpButton = styled.button`
-  &:hover,
-  &:active {
-    cursor: pointer;
-  }
+  display: flex;
   align-items: center;
+  justify-content: center;
   background-color: #2b3137;
   border: none;
   border-radius: 5px;
   color: white;
-  display: flex;
   font-size: 0.9rem;
   height: auto;
-  justify-content: center;
   padding: 5px;
-  width: 165px;
+  width: 170px;
+  transition:
+    background-color 0.3s ease-in-out,
+    transform 1s ease-out;
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+    background-color: #24292e;
+  }
+
+  @media (max-width: 768px) {
+    width: 50px;
+    padding: 8px;
+
+    p {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
 `;
 
 export const StyledIcon = styled(Icon)`
   color: #ffffff;
-  height: 2rem;
+  min-width: 24px;
   font-size: 1.3rem;
-  margin-right: 5px;
+  height: 2rem;
+  transition: transform 0.5s ease-in-out;
 `;
