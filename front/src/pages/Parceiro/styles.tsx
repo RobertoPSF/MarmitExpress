@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 64.5vh;
-  padding: 1.7rem;
+  margin: 4vh 0;
 `;
 
 export const ModalContainer = styled.div`

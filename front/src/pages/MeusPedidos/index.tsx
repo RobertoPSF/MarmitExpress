@@ -75,12 +75,7 @@ export default function MeusPedidos() {
                 <Link
                   style={{ borderRadius: '23px' }}
                   to={`/pedido/${pedido.id}`}
-                >
-                  <Button type="orange">
-                    Pedido #{pedido.id} - {pedido.status} - R${' '}
-                    {pedido.valorTotal.toFixed(2)}
-                  </Button>
-                </Link>
+                ></Link>
               </div>
             ))
           ) : (
