@@ -22,28 +22,18 @@ export const Frase = styled(frase)`
   display: flex;
   width: 90%;
   margin-top: 4vh;
-  justify-content: center;
-  min-height: 12vh;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-bottom: 5.5vh;
-`;
-
-export const LogoContainer = styled.div`
-  align-content: center;
+  justify-self: center;
   align-self: center;
-  background-color: #fafbfc;
-  border-radius: 100%;
-  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
-  justify-content: center;
-  min-height: 40vh;
-  min-width: 40vh;
+  min-height: 12vh;
 `;
 
 export const Logo = styled(logo)`
   display: flex;
-  justify-self: center;
-  width: auto;
-  height: 25vh;
-  margin-bottom: 10%;
+  align-self: center;
+  position: absolute;
+  height: 40%;
+  max-width: 90%;
+  z-index: 1;
+  top: 50vh;
+  bottom: 50vh;
 `;
