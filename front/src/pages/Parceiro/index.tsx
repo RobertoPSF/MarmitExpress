@@ -24,11 +24,7 @@ export default function Parceiro() {
           {isLoginForm ? (
             <>
               <h2>Entre na sua conta</h2>
-              <RestauranteLoginForm
-                onClose={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
-              />
+              <RestauranteLoginForm />
               <p>ou</p>
               <Button type="white" onClick={handleOpenRegister}>
                 Quero ser parceiro
@@ -37,11 +33,7 @@ export default function Parceiro() {
           ) : (
             <>
               <h2>Adicione seus dados cadastrais</h2>
-              <RestauranteCadastroForm
-                onClose={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
-              />
+              <RestauranteCadastroForm />
               <p>ou</p>
               <Button type="white" onClick={handleGoBackToLogin}>
                 Já sou parceiro
