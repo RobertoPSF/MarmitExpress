@@ -30,7 +30,7 @@ public class RestauranteService {
     public String registrarAvaliacao(long id, double avaliacao){
         Optional<Restaurante> restaurante = buscarRestaurantePorId(id);
         if(restaurante.isPresent()){
-            restaurante.get().setAvaliacao(avaliacao);
+            restaurante.get().adicionarAvaliacao(avaliacao);
             return "Avalição registrada com sucesso";
         }
         else {
@@ -41,8 +41,6 @@ public class RestauranteService {
     public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
         Restaurante restaurante = restauranteRepository.findById(id)
         .orElseThrow(() -> new RestauranteNotFoundException(id));
-            restaurante.setAvaliacao(restauranteAtualizado.getAvaliacao());
-            restaurante.setUsuario(restauranteAtualizado.getUsuario());
             restaurante.setSenha(restauranteAtualizado.getSenha());
             restaurante.setNome(restauranteAtualizado.getNome());
             restaurante.setEndereco(restauranteAtualizado.getEndereco());
@@ -56,13 +54,5 @@ public class RestauranteService {
            throw new RestauranteNotFoundException(id);
        }
        restauranteRepository.deleteById(id);
-    }
-
-    public Long loginRestaurante(String usuario, String senha) {
-        Optional<Restaurante> restaurante = restauranteRepository.findByUsuario(usuario);
-        if (restaurante.isPresent() && restaurante.get().getSenha().equals(senha)) {
-            return restaurante.get().getId();
-        }
-        return null;
     }
 }

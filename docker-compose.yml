@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   front:
     build:
@@ -21,6 +23,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/marmitexpress
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
+      CORS_ORIGIN: http://localhost:3000
     depends_on:
       - db
 
@@ -37,4 +40,5 @@ services:
       - db_data:/var/lib/postgresql/data
 
 volumes:
-  db_data:
+  db_data: {}  # Definição do volume global
+

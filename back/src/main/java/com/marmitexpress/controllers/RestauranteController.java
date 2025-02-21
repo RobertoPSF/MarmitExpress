@@ -1,9 +1,7 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.dto.LoginDTO;
 import com.marmitexpress.models.Avaliacao;
 import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,46 +12,32 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")  // Injetando a variável de ambiente
 public class RestauranteController {
-
-    @Autowired
-    private Interceptor interceptor;
     
     @Autowired
     private RestauranteService restauranteService;
 
     @PostMapping
-    public ResponseEntity<Restaurante> criarRestaurante(@RequestBody Restaurante restaurante, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<Restaurante> criarRestaurante(@RequestBody Restaurante restaurante) {
         Restaurante novoRestaurante = restauranteService.criarRestaurante(restaurante);
         return ResponseEntity.ok(novoRestaurante);
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listarRestaurantes(@RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<List<Restaurante>> listarRestaurantes() {
         List<Restaurante> restaurantes = restauranteService.listarRestaurantes();
         return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurante> buscarRestaurantePorId(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<Restaurante> buscarRestaurantePorId(@PathVariable Long id) {
         Optional<Restaurante> restaurante = restauranteService.buscarRestaurantePorId(id);
         return restaurante.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable Long id, @RequestBody Restaurante restauranteAtualizado, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable Long id, @RequestBody Restaurante restauranteAtualizado) {
         Restaurante restaurante = restauranteService.atualizarRestaurante(id, restauranteAtualizado);
         if (restaurante != null) {
             return ResponseEntity.ok(restaurante);
@@ -63,10 +47,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}/avaliacao")
-    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest) {
         Double avaliacao = avaliacaoRequest.getAvaliacao();
         String mensagem = restauranteService.registrarAvaliacao(id, avaliacao);
         return ResponseEntity.ok(mensagem);
@@ -76,14 +57,5 @@ public class RestauranteController {
     public ResponseEntity<Void> deletarRestaurante(@PathVariable Long id) {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Long> loginRestaurante(@RequestBody LoginDTO loginDTO, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Long id = restauranteService.loginRestaurante(loginDTO.getUsuario(), loginDTO.getSenha());
-        return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
     }
 }
