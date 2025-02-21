@@ -27,32 +27,35 @@ public class RestauranteService {
         return restauranteRepository.findById(id);
     }
 
-    public String registrarAvaliacao(long id, double avaliacao){
+    public Restaurante buscarRestaurantePorEmail(String email) {
+        return restauranteRepository.findByEmail(email).orElse(null); // Busca pelo email
+    }
+
+    public String registrarAvaliacao(long id, double avaliacao) {
         Optional<Restaurante> restaurante = buscarRestaurantePorId(id);
-        if(restaurante.isPresent()){
+        if (restaurante.isPresent()) {
             restaurante.get().adicionarAvaliacao(avaliacao);
-            return "Avalição registrada com sucesso";
-        }
-        else {
+            return "Avaliação registrada com sucesso";
+        } else {
             throw new RestauranteNotFoundException(id);
         }
     }
 
     public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
         Restaurante restaurante = restauranteRepository.findById(id)
-        .orElseThrow(() -> new RestauranteNotFoundException(id));
-            restaurante.setSenha(restauranteAtualizado.getSenha());
-            restaurante.setNome(restauranteAtualizado.getNome());
-            restaurante.setEndereco(restauranteAtualizado.getEndereco());
-            restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
-            restaurante.setDescricao(restauranteAtualizado.getDescricao());
-            return restauranteRepository.save(restaurante);
-        }
+                .orElseThrow(() -> new RestauranteNotFoundException(id));
+        restaurante.setSenha(restauranteAtualizado.getSenha());
+        restaurante.setNome(restauranteAtualizado.getNome());
+        restaurante.setEndereco(restauranteAtualizado.getEndereco());
+        restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
+        restaurante.setDescricao(restauranteAtualizado.getDescricao());
+        return restauranteRepository.save(restaurante);
+    }
 
     public void deletarRestaurante(Long id) {
-       if(!restauranteRepository.existsById(id)) {
-           throw new RestauranteNotFoundException(id);
-       }
-       restauranteRepository.deleteById(id);
+        if (!restauranteRepository.existsById(id)) {
+            throw new RestauranteNotFoundException(id);
+        }
+        restauranteRepository.deleteById(id);
     }
 }
