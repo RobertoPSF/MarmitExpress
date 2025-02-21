@@ -1,6 +1,7 @@
-import { Container, Imagem, Presente, Verificado, StyledIcon } from './styles';
+import { Container, Img, Information } from './styles';
 
 interface Restaurante {
+  id: number;
   nome: string;
   imagem: string;
   estrelas: number;
@@ -10,6 +11,7 @@ interface Restaurante {
 
 export default function RestauranteCard() {
   const restaurante: Restaurante = {
+    id: 1,
     nome: 'Casa Galiotto',
     imagem: 'URL da Imagem',
     estrelas: 4.4,
@@ -19,23 +21,10 @@ export default function RestauranteCard() {
 
   return (
     <Container>
-      <div className="mainContainer">
-        <Imagem />
-        <div>
-          <p id="nomeRestaurante">{restaurante.nome}</p>
-          <div className="avaliacao">
-            <StyledIcon icon={'emojione:star'} />
-            <p>{restaurante.estrelas}</p>
-          </div>
-          <p id="horarioFuncionamento">{restaurante.horario}</p>
-
-          <div className="programaFidelidade">
-            <Presente />
-            <p>Programa de Fidelidade</p>
-            <Verificado />
-          </div>
-        </div>
-      </div>
+      <Img />
+      <Information>
+        <h3>{restaurante.nome}</h3>
+      </Information>
     </Container>
   );
 }

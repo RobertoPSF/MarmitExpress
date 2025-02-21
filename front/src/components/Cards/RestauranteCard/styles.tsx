@@ -1,78 +1,27 @@
-import styled from 'styled-components'
-import ImgCard from '../../../assets/imageExemplo.svg?react'
-import presenteIcon from '../../../assets/presenteIcon.svg?react'
-import verificadoFidelidade from '../../../assets/iconFidelidadeOff.svg?react'
-import { Icon } from '@iconify/react';
+import styled from 'styled-components';
+import interrogacao from '../../../assets/interrogacaoHome.svg?react';
 
 export const Container = styled.div`
-  display: flex;
-  max-width: auto;
-  max-height: auto;
-  flex-direction: column;
-  padding: 10px;
-  margin: 50px;
+  &:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  background-color: white;
   border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  align-items: center;
-  justify-content: space-between;
-
-  .mainContainer{
-    display: flex;
-  }
-
-  #nomeRestaurante{
-    font-size: 0.9rem;
-  }
-
-  #horarioFuncionamento{
-    font-size: 0.6rem;
-    color: #878787;
-    margin-top: 0.8rem;
-  }
-
-  .avaliacao{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    margin-top: 0.2rem;
-    
-    p{
-      font-size: 0.65rem;
-    }
-  }
-
-  .programaFidelidade{
-    display:  flex;
-    flex-direction: row;
-    margin-top: 0.4rem;
-    p{
-      font-size: 0.47rem;
-      padding: 0.1rem;
-    }
-  }
-`;
-
-export const Imagem = styled(ImgCard)`
-  max-width: 5rem;
-  max-height: 5rem;
-  margin-right: 1rem;
-`;
-
-export const Presente = styled(presenteIcon)`
-  height: 0.8rem;
-  width:0.8rem;
-`;
-
-export const Verificado = styled(verificadoFidelidade)`
   display: flex;
-  height: 0.5rem;
-  width: 0.5rem;
-  margin-top: 0.2rem;
-  margin-left: 1.7rem;
+  gap: 10px;
+  min-height: 100px;
+  width: 100%;
+  padding: 10px;
+  transition: box-shadow 0.2s ease-in-out;
 `;
 
-export const StyledIcon = styled(Icon)`
-  color: black;
-  height: 0.9rem;
+export const Information = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+`;
+
+export const Img = styled(interrogacao)`
+  height: 100%;
+  width: 30%;
 `;

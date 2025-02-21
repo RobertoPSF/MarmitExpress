@@ -9,6 +9,7 @@ import Parceiro from './pages/Parceiro';
 import TopContainer from './components/TopContainer';
 import Header from './components/Header';
 import Blank from './pages/BlankPage';
+import RestaurantePage from './pages/RestaurantePage';
 
 export default function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ export default function AppRoutes() {
         <Route path="/status" element={<Status />} />
         <Route path="/auth/parceiro" element={<Parceiro />} />
         <Route path="/blank" element={<Blank />} />
+        <Route path="/restaurante/:id" element={<RestaurantePage />} />
       </Routes>
     </BrowserRouter>
   );
