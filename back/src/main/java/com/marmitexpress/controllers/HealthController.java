@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/health")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")
 public class HealthController {
 
     @GetMapping
     public ResponseEntity<String> healthCheck() {
         
-        return ResponseEntity.status(HttpStatus.OK).body("Usuário cadastrado com sucesso.");
+        return ResponseEntity.status(HttpStatus.OK).body("Ok");
     }
 }

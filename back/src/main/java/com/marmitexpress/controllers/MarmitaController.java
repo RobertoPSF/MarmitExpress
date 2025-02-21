@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/marmitas")
-@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")  // Injetando a variável de ambiente
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*") 
 public class MarmitaController {
 
     @Autowired
