@@ -5,4 +5,5 @@ export const Container = styled.div`
   flex-direction: column;
   height: 64.5vh;
   justify-content: center;
+  margin: 4vh 0;
 `;
