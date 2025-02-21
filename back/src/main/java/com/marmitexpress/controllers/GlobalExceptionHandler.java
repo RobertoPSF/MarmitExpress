@@ -4,6 +4,7 @@ import com.marmitexpress.exceptions.RestauranteNotFoundException;
 import com.marmitexpress.exceptions.PedidoNotFoundException;
 import com.marmitexpress.exceptions.MarmitaNotFoundException;
 import com.marmitexpress.exceptions.ItemNotFoundException;
+import com.marmitexpress.exceptions.AcessDeniedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,5 +31,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<String> handleItemNotFoundException(ItemNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AcessDeniedException.class)
+    public ResponseEntity<String> handleAcessDeniedException(AcessDeniedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

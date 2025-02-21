@@ -11,7 +11,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tipo;
+    private String nome;
     private double preco;
     private int quantidade;
     private byte[] foto; 
@@ -22,8 +22,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(String tipo, double preco, int quantidade, byte[] foto, Restaurante restaurante) {
-        this.tipo = tipo;
+    public Item(String nome, double preco, int quantidade, byte[] foto, Restaurante restaurante) {
+        this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
         this.foto = foto;
@@ -33,11 +33,11 @@ public class Item {
     public Long getId() {
         return id;
     }
-    public String getTipo() {
-        return tipo;
+    public String getNome() {
+        return nome;
     }
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     public double getPreco() {
         return preco;
