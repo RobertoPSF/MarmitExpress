@@ -1,10 +1,5 @@
+import { Container } from './styles';
 
-import { Container } from "./styles"
-
-export default function JustifyContainer({children}:any) {
-  return (
-    <Container>
-      {children}
-    </Container>
-  )
+export default function JustifyContainer({ children }: any) {
+  return <Container>{children}</Container>;
 }

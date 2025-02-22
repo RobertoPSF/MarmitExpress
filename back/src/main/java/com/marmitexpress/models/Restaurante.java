@@ -1,5 +1,8 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Column;
@@ -10,21 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Restaurante {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Restaurante extends Usuario {
     
-    private List<Double> avaliacoes = new ArrayList<>();
-    
-    @Column(unique = true)
-    private String usuario;
-    private String senha;
-    private String nome;
-    private String endereco;
-    private String telefone;
+    @Column(nullable = false)
     private String descricao;
-    
+
     private boolean aceitandoPedidos = false;
 
     @OneToMany(mappedBy = "restaurante")
@@ -33,71 +26,41 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante")
     private List<Marmita> marmitas = new ArrayList<>();
 
-    public Restaurante() {}
+    private List<Double> avaliacoes = new ArrayList<>();
 
-    public Restaurante(String usuario, String senha, String nome, String endereco, String telefone, String descricao) {
-        this.usuario = usuario;
-        this.senha = senha;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.descricao = descricao;
+    public Restaurante() {
+        this.setRole(UsuarioRole.RESTAURANTE);
     }
 
-    public Long getId() {
-        return id;
+    public Restaurante(String nome, String email, String senha) {
+        this.setNome(nome);
+        this.setEmail(email);
+        this.setSenha(senha);
+        this.setRole(UsuarioRole.RESTAURANTE);
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
     public double getAvaliacao() {
-        double soma = 0;
-        for (double avaliacao : avaliacoes) {
-            soma += avaliacao;
-        }
-        return avaliacoes.isEmpty() ? 0 : soma / avaliacoes.size();
+        return avaliacoes.isEmpty() ? 0 : avaliacoes.stream().mapToDouble(Double::doubleValue).average().orElse(0);
     }
-    public void setAvaliacao(double avaliacao) {
+
+    public void adicionarAvaliacao(double avaliacao) {
         this.avaliacoes.add(avaliacao);
     }
-    public String getUsuario() {
-        return usuario;
-    }
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public String getEndereco() {
-        return endereco;
-    }
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-    public String getTelefone() {
-        return telefone;
-    }
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+
     public boolean isAceitandoPedidos() {
         return aceitandoPedidos;
     }
+
     public void setAceitandoPedidos(boolean aceitandoPedidos) {
         this.aceitandoPedidos = aceitandoPedidos;
     }
+
     public List<Item> getListaDeItens() {
         return listaDeItens;
+    }
+
+    public void setListaDeItens(List<Item> itens) {
+        this.listaDeItens = itens;
     }
     public void setListaDeItens(Item item) {
         if (this.listaDeItens == null) {
@@ -121,4 +84,8 @@ public class Restaurante {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

@@ -18,14 +18,14 @@ public class Pedido {
     private double preco;
     
     @ManyToOne
-    private Cliente usuario;
+    private Cliente cliente;
     
     private String endereco;
 
-    public Pedido(Restaurante restaurante, double preco, Cliente usuario, String endereco) {
+    public Pedido(Restaurante restaurante, double preco, Cliente cliente, String endereco) {
         this.restaurante = restaurante;
         this.preco = preco;
-        this.usuario = usuario;
+        this.cliente = cliente;
         this.endereco = endereco;
     }
 
@@ -44,11 +44,11 @@ public class Pedido {
     public void setPreco(double preco) {
         this.preco = preco;
     }
-    public Cliente getUsuario() {
-        return usuario;
+    public Cliente getCliente() {
+        return cliente;
     }
-    public void setUsuario(Cliente usuario) {
-        this.usuario = usuario;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
     public String getEndereco() {
         return endereco;

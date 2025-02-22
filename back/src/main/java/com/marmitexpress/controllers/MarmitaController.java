@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/marmitas")
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")  // Injetando a variável de ambiente
 public class MarmitaController {
 
     @Autowired
@@ -39,10 +41,14 @@ public class MarmitaController {
     }
 
     @GetMapping("/{id}")
+<<<<<<< HEAD
     public ResponseEntity<Marmita> buscarMarmitaPorId(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
         if (interceptor.checkAuthorization(authorizationHeader)) {
             return ResponseEntity.status(401).body(null);
         }
+=======
+    public ResponseEntity<Marmita> buscarMarmitaPorId(@PathVariable Long id) {
+>>>>>>> main
         Optional<Marmita> marmita = marmitaService.buscarMarmitaPorId(id);
         return marmita.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -31,11 +31,7 @@ public class MarmitaServiceTest {
 
     @Test
     public void testCriarMarmita() {
-        Marmita marmita = new Marmita();
-        marmita.setNome("Marmita Tradicional");
-        marmita.setPreco(25.0);
-        marmita.setQuantidade(1);
-        marmita.setIngredientes(Arrays.asList("Arroz", "Feijão", "Frango"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Frango"));
 
         when(marmitaRepository.save(marmita)).thenReturn(marmita);
 
@@ -47,19 +43,10 @@ public class MarmitaServiceTest {
 
     @Test
     public void testListarMarmitas() {
-        Marmita marmita1 = new Marmita();
-        marmita1.setNome("Marmita Bife");
-        marmita1.setPreco(30.0);
-        marmita1.setQuantidade(1);
-        marmita1.setIngredientes(Arrays.asList("Arroz", "Feijão", "Bife"));
-        
-        Marmita marmita2 = new Marmita();
-        marmita2.setNome("Marmita Macarrão");
-        marmita2.setPreco(28.0);
-        marmita2.setQuantidade(1);
-        marmita2.setIngredientes(Arrays.asList("Macarrão", "Carne Moída", "Queijo"));
-        
-        List<Marmita> marmitas = Arrays.asList(marmita1, marmita2);
+        List<Marmita> marmitas = Arrays.asList(
+            new Marmita("Marmita Bife", 30.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Bife")),
+            new Marmita("Marmita Macarrão", 28.0, 1, null, null, Arrays.asList("Macarrão", "Carne Moída", "Queijo"))
+        );
 
         when(marmitaRepository.findAll()).thenReturn(marmitas);
 
@@ -70,11 +57,7 @@ public class MarmitaServiceTest {
 
     @Test
     public void testBuscarMarmitaPorId_Existe() {
-        Marmita marmita = new Marmita();
-        marmita.setNome("Marmita Tradicional");
-        marmita.setPreco(25.0);
-        marmita.setQuantidade(1);
-        marmita.setIngredientes(Arrays.asList("Arroz", "Feijão", "Frango"));
+        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, Arrays.asList("Arroz", "Feijão", "Frango"));
         when(marmitaRepository.findById(1L)).thenReturn(Optional.of(marmita));
 
         Optional<Marmita> resultado = marmitaService.buscarMarmitaPorId(1L);
