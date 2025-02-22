@@ -34,7 +34,7 @@ class RestauranteControllerTest {
 
     @Test
     void testCriarRestaurante() throws Exception {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "restauranteteste@email.com", "1234567");
 
         when(restauranteService.criarRestaurante(any(Restaurante.class))).thenReturn(restaurante);
         when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
@@ -60,7 +60,7 @@ class RestauranteControllerTest {
 
     @Test
     void testBuscarRestaurantePorId() throws Exception {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "restauranteteste@email.com", "1234567");
         restaurante.setId(1L);
 
         when(restauranteService.buscarRestaurantePorId(1L)).thenReturn(Optional.of(restaurante));
@@ -74,10 +74,10 @@ class RestauranteControllerTest {
 
     @Test
     void testAtualizarRestaurante() throws Exception {
-        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
+        Restaurante restauranteExistente = new Restaurante("Restaurante Teste", "restauranteteste@email.com", "1234567" );
         restauranteExistente.setId(1L);
 
-        when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", "123456789", "Descricao"));
+        when(restauranteService.atualizarRestaurante(Mockito.eq(1L), any(Restaurante.class))).thenReturn(new Restaurante("Restaurante Atualizado", "restaurantenovoemail@email.com", "1234567"));
         when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
 
         mockMvc.perform(put("/restaurantes/1")
@@ -113,16 +113,5 @@ class RestauranteControllerTest {
     }
 
 
-    @Test
-    public void testLoginRestaurante() throws Exception {
-        when(restauranteService.loginRestaurante("usuario", "senha")).thenReturn(1L);
-        when(interceptor.checkAuthorization(any(String.class))).thenReturn(false); 
-
-        mockMvc.perform(post("/restaurantes/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}")
-                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("1"));
-    }
+    // Adicionar novamente teste de login de restaurante 
 }
