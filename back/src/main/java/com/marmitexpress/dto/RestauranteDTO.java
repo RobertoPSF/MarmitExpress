@@ -1,26 +1,29 @@
 package com.marmitexpress.dto;
-import com.marmitexpress.models.Item;
-import com.marmitexpress.models.Marmita;
+
 import java.util.List;
 
+import com.marmitexpress.models.Item;
 
 public class RestauranteDTO {
     private String avaliacao;
     private String usuario;
-    private String nome;
-    private String email;
     private String senha;
+    private String nome;
+    private String endereco;
+    private String telefone;
     private List<Item> listaDeItens;
-    private List<Marmita> marmitas;
-    private List<Double> avaliacoes;
+    private byte[] foto;
     private boolean aceitandoPedidos;
-    private String descricao;
 
-    public RestauranteDTO(String usuario, String nome, String email, String senha) {
+    public RestauranteDTO(String avaliacao, String usuario, String senha, String nome, String endereco, byte[] foto, String telefone, boolean aceitandoPedidos) {
+        this.avaliacao = avaliacao;
         this.usuario = usuario;
-        this.nome = nome;
-        this.email = email;
         this.senha = senha;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.foto = foto;
+        this.telefone = telefone;
+        this.aceitandoPedidos = aceitandoPedidos;
     }
 
     public String getAvaliacao() {
@@ -35,24 +38,35 @@ public class RestauranteDTO {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
     public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getEmail() {
-        return email;
+    public String getEndereco() {
+        return endereco;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
-    public String getSenha() {
-        return senha;
+    public byte[] getFoto() {
+        return foto;
     }
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+    public String getTelefone() {
+        return telefone;
+    }
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
     public boolean isAceitandoPedidos() {
         return aceitandoPedidos;
@@ -60,44 +74,19 @@ public class RestauranteDTO {
     public void setAceitandoPedidos(boolean aceitandoPedidos) {
         this.aceitandoPedidos = aceitandoPedidos;
     }
-    public String getDescricao() {
-        return descricao;
-    }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-    public List<Item> getListaDeItens() {
-        return listaDeItens;
-    }
-    public void setListaDeItens(List<Item> listaDeItens) {
-        this.listaDeItens = listaDeItens;
-    }
-    public List<Marmita> getMarmitas() {
-        return marmitas;
-    }
-    public void setMarmitas(List<Marmita> marmitas) {
-        this.marmitas = marmitas;
-    }
-    public List<Double> getAvaliacoes() {
-        return avaliacoes;
-    }
-    public void setAvaliacoes(List<Double> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
 
     @Override
     public String toString() {
         return "RestauranteDTO{" +
-                "nome='" + nome + '\'' +
+                "foto=" + foto +
+                ", nome='" + nome + '\'' +
                 ", usuario='" + usuario + '\'' +
-                ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
                 ", avaliacao='" + avaliacao + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", telefone='" + telefone + '\'' +
                 ", aceitandoPedidos=" + aceitandoPedidos +
-                ", descricao='" + descricao + '\'' +
                 ", itens=" + listaDeItens +
-                ", marmitas=" + marmitas +
-                ", avaliacoes=" + avaliacoes +
                 '}';
     }
 }
