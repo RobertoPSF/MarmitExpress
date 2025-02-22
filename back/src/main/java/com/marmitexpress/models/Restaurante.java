@@ -84,8 +84,4 @@ public class Restaurante extends Usuario {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main

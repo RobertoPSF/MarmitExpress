@@ -1,9 +1,5 @@
 package com.marmitexpress.controllers;
 
-<<<<<<< HEAD
-import com.marmitexpress.dto.LoginDTO;
-=======
->>>>>>> main
 import com.marmitexpress.models.Avaliacao;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.security.Interceptor;
@@ -68,14 +64,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}/avaliacao")
-<<<<<<< HEAD
-    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-=======
     public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest) {
->>>>>>> main
         Double avaliacao = avaliacaoRequest.getAvaliacao();
         String mensagem = restauranteService.registrarAvaliacao(id, avaliacao);
         return ResponseEntity.ok(mensagem);
@@ -86,16 +75,4 @@ public class RestauranteController {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
     }
-<<<<<<< HEAD
-
-    @PostMapping("/login")
-    public ResponseEntity<Long> loginRestaurante(@RequestBody LoginDTO loginDTO, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Long id = restauranteService.loginRestaurante(loginDTO.getUsuario(), loginDTO.getSenha());
-        return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
-    }
-=======
->>>>>>> main
 }
