@@ -30,7 +30,7 @@ public class RestauranteController {
 
     @GetMapping("/me")
     public ResponseEntity<Restaurante> buscarMeuPerfil() {
-        String email = tokenService.validateToken(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
         if (restaurante != null) {
             return ResponseEntity.ok(restaurante);
@@ -40,7 +40,7 @@ public class RestauranteController {
 
     @PutMapping("/me")
     public ResponseEntity<Restaurante> atualizarPerfil(@RequestBody Restaurante restauranteAtualizado) {
-        String email = tokenService.validateToken(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
         
         if (restauranteExistente != null) {

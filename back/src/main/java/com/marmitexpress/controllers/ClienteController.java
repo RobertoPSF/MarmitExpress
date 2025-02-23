@@ -29,7 +29,7 @@ public class ClienteController {
 
     @GetMapping("/me")
     public ResponseEntity<Cliente> buscarMeuPerfil() {
-        String email = tokenService.validateToken(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
         if (cliente != null) {
             return ResponseEntity.ok(cliente);
@@ -39,7 +39,7 @@ public class ClienteController {
 
     @PutMapping("/me")
     public ResponseEntity<Cliente> atualizarPerfil(@RequestBody Cliente clienteAtualizado) {
-        String email = tokenService.validateToken(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente clienteExistente = clienteService.buscarClientePorEmail(email);
         
         if (clienteExistente != null) {
