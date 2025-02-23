@@ -60,7 +60,6 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDto data) {
         Optional<Usuario> existingUser = usuarioRepository.findByEmail(data.email());
-
         if (existingUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado.");
         }
@@ -69,16 +68,17 @@ public class AuthenticationController {
         
         Usuario newUsuario;
         if (data.role() == UsuarioRole.CLIENTE) {
-            newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword);
+            newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
-            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword);
+            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido.");
         }
-
+        System.out.println(newUsuario);
         usuarioRepository.save(newUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso.");
     }
+    
 
 
 
