@@ -5,18 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
 public class Restaurante extends Usuario {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false)
     private String descricao;
 
     private boolean aceitandoPedidos = false;
@@ -37,13 +28,15 @@ public class Restaurante extends Usuario {
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
-    public Restaurante(String nome, String email, String senha) {
+    public Restaurante(String nome, String email, String senha, String endereco, String telefone) {
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
         this.setRole(UsuarioRole.RESTAURANTE);
+        this.setEndereco(endereco);
+        this.setTelefone(telefone);
     }
-    
+
     public double getAvaliacao() {
         return avaliacoes.isEmpty() ? 0 : avaliacoes.stream().mapToDouble(Double::doubleValue).average().orElse(0);
     }

@@ -5,7 +5,6 @@ import com.marmitexpress.models.Pagamento;
 import com.marmitexpress.services.ClienteService;
 import com.marmitexpress.services.PagamentoService;
 import com.marmitexpress.services.QrCodeService;
-import com.marmitexpress.services.TokenService;
 import org.springframework.http.MediaType;
 import java.util.Base64;
 
@@ -26,9 +25,6 @@ public class ClienteController {
     
     @Autowired
     private PagamentoService pagamentoService;
-
-    @Autowired
-    private TokenService tokenService;
     
     @Autowired
     private QrCodeService qrCodeService;

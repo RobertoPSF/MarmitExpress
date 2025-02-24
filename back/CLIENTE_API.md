@@ -1,5 +1,9 @@
 # CLIENTE API Documentation
 
+## Authentication
+All endpoints except `/clientes/login` require a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
 ## 1. Create Client
 - **HTTP Method:** POST
 - **Content-Type:** application/json
@@ -15,13 +19,12 @@
   }
   ```
 - **Response:**
-  - **Status:** 200 OK
+  - **Status:** 201 Created
   - **Body:**
   ```json
   {
     "id": long,
     "usuario": "string",
-    "senha": "string",
     "endereco": "string",
     "nome": "string",
     "telefone": "string",
@@ -38,14 +41,13 @@
   ```json
   [
     {
-    "id": long,
-    "usuario": "string",
-    "senha": "string",
-    "endereco": "string",
-    "nome": "string",
-    "telefone": "string",
-    "listaDePedidos": null
-  }
+      "id": long,
+      "usuario": "string",
+      "endereco": "string",
+      "nome": "string",
+      "telefone": "string",
+      "listaDePedidos": null
+    }
     ...
   ]
   ```
@@ -72,7 +74,6 @@
   {
     "id": long,
     "usuario": "string",
-    "senha": "string",
     "endereco": "string",
     "nome": "string",
     "telefone": "string",
@@ -96,7 +97,7 @@
   ```json
   {
     "usuario": "string",
-    "senha": "string",
+    "senha": "string"
   }
   ```
 - **Response:**
@@ -104,7 +105,8 @@
   - **Body:**
   ```json
   {
-    "id": 1
+    "token": "string",
+    "expiresIn": 3600
   }
   ```
   - **Status:** 401 Unauthorized (if login fails)
