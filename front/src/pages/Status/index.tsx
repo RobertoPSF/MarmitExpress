@@ -1,5 +1,6 @@
 import { Container, Response, StatusColumn } from './styles';
 import { useEffect, useState } from 'react';
+import HealthService from '../../services/HealthService';
 
 export default function Status() {
   const [statusMessage, setStatusMessage] = useState<string>('Carregando...');
@@ -7,23 +8,17 @@ export default function Status() {
 
   useEffect(() => {
     const fetchStatus = async () => {
+      const healthService = new HealthService();
+
       try {
-        const response = await fetch('http://localhost:8080/health', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await healthService.checkHealth();
 
-        const text = await response.text();
-
-        if (response.status !== 200) {
+        if (response && response.status === 200) {
+          setStatusMessage('Site funcionando corretamente');
+          setIsError(false);
+        } else {
           setStatusMessage('Erro ao obter status do site');
           setIsError(true);
-          console.error(text);
-        } else {
-          setStatusMessage(text || 'Site funcionando corretamente');
-          setIsError(false);
         }
       } catch (error) {
         setStatusMessage('Erro ao conectar com o servidor');
@@ -39,7 +34,7 @@ export default function Status() {
     <Container>
       <StatusColumn>
         <div>
-          Health:<Response $isError={isError}>{statusMessage}</Response>
+          Health: <Response $isError={isError}>{statusMessage}</Response>
         </div>
       </StatusColumn>
     </Container>
