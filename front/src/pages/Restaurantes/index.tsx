@@ -1,43 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
 import { NavLink } from 'react-router-dom';
-
-const restaurantesMock = [
-  {
-    id: 1,
-    nome: 'Pizza Express',
-    area: 'Centro',
-    preco: 30,
-    cozinha: 'Italiana',
-    tempo: 30,
-  },
-  {
-    id: 2,
-    nome: 'Sushi Place',
-    area: 'Zona Sul',
-    preco: 50,
-    cozinha: 'Japonesa',
-    tempo: 45,
-  },
-  {
-    id: 3,
-    nome: 'Burger King',
-    area: 'Norte',
-    preco: 20,
-    cozinha: 'Fast Food',
-    tempo: 25,
-  },
-  {
-    id: 4,
-    nome: 'Spaghetti House',
-    area: 'Centro',
-    preco: 40,
-    cozinha: 'Italiana',
-    tempo: 35,
-  },
-];
+import RestaurantService from '../../services/RestauranteService';
 
 export default function Restaurantes() {
   const [filtros, setFiltros] = useState({
@@ -46,23 +12,47 @@ export default function Restaurantes() {
     precoMax: 999,
     cozinha: '',
   });
+  const [restaurantes, setRestaurantes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const filteredRestaurants = restaurantesMock.filter((r) => {
+  const restaurantService = new RestaurantService();
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      setIsLoading(true);
+      const response = await restaurantService.getRestaurants();
+      if (response && response.status === 200) {
+        setRestaurantes(response.data);
+      } else {
+        setError('Erro ao carregar restaurantes');
+      }
+      setIsLoading(false);
+    };
+
+    fetchRestaurants();
+  }, []);
+
+  // Filtra os restaurantes de acordo com os filtros aplicados
+  const filteredRestaurants = restaurantes.filter((r) => {
     return (
-      (!filtros.area || r.area === filtros.area) &&
-      (!filtros.cozinha || r.cozinha === filtros.cozinha) &&
+      (!filtros.area || r.endereco.includes(filtros.area)) &&
+      (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
       r.preco >= (filtros.precoMin || 0) &&
       r.preco <= (filtros.precoMax || 999)
     );
   });
+
+  if (isLoading) return <p>Carregando restaurantes...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <Container>
       <SidebarFiltros setFiltros={setFiltros} />
       <DivRestaurantes>
         {filteredRestaurants.map((restaurante) => (
-          <NavLink to={'/restaurante/' + restaurante.id}>
-            <CardRestaurante key={restaurante.id} dados={restaurante} />
+          <NavLink key={restaurante.id} to={`/restaurante/${restaurante.id}`}>
+            <CardRestaurante dados={restaurante} />
           </NavLink>
         ))}
       </DivRestaurantes>
