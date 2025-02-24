@@ -1,5 +1,6 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -7,7 +8,6 @@ import java.util.List;
 
 @Entity
 public class Restaurante extends Usuario {
-
     private String descricao;
 
     private boolean aceitandoPedidos = false;
@@ -19,8 +19,12 @@ public class Restaurante extends Usuario {
     private List<Marmita> marmitas = new ArrayList<>();
 
     private List<Double> avaliacoes = new ArrayList<>();
+    
+    @Column(unique = true, nullable = true, length = 77)
+    private String chavePix;
 
     public Restaurante() {
+
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
@@ -56,13 +60,19 @@ public class Restaurante extends Usuario {
     public void setListaDeItens(List<Item> itens) {
         this.listaDeItens = itens;
     }
+    public void setListaDeItens(Item item) {
+        if (this.listaDeItens == null) {
+            this.listaDeItens = new ArrayList<>();
+        }
+        this.listaDeItens.add(item);
+    }
 
     public List<Marmita> getMarmitas() {
         return marmitas;
     }
 
-    public void setMarmitas(List<Marmita> marmitas) {
-        this.marmitas = marmitas;
+    public void setMarmitas(Marmita marmita) {
+        this.marmitas.add(marmita);
     }
 
     public String getDescricao() {
@@ -72,4 +82,13 @@ public class Restaurante extends Usuario {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public String getChavePix() {
+        return chavePix;
+    }
+
+    public void setChavePix(String chavePix) {
+        this.chavePix = chavePix;
+    }
+
 }

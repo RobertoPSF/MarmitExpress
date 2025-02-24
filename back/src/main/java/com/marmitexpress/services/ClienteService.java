@@ -31,9 +31,8 @@ public class ClienteService {
         if (clienteExistente.isPresent()) {
             Cliente cliente = clienteExistente.get();
             cliente.setSenha(clienteAtualizado.getSenha());
-            cliente.setEndereco(clienteAtualizado.getEndereco());
             cliente.setNome(clienteAtualizado.getNome());
-            cliente.setTelefone(clienteAtualizado.getTelefone());
+            cliente.setEmail(clienteAtualizado.getEmail());
             return clienteRepository.save(cliente);
         } else {
             return null;  // ou lançar uma exceção
