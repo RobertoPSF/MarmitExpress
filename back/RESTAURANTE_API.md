@@ -1,5 +1,9 @@
 # RESTAURANTE API Documentation
 
+## Authentication
+All endpoints except `/restaurantes/login` require a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
 ## 1. Create Restaurant
 - **HTTP Method:** POST
 - **Content-Type:** application/json
@@ -12,17 +16,16 @@
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
-    "descricao": "string",
+    "descricao": "string"
   }
   ```
 - **Response:**
-  - **Status:** 200 OK
+  - **Status:** 201 Created
   - **Body:**
   ```json
   {
     "id": long,
     "usuario": "string",
-    "senha": "string",
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
@@ -41,15 +44,14 @@
   ```json
   [
     {
-        "id": long,
-        "usuario": "string",
-        "senha": "string",
-        "nome": "string",
-        "endereco": "string",
-        "telefone": "string",
-        "descricao": "string",
-        "aceitandoPedidos": true,
-        "avaliacoes": []
+      "id": long,
+      "usuario": "string",
+      "nome": "string",
+      "endereco": "string",
+      "telefone": "string",
+      "descricao": "string",
+      "aceitandoPedidos": true,
+      "avaliacoes": []
     },
     ...
   ]
@@ -66,7 +68,6 @@
   {
     "id": long,
     "usuario": "string",
-    "senha": "string",
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
@@ -90,7 +91,7 @@
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
-    "descricao": "string",
+    "descricao": "string"
   }
   ```
 - **Response:**
@@ -100,7 +101,6 @@
   {
     "id": long,
     "usuario": "string",
-    "senha": "string",
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
@@ -152,7 +152,8 @@
   - **Body:**
   ```json
   {
-    "id": 1
+    "token": "string",
+    "expiresIn": 3600
   }
   ```
   - **Status:** 401 Unauthorized (if login fails)

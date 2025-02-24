@@ -2,7 +2,6 @@ package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Cliente;
 import com.marmitexpress.services.ClienteService;
-import com.marmitexpress.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +16,6 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
-
-    @Autowired
-    private TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<List<Cliente>> listarClientes() {
