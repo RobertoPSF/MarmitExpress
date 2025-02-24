@@ -15,12 +15,14 @@ public class Cliente extends Usuario {
         this.setRole(UsuarioRole.CLIENTE);
     }
 
-    public Cliente(String nome, String email, String senha) {
+    public Cliente(String nome, String email, String senha, String endereco, String telefone) {
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
         this.setRole(UsuarioRole.CLIENTE);
-    }    
+        this.setEndereco(endereco);
+        this.setTelefone(telefone);
+    }
 
     public List<Pedido> getListaDePedidos() {
         return listaDePedidos;

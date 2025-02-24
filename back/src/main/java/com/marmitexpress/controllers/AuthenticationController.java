@@ -45,17 +45,21 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDto data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = authenticationManager.authenticate(usernamePassword);
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+            var auth = authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDto(token));
+            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            return ResponseEntity.ok(new LoginResponseDto(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro na autenticação: " + e.getMessage());
+        }
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDto data) {
         Optional<Usuario> existingUser = usuarioRepository.findByEmail(data.email());
-
         if (existingUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado.");
         }
@@ -64,16 +68,17 @@ public class AuthenticationController {
         
         Usuario newUsuario;
         if (data.role() == UsuarioRole.CLIENTE) {
-            newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword);
+            newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
-            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword);
+            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido.");
         }
-
+        System.out.println(newUsuario);
         usuarioRepository.save(newUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso.");
     }
+    
 
 
 

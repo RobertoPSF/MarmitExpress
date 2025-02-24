@@ -1,15 +1,15 @@
 package com.marmitexpress.dto;
 
 public class LoginDTO {
-    private String usuario;
+    private String email;
     private String senha;
 
     public String getUsuario() {
-        return usuario;
+        return email;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setUsuario(String email) {
+        this.email = email;
     }
 
     public String getSenha() {

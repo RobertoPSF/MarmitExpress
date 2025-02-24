@@ -1,5 +1,9 @@
 # PEDIDO API Documentation
 
+## Authentication
+All endpoints require a valid JWT token in the Authorization header:
+`Authorization: Bearer <token>`
+
 ## 1. Create Order
 - **HTTP Method:** POST
 - **Content-Type:** application/json

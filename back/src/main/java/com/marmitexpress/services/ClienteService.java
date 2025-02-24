@@ -22,8 +22,8 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Optional<Cliente> buscarClientePorId(Long id) {
-        return clienteRepository.findById(id);
+    public Cliente buscarClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email).orElse(null);  // Busca o cliente pelo email
     }
 
     public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
@@ -36,8 +36,7 @@ public class ClienteService {
             cliente.setTelefone(clienteAtualizado.getTelefone());
             return clienteRepository.save(cliente);
         } else {
-            // Lidar com o caso em que o cliente não é encontrado
-            return null; // ou lançar uma exceção
+            return null;  // ou lançar uma exceção
         }
     }
 
