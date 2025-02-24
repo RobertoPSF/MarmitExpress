@@ -5,12 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Restaurante extends Usuario {
@@ -31,8 +28,12 @@ public class Restaurante extends Usuario {
     private List<Marmita> marmitas = new ArrayList<>();
 
     private List<Double> avaliacoes = new ArrayList<>();
+    
+    @Column(unique = true, nullable = true, length = 77)
+    private String chavePix;
 
     public Restaurante() {
+
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
@@ -88,4 +89,13 @@ public class Restaurante extends Usuario {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public String getChavePix() {
+        return chavePix;
+    }
+
+    public void setChavePix(String chavePix) {
+        this.chavePix = chavePix;
+    }
+
 }
