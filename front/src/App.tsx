@@ -1,6 +1,6 @@
 import Footer from './components/Footer';
 import JustifyContainer from './components/JustifyContainer';
-import AppRoutes from './Routes';
+import AppRoutes from './routes/Routes';
 import styled from 'styled-components';
 
 const Div = styled.div`
