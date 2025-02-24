@@ -1,3 +1,4 @@
 {
-  "API_URL": "https://marmitexpress-sc4t.onrender.com/"
+  "API_URL": "https://marmitexpress-sc4t.onrender.com",
+  "API_LOCAL": "http://localhost:8080/"
 }
