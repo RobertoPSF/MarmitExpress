@@ -47,7 +47,7 @@ public class PedidoServiceTest {
         assertNotNull(pedidoCriado);
         assertEquals(45.90, pedidoCriado.getPreco());
         assertEquals("Rua Exemplo, 123", pedidoCriado.getEndereco());
-        assertEquals(usuario, pedidoCriado.getUsuario());
+        assertEquals(usuario, pedidoCriado.getCliente());
         assertEquals(restaurante, pedidoCriado.getRestaurante());
     }
 

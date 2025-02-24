@@ -1,99 +1,61 @@
 package com.marmitexpress.controllers;
 
-<<<<<<< HEAD
-import com.marmitexpress.dto.LoginDTO;
 import com.marmitexpress.models.Cliente;
-import com.marmitexpress.security.Interceptor;
-=======
-import com.marmitexpress.models.Cliente;
->>>>>>> main
 import com.marmitexpress.services.ClienteService;
+import com.marmitexpress.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
-<<<<<<< HEAD
-public class ClienteController {
-
-    @Autowired
-    private Interceptor interceptor;
-
-    @Autowired
-    private ClienteService clienteService;
-
-    @PostMapping
-    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-=======
-@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")  // Injetando a variável de ambiente
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping
-    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
->>>>>>> main
-        Cliente novoCliente = clienteService.criarCliente(cliente);
-        return ResponseEntity.ok(novoCliente);
-    }
+    @Autowired
+    private TokenService tokenService;
 
     @GetMapping
-<<<<<<< HEAD
-    public ResponseEntity<List<Cliente>> listarClientes(@RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-=======
     public ResponseEntity<List<Cliente>> listarClientes() {
->>>>>>> main
-
         List<Cliente> clientes = clienteService.listarClientes();
         return ResponseEntity.ok(clientes);
     }
 
-    @PutMapping("/{id}")
-<<<<<<< HEAD
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
+    @GetMapping("/me")
+    public ResponseEntity<Cliente> buscarMeuPerfil() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+        if (cliente != null) {
+            return ResponseEntity.ok(cliente);
         }
-=======
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
->>>>>>> main
-        Cliente cliente = clienteService.atualizarCliente(id, clienteAtualizado);
-        return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<Cliente> atualizarPerfil(@RequestBody Cliente clienteAtualizado) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente clienteExistente = clienteService.buscarClientePorEmail(email);
+        
+        if (clienteExistente != null) {
+            clienteExistente.setNome(clienteAtualizado.getNome());
+            clienteExistente.setEndereco(clienteAtualizado.getEndereco());
+            clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+            clienteService.criarCliente(clienteExistente);
+            return ResponseEntity.ok(clienteExistente);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-<<<<<<< HEAD
-    public ResponseEntity<Void> deletarCliente(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        clienteService.deletarCliente(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Long> loginCliente(@RequestBody LoginDTO loginDTO, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Long id = clienteService.loginCliente(loginDTO.getUsuario(), loginDTO.getSenha());
-        return id != null ? ResponseEntity.ok(id) : ResponseEntity.status(401).build();
-    }
-
-=======
     public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
         clienteService.deletarCliente(id);
         return ResponseEntity.noContent().build();
     }
->>>>>>> main
 }

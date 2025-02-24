@@ -33,8 +33,9 @@ class ClienteControllerTest {
     @Test
     void testCriarCliente() throws Exception {
         Cliente cliente = new Cliente();
-        cliente.setUsuario("usuario");
+        cliente.setNome("NomeCliente");
         cliente.setSenha("senha");
+        cliente.setEmail("email");
 
         when(clienteService.criarCliente(any(Cliente.class))).thenReturn(cliente);
 
@@ -71,7 +72,8 @@ class ClienteControllerTest {
     @Test
     void testAtualizarCliente() throws Exception {
         Cliente cliente = new Cliente();
-        cliente.setUsuario("usuarioAtualizado");
+        cliente.setNome("NomeCliente");
+        cliente.setSenha("senha");
 
         when(clienteService.atualizarCliente(Mockito.eq(1L), any(Cliente.class))).thenReturn(cliente);
 
@@ -90,15 +92,4 @@ class ClienteControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    @Test
-    void testLoginCliente() throws Exception {
-        when(clienteService.loginCliente("usuario", "senha")).thenReturn(1L);
-
-        mockMvc.perform(post("/clientes/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"usuario\":\"usuario\",\"senha\":\"senha\"}")
-                        .header("Authorization", "O#~Sn]9fnojT3'OO*:W9?C4")) 
-                .andExpect(status().isOk())
-                .andExpect(content().string("1"));
-    }
 }

@@ -2,65 +2,57 @@ package com.marmitexpress.controllers;
 
 import com.marmitexpress.models.Avaliacao;
 import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.security.Interceptor;
 import com.marmitexpress.services.RestauranteService;
+import com.marmitexpress.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")
-@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")  // Injetando a variável de ambiente
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")
 public class RestauranteController {
-    
-    @Autowired
-    private Interceptor interceptor;
-    
+
     @Autowired
     private RestauranteService restauranteService;
 
-    @PostMapping
-    public ResponseEntity<Restaurante> criarRestaurante(@RequestBody Restaurante restaurante, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Restaurante novoRestaurante = restauranteService.criarRestaurante(restaurante);
-        return ResponseEntity.ok(novoRestaurante);
-    }
+    @Autowired
+    private TokenService tokenService;
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listarRestaurantes(@RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
+    public ResponseEntity<List<Restaurante>> listarRestaurantes() {
         List<Restaurante> restaurantes = restauranteService.listarRestaurantes();
         return ResponseEntity.ok(restaurantes);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Restaurante> buscarRestaurantePorId(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Optional<Restaurante> restaurante = restauranteService.buscarRestaurantePorId(id);
-        return restaurante.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable Long id, @RequestBody Restaurante restauranteAtualizado, @RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        if (interceptor.checkAuthorization(authorizationHeader)) {
-            return ResponseEntity.status(401).body(null);
-        }
-        Restaurante restaurante = restauranteService.atualizarRestaurante(id, restauranteAtualizado);
+    @GetMapping("/me")
+    public ResponseEntity<Restaurante> buscarMeuPerfil() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
         if (restaurante != null) {
             return ResponseEntity.ok(restaurante);
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<Restaurante> atualizarPerfil(@RequestBody Restaurante restauranteAtualizado) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
+        
+        if (restauranteExistente != null) {
+            restauranteExistente.setNome(restauranteAtualizado.getNome());
+            restauranteExistente.setEndereco(restauranteAtualizado.getEndereco());
+            restauranteExistente.setDescricao(restauranteAtualizado.getDescricao());
+            restauranteExistente.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
+            restauranteService.criarRestaurante(restauranteExistente); // Salva as alterações
+            return ResponseEntity.ok(restauranteExistente);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}/avaliacao")

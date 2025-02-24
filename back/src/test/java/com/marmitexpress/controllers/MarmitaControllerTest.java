@@ -33,7 +33,7 @@ class MarmitaControllerTest {
 
     @Test
     void testCriarMarmita() throws Exception {
-        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita();
         when(marmitaService.criarMarmita(any(Marmita.class))).thenReturn(marmita);
 
         mockMvc.perform(post("/marmitas")
@@ -68,7 +68,7 @@ class MarmitaControllerTest {
 
     @Test
     void testBuscarMarmitaPorId() throws Exception {
-        Marmita marmita = new Marmita("Marmita Tradicional", 25.0, 1, null, null, List.of("Arroz", "Feijão", "Carne"));
+        Marmita marmita = new Marmita();
         when(marmitaService.buscarMarmitaPorId(1L)).thenReturn(Optional.of(marmita));
 
         mockMvc.perform(get("/marmitas/1")

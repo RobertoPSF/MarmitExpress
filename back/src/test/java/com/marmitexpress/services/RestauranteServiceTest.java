@@ -38,7 +38,8 @@ public class RestauranteServiceTest {
 
     @Test
     public void testCriarRestaurante() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao");
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
+        restaurante.setDescricao("Descricao");
 
         when(restauranteRepository.save(restaurante)).thenReturn(restaurante);
 
@@ -50,7 +51,10 @@ public class RestauranteServiceTest {
     @Test
     public void testListarRestaurantes() {
         List<Restaurante> restaurantes = new ArrayList<>();
-        restaurantes.add(new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descricao"));
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
+        restaurante.setDescricao("Descricao");
+        restaurantes.add(restaurante);
+
         when(restauranteRepository.findAll()).thenReturn(restaurantes);
 
         List<Restaurante> resultado = restauranteService.listarRestaurantes();
@@ -59,8 +63,10 @@ public class RestauranteServiceTest {
 
     @Test
     public void testBuscarRestaurantePorId() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
+        restaurante.setDescricao("Descricao");
         restaurante.setId(1L);
+        
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));
 
         Optional<Restaurante> resultado = restauranteService.buscarRestaurantePorId(1L);
@@ -70,13 +76,15 @@ public class RestauranteServiceTest {
 
     @Test
     public void testAtualizarRestaurante() {
-        Restaurante restauranteExistente = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
+        Restaurante restauranteExistente = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
+        restauranteExistente.setDescricao("Descricao");
         restauranteExistente.setId(1L);
 
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restauranteExistente));
         when(restauranteRepository.save(any(Restaurante.class))).thenReturn(restauranteExistente);
 
-        Restaurante restauranteAtualizado = new Restaurante("usuario", "senha", "Restaurante Atualizado", "Endereco", "123456789", "Nova Descrição");
+        Restaurante restauranteAtualizado = new Restaurante("Restaurante Atualizado", "usuario@teste.com", "senha");
+        restauranteAtualizado.setDescricao("Nova Descricao");
 
         Restaurante resultado = restauranteService.atualizarRestaurante(1L, restauranteAtualizado);
         assertNotNull(resultado);
@@ -84,27 +92,27 @@ public class RestauranteServiceTest {
     }
 
     @Test
-public void testDeletarRestaurante() {
-    Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
-    restaurante.setId(1L);
-    
-    when(restauranteRepository.existsById(1L)).thenReturn(true);
-    doNothing().when(restauranteRepository).deleteById(1L);
-    
-    restauranteService.deletarRestaurante(1L);
-    
-    verify(restauranteRepository, times(1)).deleteById(1L);
-}
+    public void testDeletarRestaurante() {
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
+        restaurante.setId(1L);
+        
+        when(restauranteRepository.existsById(1L)).thenReturn(true);
+        doNothing().when(restauranteRepository).deleteById(1L);
+        
+        restauranteService.deletarRestaurante(1L);
+        
+        verify(restauranteRepository, times(1)).deleteById(1L);
+    }
 
     @Test
     public void testRegistrarAvaliacao() {
-        Restaurante restaurante = new Restaurante("usuario", "senha", "Restaurante Teste", "Endereco", "123456789", "Descrição");
+        Restaurante restaurante = new Restaurante("Restaurante Teste", "usuario@teste.com", "senha");
         restaurante.setId(1L);
         
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));
         
         String resultado = restauranteService.registrarAvaliacao(1L, 4.5);
-        assertEquals("Avalição registrada com sucesso", resultado);
+        assertEquals("Avaliação registrada com sucesso", resultado);
         assertEquals(4.5, restaurante.getAvaliacao());
     }
 
@@ -115,19 +123,5 @@ public void testDeletarRestaurante() {
         assertThrows(RestauranteNotFoundException.class, () -> {
             restauranteService.registrarAvaliacao(1L, 4.5);
         });
-    }
-
-    @Test
-    public void testLoginRestaurante() {
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(1L);
-        restaurante.setUsuario("usuario");
-        restaurante.setSenha("senha");
-
-        when(restauranteRepository.findByUsuario("usuario")).thenReturn(Optional.of(restaurante));
-
-        Long id = restauranteService.loginRestaurante("usuario", "senha");
-        assertNotNull(id);
-        assertEquals(restaurante.getId(), id);
     }
 }
