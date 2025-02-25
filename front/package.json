@@ -23,6 +23,7 @@
     "@iconify/react": "^5.2.0",
     "@stitches/react": "^1.2.8",
     "@types/google-fonts": "^1.0.2",
+    "axios": "^1.7.9",
     "google-fonts": "^1.0.0",
     "js-cookie": "^3.0.5",
     "react": "^19.0.0",

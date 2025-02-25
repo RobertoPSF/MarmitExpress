@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
+import AuthService from '../../../services/AuthService';
 
 interface ClienteLoginProps {
   onClose: () => void;
@@ -8,7 +9,7 @@ interface ClienteLoginProps {
 
 const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
   const [formDataLogin, setFormDataLogin] = useState({
-    usuario: '',
+    email: '',
     senha: '',
   });
 
@@ -18,19 +19,15 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
 
   const handleSubmitLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8080/restaurantes/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
-        },
-        body: JSON.stringify({
-          usuario: formDataLogin.usuario,
-          senha: formDataLogin.senha,
-        }),
+      const authService = new AuthService();
+      const response = await authService.loginUser({
+        email: formDataLogin.email,
+        senha: formDataLogin.senha,
       });
 
-      if (response.ok) {
+      if (response && response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem('authToken', token); // Armazenar token localmente
         alert('Login realizado com sucesso!');
         onClose();
       } else {
@@ -45,11 +42,11 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
   return (
     <>
       <Input
-        placeHolderContainer="Usuário"
-        name="usuario"
-        type="text"
-        placeholder="Nome de usuário"
-        value={formDataLogin.usuario}
+        placeHolderContainer="E-mail"
+        name="email"
+        type="email"
+        placeholder="Digite seu e-mail"
+        value={formDataLogin.email}
         onChange={handleChangeLogin}
       />
 
@@ -62,7 +59,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
         onChange={handleChangeLogin}
       />
 
-      <a>Esqueceu a senha?</a>
+      <a href="#">Esqueceu a senha?</a>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
