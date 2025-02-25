@@ -22,7 +22,7 @@ export const DivRestaurantes = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: min-content;
-  justify-content: space-evenly;
+  justify-content: baseline;
   gap: 2vw;
   width: 55vw;
 

@@ -6,8 +6,8 @@ interface Restaurante {
   endereco: string;
   descricao: string;
   telefone: string;
-  aceitandoPedidos: boolean;
-  avaliacoes: number[];
+  // aceitandoPedidos: boolean;
+  // avaliacoes: number[];
 }
 
 interface RestauranteCardProps {
@@ -27,10 +27,10 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
       <Img />
       <Information>
         <h3>{dados.nome}</h3>
-        <p>
+        {/* <p>
           Status: {dados.aceitandoPedidos ? 'Aceitando pedidos' : 'Fechado'}
         </p>
-        <p>Avaliação: {calcularMediaAvaliacoes(dados.avaliacoes)}</p>
+        <p>Avaliação: {calcularMediaAvaliacoes(dados.avaliacoes)}</p> */}
       </Information>
     </Container>
   );
