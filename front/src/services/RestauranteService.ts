@@ -74,22 +74,6 @@ class RestaurantService extends CoreService {
       return null;
     }
   }
-
-  // Login do restaurante
-  async login(credentials: {
-    usuario: string;
-    senha: string;
-  }): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().post(
-        `${this.baseRoute}/login`,
-        credentials,
-      );
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
 }
 
 export default RestaurantService;
