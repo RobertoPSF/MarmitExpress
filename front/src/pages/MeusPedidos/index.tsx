@@ -1,51 +1,42 @@
-import { Container, ModalContainer } from './styles';
-import Button from '../../components/Button';
-import ClienteLoginPopup from '../../components/PopUps/ClienteLoginPopUp';
+import { Container } from './styles';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function MeusPedidos() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [pedidos] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pedidos, setPedidos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-
     if (!token) {
+      navigate('/');
       return;
     }
 
-    setIsAuthenticated(true);
-  }, []);
+    // Se chegou aqui, há um token, então faça a requisição dos pedidos
+    fetch('http://localhost:8080/pedidos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    })
+      .then((retorno) => retorno.json())
+      .then((retorno_convertido) => setPedidos(retorno_convertido))
+      .catch((error) => {
+        console.error('Erro ao obter pedidos:', error);
+      });
+  }, [navigate]);
 
   return (
     <Container>
-      {!isAuthenticated ? (
-        <ModalContainer>
-          <h3>Entre na sua conta para acessar</h3>
-          <p>
-            É necessário que você entre na sua conta para ter acesso aos seus
-            pedidos!
-          </p>
-          <Button type="orange" onClick={() => setIsLoginOpen(true)}>
-            Entrar
-          </Button>
-          {isLoginOpen && (
-            <ClienteLoginPopup
-              isOpen={isLoginOpen}
-              onClose={() => setIsLoginOpen(false)}
-            />
-          )}
-        </ModalContainer>
-      ) : (
-        <div>
-          {pedidos.length > 0 ? (
-            pedidos.map((pedido) => <div>{pedido}</div>)
-          ) : (
-            <p>Você ainda não tem pedidos.</p>
-          )}
-        </div>
-      )}
+      <div>
+        {pedidos.length > 0 ? (
+          pedidos.map((pedido) => <div>{pedido}</div>)
+        ) : (
+          <p>Você ainda não tem pedidos.</p>
+        )}
+      </div>
     </Container>
   );
 }
