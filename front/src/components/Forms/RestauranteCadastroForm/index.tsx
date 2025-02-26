@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
+import AuthService from '../../../services/AuthService';
 
-// Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
-  const rawValue = value.replace(/\D/g, '').slice(0, 11); // Garante no máximo 11 números
+  const rawValue = value.replace(/\D/g, '').slice(0, 11);
 
   if (rawValue.length <= 2) {
     return `(${rawValue}`;
@@ -17,12 +17,11 @@ const formatPhoneNumber = (value: string) => {
 
 const RestauranteCadastroForm: React.FC = () => {
   const [formDataCadastro, setFormDataCadastro] = useState({
-    usuario: '',
+    email: '',
     senha: '',
     nome: '',
     endereco: '',
     telefone: '',
-    descricao: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,9 +34,8 @@ const RestauranteCadastroForm: React.FC = () => {
   };
 
   const validarFormulario = () => {
-    const { usuario, senha, nome, endereco, telefone, descricao } =
-      formDataCadastro;
-    if (!usuario || !senha || !nome || !endereco || !telefone || !descricao) {
+    const { email, senha, nome, endereco, telefone } = formDataCadastro;
+    if (!email || !senha || !nome || !endereco || !telefone) {
       alert('Todos os campos são obrigatórios.');
       return false;
     }
@@ -52,20 +50,20 @@ const RestauranteCadastroForm: React.FC = () => {
     if (!validarFormulario()) return;
 
     try {
-      const response = await fetch('http://localhost:8080/restaurantes', {
-        // Corrigido endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
-        },
-        body: JSON.stringify(formDataCadastro),
+      const authService = new AuthService();
+      const response = await authService.registerUser({
+        email: formDataCadastro.email,
+        senha: formDataCadastro.senha,
+        nome: formDataCadastro.nome,
+        endereco: formDataCadastro.endereco,
+        telefone: formDataCadastro.telefone,
+        role: 'RESTAURANTE',
       });
 
-      if (response.ok) {
+      if (response && response.status === 201) {
         alert('Cadastro realizado com sucesso!');
       } else {
-        const errorMessage = await response.text();
+        const errorMessage = await response?.statusText;
         alert(`Erro ao cadastrar: ${errorMessage}`);
       }
     } catch (error) {
@@ -85,11 +83,11 @@ const RestauranteCadastroForm: React.FC = () => {
       />
 
       <Input
-        name="usuario"
-        placeholder="username"
-        value={formDataCadastro.usuario}
+        name="endereco"
+        placeholder="Rua Exemplo, 123"
+        value={formDataCadastro.endereco}
         onChange={handleChangeCadastro}
-        placeHolderContainer="Username"
+        placeHolderContainer="Endereço"
       />
 
       <Input
@@ -101,19 +99,11 @@ const RestauranteCadastroForm: React.FC = () => {
       />
 
       <Input
-        name="descricao"
-        placeholder="Comida caseira"
-        value={formDataCadastro.descricao}
+        name="email"
+        placeholder="email@restaurante.com"
+        value={formDataCadastro.email}
         onChange={handleChangeCadastro}
-        placeHolderContainer="Descrição"
-      />
-
-      <Input
-        name="endereco"
-        placeholder="Rua Exemplo, 123"
-        value={formDataCadastro.endereco}
-        onChange={handleChangeCadastro}
-        placeHolderContainer="Endereço"
+        placeHolderContainer="Email"
       />
 
       <Input

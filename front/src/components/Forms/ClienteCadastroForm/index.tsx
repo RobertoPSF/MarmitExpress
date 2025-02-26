@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
+import AuthService from '../../../services/AuthService'; // Importando o AuthService
 
 // Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
-  // Remove qualquer caractere não numérico
   const rawValue = value.replace(/\D/g, '');
-
-  // Aplica o formato da máscara (exemplo: (00) 90000-0000)
   if (rawValue.length <= 2) {
     return `(${rawValue}`;
   } else if (rawValue.length <= 6) {
@@ -27,7 +25,6 @@ interface ClienteCadastroProps {
 const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   const [formDataCadastro, setFormDataCadastro] = useState({
     telefone: '',
-    usuario: '',
     nome: '',
     senha: '',
     email: '',
@@ -37,7 +34,6 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // Se o campo for telefone, aplica a máscara
     if (name === 'telefone') {
       setFormDataCadastro({
         ...formDataCadastro,
@@ -50,24 +46,19 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
 
   const handleSubmitCadastro = async () => {
     try {
-      const response = await fetch('http://localhost:8080/clientes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
-        },
-        body: JSON.stringify({
-          usuario: formDataCadastro.usuario,
-          senha: formDataCadastro.senha,
-          endereco: formDataCadastro.endereco,
-          nome: formDataCadastro.nome,
-          telefone: formDataCadastro.telefone,
-        }),
+      const authService = new AuthService();
+      const response = await authService.registerUser({
+        nome: formDataCadastro.nome,
+        email: formDataCadastro.email,
+        senha: formDataCadastro.senha,
+        endereco: formDataCadastro.endereco,
+        telefone: formDataCadastro.telefone,
+        role: 'CLIENTE',
       });
 
-      if (response.ok) {
+      if (response && response.status === 201) {
         alert('Cadastro realizado com sucesso!');
-        onClose(); // Chamando o onClose para fechar o pop-up após o cadastro
+        onClose();
       } else {
         alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
       }
@@ -88,11 +79,11 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
       />
 
       <Input
-        name="usuario"
-        placeholder="username"
-        value={formDataCadastro.usuario}
+        name="endereco"
+        placeholder="Rua Exemplo, 123"
+        value={formDataCadastro.endereco}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Username'}
+        placeHolderContainer="Endereço"
       />
 
       <Input
@@ -100,7 +91,7 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
         placeholder="Seu nome"
         value={formDataCadastro.nome}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Nome'}
+        placeHolderContainer="Nome"
       />
 
       <Input
@@ -108,15 +99,7 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
         placeholder="user@gmail.com"
         value={formDataCadastro.email}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Email'}
-      />
-
-      <Input
-        name="endereco"
-        placeholder="Rua Exemplo, 123"
-        value={formDataCadastro.endereco}
-        onChange={handleChangeCadastro}
-        placeHolderContainer={'Endereço'}
+        placeHolderContainer="Email"
       />
 
       <Input
@@ -125,7 +108,7 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
         placeholder="******"
         value={formDataCadastro.senha}
         onChange={handleChangeCadastro}
-        placeHolderContainer={'Senha'}
+        placeHolderContainer="Senha"
       />
 
       <Button type={'orange'} onClick={handleSubmitCadastro}>

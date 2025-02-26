@@ -1,41 +1,37 @@
-import { Container, Imagem, Presente, Verificado, StyledIcon } from './styles';
+import { Container, Img, Information } from './styles';
 
 interface Restaurante {
+  id: number;
   nome: string;
-  imagem: string;
-  estrelas: number;
-  horario: string;
-  fidelidade: boolean;
+  endereco: string;
+  descricao: string;
+  telefone: string;
+  // aceitandoPedidos: boolean;
+  // avaliacoes: number[];
 }
 
-export default function RestauranteCard() {
-  const restaurante: Restaurante = {
-    nome: 'Casa Galiotto',
-    imagem: 'URL da Imagem',
-    estrelas: 4.4,
-    horario: 'Aberto das 10h as 13h',
-    fidelidade: true,
+interface RestauranteCardProps {
+  dados: Restaurante;
+}
+
+export default function RestauranteCard({ dados }: RestauranteCardProps) {
+  // Calcula a média das avaliações
+  const calcularMediaAvaliacoes = (avaliacoes: number[]) => {
+    if (avaliacoes.length === 0) return 'Sem avaliações';
+    const total = avaliacoes.reduce((acc, nota) => acc + nota, 0);
+    return (total / avaliacoes.length).toFixed(1);
   };
 
   return (
     <Container>
-      <div className="mainContainer">
-        <Imagem />
-        <div>
-          <p id="nomeRestaurante">{restaurante.nome}</p>
-          <div className="avaliacao">
-            <StyledIcon icon={'emojione:star'} />
-            <p>{restaurante.estrelas}</p>
-          </div>
-          <p id="horarioFuncionamento">{restaurante.horario}</p>
-
-          <div className="programaFidelidade">
-            <Presente />
-            <p>Programa de Fidelidade</p>
-            <Verificado />
-          </div>
-        </div>
-      </div>
+      <Img />
+      <Information>
+        <h3>{dados.nome}</h3>
+        {/* <p>
+          Status: {dados.aceitandoPedidos ? 'Aceitando pedidos' : 'Fechado'}
+        </p>
+        <p>Avaliação: {calcularMediaAvaliacoes(dados.avaliacoes)}</p> */}
+      </Information>
     </Container>
   );
 }

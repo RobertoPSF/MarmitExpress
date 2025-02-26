@@ -4,15 +4,16 @@ export const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
   h1 {
     text-align: center;
   }
   justify-content: center;
   margin-bottom: 50px;
-  margin-top: 20.5vh;
+  margin-top: 17.5vh;
   padding-top: 40px;
   width: 100%;
+  height: max-content;
 `;
 
 export const Content = styled.div`
@@ -27,5 +28,5 @@ export const Content = styled.div`
 
 export const Hr = styled.hr`
   color: black;
-  width: 60vw;
+  width: 70vw;
 `;
