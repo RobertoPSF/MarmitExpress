@@ -37,6 +37,19 @@ class AuthService extends CoreService {
       return null;
     }
   }
+
+  async recuperarSenha(data: { email: string }): Promise<AxiosResponse | null> {
+    try {
+      const response = await this.getApi().post(
+        `${this.baseRoute}/recuperar-senha`,
+        data,
+      );
+      return response;
+    } catch (error) {
+      return null;
+    }
+  }
+
 }
 
 export default AuthService;
