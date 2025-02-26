@@ -1,24 +1,20 @@
 import { Container } from './styles';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 
 export default function MeusPedidos() {
+  useAuthRedirect();
+
   const [pedidos, setPedidos] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    if (!token) {
-      navigate('/');
-      return;
-    }
 
-    // Se chegou aqui, há um token, então faça a requisição dos pedidos
     fetch('http://localhost:8080/pedidos', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((retorno) => retorno.json())
@@ -26,13 +22,13 @@ export default function MeusPedidos() {
       .catch((error) => {
         console.error('Erro ao obter pedidos:', error);
       });
-  }, [navigate]);
+  }, []);
 
   return (
     <Container>
       <div>
         {pedidos.length > 0 ? (
-          pedidos.map((pedido) => <div>{pedido}</div>)
+          pedidos.map((pedido) => <div key={pedido.id}>{pedido.nome}</div>)
         ) : (
           <p>Você ainda não tem pedidos.</p>
         )}
