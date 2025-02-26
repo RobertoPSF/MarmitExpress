@@ -5,9 +5,10 @@ import AuthService from '../../../services/AuthService';
 
 interface ClienteLoginProps {
   onClose: () => void;
+  onForgotPassword: () => void;
 }
 
-const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
+const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose, onForgotPassword }) => {
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -59,7 +60,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
         onChange={handleChangeLogin}
       />
 
-      <a href="#">Esqueceu a senha?</a>
+      <a href="#" onClick={onForgotPassword}>Esqueceu a senha?</a>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar

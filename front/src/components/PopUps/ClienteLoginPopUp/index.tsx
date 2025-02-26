@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PopUpComponent from '../PopUp';
 import Button from '../../Button';
 import { ContentPopup } from './styles';
-import { ClienteLoginForm, ClienteCadastroForm } from '../../Forms';
+import { ClienteLoginForm, ClienteCadastroForm, ClienteRecuperacaoForm } from '../../Forms';
 
 interface PopUpProps {
   isOpen: boolean;
@@ -11,6 +11,7 @@ interface PopUpProps {
 
 const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
   const [isLoginForm, setIsLoginForm] = useState(true); // Estado para alternar entre login e cadastro
+  const [isForgotPassword, setIsForgotPassword] = useState(false); // Estado para alternar para recuperação de senha
 
   const handleOpenRegister = () => {
     setIsLoginForm(false); // Altera para o formulário de cadastro
@@ -18,6 +19,11 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
 
   const handleGoBackToLogin = () => {
     setIsLoginForm(true); // Volta para o formulário de login
+    setIsForgotPassword(false); // Reseta o estado de recuperação de senha
+  };
+
+  const handleForgotPassword = () => {
+    setIsForgotPassword(true); // Altera para o formulário de recuperação de senha
   };
 
   if (!isOpen) {
@@ -30,11 +36,22 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
         {isLoginForm ? (
           <>
             <h2>Entre na sua conta</h2>
-            <ClienteLoginForm onClose={onClose} />
-            <p>ou</p>
-            <Button type="white" onClick={handleOpenRegister}>
-              Criar uma conta
-            </Button>
+            {isForgotPassword ? (
+              <>
+                <ClienteRecuperacaoForm onClose={onClose} />
+                <Button type="white" onClick={handleGoBackToLogin}>
+                  Voltar para o login
+                </Button>
+              </>
+            ) : (
+              <>
+                <ClienteLoginForm onClose={onClose} onForgotPassword={handleForgotPassword} />
+                <p>ou</p>
+                <Button type="white" onClick={handleOpenRegister}>
+                  Criar uma conta
+                </Button>
+              </>
+            )}
           </>
         ) : (
           <>
