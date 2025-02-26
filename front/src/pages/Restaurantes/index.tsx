@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
+// import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
 import { NavLink } from 'react-router-dom';
@@ -16,12 +16,12 @@ interface Restaurante {
 }
 
 export default function Restaurantes() {
-  const [filtros, setFiltros] = useState({
-    area: '',
-    precoMin: 0,
-    precoMax: 999,
-    cozinha: '',
-  });
+  // const [filtros, setFiltros] = useState({
+  //   area: '',
+  //   precoMin: 0,
+  //   precoMax: 999,
+  //   cozinha: '',
+  // });
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -61,7 +61,7 @@ export default function Restaurantes() {
 
   return (
     <Container>
-      <SidebarFiltros setFiltros={setFiltros} />
+      {/* <SidebarFiltros setFiltros={setFiltros} /> */}
       <DivRestaurantes>
         {restaurantes.map((restaurante) => (
           <NavLink key={restaurante.id} to={`/restaurante/${restaurante.id}`}>

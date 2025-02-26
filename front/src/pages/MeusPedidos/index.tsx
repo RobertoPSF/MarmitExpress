@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function MeusPedidos() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [pedidos, setPedidos] = useState([]);
+  const [pedidos] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
