@@ -28,7 +28,7 @@ export default function MeusPedidos() {
     <Container>
       <div>
         {pedidos.length > 0 ? (
-          pedidos.map((pedido) => <div key={pedido.id}>{pedido.nome}</div>)
+          pedidos.map((pedido) => <div>{pedido}</div>)
         ) : (
           <p>Você ainda não tem pedidos.</p>
         )}
