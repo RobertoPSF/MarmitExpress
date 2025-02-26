@@ -71,6 +71,14 @@ export const LinkComponent = styled(NavLink)`
   }
 `;
 
+export const InvisibleDiv = styled.div`
+  @media (max-width: 768px) {
+    width: auto;
+  }
+  visibility: 'hidden';
+  width: 170px;
+`;
+
 export const PopUpButton = styled.button`
   &:hover,
   &:active {

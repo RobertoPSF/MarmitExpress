@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownButton,
+  InvisibleDiv,
 } from './styles';
 import ClienteLoginPopup from '../PopUps/ClienteLoginPopUp';
 
@@ -40,12 +41,16 @@ export default function Header() {
         <p>Restaurantes</p>
       </LinkComponent>
 
-      <LinkComponent to="/meus-pedidos">
-        <StyledIcon icon={'solar:bag-check-outline'} />
-        <p>Meus Pedidos</p>
-      </LinkComponent>
+      {token ? (
+        <LinkComponent to="/meus-pedidos">
+          <StyledIcon icon={'solar:bag-check-outline'} />
+          <p>Meus Pedidos</p>
+        </LinkComponent>
+      ) : (
+        <InvisibleDiv />
+      )}
 
-      {token ? ( // Se houver um token, mostra "Minha Conta"
+      {token ? (
         <div style={{ position: 'relative' }}>
           <PopUpButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <StyledIcon icon={'ph:user-bold'} />
