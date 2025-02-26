@@ -54,8 +54,8 @@ export default function Header() {
 
           {isDropdownOpen && (
             <DropdownMenu>
-              <DropdownItem to="/perfil">Editar Perfil</DropdownItem>
-              <DropdownItem to="/perfil">Trocar Senha</DropdownItem>
+              <DropdownItem to="/">Editar Perfil</DropdownItem>
+              <DropdownItem to="/">Trocar Senha</DropdownItem>
               <DropdownButton as="button" onClick={handleLogout}>
                 Sair
               </DropdownButton>

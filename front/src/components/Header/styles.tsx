@@ -95,6 +95,7 @@ export const PopUpButton = styled.button`
   color: white;
   display: flex;
   font-size: 0.9rem;
+  gap: 10px;
   height: auto;
   justify-content: center;
   padding: 5px;
@@ -120,7 +121,7 @@ export const DropdownMenu = styled.div`
   position: absolute;
   right: 0;
   top: 100%;
-  width: 150px;
+  width: 170px;
   z-index: 1000;
 `;
 
