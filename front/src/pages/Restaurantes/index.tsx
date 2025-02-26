@@ -46,15 +46,15 @@ export default function Restaurantes() {
   }, []);
 
   // Filtra os restaurantes de acordo com os filtros aplicados
-  const filteredRestaurants = restaurantes.filter((r) => {
-    return;
-    // (
-    //   (!filtros.area || r.endereco.includes(filtros.area)) &&
-    //   (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
-    //   r.preco >= (filtros.precoMin || 0) &&
-    //   r.preco <= (filtros.precoMax || 999)
-    // );
-  });
+  // const filteredRestaurants = restaurantes.filter((r) => {
+  //   return;
+  //   (
+  //     (!filtros.area || r.endereco.includes(filtros.area)) &&
+  //     (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
+  //     r.preco >= (filtros.precoMin || 0) &&
+  //     r.preco <= (filtros.precoMax || 999)
+  //   );
+  // });
 
   if (isLoading) return <p>Carregando restaurantes...</p>;
   if (error) return <p>{error}</p>;

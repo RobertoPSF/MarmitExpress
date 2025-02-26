@@ -16,11 +16,11 @@ interface RestauranteCardProps {
 
 export default function RestauranteCard({ dados }: RestauranteCardProps) {
   // Calcula a média das avaliações
-  const calcularMediaAvaliacoes = (avaliacoes: number[]) => {
-    if (avaliacoes.length === 0) return 'Sem avaliações';
-    const total = avaliacoes.reduce((acc, nota) => acc + nota, 0);
-    return (total / avaliacoes.length).toFixed(1);
-  };
+  // const calcularMediaAvaliacoes = (avaliacoes: number[]) => {
+  //   if (avaliacoes.length === 0) return 'Sem avaliações';
+  //   const total = avaliacoes.reduce((acc, nota) => acc + nota, 0);
+  //   return (total / avaliacoes.length).toFixed(1);
+  // };
 
   return (
     <Container>
