@@ -21,6 +21,8 @@ MarmitExpress
 │   │   │   │           ├── models
 │   │   │   │           │   └── Model.java
 │   │   │   │           │
+│   │   │   │           ├── security
+│   │   │   │           │
 │   │   │   │           └── Application.java
 │   │   │   └── resources
 │   │   │       └── application.yml
