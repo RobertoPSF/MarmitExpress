@@ -72,21 +72,6 @@ export const LinkComponent = styled(NavLink)`
 `;
 
 export const PopUpButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #2b3137;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 0.9rem;
-  height: auto;
-  padding: 5px;
-  width: 170px;
-  transition:
-    background-color 0.3s ease-in-out,
-    transform 1s ease-out;
-
   &:hover,
   &:active {
     cursor: pointer;
@@ -103,6 +88,20 @@ export const PopUpButton = styled.button`
       transition: opacity 0.3s ease-in-out;
     }
   }
+  align-items: center;
+  background-color: #2b3137;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  font-size: 0.9rem;
+  height: auto;
+  justify-content: center;
+  padding: 5px;
+  transition:
+    background-color 0.3s ease-in-out,
+    transform 1s ease-out;
+  width: 170px;
 `;
 
 export const StyledIcon = styled(Icon)`
@@ -111,4 +110,44 @@ export const StyledIcon = styled(Icon)`
   font-size: 1.3rem;
   height: 2rem;
   transition: transform 0.5s ease-in-out;
+`;
+
+export const DropdownMenu = styled.div`
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 150px;
+  z-index: 1000;
+`;
+
+export const DropdownItem = styled(NavLink)`
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background: #f1f1f1;
+  }
+`;
+
+export const DropdownButton = styled.button`
+  &:hover {
+    background: #f1f1f1;
+  }
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  padding: 10px 15px;
+  text-align: left;
+  width: 100%;
 `;
