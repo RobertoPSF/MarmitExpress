@@ -3,7 +3,11 @@ import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService'; // Importando o AuthService
 
-const RestauranteLoginForm: React.FC = () => {
+interface RestauranteLoginProps {
+  onForgotPassword: () => void;
+}
+
+const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPassword }) => {
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -55,7 +59,7 @@ const RestauranteLoginForm: React.FC = () => {
         onChange={handleChangeLogin}
       />
 
-      <a>Esqueceu a senha?</a>
+      <a href="#" className="forgot-password-link" onClick={onForgotPassword}>Esqueceu a senha?</a>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
