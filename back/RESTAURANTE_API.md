@@ -111,24 +111,6 @@ All endpoints except `/restaurantes/login` require a valid JWT token in the Auth
   ```
   - **Status:** 404 Not Found (if restaurant not found)
 
-## 5. Add Evaluation
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/restaurantes/{id}/avaliacao`
-- **Path Variable:** `id` (Long)
-- **Request Body:**
-  ```json
-  {
-    "avaliacao": double
-  }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  "Avaliação registrada com sucesso."
-  ```
-
 ## 6. Delete Restaurant
 - **HTTP Method:** DELETE
 - **Endpoint:** `/restaurantes/{id}`

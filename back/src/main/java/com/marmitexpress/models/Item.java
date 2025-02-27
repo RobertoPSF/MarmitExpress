@@ -19,16 +19,15 @@ public class Item {
     @ManyToOne
     private Restaurante restaurante; 
 
-    public Item() {
-    }
+    public Item() {}
 
-    public Item(String nome, double preco, int quantidade, byte[] foto, Restaurante restaurante) {
+    public Item(String nome, double preco, int quantidade, Restaurante restaurante) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.foto = foto;
         this.restaurante = restaurante;
     }
+
 
     public Long getId() {
         return id;
