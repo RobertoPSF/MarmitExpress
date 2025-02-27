@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Button from '../../Button';
+import Text from '../../Text';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService'; // Importando o AuthService
 
@@ -59,7 +60,7 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPasswor
         onChange={handleChangeLogin}
       />
 
-      <a href="#" className="forgot-password-link" onClick={onForgotPassword}>Esqueceu a senha?</a>
+      <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
