@@ -31,16 +31,6 @@ public class RestauranteService {
         return restauranteRepository.findByEmail(email).orElse(null); // Busca pelo email
     }
 
-    public String registrarAvaliacao(long id, double avaliacao) {
-        Optional<Restaurante> restaurante = buscarRestaurantePorId(id);
-        if (restaurante.isPresent()) {
-            restaurante.get().adicionarAvaliacao(avaliacao);
-            return "Avaliação registrada com sucesso";
-        } else {
-            throw new RestauranteNotFoundException(id);
-        }
-    }
-
     public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RestauranteNotFoundException(id));

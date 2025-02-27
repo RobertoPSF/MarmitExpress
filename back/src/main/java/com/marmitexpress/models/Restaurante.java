@@ -17,14 +17,11 @@ public class Restaurante extends Usuario {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Marmita> marmitas = new ArrayList<>();
-
-    private List<Double> avaliacoes = new ArrayList<>();
     
     @Column(unique = true, nullable = true, length = 77)
     private String chavePix;
 
     public Restaurante() {
-
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
@@ -35,14 +32,6 @@ public class Restaurante extends Usuario {
         this.setRole(UsuarioRole.RESTAURANTE);
         this.setEndereco(endereco);
         this.setTelefone(telefone);
-    }
-
-    public double getAvaliacao() {
-        return avaliacoes.isEmpty() ? 0 : avaliacoes.stream().mapToDouble(Double::doubleValue).average().orElse(0);
-    }
-
-    public void adicionarAvaliacao(double avaliacao) {
-        this.avaliacoes.add(avaliacao);
     }
 
     public boolean isAceitandoPedidos() {

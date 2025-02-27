@@ -33,4 +33,28 @@ public class ItemService {
         }
         itemRepository.deleteById(id);
     }
+
+    public Item atualizarItem(Long id, Item itemAtualizado) {
+        Optional<Item> itemOpt = itemRepository.findById(id);
+        if (itemOpt.isEmpty()) {
+            throw new ItemNotFoundException();
+        }
+
+        Item itemExistente = itemOpt.get();
+
+        if (itemAtualizado.getNome() != null) {
+            itemExistente.setNome(itemAtualizado.getNome());
+        }
+        if (itemAtualizado.getPreco() != 0) {
+            itemExistente.setPreco(itemAtualizado.getPreco());
+        }
+        if (itemAtualizado.getQuantidade() != 0) {
+            itemExistente.setQuantidade(itemAtualizado.getQuantidade());
+        }
+        if (itemAtualizado.getRestaurante() != null) {
+            itemExistente.setRestaurante(itemAtualizado.getRestaurante());
+        }
+
+        return itemRepository.save(itemExistente);
+    }
 }

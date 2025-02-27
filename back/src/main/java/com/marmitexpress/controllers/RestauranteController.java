@@ -1,6 +1,7 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.models.Avaliacao;
+import com.marmitexpress.dto.RestauranteDTO;
+import com.marmitexpress.dto.RestauranteResponseDTO;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +20,71 @@ public class RestauranteController {
     private RestauranteService restauranteService;
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listarRestaurantes() {
-        List<Restaurante> restaurantes = restauranteService.listarRestaurantes();
+    public ResponseEntity<List<RestauranteResponseDTO>> listarRestaurantes() {
+        List<RestauranteResponseDTO> restaurantes = restauranteService.listarRestaurantes()
+            .stream()
+            .map(restaurante -> new RestauranteResponseDTO(
+                restaurante.getId(),
+                restaurante.getNome(),
+                restaurante.getEmail(),
+                restaurante.getEndereco(),
+                restaurante.getTelefone(),
+                restaurante.getDescricao(),
+                restaurante.isAceitandoPedidos(),
+                restaurante.getChavePix()
+            ))
+            .toList();
+
         return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Restaurante> buscarMeuPerfil() {
+    public ResponseEntity<RestauranteResponseDTO> buscarMeuPerfil() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
         if (restaurante != null) {
-            return ResponseEntity.ok(restaurante);
+            return ResponseEntity.ok(new RestauranteResponseDTO(
+                restaurante.getId(),
+                restaurante.getNome(),
+                restaurante.getEmail(),
+                restaurante.getEndereco(),
+                restaurante.getTelefone(),
+                restaurante.getDescricao(),
+                restaurante.isAceitandoPedidos(),
+                restaurante.getChavePix()
+            ));
         }
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/me")
-    public ResponseEntity<Restaurante> atualizarPerfil(@RequestBody Restaurante restauranteAtualizado) {
+    public ResponseEntity<RestauranteResponseDTO> atualizarPerfil(@RequestBody RestauranteDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
-        
+
         if (restauranteExistente != null) {
-            restauranteExistente.setNome(restauranteAtualizado.getNome());
-            restauranteExistente.setEndereco(restauranteAtualizado.getEndereco());
-            restauranteExistente.setDescricao(restauranteAtualizado.getDescricao());
-            restauranteExistente.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
-            restauranteService.criarRestaurante(restauranteExistente); // Salva as alterações
-            return ResponseEntity.ok(restauranteExistente);
+            if (dto.getNome() != null) restauranteExistente.setNome(dto.getNome());
+            if (dto.getEndereco() != null) restauranteExistente.setEndereco(dto.getEndereco());
+            if (dto.getDescricao() != null) restauranteExistente.setDescricao(dto.getDescricao());
+            if (dto.getAceitandoPedidos() != null) restauranteExistente.setAceitandoPedidos(dto.getAceitandoPedidos());
+            if (dto.getChavePix() != null) restauranteExistente.setChavePix(dto.getChavePix());
+
+            restauranteService.criarRestaurante(restauranteExistente);
+
+            return ResponseEntity.ok(new RestauranteResponseDTO(
+                restauranteExistente.getId(),
+                restauranteExistente.getNome(),
+                restauranteExistente.getEmail(),
+                restauranteExistente.getEndereco(),
+                restauranteExistente.getTelefone(),
+                restauranteExistente.getDescricao(),
+                restauranteExistente.isAceitandoPedidos(),
+                restauranteExistente.getChavePix()
+            ));
         }
 
         return ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/{id}/avaliacao")
-    public ResponseEntity<String> adicionarAvaliacao(@PathVariable Long id, @RequestBody Avaliacao avaliacaoRequest) {
-        Double avaliacao = avaliacaoRequest.getAvaliacao();
-        String mensagem = restauranteService.registrarAvaliacao(id, avaliacao);
-        return ResponseEntity.ok(mensagem);
     }
 
     @DeleteMapping("/{id}")
