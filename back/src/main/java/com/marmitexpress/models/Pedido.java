@@ -29,31 +29,22 @@ public class Pedido {
         this.endereco = endereco;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
-    }
-    public double getPreco() {
-        return preco;
-    }
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-    public Cliente getCliente() {
-        return cliente;
-    }
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    public String getEndereco() {
-        return endereco;
-    }
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
+    public Long getId() {return id;}
+
+    public Restaurante getRestaurante() {return restaurante;}
+
+    public void setRestaurante(Restaurante restaurante) {this.restaurante = restaurante;}
+
+    public double getPreco() {return preco;}
+
+    public void setPreco(double preco) {this.preco = preco;}
+
+    public Cliente getCliente() {return cliente;}
+
+    public void setCliente(Cliente cliente) {this.cliente = cliente;}
+
+    public String getEndereco() {return endereco;}
+
+    public void setEndereco(String endereco) {this.endereco = endereco;}
+
 }

@@ -7,14 +7,9 @@ import java.util.List;
 public class Marmita extends Item {
     private List<String> ingredientes;
 
-    public Marmita() {
-    }
+    public Marmita() {}
 
-    public List<String> getIngredientes() {
-        return ingredientes;
-    }
+    public List<String> getIngredientes() {return ingredientes;}
 
-    public void setIngredientes(List<String> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
+    public void setIngredientes(List<String> ingredientes) {this.ingredientes = ingredientes;}
 }

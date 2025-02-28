@@ -13,20 +13,13 @@ public class Ingrediente {
     private String nome;
 
     // Default constructor
-    public Ingrediente() {
-    }
+    public Ingrediente() {}
 
-    public Ingrediente(String nome) {
-        this.nome = nome;
-    }
+    public Ingrediente(String nome) {this.nome = nome;}
 
-    public Long getId() {
-        return id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public Long getId() {return id;}
+
+    public String getNome() {return nome;}
+    
+    public void setNome(String nome) {this.nome = nome;}
 }

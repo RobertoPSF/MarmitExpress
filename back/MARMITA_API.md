@@ -13,8 +13,10 @@ All endpoints require a valid JWT token in the Authorization header:
   {
     "nome": "string",
     "descricao": "string",
-    "preco": "double",
-    "ingredientes": ["string"]
+    "preco": double,
+    "quantidade": int,
+    "ingredientes": ["string"],
+    "restauranteId": long
   }
   ```
 - **Response:**
@@ -26,7 +28,9 @@ All endpoints require a valid JWT token in the Authorization header:
     "nome": "string",
     "descricao": "string",
     "preco": double,
-    "ingredientes": ["string"]
+    "quantidade": int,
+    "ingredientes": ["string"],
+    "restauranteId": long
   }
   ```
 
@@ -43,7 +47,9 @@ All endpoints require a valid JWT token in the Authorization header:
     "nome": "string",
     "descricao": "string",
     "preco": double,
-    "ingredientes": ["string"]
+    "quantidade": int,
+    "ingredientes": ["string"],
+    "restauranteId": long
   }
   ```
   - **Status:** 404 Not Found (if marmita not found)
@@ -59,7 +65,9 @@ All endpoints require a valid JWT token in the Authorization header:
     "nome": "string",
     "descricao": "string",
     "preco": double,
-    "ingredientes": ["string"]
+    "quantidade": int,
+    "ingredientes": ["string"],
+    "restauranteId": long
   }
   ```
 - **Response:**
@@ -71,7 +79,9 @@ All endpoints require a valid JWT token in the Authorization header:
     "nome": "string",
     "descricao": "string",
     "preco": double,
-    "ingredientes": ["string"]
+    "quantidade": int,
+    "ingredientes": ["string"],
+    "restauranteId": long
   }
   ```
   - **Status:** 404 Not Found (if marmita not found)
