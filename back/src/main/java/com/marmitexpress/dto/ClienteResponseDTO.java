@@ -1,7 +1,9 @@
 package com.marmitexpress.dto;
 
+import java.util.UUID;
+
 public record ClienteResponseDTO(
-    Long id,
+    UUID id,
     String nome,
     String email,
     String endereco,

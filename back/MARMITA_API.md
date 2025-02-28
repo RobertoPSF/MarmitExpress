@@ -16,7 +16,7 @@ All endpoints require a valid JWT token in the Authorization header:
     "preco": double,
     "quantidade": int,
     "ingredientes": ["string"],
-    "restauranteId": long
+    "restauranteId": UUID
   }
   ```
 - **Response:**
@@ -24,32 +24,32 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
   ```json
   {
-    "id": long,
+    "id": UUID,
     "nome": "string",
     "descricao": "string",
     "preco": double,
     "quantidade": int,
     "ingredientes": ["string"],
-    "restauranteId": long
+    "restauranteId": UUID
   }
   ```
 
 ## 2. Get Marmita by ID
 - **HTTP Method:** GET
 - **Endpoint:** `/marmitas/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 200 OK
   - **Body:**
   ```json
   {
-    "id": long,
+    "id": UUID,
     "nome": "string",
     "descricao": "string",
     "preco": double,
     "quantidade": int,
     "ingredientes": ["string"],
-    "restauranteId": long
+    "restauranteId": UUID
   }
   ```
   - **Status:** 404 Not Found (if marmita not found)
@@ -58,7 +58,7 @@ All endpoints require a valid JWT token in the Authorization header:
 - **HTTP Method:** PUT
 - **Content-Type:** application/json
 - **Endpoint:** `/marmitas/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Request Body:**
   ```json
   {
@@ -67,7 +67,7 @@ All endpoints require a valid JWT token in the Authorization header:
     "preco": double,
     "quantidade": int,
     "ingredientes": ["string"],
-    "restauranteId": long
+    "restauranteId": UUID
   }
   ```
 - **Response:**
@@ -75,13 +75,13 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
   ```json
   {
-    "id": long,
+    "id": UUID,
     "nome": "string",
     "descricao": "string",
     "preco": double,
     "quantidade": int,
     "ingredientes": ["string"],
-    "restauranteId": long
+    "restauranteId": UUID
   }
   ```
   - **Status:** 404 Not Found (if marmita not found)

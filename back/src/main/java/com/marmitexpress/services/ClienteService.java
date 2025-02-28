@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClienteService {
@@ -22,11 +23,15 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente buscarClientePorEmail(String email) {
-        return clienteRepository.findByEmail(email).orElse(null);  // Busca o cliente pelo email
+    public Cliente buscarClientePorId(UUID id) {
+        return clienteRepository.findById(id).orElse(null); 
     }
 
-    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
+    public Cliente buscarClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email).orElse(null); 
+    }
+
+    public Cliente atualizarCliente(UUID id, Cliente clienteAtualizado) {
         Optional<Cliente> clienteExistente = clienteRepository.findById(id);
         if (clienteExistente.isPresent()) {
             Cliente cliente = clienteExistente.get();
@@ -35,11 +40,11 @@ public class ClienteService {
             cliente.setEmail(clienteAtualizado.getEmail());
             return clienteRepository.save(cliente);
         } else {
-            return null;  // ou lançar uma exceção
+            return null; 
         }
     }
 
-    public void deletarCliente(Long id) {
+    public void deletarCliente(UUID id) {
         clienteRepository.deleteById(id);
     }
 }

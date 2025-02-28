@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/itens")
@@ -62,7 +63,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemResponseDTO> buscarItemPorId(@PathVariable Long id) {
+    public ResponseEntity<ItemResponseDTO> buscarItemPorId(@PathVariable UUID id) {
         Optional<Item> itemOpt = itemService.buscarItemPorId(id);
 
         return itemOpt.map(item -> ResponseEntity.ok(new ItemResponseDTO(
@@ -75,7 +76,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemResponseDTO> atualizarItem(@PathVariable Long id, @RequestBody ItemDTO dto) {
+    public ResponseEntity<ItemResponseDTO> atualizarItem(@PathVariable UUID id, @RequestBody ItemDTO dto) {
         Optional<Item> itemOpt = itemService.buscarItemPorId(id);
         if (itemOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -99,7 +100,7 @@ public class ItemController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarItem(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarItem(@PathVariable UUID id) {
         itemService.deletarItem(id);
         return ResponseEntity.noContent().build();
     }

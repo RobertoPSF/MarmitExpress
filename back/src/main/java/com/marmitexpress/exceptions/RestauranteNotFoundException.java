@@ -1,7 +1,7 @@
 package com.marmitexpress.exceptions;
 
 public class RestauranteNotFoundException extends RuntimeException {
-    public RestauranteNotFoundException(Long id) {
+    public RestauranteNotFoundException() {
         super("Restaurante não encontrado.");
     }
 }

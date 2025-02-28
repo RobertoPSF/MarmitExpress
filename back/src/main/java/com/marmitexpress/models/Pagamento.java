@@ -1,18 +1,21 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.util.UUID;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Pagamento {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
     
     private Double valor;
     private StatusPagamento status;
@@ -40,7 +43,7 @@ public class Pagamento {
     }
 
     // Getters e Setters
-    public Long getId() {return id; }
+    public UUID getId() {return id; }
 
     public Double getValor() {return valor; }
 

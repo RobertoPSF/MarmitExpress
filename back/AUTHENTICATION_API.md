@@ -26,7 +26,7 @@ The API uses JSON Web Tokens (JWT) for authentication. All endpoints except `/au
     "senha": "string",
     "endereco": "string",
     "telefone": "string",
-    "role": "CLIENTE|RESTAURANTE"
+    "role": "CLIENTE|RESTAURANTE|ADMIN"
   }
   ```
 - **Response:**
@@ -57,6 +57,27 @@ The API uses JSON Web Tokens (JWT) for authentication. All endpoints except `/au
   }
   ```
   - **Status:** 401 Unauthorized (if authentication fails)
+
+### 2. Change password
+- **HTTP Method:** POST
+- **Endpoint:** `/auth/new-password`
+- **Content-Type:** application/json
+- **Request Body:**
+  ```json
+  {
+    "email": "string",
+    "senha": "string"
+  }
+  ```
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+  ```json
+  {
+    "token": "string"
+  }
+  ```
+  - **Status:** 404 Not found (if email not exist)
 
 ## Error Responses
 - **400 Bad Request**: Invalid request data or validation errors

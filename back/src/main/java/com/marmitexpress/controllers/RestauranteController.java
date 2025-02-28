@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -88,7 +89,7 @@ public class RestauranteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRestaurante(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarRestaurante(@PathVariable UUID id) {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
     }

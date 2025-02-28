@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/marmitas")
@@ -68,7 +69,7 @@ public class MarmitaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MarmitaResponseDTO> buscarMarmitaPorId(@PathVariable Long id) {
+    public ResponseEntity<MarmitaResponseDTO> buscarMarmitaPorId(@PathVariable UUID id) {
         Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
 
         return marmitaOpt.map(marmita -> ResponseEntity.ok(new MarmitaResponseDTO(
@@ -82,7 +83,7 @@ public class MarmitaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MarmitaResponseDTO> atualizarMarmita(@PathVariable Long id, @RequestBody MarmitaDTO dto) {
+    public ResponseEntity<MarmitaResponseDTO> atualizarMarmita(@PathVariable UUID id, @RequestBody MarmitaDTO dto) {
         Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
         if (marmitaOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -108,7 +109,7 @@ public class MarmitaController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarMarmita(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarMarmita(@PathVariable UUID id) {
         marmitaService.deletarMarmita(id);
         return ResponseEntity.noContent().build();
     }

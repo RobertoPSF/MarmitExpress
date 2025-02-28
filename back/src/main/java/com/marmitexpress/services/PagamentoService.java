@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class PagamentoService {
@@ -19,7 +20,7 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public Pagamento atualizarStatusPagamento(Long id, StatusPagamento status) {
+    public Pagamento atualizarStatusPagamento(UUID id, StatusPagamento status) {
         Pagamento pagamento = pagamentoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
         
@@ -28,7 +29,7 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public Pagamento buscarPagamentoPorId(Long id) {
+    public Pagamento buscarPagamentoPorId(UUID id) {
         return pagamentoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
     }

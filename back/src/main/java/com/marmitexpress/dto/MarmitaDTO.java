@@ -1,17 +1,18 @@
 package com.marmitexpress.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 public class MarmitaDTO {
     private String nome;
     private Double preco;
     private Integer quantidade;
     private List<String> ingredientes;
-    private Long restauranteId; // ID do restaurante
+    private UUID restauranteId;
 
     public MarmitaDTO() {}
 
-    public MarmitaDTO(String nome, Double preco, Integer quantidade, List<String> ingredientes, Long restauranteId) {
+    public MarmitaDTO(String nome, Double preco, Integer quantidade, List<String> ingredientes, UUID restauranteId) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -31,6 +32,6 @@ public class MarmitaDTO {
     public List<String> getIngredientes() { return ingredientes; }
     public void setIngredientes(List<String> ingredientes) { this.ingredientes = ingredientes; }
 
-    public Long getRestauranteId() { return restauranteId; }
-    public void setRestauranteId(Long restauranteId) { this.restauranteId = restauranteId; }
+    public UUID getRestauranteId() { return restauranteId; }
+    public void setRestauranteId(UUID restauranteId) { this.restauranteId = restauranteId; }
 }

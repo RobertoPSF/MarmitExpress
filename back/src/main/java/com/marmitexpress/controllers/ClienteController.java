@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clientes")
@@ -89,7 +90,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarCliente(@PathVariable UUID id) {
         clienteService.deletarCliente(id);
         return ResponseEntity.noContent().build();
     }
@@ -102,7 +103,7 @@ public class ClienteController {
     }
 
     @GetMapping("/pagamentos/{id}/qr-code")
-    public ResponseEntity<byte[]> gerarQrCode(@PathVariable Long id) {
+    public ResponseEntity<byte[]> gerarQrCode(@PathVariable UUID id) {
         Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
         String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
         String dadosPagamento = String.format("marmitexpress://pagamento/%d?valor=%.2f&chave=%s", 
@@ -117,7 +118,7 @@ public class ClienteController {
     }
 
     @GetMapping("/pagamentos/{id}/status")
-    public ResponseEntity<String> verificarStatusPagamento(@PathVariable Long id) {
+    public ResponseEntity<String> verificarStatusPagamento(@PathVariable UUID id) {
         Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
         return ResponseEntity.ok(pagamento.getStatus().toString());
     }

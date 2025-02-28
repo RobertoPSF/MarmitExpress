@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RestauranteService {
@@ -23,7 +24,7 @@ public class RestauranteService {
         return restauranteRepository.findAll();
     }
 
-    public Optional<Restaurante> buscarRestaurantePorId(Long id) {
+    public Optional<Restaurante> buscarRestaurantePorId(UUID id) {
         return restauranteRepository.findById(id);
     }
 
@@ -31,9 +32,9 @@ public class RestauranteService {
         return restauranteRepository.findByEmail(email).orElse(null); // Busca pelo email
     }
 
-    public Restaurante atualizarRestaurante(Long id, Restaurante restauranteAtualizado) {
+    public Restaurante atualizarRestaurante(UUID id, Restaurante restauranteAtualizado) {
         Restaurante restaurante = restauranteRepository.findById(id)
-                .orElseThrow(() -> new RestauranteNotFoundException(id));
+                .orElseThrow(() -> new RestauranteNotFoundException());
         restaurante.setSenha(restauranteAtualizado.getSenha());
         restaurante.setNome(restauranteAtualizado.getNome());
         restaurante.setEndereco(restauranteAtualizado.getEndereco());
@@ -42,9 +43,9 @@ public class RestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
-    public void deletarRestaurante(Long id) {
+    public void deletarRestaurante(UUID id) {
         if (!restauranteRepository.existsById(id)) {
-            throw new RestauranteNotFoundException(id);
+            throw new RestauranteNotFoundException();
         }
         restauranteRepository.deleteById(id);
     }

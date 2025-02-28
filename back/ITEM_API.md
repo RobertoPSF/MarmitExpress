@@ -14,7 +14,7 @@ All endpoints require a valid JWT token in the Authorization header:
   "nome": "string",
   "preco": "double",
   "quantidade": "int",
-  "restauranteId": "long"
+  "restauranteId": "UUID"
 }
 ```
 - **Response:**
@@ -22,11 +22,11 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
 ```json
 {
-  "id": long,
+  "id": UUID,
   "nome": "string",
   "preco": double,
   "quantidade": int,
-  "restauranteId": long
+  "restauranteId": UUID
 }
 ```
 
@@ -39,11 +39,11 @@ All endpoints require a valid JWT token in the Authorization header:
 ```json
 [
   {
-    "id": long,
+    "id": UUID,
     "nome": "string",
     "preco": double,
     "quantidade": int,
-    "restauranteId": long
+    "restauranteId": UUID
   },
   ...
 ]
@@ -52,17 +52,17 @@ All endpoints require a valid JWT token in the Authorization header:
 ## 3. Get Item by ID
 - **HTTP Method:** GET
 - **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 200 OK
   - **Body:**
 ```json
 {
-  "id": long,
+  "id": UUID,
   "nome": "string",
   "preco": double,
   "quantidade": int,
-  "restauranteId": long
+  "restauranteId": UUID
 }
 ```
   - **Status:** 404 Not Found (if item not found)
@@ -71,7 +71,7 @@ All endpoints require a valid JWT token in the Authorization header:
 - **HTTP Method:** PUT
 - **Content-Type:** application/json
 - **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Request Body:**
 ```json
 {
@@ -85,11 +85,11 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
 ```json
 {
-  "id": long,
+  "id": UUID,
   "nome": "string",
   "preco": double,
   "quantidade": int,
-  "restauranteId": long
+  "restauranteId": UUID
 }
 ```
   - **Status:** 404 Not Found (if item not found)
@@ -97,6 +97,6 @@ All endpoints require a valid JWT token in the Authorization header:
 ## 5. Delete Item
 - **HTTP Method:** DELETE
 - **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 204 No Content

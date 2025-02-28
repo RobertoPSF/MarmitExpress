@@ -1,14 +1,16 @@
 package com.marmitexpress.dto;
 
+import java.util.UUID;
+
 public class ItemDTO {
     private String nome;
     private Double preco;
     private Integer quantidade;
-    private Long restauranteId;
+    private UUID restauranteId;
 
     public ItemDTO() {}
 
-    public ItemDTO(String nome, Double preco, Integer quantidade, Long restauranteId) {
+    public ItemDTO(String nome, Double preco, Integer quantidade, UUID restauranteId) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -25,6 +27,6 @@ public class ItemDTO {
     public Integer getQuantidade() { return quantidade; }
     public void setQuantidade(Integer quantidade) { this.quantidade = quantidade; }
 
-    public Long getRestauranteId() { return restauranteId; }
-    public void setRestauranteId(Long restauranteId) { this.restauranteId = restauranteId; }
+    public UUID getRestauranteId() { return restauranteId; }
+    public void setRestauranteId(UUID restauranteId) { this.restauranteId = restauranteId; }
 }
