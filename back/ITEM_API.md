@@ -22,11 +22,11 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
 ```json
 {
-  "id": UUID,
+  "id": "UUID",
   "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "restauranteId": UUID
+  "preco": "double",
+  "quantidade": "int",
+  "restauranteId": "UUID"
 }
 ```
 
@@ -39,11 +39,11 @@ All endpoints require a valid JWT token in the Authorization header:
 ```json
 [
   {
-    "id": UUID,
+    "id": "UUID",
     "nome": "string",
-    "preco": double,
-    "quantidade": int,
-    "restauranteId": UUID
+    "preco": "double",
+    "quantidade": "int",
+    "restauranteId": "UUID"
   },
   ...
 ]
@@ -58,11 +58,11 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
 ```json
 {
-  "id": UUID,
+  "id": "UUID",
   "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "restauranteId": UUID
+  "preco": "double",
+  "quantidade": "int",
+  "restauranteId": "UUID"
 }
 ```
   - **Status:** 404 Not Found (if item not found)
@@ -76,8 +76,8 @@ All endpoints require a valid JWT token in the Authorization header:
 ```json
 {
   "nome": "string",
-  "preco": double,
-  "quantidade": int
+  "preco": "double",
+  "quantidade": "int"
 }
 ```
 - **Response:**
@@ -85,11 +85,11 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
 ```json
 {
-  "id": UUID,
+  "id": "UUID",
   "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "restauranteId": UUID
+  "preco": "double",
+  "quantidade": "int",
+  "restauranteId": "UUID"
 }
 ```
   - **Status:** 404 Not Found (if item not found)
@@ -100,3 +100,4 @@ All endpoints require a valid JWT token in the Authorization header:
 - **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 204 No Content
+

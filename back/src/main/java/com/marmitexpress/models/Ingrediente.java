@@ -1,10 +1,6 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +11,6 @@ public class Ingrediente {
     private UUID id;
     private String nome;
 
-    // Default constructor
     public Ingrediente() {}
 
     public Ingrediente(String nome) {this.nome = nome;}

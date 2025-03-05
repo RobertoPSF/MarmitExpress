@@ -1,21 +1,27 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 public class Marmita extends Item {
 
-    private List<String> ingredientes;
+    @ManyToMany
+    @JoinTable(
+        name = "marmita_ingrediente",
+        joinColumns = @JoinColumn(name = "marmita_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
+    )
+    private List<Ingrediente> ingredientes;
 
     public Marmita() {}
 
-    public Marmita(String nome, double preco, int quantidade, Restaurante restaurante, List<String> ingredientes) {
+    public Marmita(String nome, double preco, int quantidade, Restaurante restaurante, List<Ingrediente> ingredientes) {
         super(nome, preco, quantidade, restaurante);
         this.ingredientes = ingredientes;
     }
 
-    public List<String> getIngredientes() {return ingredientes;}
+    public List<Ingrediente> getIngredientes() {return ingredientes;}
 
-    public void setIngredientes(List<String> ingredientes) {this.ingredientes = ingredientes;}
+    public void setIngredientes(List<Ingrediente> ingredientes) {this.ingredientes = ingredientes;}
 }

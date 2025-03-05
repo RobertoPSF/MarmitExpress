@@ -14,14 +14,14 @@ All endpoints except `/restaurantes/login` require a valid JWT token in the Auth
   ```json
   [
     {
-      "id": UUID,
-      "usuario": "string",
+      "id": "UUID",
       "nome": "string",
+      "email": "string",
       "endereco": "string",
       "telefone": "string",
       "descricao": "string",
       "aceitandoPedidos": true,
-      "avaliacoes": []
+      "chavePix": "string"
     },
     ...
   ]
@@ -36,14 +36,14 @@ All endpoints except `/restaurantes/login` require a valid JWT token in the Auth
   - **Body:**
   ```json
   {
-    "id": UUID,
-    "usuario": "string",
+    "id": "UUID",
     "nome": "string",
+    "email": "string",
     "endereco": "string",
     "telefone": "string",
     "descricao": "string",
     "aceitandoPedidos": true,
-    "avaliacoes": []
+    "chavePix": "string"
   }
   ```
   - **Status:** 404 Not Found (if restaurant not found)
@@ -56,12 +56,12 @@ All endpoints except `/restaurantes/login` require a valid JWT token in the Auth
 - **Request Body:**
   ```json
   {
-    "usuario": "string",
-    "senha": "string",
     "nome": "string",
     "endereco": "string",
     "telefone": "string",
-    "descricao": "string"
+    "descricao": "string",
+    "aceitandoPedidos": true,
+    "chavePix": "string"
   }
   ```
 - **Response:**
@@ -69,14 +69,14 @@ All endpoints except `/restaurantes/login` require a valid JWT token in the Auth
   - **Body:**
   ```json
   {
-    "id": UUID,
-    "usuario": "string",
+    "id": "UUID",
     "nome": "string",
+    "email": "string",
     "endereco": "string",
     "telefone": "string",
     "descricao": "string",
     "aceitandoPedidos": true,
-    "avaliacoes": []
+    "chavePix": "string"
   }
   ```
   - **Status:** 404 Not Found (if restaurant not found)
