@@ -8,14 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String nome;
@@ -42,32 +44,20 @@ public abstract class Usuario implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return senha;
-    }
+    public String getPassword() {return senha;}
 
     @Override
-    public String getUsername() {
-        return email;
-    }
+    public String getUsername() {return email;}
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() {return true;}
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() {return true;}
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() {return true;}
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public boolean isEnabled() {return true;}
 }

@@ -1,13 +1,13 @@
 import Footer from './components/Footer';
 import JustifyContainer from './components/JustifyContainer';
-import AppRoutes from './Routes';
+import AppRoutes from './routes/Routes';
 import styled from 'styled-components';
 
 const Div = styled.div`
   background-color: #fafbfc;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
   margin: 0;
   min-height: 100vh;
   padding: 0;

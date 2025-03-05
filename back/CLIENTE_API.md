@@ -1,38 +1,11 @@
 # CLIENTE API Documentation
 
 ## Authentication
-All endpoints except `/clientes/login` require a valid JWT token in the Authorization header:
+All endpoints require a valid JWT token in the Authorization header:
 `Authorization: Bearer <token>`
 
-## 1. Create Client
-- **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/clientes`
-- **Request Body:**
-  ```json
-  {
-    "usuario": "string",
-    "senha": "string",
-    "endereco": "string",
-    "nome": "string",
-    "telefone": "string"
-  }
-  ```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
-  ```json
-  {
-    "id": long,
-    "usuario": "string",
-    "endereco": "string",
-    "nome": "string",
-    "telefone": "string",
-    "listaDePedidos": null
-  }
-  ```
-
-## 2. List Clients
+## 1. List Clients
+- **Only Admin**
 - **HTTP Method:** GET
 - **Endpoint:** `/clientes`
 - **Response:**
@@ -41,29 +14,41 @@ All endpoints except `/clientes/login` require a valid JWT token in the Authoriz
   ```json
   [
     {
-      "id": long,
-      "usuario": "string",
-      "endereco": "string",
+      "id": "UUID",
       "nome": "string",
-      "telefone": "string",
-      "listaDePedidos": null
+      "email": "string",
+      "endereco": "string",
+      "telefone": "string"
     }
-    ...
   ]
   ```
 
-## 3. Update Client
+## 2. Get My Profile
+- **HTTP Method:** GET
+- **Endpoint:** `/clientes/me`
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+  ```json
+  {
+    "id": "UUID",
+    "nome": "string",
+    "email": "string",
+    "endereco": "string",
+    "telefone": "string"
+  }
+  ```
+  - **Status:** 404 Not Found (if client not found)
+
+## 3. Update My Profile
 - **HTTP Method:** PUT
 - **Content-Type:** application/json
-- **Endpoint:** `/clientes/{id}`
-- **Path Variable:** `id` (Long)
+- **Endpoint:** `/clientes/me`
 - **Request Body:**
   ```json
   {
-    "usuario": "string",
-    "senha": "string",
-    "endereco": "string",
     "nome": "string",
+    "endereco": "string",
     "telefone": "string"
   }
   ```
@@ -72,12 +57,11 @@ All endpoints except `/clientes/login` require a valid JWT token in the Authoriz
   - **Body:**
   ```json
   {
-    "id": long,
-    "usuario": "string",
-    "endereco": "string",
+    "id": "UUID",
     "nome": "string",
-    "telefone": "string",
-    "listaDePedidos": null
+    "email": "string",
+    "endereco": "string",
+    "telefone": "string"
   }
   ```
   - **Status:** 404 Not Found (if client not found)
@@ -85,28 +69,47 @@ All endpoints except `/clientes/login` require a valid JWT token in the Authoriz
 ## 4. Delete Client
 - **HTTP Method:** DELETE
 - **Endpoint:** `/clientes/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 204 No Content
 
-## 5. Login Client
+## 5. Create Payment
 - **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/clientes/login`
-- **Request Body:**
-  ```json
-  {
-    "usuario": "string",
-    "senha": "string"
-  }
-  ```
+- **Endpoint:** `/clientes/pagamentos`
+- **Request Parameters:**
+  - `valor`: Double
+  - `descricao`: String
 - **Response:**
   - **Status:** 200 OK
   - **Body:**
   ```json
   {
-    "token": "string",
-    "expiresIn": 3600
+    "id": "UUID",
+    "valor": "double",
+    "descricao": "string",
+    "status": "string"
   }
   ```
-  - **Status:** 401 Unauthorized (if login fails)
+
+## 6. Generate QR Code for Payment
+- **HTTP Method:** GET
+- **Endpoint:** `/clientes/pagamentos/{id}/qr-code`
+- **Path Variable:** `id` (UUID)
+- **Response:**
+  - **Status:** 200 OK
+  - **Content-Type:** `image/png`
+  - **Body:** Binary QR code image
+  - **Status:** 404 Not Found (if payment not found)
+
+## 7. Check Payment Status
+- **HTTP Method:** GET
+- **Endpoint:** `/clientes/pagamentos/{id}/status`
+- **Path Variable:** `id` (UUID)
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+  ```json
+  "string"  // Payment status
+  ```
+  - **Status:** 404 Not Found (if payment not found)
+

@@ -24,11 +24,7 @@ public class Cliente extends Usuario {
         this.setTelefone(telefone);
     }
 
-    public List<Pedido> getListaDePedidos() {
-        return listaDePedidos;
-    }
+    public List<Pedido> getListaDePedidos() {return listaDePedidos;}
 
-    public void setListaDePedidos(List<Pedido> pedidos) {
-        this.listaDePedidos = pedidos;
-    }
+    public void setListaDePedidos(List<Pedido> pedidos) {this.listaDePedidos = pedidos;}
 }

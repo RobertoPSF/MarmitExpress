@@ -1,9 +1,74 @@
-import { Container } from './styles';
+import { useState, useEffect } from 'react';
+// import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
+import CardRestaurante from '../../components/Cards/RestauranteCard';
+import { Container, DivRestaurantes } from './styles';
+import { NavLink } from 'react-router-dom';
+import RestaurantService from '../../services/RestauranteService';
+
+interface Restaurante {
+  id: number;
+  nome: string;
+  endereco: string;
+  descricao: string;
+  telefone: string;
+  // aceitandoPedidos: boolean;
+  // avaliacoes: number[];
+}
 
 export default function Restaurantes() {
+  // const [filtros, setFiltros] = useState({
+  //   area: '',
+  //   precoMin: 0,
+  //   precoMax: 999,
+  //   cozinha: '',
+  // });
+  const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Instancia o serviço
+  const restaurantService = new RestaurantService();
+
+  // Faz a requisição de restaurantes ao montar o componente
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      setIsLoading(true);
+      const response = await restaurantService.getRestaurants();
+      if (response && response.status === 200) {
+        setRestaurantes(response.data);
+      } else {
+        setError('Erro ao carregar restaurantes');
+      }
+      setIsLoading(false);
+    };
+
+    fetchRestaurants();
+  }, []);
+
+  // Filtra os restaurantes de acordo com os filtros aplicados
+  // const filteredRestaurants = restaurantes.filter((r) => {
+  //   return;
+  //   (
+  //     (!filtros.area || r.endereco.includes(filtros.area)) &&
+  //     (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
+  //     r.preco >= (filtros.precoMin || 0) &&
+  //     r.preco <= (filtros.precoMax || 999)
+  //   );
+  // });
+
+  if (isLoading) return <p>Carregando restaurantes...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
-    <>
-      <Container></Container>
-    </>
+    <Container>
+      {/* <SidebarFiltros setFiltros={setFiltros} /> */}
+      <DivRestaurantes>
+        {restaurantes.map((restaurante) => (
+          <NavLink key={restaurante.id} to={`/restaurante/${restaurante.id}`}>
+            <CardRestaurante dados={restaurante} />
+          </NavLink>
+        ))}
+      </DivRestaurantes>
+    </Container>
   );
 }

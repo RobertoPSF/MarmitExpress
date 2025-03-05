@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import fonts from 'google-fonts';
 
 fonts.add({
-  Montserrat: [
+  'Maven Pro': [
     '1000',
     '900',
     '800',

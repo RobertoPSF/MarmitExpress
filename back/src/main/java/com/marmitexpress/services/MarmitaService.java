@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MarmitaService {
@@ -23,14 +24,41 @@ public class MarmitaService {
         return marmitaRepository.findAll();
     }
 
-    public Optional<Marmita> buscarMarmitaPorId(Long id) {
+    public Optional<Marmita> buscarMarmitaPorId(UUID id) {
         return marmitaRepository.findById(id);
     }
 
-    public void deletarMarmita(Long id) {
+    public void deletarMarmita(UUID id) {
         if (!marmitaRepository.existsById(id)) {
             throw new MarmitaNotFoundException();
         }
         marmitaRepository.deleteById(id);
+    }
+
+    public Marmita atualizarMarmita(UUID id, Marmita marmitaAtualizada) {
+        Optional<Marmita> marmitaOpt = marmitaRepository.findById(id);
+        if (marmitaOpt.isEmpty()) {
+            throw new MarmitaNotFoundException();
+        }
+
+        Marmita marmitaExistente = marmitaOpt.get();
+
+        if (marmitaAtualizada.getNome() != null) {
+            marmitaExistente.setNome(marmitaAtualizada.getNome());
+        }
+        if (marmitaAtualizada.getPreco() != 0) {
+            marmitaExistente.setPreco(marmitaAtualizada.getPreco());
+        }
+        if (marmitaAtualizada.getQuantidade() != 0) {
+            marmitaExistente.setQuantidade(marmitaAtualizada.getQuantidade());
+        }
+        if (marmitaAtualizada.getIngredientes() != null) {
+            marmitaExistente.setIngredientes(marmitaAtualizada.getIngredientes());
+        }
+        if (marmitaAtualizada.getRestaurante() != null) {
+            marmitaExistente.setRestaurante(marmitaAtualizada.getRestaurante());
+        }
+
+        return marmitaRepository.save(marmitaExistente);
     }
 }

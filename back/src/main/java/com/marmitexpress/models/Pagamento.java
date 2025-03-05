@@ -1,18 +1,21 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.util.UUID;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Pagamento {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
     
     private Double valor;
     private StatusPagamento status;
@@ -40,68 +43,35 @@ public class Pagamento {
     }
 
     // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+    public UUID getId() {return id; }
 
-    public Double getValor() {
-        return valor;
-    }
+    public Double getValor() {return valor; }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
+    public void setValor(Double valor) {this.valor = valor; }
 
-    public StatusPagamento getStatus() {
-        return status;
-    }
+    public StatusPagamento getStatus() {return status; }
 
-    public void setStatus(StatusPagamento status) {
-        this.status = status;
-    }
+    public void setStatus(StatusPagamento status) {this.status = status; }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
+    public Pedido getPedido() {return pedido; }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
+    public void setPedido(Pedido pedido) {this.pedido = pedido; }
 
+    public String getQrCode() {return qrCode; }
 
-    public String getQrCode() {
-        return qrCode;
-    }
+    public void setQrCode(String qrCode) {this.qrCode = qrCode; }
 
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
-    }
+    public LocalDateTime getDataCriacao() {return dataCriacao; }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+    public LocalDateTime getDataAtualizacao() {return dataAtualizacao; }
 
-    public LocalDateTime getDataAtualizacao() {
-        return dataAtualizacao;
-    }
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {this.dataAtualizacao = dataAtualizacao; }
 
-    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
+    public String getChavePix() {return chavePix; }
 
-    public String getChavePix() {
-        return chavePix;
-    }
+    public void setChavePix(String chavePix) {this.chavePix = chavePix; }
 
-    public void setChavePix(String chavePix) {
-        this.chavePix = chavePix;
-    }
+    public String getDescricao() {return descricao; }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public void setDescricao(String descricao) {this.descricao = descricao; }
 }

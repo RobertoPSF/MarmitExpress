@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
+import AuthService from '../../../services/AuthService'; // Importando o AuthService
 
 const RestauranteLoginForm: React.FC = () => {
   const [formDataLogin, setFormDataLogin] = useState({
-    usuario: '',
+    email: '',
     senha: '',
   });
 
@@ -14,20 +15,17 @@ const RestauranteLoginForm: React.FC = () => {
 
   const handleSubmitLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8080/restaurantes/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer O#~Sn]9fnojT3'OO*:W9?C4",
-        },
-        body: JSON.stringify({
-          usuario: formDataLogin.usuario,
-          senha: formDataLogin.senha,
-        }),
+      const authService = new AuthService();
+      const response = await authService.loginUser({
+        email: formDataLogin.email,
+        senha: formDataLogin.senha,
       });
 
-      if (response.ok) {
+      if (response && response.status === 200) {
         alert('Login realizado com sucesso!');
+        // Aqui você pode armazenar o token se necessário
+        const { token } = response.data;
+        console.log('Token recebido:', token);
       } else {
         alert('Erro ao fazer Login. Verifique os dados e tente novamente.');
       }
@@ -40,11 +38,11 @@ const RestauranteLoginForm: React.FC = () => {
   return (
     <>
       <Input
-        placeHolderContainer="Usuário"
-        name="usuario"
-        type="text"
-        placeholder="Nome de usuário"
-        value={formDataLogin.usuario}
+        placeHolderContainer="Email"
+        name="email"
+        type="email"
+        placeholder="email@exemplo.com"
+        value={formDataLogin.email}
         onChange={handleChangeLogin}
       />
 

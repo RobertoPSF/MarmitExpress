@@ -11,11 +11,11 @@ All endpoints require a valid JWT token in the Authorization header:
 - **Request Body:**
   ```json
   {
-    "clienteId": long,
-    "restauranteId": long,
+    "clienteId": UUID,
+    "restauranteId": UUID,
     "itens": [
       {
-        "produtoId": long,
+        "produtoId": UUID,
         "quantidade": int
       }
     ],
@@ -28,9 +28,9 @@ All endpoints require a valid JWT token in the Authorization header:
   - **Body:**
   ```json
   {
-    "id": long,
-    "clienteId": long,
-    "restauranteId": long,
+    "id": UUID,
+    "clienteId": UUID,
+    "restauranteId": UUID,
     "status": "string",
     "dataHora": "string",
     "valorTotal": double
@@ -40,21 +40,21 @@ All endpoints require a valid JWT token in the Authorization header:
 ## 2. Get Order by ID
 - **HTTP Method:** GET
 - **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 200 OK
   - **Body:**
   ```json
   {
-    "id": long,
-    "clienteId": long,
-    "restauranteId": long,
+    "id": UUID,
+    "clienteId": UUID,
+    "restauranteId": UUID,
     "status": "string",
     "dataHora": "string",
     "valorTotal": double,
     "itens": [
       {
-        "produtoId": long,
+        "produtoId": UUID,
         "quantidade": int,
         "precoUnitario": double
       }
@@ -67,7 +67,7 @@ All endpoints require a valid JWT token in the Authorization header:
 - **HTTP Method:** PUT
 - **Content-Type:** application/json
 - **Endpoint:** `/pedidos/{id}/status`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Request Body:**
   ```json
   {
@@ -84,15 +84,15 @@ All endpoints require a valid JWT token in the Authorization header:
 ## 4. List Orders by Client
 - **HTTP Method:** GET
 - **Endpoint:** `/clientes/{id}/pedidos`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 200 OK
   - **Body:**
   ```json
   [
     {
-      "id": long,
-      "restauranteId": long,
+      "id": UUID,
+      "restauranteId": UUID,
       "status": "string",
       "dataHora": "string",
       "valorTotal": double
@@ -103,7 +103,7 @@ All endpoints require a valid JWT token in the Authorization header:
 ## 5. Cancel Order
 - **HTTP Method:** DELETE
 - **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (Long)
+- **Path Variable:** `id` (UUID)
 - **Response:**
   - **Status:** 204 No Content
   - **Status:** 400 Bad Request (if order cannot be canceled)

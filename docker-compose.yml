@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   front:
     build:
@@ -21,7 +23,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/marmitexpress
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
-      CORS_ORIGIN: http://localhost:3000
+      CORS_ORIGIN_LOCAL: http://localhost:3000
+      CORS_ORIGIN: https://marmit-express-opal.vercel.app/
     depends_on:
       - db
 

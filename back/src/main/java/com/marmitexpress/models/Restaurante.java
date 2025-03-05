@@ -8,6 +8,8 @@ import java.util.List;
 
 @Entity
 public class Restaurante extends Usuario {
+    
+    @Column(nullable = true)
     private String descricao;
 
     private boolean aceitandoPedidos = false;
@@ -17,8 +19,6 @@ public class Restaurante extends Usuario {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Marmita> marmitas = new ArrayList<>();
-
-    private List<Double> avaliacoes = new ArrayList<>();
     
     @Column(unique = true, nullable = true, length = 77)
     private String chavePix;
@@ -37,58 +37,39 @@ public class Restaurante extends Usuario {
         this.setTelefone(telefone);
     }
 
-    public double getAvaliacao() {
-        return avaliacoes.isEmpty() ? 0 : avaliacoes.stream().mapToDouble(Double::doubleValue).average().orElse(0);
-    }
+    public boolean isAceitandoPedidos() {return aceitandoPedidos;}
 
-    public void adicionarAvaliacao(double avaliacao) {
-        this.avaliacoes.add(avaliacao);
-    }
 
-    public boolean isAceitandoPedidos() {
-        return aceitandoPedidos;
-    }
+    public void setAceitandoPedidos(boolean aceitandoPedidos) {this.aceitandoPedidos = aceitandoPedidos;}
 
-    public void setAceitandoPedidos(boolean aceitandoPedidos) {
-        this.aceitandoPedidos = aceitandoPedidos;
-    }
 
-    public List<Item> getListaDeItens() {
-        return listaDeItens;
-    }
+    public List<Item> getListaDeItens() {return listaDeItens;}
 
-    public void setListaDeItens(List<Item> itens) {
-        this.listaDeItens = itens;
-    }
+
+    public void setListaDeItens(List<Item> itens) {this.listaDeItens = itens;}
+
     public void setListaDeItens(Item item) {
         if (this.listaDeItens == null) {
             this.listaDeItens = new ArrayList<>();
-        }
-        this.listaDeItens.add(item);
+        }this.listaDeItens.add(item);
     }
 
-    public List<Marmita> getMarmitas() {
-        return marmitas;
-    }
+    public List<Marmita> getMarmitas() {return marmitas;}
 
-    public void setMarmitas(Marmita marmita) {
-        this.marmitas.add(marmita);
-    }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public void setMarmitas(Marmita marmita) {this.marmitas.add(marmita);}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
 
-    public String getChavePix() {
-        return chavePix;
-    }
+    public String getDescricao() {return descricao;}
 
-    public void setChavePix(String chavePix) {
-        this.chavePix = chavePix;
-    }
+
+    public void setDescricao(String descricao) {this.descricao = descricao;}
+
+
+    public String getChavePix() {return chavePix;}
+
+
+    public void setChavePix(String chavePix) {this.chavePix = chavePix;}
+
 
 }

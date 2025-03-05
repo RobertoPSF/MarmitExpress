@@ -1,16 +1,19 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.util.UUID;
 
 @Entity
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
     private String nome;
     private double preco;
     private int quantidade;
@@ -19,48 +22,36 @@ public class Item {
     @ManyToOne
     private Restaurante restaurante; 
 
-    public Item() {
-    }
+    public Item() {}
 
-    public Item(String nome, double preco, int quantidade, byte[] foto, Restaurante restaurante) {
+    public Item(String nome, double preco, int quantidade, Restaurante restaurante) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.foto = foto;
         this.restaurante = restaurante;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public double getPreco() {
-        return preco;
-    }
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-    public int getQuantidade() {
-        return quantidade;
-    }
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-    public byte[] getFoto() {
-        return foto;
-    }
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
-    }
+
+    public UUID getId() {return id;}
+
+    public String getNome() {return nome;}
+
+    public void setNome(String nome) {this.nome = nome;}
+
+    public double getPreco() {return preco;}
+
+    public void setPreco(double preco) {this.preco = preco;}
+
+    public int getQuantidade() {return quantidade;}
+
+    public void setQuantidade(int quantidade) {this.quantidade = quantidade;}
+
+    public byte[] getFoto() {return foto;}
+
+    public void setFoto(byte[] foto) {this.foto = foto;}
+
+    public Restaurante getRestaurante() {return restaurante;}
+
+    public void setRestaurante(Restaurante restaurante) {this.restaurante = restaurante;}
+
 }

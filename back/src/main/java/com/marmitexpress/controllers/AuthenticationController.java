@@ -5,6 +5,7 @@ import com.marmitexpress.dto.LoginResponseDto;
 import com.marmitexpress.dto.RegisterDto;
 import com.marmitexpress.repositorys.UsuarioRepository;
 import com.marmitexpress.services.TokenService;
+import com.marmitexpress.models.Admin;
 import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.models.Usuario;
@@ -71,7 +72,9 @@ public class AuthenticationController {
             newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
             newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
-        } else {
+        } else if (data.role() == UsuarioRole.ADMIN) {
+            newUsuario = new Admin(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
+        } else {    
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido.");
         }
         System.out.println(newUsuario);
@@ -79,9 +82,6 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso.");
     }
     
-
-
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationException(MethodArgumentNotValidException e) {
@@ -94,5 +94,20 @@ public class AuthenticationController {
         });
 
         return errors;
+    }
+
+    @PostMapping("/new-password")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationDto data) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(data.email());
+        
+        if (usuarioOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+        }
+        
+        Usuario usuario = usuarioOptional.get();
+        usuario.setSenha(passwordEncoder.encode(data.senha()));
+        usuarioRepository.save(usuario);
+        
+        return ResponseEntity.ok("Senha redefinida com sucesso.");
     }
 }
