@@ -7,12 +7,15 @@ import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.services.ItemService;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itens")
@@ -27,12 +30,13 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ItemResponseDTO> criarItem(@RequestBody ItemDTO dto) {
-        Optional<Restaurante> restauranteOpt = restauranteService.buscarRestaurantePorId(dto.getRestauranteId());
-        if (restauranteOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Restaurante restaurante = restauranteOpt.get();
         Item novoItem = new Item(dto.getNome(), dto.getPreco(), dto.getQuantidade(), restaurante);
 
         Item itemSalvo = itemService.criarItem(novoItem);
@@ -77,31 +81,73 @@ public class ItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ItemResponseDTO> atualizarItem(@PathVariable UUID id, @RequestBody ItemDTO dto) {
-        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
-        if (itemOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item item = itemOpt.get();
-        if (dto.getNome() != null) item.setNome(dto.getNome());
-        if (dto.getPreco() != null) item.setPreco(dto.getPreco());
-        if (dto.getQuantidade() != null) item.setQuantidade(dto.getQuantidade());
+        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
+        if (itemOpt.isEmpty() || !itemOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
-        itemService.atualizarItem(id, item);
+        Item itemAtualizado = new Item(dto.getNome(), dto.getPreco(), dto.getQuantidade(), restaurante);
+        Item itemSalvo = itemService.atualizarItem(id, itemAtualizado);
 
         return ResponseEntity.ok(new ItemResponseDTO(
+            itemSalvo.getId(),
+            itemSalvo.getNome(),
+            itemSalvo.getPreco(),
+            itemSalvo.getQuantidade(),
+            itemSalvo.getRestaurante().getId()
+        ));
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarItem(@PathVariable UUID id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
+        if (itemOpt.isEmpty() || !itemOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        itemService.deletarItem(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/restaurante")
+public ResponseEntity<List<ItemResponseDTO>> buscarItensPorRestaurante() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+    if (restaurante == null) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    List<Item> itens = itemService.buscarItensPorRestaurante(restaurante);
+
+    List<ItemResponseDTO> itemResponseDTOs = itens.stream()
+        .map(item -> new ItemResponseDTO(
             item.getId(),
             item.getNome(),
             item.getPreco(),
             item.getQuantidade(),
             item.getRestaurante().getId()
-        ));
-    }
+        ))
+        .collect(Collectors.toList());
+
+    return ResponseEntity.ok(itemResponseDTOs);
+}
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarItem(@PathVariable UUID id) {
-        itemService.deletarItem(id);
-        return ResponseEntity.noContent().build();
-    }
 }

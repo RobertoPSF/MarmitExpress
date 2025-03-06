@@ -1,5 +1,6 @@
 package com.marmitexpress.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 @Entity
 public class Cliente extends Usuario {
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> listaDePedidos = new ArrayList<>();
 
     public Cliente() {

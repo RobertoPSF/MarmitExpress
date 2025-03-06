@@ -2,6 +2,7 @@ package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.ItemNotFoundException;
 import com.marmitexpress.models.Item;
+import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.repositorys.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,9 @@ public class ItemService {
 
         return itemRepository.save(itemExistente);
     }
+
+    public List<Item> buscarItensPorRestaurante(Restaurante restaurante) {
+        return itemRepository.findByRestaurante(restaurante);
+    }
+
 }
