@@ -1,11 +1,14 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.event.PagamentoConcluidoEvent;
 import com.marmitexpress.models.Pagamento;
+import com.marmitexpress.models.Pedido;
 import com.marmitexpress.models.StatusPagamento;
 import com.marmitexpress.repositorys.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-
+import com.marmitexpress.repositorys.PedidoRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,8 +18,18 @@ public class PagamentoService {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
-    public Pagamento criarPagamento(Double valor, String descricao) {
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+     @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    public Pagamento criarPagamento(Double valor, String descricao, UUID pedidoId) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+            .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         Pagamento pagamento = new Pagamento(valor, descricao);
+        pagamento.setPedido(pedido);
+        
         return pagamentoRepository.save(pagamento);
     }
 
@@ -26,7 +39,13 @@ public class PagamentoService {
         
         pagamento.setStatus(status);
         pagamento.setDataAtualizacao(LocalDateTime.now());
-        return pagamentoRepository.save(pagamento);
+        pagamentoRepository.save(pagamento);
+
+        if(status == StatusPagamento.CONCLUIDO) {
+            eventPublisher.publishEvent(new PagamentoConcluidoEvent(this, pagamento.getPedido().getId(), pagamento.getId()));
+        }
+
+        return pagamento;
     }
 
     public Pagamento buscarPagamentoPorId(UUID id) {

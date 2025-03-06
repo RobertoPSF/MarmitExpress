@@ -96,9 +96,8 @@ public class ClienteController {
     }
 
     @PostMapping("/pagamentos")
-    public ResponseEntity<Pagamento> criarPagamento(@RequestParam Double valor, 
-                                                    @RequestParam String descricao) {
-        Pagamento pagamento = pagamentoService.criarPagamento(valor, descricao);
+    public ResponseEntity<Pagamento> criarPagamento(@RequestParam Double valor, @RequestParam String descricao, @RequestParam UUID idPedido) {
+        Pagamento pagamento = pagamentoService.criarPagamento(valor, descricao, idPedido);
         return ResponseEntity.ok(pagamento);
     }
 
