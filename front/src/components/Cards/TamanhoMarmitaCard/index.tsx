@@ -1,24 +1,24 @@
-import { Container, Imagem } from './styles';
+import { Container, Image } from './styles';
 
 interface MarmitaCard {
   imagem: string;
   tamanho: string;
   valor: number;
+  proteinas: number;
 }
 
-export default function RestauranteCard() {
-  const marmita: MarmitaCard = {
-    imagem: 'URL da Imagem',
-    tamanho: 'G',
-    valor: 19,
-  };
+interface Props {
+  dados: MarmitaCard;
+}
 
+export default function TamanhoMarmitaCard({ dados }: Props) {
   return (
     <Container>
-      <Imagem />
-      <h3>Marmita ({marmita.tamanho})</h3>
-      <p>Todos os acompanhamentos + 2 carnes</p>
-      <h3 id="preco">R$ {marmita.valor}</h3>
+      <Image src={dados.imagem} alt={`Imagem da marmita ${dados.tamanho}`} />
+        <h3>Marmita ({dados.tamanho})</h3>
+        <p>Todos os acompanhamentos</p>
+        <p> + {dados.proteinas} carnes</p>
+        <h3 id="preco">R$ {dados.valor}</h3>
     </Container>
   );
 }

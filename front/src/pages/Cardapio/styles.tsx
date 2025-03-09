@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 50px;
   h1 {
-    text-align: left;
+    text-align: center;
   }
   justify-content: center;
   margin-bottom: 50px;
@@ -14,20 +14,37 @@ export const Container = styled.div`
   padding-top: 40px;
   width: 100%;
   height: max-content;
+
+  @media (max-width: 999px) {
+    margin-top: 10vh;
+    padding-top: 20px;
+    gap: 30px;
+  }
+
+  @media (max-width: 600px) {
+    margin-top: 5vh;
+    padding-top: 10px;
+    gap: 20px;
+  }
 `;
 
 export const DivTamanhoMarmita = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   height: min-content;
-  justify-content: baseline;
+  justify-content: center;
   gap: 2vw;
-  width: 55vw;
+  width: 100%;
 
   @media (max-width: 999px) {
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: 10px;
   }
 `;
 
