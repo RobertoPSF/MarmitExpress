@@ -1,4 +1,4 @@
-import { Container, Img, Information } from './styles';
+import { Container, Img, Information, StyledIcon, Presente} from './styles';
 
 interface Restaurante {
   id: number;
@@ -7,7 +7,7 @@ interface Restaurante {
   descricao: string;
   telefone: string;
   // aceitandoPedidos: boolean;
-  // avaliacoes: number[];
+  avaliacoes: number;
 }
 
 interface RestauranteCardProps {
@@ -27,10 +27,18 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
       <Img />
       <Information>
         <h3>{dados.nome}</h3>
-        {/* <p>
-          Status: {dados.aceitandoPedidos ? 'Aceitando pedidos' : 'Fechado'}
-        </p>
-        <p>Avaliação: {calcularMediaAvaliacoes(dados.avaliacoes)}</p> */}
+        <div id='avaliacoes'>
+          <StyledIcon icon="emojione:star" />
+          <p>{dados.avaliacoes.toFixed(1)}</p>
+        </div>
+  
+        <p id='descricao'>{dados.descricao}</p>
+
+        <div id='fidelidade'>
+          <Presente />
+          <p>Programa de fidelidade</p>
+          <StyledIcon icon={"material-symbols-light:verified"} id='verificado'/>
+        </div>
       </Information>
     </Container>
   );
