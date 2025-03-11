@@ -53,10 +53,6 @@ const mockTamanhos = (): Tamanho[] => {
         { imagem: marmitasvg, tamanho: 'Pequena', valor: 10, proteinas: 1 },
         { imagem: marmitasvg, tamanho: 'Média', valor: 15, proteinas: 2 },
         { imagem: marmitasvg, tamanho: 'Grande', valor: 20, proteinas: 2 },
-        { imagem: marmitasvg, tamanho: 'Grande', valor: 20, proteinas: 2 },
-        { imagem: marmitasvg, tamanho: 'Grande', valor: 20, proteinas: 2 },
-        { imagem: marmitasvg, tamanho: 'Grande', valor: 20, proteinas: 2 },
-        { imagem: marmitasvg, tamanho: 'Grande', valor: 20, proteinas: 2 },
     ];
 };
 
