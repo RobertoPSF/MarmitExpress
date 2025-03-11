@@ -23,13 +23,7 @@ export const Container = styled.div`
     color: #24292e;
     max-width: 75%;
   }
-
-  #preco {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-size: 1rem;
-  }
+  
   justify-content: center;
   margin: 50px;
 `;

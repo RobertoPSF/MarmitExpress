@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  h1 {
-    text-align: center;
-  }
+  gap: 120px;
   justify-content: center;
   margin-bottom: 50px;
   margin-top: 17.5vh;
@@ -30,11 +27,43 @@ export const Container = styled.div`
 
 export const DivTamanhoMarmita = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   height: min-content;
-  justify-content: center;
+  justify-content: left;
   gap: 2vw;
   width: 100%;
+
+  h1 {
+    text-align: left;
+    width: 100%;
+    padding-left: 50px;
+  }
+
+  @media (max-width: 999px) {
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: 10px;
+  }
+`;
+
+export const DivAcompanhamentos = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: min-content;
+  justify-content: left;
+  gap: 2vw;
+  width: 100%;
+
+  h1 {
+    text-align: left;
+    width: 100%;
+    padding-left: 50px;
+  }
 
   @media (max-width: 999px) {
     flex-wrap: wrap;
@@ -52,14 +81,25 @@ export const DivProteinas = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: min-content;
-  justify-content: baseline;
+  justify-content: left;
   gap: 2vw;
-  width: 55vw;
+  width: 100%;
+
+  h1 {
+    text-align: left;
+    width: 100%;
+    padding-left: 50px;
+  }
 
   @media (max-width: 999px) {
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: 10px;
   }
 `;
 
@@ -67,14 +107,25 @@ export const DivBebidas = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: min-content;
-  justify-content: baseline;
+  justify-content: left;
   gap: 2vw;
-  width: 55vw;
+  width: 100%;
+
+  h1 {
+    text-align: left;
+    width: 100%;
+    padding-left: 50px;
+  }
 
   @media (max-width: 999px) {
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: 10px;
   }
 `;
 
@@ -82,13 +133,24 @@ export const DivSobremesas = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: min-content;
-  justify-content: baseline;
+  justify-content: left;
   gap: 2vw;
-  width: 55vw;
+  width: 100%;
+
+  h1 {
+    text-align: left;
+    width: 100%;
+    padding-left: 50px;
+  }
 
   @media (max-width: 999px) {
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: 10px;
   }
 `;
