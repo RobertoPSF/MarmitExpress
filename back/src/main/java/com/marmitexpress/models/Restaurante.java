@@ -21,6 +21,9 @@ public class Restaurante extends Usuario {
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Marmita> marmitas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> listaDePedidos = new ArrayList<>();
+
     @Column(unique = true, nullable = true, length = 77)
     private String chavePix;
 
@@ -57,4 +60,25 @@ public class Restaurante extends Usuario {
     public String getChavePix() { return chavePix; }
 
     public void setChavePix(String chavePix) { this.chavePix = chavePix; }
+
+    public List<Item> getListaDeItens() { return listaDeItens; }
+
+    public void setListaDeItens(Item item) { 
+        item.setRestaurante(this);
+        this.listaDeItens.add(item);
+    }
+
+    public List<Marmita> getMarmitas() { return marmitas; }
+
+    public void setMarmitas(Marmita marmita) { 
+        marmita.setRestaurante(this);
+        this.marmitas.add(marmita);
+    }
+
+    public List<Pedido> getListaDePedidos() { return listaDePedidos; }
+
+    public void setListaDePedidos(Pedido pedido) { 
+        pedido.setRestaurante(this);
+        this.listaDePedidos.add(pedido);
+    }
 }

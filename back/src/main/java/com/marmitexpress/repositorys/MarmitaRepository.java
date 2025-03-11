@@ -1,6 +1,5 @@
 package com.marmitexpress.repositorys;
 
-import com.marmitexpress.models.Ingrediente;
 import com.marmitexpress.models.Marmita;
 
 import java.util.List;
