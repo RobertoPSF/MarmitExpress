@@ -9,12 +9,12 @@ import com.marmitexpress.services.PagamentoService;
 import com.marmitexpress.services.QrCodeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -96,29 +96,54 @@ public class ClienteController {
     }
 
     @PostMapping("/pagamentos")
-    public ResponseEntity<Pagamento> criarPagamento(@RequestParam Double valor, @RequestParam String descricao, @RequestParam UUID idPedido) {
+    public ResponseEntity<Pagamento> criarPagamento(
+    @RequestParam Double valor,
+    @RequestParam String descricao,
+    @RequestParam UUID idPedido) {
         Pagamento pagamento = pagamentoService.criarPagamento(valor, descricao, idPedido);
-        return ResponseEntity.ok(pagamento);
-    }
+    return ResponseEntity.ok(pagamento);
+}
+
 
     @GetMapping("/pagamentos/{id}/qr-code")
     public ResponseEntity<byte[]> gerarQrCode(@PathVariable UUID id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+        if (cliente == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
         Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
-        String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
-        String dadosPagamento = String.format("marmitexpress://pagamento/%d?valor=%.2f&chave=%s", 
-            id, pagamento.getValor(), chavePix);
-            
-        String qrCodeBase64 = qrCodeService.generateQrCode(dadosPagamento, 300, 300);
-        byte[] qrCodeImage = Base64.getDecoder().decode(qrCodeBase64.split(",")[1]);
-        
+        if (!pagamento.getPedido().getCliente().getId().equals(cliente.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        String payloadPix = pagamentoService.gerarPayloadPix(pagamento);
+        byte[] qrCodeImage = qrCodeService.generateQrCode(payloadPix, 300, 300);
+
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(qrCodeImage);
+            .contentType(MediaType.IMAGE_PNG)
+            .body(qrCodeImage);
     }
 
     @GetMapping("/pagamentos/{id}/status")
     public ResponseEntity<String> verificarStatusPagamento(@PathVariable UUID id) {
-        Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
-        return ResponseEntity.ok(pagamento.getStatus().toString());
+    // Recupera o e-mail do usuário autenticado
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+    // Busca o cliente logado
+    Cliente cliente = clienteService.buscarClientePorEmail(email);
+    if (cliente == null) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado.");
+    }
+
+    // Busca o pagamento
+    Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
+    
+    // Verifica se o pagamento pertence ao cliente autenticado
+    if (!pagamento.getPedido().getCliente().getId().equals(cliente.getId())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado.");
+    }
+    return ResponseEntity.ok(pagamento.getStatus().toString());
     }
 }
