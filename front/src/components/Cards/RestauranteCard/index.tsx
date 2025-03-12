@@ -1,13 +1,13 @@
-import { Container, Img, Information, StyledIcon, Presente} from './styles';
+import { Container, Img, Information } from './styles';
 
 interface Restaurante {
-  id: number;
+  id: string | number;
   nome: string;
   endereco: string;
   descricao: string;
   telefone: string;
   // aceitandoPedidos: boolean;
-  avaliacoes: number;
+  // avaliacoes: number[];
 }
 
 interface RestauranteCardProps {

@@ -4,12 +4,13 @@ export const Container = styled.div`
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 20px;
   justify-content: center;
   margin-bottom: 50px;
   margin-top: 17.5vh;
   padding-top: 40px;
   width: 100%;
+  min-height: 64.5vh;
   height: max-content;
 
   @media (max-width: 999px) {
