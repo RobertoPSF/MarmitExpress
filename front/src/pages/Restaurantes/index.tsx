@@ -44,18 +44,30 @@ export default function Restaurantes() {
     }, 1000);
   }, []);
 
-  if (isLoading) return <p>Carregando restaurantes...</p>;
+  if (isLoading)
+    return (
+      <Container>
+        <p>Carregando restaurantes...</p>
+      </Container>
+    );
   if (error) return <p>{error}</p>;
 
   return (
     <Container>
       {/* <SidebarFiltros setFiltros={setFiltros} /> */}
       <DivRestaurantes>
-        {restaurantes.map((restaurante) => (
-          <NavLink key={restaurante.id} to={`/restaurante/${restaurante.id}`}>
-            <CardRestaurante dados={restaurante} />
-          </NavLink>
-        ))}
+        {restaurantes.length > 0 ? (
+          restaurantes.map((restaurante) => (
+            <NavLink
+              key={restaurante.id}
+              to={`/restaurante/${restaurante.id}/cardapio`}
+            >
+              <CardRestaurante dados={restaurante} />
+            </NavLink>
+          ))
+        ) : (
+          <p>Não existem Restaurantes cadastrados.</p>
+        )}
       </DivRestaurantes>
     </Container>
   );
