@@ -27,7 +27,7 @@ export default function AppRoutes() {
         <Route path="/auth/parceiro" element={<Parceiro />} />
         <Route path="/blank" element={<Blank />} />
         <Route path="/restaurante/:id/cardapio" element={<Cardapio />} />
-        <Route path="restaurante/:id/pagamento" element= {<Pagamento />} />
+        <Route path="/pagamento" element={<Pagamento />} />
       </Routes>
     </BrowserRouter>
   );
