@@ -26,7 +26,6 @@ public class PagamentoService {
         String cidadeRestaurante = "Campina Grande";
         double valor = pagamento.getValor();
         String txid = pagamento.getId().toString();
-
         return PixGeneratorService.gerarPayloadPix(chavePix, chavePix, valor, nomeRestaurante, cidadeRestaurante, txid);
     }
 
