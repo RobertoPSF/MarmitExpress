@@ -19,6 +19,36 @@ import carne from '../../assets/carne.png';
 import bebida from '../../assets/guarana.svg';
 import doce from '../../assets/doce.png';
 import restauranteData from '../../data/restaurantes.json';
+// import ItensCard from '../../components/Cards/ItensCard';
+
+interface Restaurante {
+  id: string;
+  nome: string;
+  email: string;
+  endereco: string;
+  telefone: string;
+  descricao: string;
+  aceitandoPedidos: boolean;
+  chavePix: string;
+  itens: {
+    id: string;
+    nome: string;
+    preco: number;
+    quantidade: number;
+  }[];
+  pedidos: {
+    id: string;
+    clienteId: string;
+    status: string;
+    dataHora: string;
+    valorTotal: number;
+    itens: {
+      produtoId: string;
+      quantidade: number;
+      precoUnitario: number;
+    }[];
+  }[];
+}
 
 interface Tamanho {
   imagem: string;
@@ -101,7 +131,7 @@ const mockSobremesas = (): Sobremresa[] => {
 
 export default function Cardapio() {
   const { id } = useParams<{ id: string }>(); // Pega o id do restaurante da URL
-  const [restaurante, setRestaurante] = useState(null);
+  const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
   const [tamanhos, setTamanhos] = useState<Tamanho[]>([]);
   const [acompanhamentos, setAcompanhamentos] = useState<Acompanhamento[]>([]);
   const [proteinas, setProteinas] = useState<Acompanhamento[]>([]);
@@ -229,6 +259,12 @@ export default function Cardapio() {
         </>
       )}
       <DivTamanhoMarmita>
+        {/* <h1>Itens para venda</h1>
+        <>
+          {restaurante?.itens.map((item) => (
+            <ItensCard imagem={''} nome={item.nome} valor={item.preco} />
+          ))}
+        </> */}
         <h1>Tamanho da MarmitEx</h1>
         {tamanhos.map((tamanho) => (
           <TamanhoMarmitaCard key={tamanho.tamanho} dados={tamanho} />
