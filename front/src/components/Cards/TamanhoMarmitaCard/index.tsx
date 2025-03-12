@@ -9,11 +9,13 @@ interface MarmitaCard {
 
 interface Props {
   dados: MarmitaCard;
+  onClick: () => void;
+  isSelected: boolean;
 }
 
-export default function TamanhoMarmitaCard({ dados }: Props) {
+export default function TamanhoMarmitaCard({ dados, onClick, isSelected}: Props) {
   return (
-    <Container>
+    <Container onClick={onClick} isSelected={isSelected}>
       <Image src={dados.imagem} alt={`Imagem da marmita ${dados.tamanho}`} />
         <h3>Marmita ({dados.tamanho})</h3>
         <p>Todos os acompanhamentos</p>

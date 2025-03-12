@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RestaurantService from '../../services/RestauranteService';
 
 interface Restaurante {
@@ -25,6 +25,7 @@ export default function Restaurantes() {
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   // Instancia o serviço
   const restaurantService = new RestaurantService();
@@ -63,10 +64,13 @@ export default function Restaurantes() {
     <Container>
       {/* <SidebarFiltros setFiltros={setFiltros} /> */}
       <DivRestaurantes>
-        {restaurantes.map((restaurante) => (
-          <NavLink key={restaurante.id} to={`/restaurante/${restaurante.id}`}>
+      {restaurantes.map((restaurante) => (
+          <div
+            key={restaurante.id}
+            onClick={() => navigate(`/restaurante/${restaurante.id}`, { state: { restaurante } })}
+          >
             <CardRestaurante dados={restaurante} />
-          </NavLink>
+          </div>
         ))}
       </DivRestaurantes>
     </Container>
