@@ -1,15 +1,12 @@
 import React from 'react';
 import { BlankPageContainer } from './styles';
-import Card from '../../components/Cards/RestauranteCard';
+import Card from '../../components/Cards/PagamentoCard';
  
 const BlankPage: React.FC = () => {
   const dados = {
-    id: 1,
-    nome: 'Casa do Galioto',
-    endereco: 'Rua Francisco Galioto, 123',
-    descricao: 'Aberto das 10h às 22h',
-    telefone: '(83) 99999-9999',
-    avaliacoes: 5.0
+    quantidade: 4,
+    tipoItem: "marmita (G)",
+    preco: 25.50
   };
   return <BlankPageContainer>
     <Card dados={dados} />

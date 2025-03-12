@@ -13,8 +13,8 @@ export const Container = styled.div`
   border-radius: 15px;
   display: flex;
   gap: 10px;
-  max-width: 15rem;
-  min-width: 15rem;
+  max-width: 12rem;
+  min-width: 12rem;
   padding: 10px;
   transition: box-shadow 0.2s ease-in-out;
 `;
@@ -24,7 +24,7 @@ export const Information = styled.div`
   flex-direction: column;
   max-width: 70%;
   h3{
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   #descricao{
     margin-top: 0.5rem; 
