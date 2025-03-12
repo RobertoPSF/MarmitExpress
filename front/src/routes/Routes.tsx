@@ -10,6 +10,7 @@ import TopContainer from '../components/TopContainer';
 import Header from '../components/Header';
 import Blank from '../pages/BlankPage';
 import Cardapio from '../pages/Cardapio';
+import Pagamento from '../pages/Pagamento';
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
         <Route path="/auth/parceiro" element={<Parceiro />} />
         <Route path="/blank" element={<Blank />} />
         <Route path="/restaurante/:id/cardapio" element={<Cardapio />} />
+        <Route path="restaurante/:id/pagamento" element= {<Pagamento />} />
       </Routes>
     </BrowserRouter>
   );
