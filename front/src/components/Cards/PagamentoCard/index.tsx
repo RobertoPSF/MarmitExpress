@@ -45,6 +45,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
   const { quantidade, tipoItem, preco } = dados;
   let valorSutotal = 0;
   let totalCalculado = 100.0;
+  const formatarMoeda = (valor: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
 
   const navigate = useNavigate();
 
@@ -70,7 +71,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
         {/* IMAGEM DO RESTAURANTE */}
         <p id="itemQuantidade">{quantidade + 'X'}</p>
         <p id="itemTipo">{tipoItem}</p>
-        <p id="itemPreco">{'R$ ' + preco}</p>
+        <p id="itemPreco">{formatarMoeda(preco)}</p>
       </ItemCard>
       {/*LOGICA PARA INTES NO CARRINHO*/}
 
@@ -78,7 +79,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
       <div id="PagamentoInfo">
         <Row>
           <p>Subtotal</p>
-          <p>{valorSutotal}</p>
+          <p>{formatarMoeda(valorSutotal)}</p>
         </Row>
 
         <Row>
@@ -93,7 +94,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
 
         <Row>
           <p>Total</p>
-          <p>{totalCalculado}</p>
+          <p>{formatarMoeda(totalCalculado)}</p>
         </Row>
       </div>
 

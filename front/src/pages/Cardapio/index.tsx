@@ -319,6 +319,8 @@ export default function Cardapio() {
     navigate('/pagamento');
   };
 
+  const formatarMoeda = (valor: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
+
   return (
     <Container>
       <ItensContainer>
@@ -345,7 +347,7 @@ export default function Cardapio() {
             />
           ))}
         </DivTamanhoMarmita>
-        <h1>Acompanhamentos</h1>
+        <h2>Acompanhamentos</h2>
         <DivItem >
             {acompanhamentos.map((acompanhamento) => (
             <AcompanhamentoCard
@@ -357,7 +359,7 @@ export default function Cardapio() {
           ))}
         </DivItem>
   
-        <h1>Proteínas</h1>
+        <h2>Proteínas</h2>
         <DivItem>
             {proteinas.map((proteina) => (
             <ProteinaCard
@@ -369,7 +371,7 @@ export default function Cardapio() {
           ))}
         </DivItem>
 
-        <h1>Bebidas</h1>
+        <h2>Bebidas</h2>
         <DivItem>
           {bebidas.map((bebida) => (
             <BebidaCard
@@ -381,7 +383,7 @@ export default function Cardapio() {
           ))}
         </DivItem>
 
-        <h1>Sobremesas</h1>
+        <h2>Sobremesas</h2>
         <DivItem>
           {sobremesas.map((sobremesa) => (
             <SobremesaCard
@@ -406,7 +408,7 @@ export default function Cardapio() {
             ))}
           </ul>
           <hr />
-          <p>Total: R$ {total.toFixed(2)}</p>
+          <p>Total: {formatarMoeda(total)}</p>
           <button className="finalizar-compra" onClick={handleFinalizarCompra}>
             Finalizar Compra
           </button>

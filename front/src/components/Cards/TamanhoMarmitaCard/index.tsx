@@ -13,6 +13,8 @@ interface Props {
   isSelected: boolean;
 }
 
+const formatarMoeda = (valor: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
+
 export default function TamanhoMarmitaCard({ dados, onClick, isSelected}: Props) {
   return (
     <Container onClick={onClick} isSelected={isSelected}>
@@ -20,7 +22,7 @@ export default function TamanhoMarmitaCard({ dados, onClick, isSelected}: Props)
         <h3>Marmita ({dados.tamanho})</h3>
         <p>Todos os acompanhamentos</p>
         <p> + {dados.proteinas} carnes</p>
-        <h3 id="preco">R$ {dados.valor}</h3>
+        <h3 id="preco">{formatarMoeda(dados.valor)}</h3>
     </Container>
   );
 }

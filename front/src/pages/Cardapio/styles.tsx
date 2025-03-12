@@ -30,6 +30,11 @@ export const ItensContainer = styled.div`
     padding-top: 10px;
     gap: 20px;
   }
+
+  h2{
+    margin-left: 2.5rem;
+    font-size: 2rem;
+  }
 `;
 
 export const ResumoContainer = styled.div`
