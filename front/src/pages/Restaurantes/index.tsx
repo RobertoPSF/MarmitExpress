@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import restaurante from '../../data/restaurantes.json';
 
 const restaurantesMock = restaurante;
@@ -30,6 +30,7 @@ export default function Restaurantes() {
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Simula um delay para carregar os dados (caso necessário)

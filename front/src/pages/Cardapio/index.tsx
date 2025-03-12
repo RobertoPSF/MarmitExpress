@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
 import {
   Container,
-  DivAcompanhamentos,
   DivTamanhoMarmita,
-  DivBebidas,
-  DivProteinas,
-  DivSobremesas,
+  ResumoCompraPopup,
+  ResumoContainer,
+  ItensContainer,
 } from './styles';
 import TamanhoMarmitaCard from '../../components/Cards/TamanhoMarmitaCard';
 import AcompanhamentoCard from '../../components/Cards/AcompanhamentoCard';
 import ProteinaCard from '../../components/Cards/ProteinaCard';
 import BebidaCard from '../../components/Cards/BebidaCard';
 import SobremesaCard from '../../components/Cards/SobremesaCard';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import marmitasvg from '../../assets/marmita.svg';
 import arroz from '../../assets/arroz.png';
 import carne from '../../assets/carne.png';
@@ -72,12 +71,14 @@ interface Proteina {
 interface Bebida {
   imagem: string;
   nome: string;
+  valor: number;
   descricao: string;
 }
 
-interface Sobremresa {
+interface Sobremesa {
   imagem: string;
   nome: string;
+  valor: number;
   descricao: string;
 }
 
@@ -116,16 +117,26 @@ const mockProteinas = (): Proteina[] => {
 
 const mockBebidas = (): Bebida[] => {
   return [
-    { imagem: bebida, nome: 'Suco de Manga', descricao: 'Suco natural' },
-    { imagem: bebida, nome: 'Suco de Goiaba', descricao: 'Suco natural' },
-    { imagem: bebida, nome: 'Refrigerante', descricao: 'Guaraná' },
+    {
+      imagem: bebida,
+      nome: 'Suco de Manga',
+      valor: 4,
+      descricao: 'Suco natural',
+    },
+    {
+      imagem: bebida,
+      nome: 'Suco de Goiaba',
+      valor: 3,
+      descricao: 'Suco natural',
+    },
+    { imagem: bebida, nome: 'Refrigerante', valor: 5, descricao: 'Guaraná' },
   ];
 };
 
-const mockSobremesas = (): Sobremresa[] => {
+const mockSobremesas = (): Sobremesa[] => {
   return [
-    { imagem: doce, nome: 'Pudim', descricao: 'Pudim de leite' },
-    { imagem: doce, nome: 'Bolo', descricao: 'Bolo de cenoura' },
+    { imagem: doce, nome: 'Pudim', valor: 4, descricao: 'Pudim de leite' },
+    { imagem: doce, nome: 'Bolo', valor: 3, descricao: 'Bolo de cenoura' },
   ];
 };
 
@@ -139,6 +150,12 @@ export default function Cardapio() {
   const [sobremesas, setSobremesas] = useState<Acompanhamento[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedTamanho, setSelectedTamanho] = useState<Tamanho | null>(null);
+  const [selectedItems, setSelectedItems] = useState<
+    (Acompanhamento | Proteina | Bebida | Sobremesa)[]
+  >([]);
+  const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
   // const tamanhoService = new TamanhoService();
   // const acompanhamentoService = new AcompanhamentoService();
@@ -247,56 +264,149 @@ export default function Cardapio() {
     fetchSobremesas();
   }, []);
 
+  const handleSelectTamanho = (tamanho: Tamanho) => {
+    setSelectedTamanho(tamanho);
+    setTotal(tamanho.valor);
+  };
+
+  const countSelectedProteinas = () => {
+    return selectedItems.filter((item) =>
+      proteinas.some((proteina) => proteina.nome === item.nome),
+    ).length;
+  };
+
+  const handleRemoveItem = (
+    item: Acompanhamento | Proteina | Bebida | Sobremesa,
+  ) => {
+    setSelectedItems(selectedItems.filter((i) => i.nome !== item.nome));
+    setTotal(total - ('valor' in item ? item.valor : 0));
+  };
+
+  const isItemSelected = (
+    item: Acompanhamento | Proteina | Bebida | Sobremesa,
+  ) => {
+    return selectedItems.some((i) => i.nome === item.nome);
+  };
+
+  const handleSelectItem = (
+    item: Acompanhamento | Proteina | Bebida | Sobremesa,
+  ) => {
+    if (isItemSelected(item)) {
+      handleRemoveItem(item);
+    } else {
+      if (
+        proteinas.some((proteina) => proteina.nome === item.nome) &&
+        selectedTamanho &&
+        countSelectedProteinas() >= selectedTamanho.proteinas
+      ) {
+        alert(
+          `Você só pode selecionar até ${selectedTamanho.proteinas} proteínas para o tamanho ${selectedTamanho.tamanho}.`,
+        );
+        return;
+      }
+
+      setSelectedItems([...selectedItems, item]);
+      setTotal(total + ('valor' in item ? item.valor : 0));
+    }
+  };
+
   if (isLoading) return <p>Carregando tamanhos e acompanhamentos...</p>;
   if (error) return <p>{error}</p>;
 
+  const handleFinalizarCompra = () => {
+    alert('Compra finalizada!');
+    navigate('/pagamento');
+  };
+
   return (
     <Container>
-      {restaurante && (
-        <>
-          <h1>{restaurante.nome}</h1>
-          <h2>{restaurante.descricao}</h2>
-        </>
-      )}
-      <DivTamanhoMarmita>
-        {/* <h1>Itens para venda</h1>
+      <ItensContainer>
+        {restaurante && (
+          <>
+            <h1>{restaurante.nome}</h1>
+            <h2>{restaurante.descricao}</h2>
+          </>
+        )}
+        <DivTamanhoMarmita>
+          {/* <h1>Itens para venda</h1>
         <>
           {restaurante?.itens.map((item) => (
             <ItensCard imagem={''} nome={item.nome} valor={item.preco} />
           ))}
         </> */}
-        <h1>Tamanho da MarmitEx</h1>
-        {tamanhos.map((tamanho) => (
-          <TamanhoMarmitaCard key={tamanho.tamanho} dados={tamanho} />
-        ))}
-      </DivTamanhoMarmita>
-      <DivAcompanhamentos>
-        <h1>Acompanhamentos</h1>
-        {acompanhamentos.map((acompanhamento) => (
-          <AcompanhamentoCard
-            key={acompanhamento.nome}
-            dados={acompanhamento}
-          />
-        ))}
-      </DivAcompanhamentos>
-      <DivProteinas>
-        <h1>Proteínas</h1>
-        {proteinas.map((proteina) => (
-          <ProteinaCard key={proteina.nome} dados={proteina} />
-        ))}
-      </DivProteinas>
-      <DivBebidas>
-        <h1>Bebidas</h1>
-        {bebidas.map((bebida) => (
-          <BebidaCard key={bebida.nome} dados={bebida} />
-        ))}
-      </DivBebidas>
-      <DivSobremesas>
-        <h1>Sobremesas</h1>
-        {sobremesas.map((sobremesa) => (
-          <SobremesaCard key={sobremesa.nome} dados={sobremesa} />
-        ))}
-      </DivSobremesas>
+          <h1>Tamanho da MarmitEx</h1>
+          {tamanhos.map((tamanho) => (
+            <TamanhoMarmitaCard
+              key={tamanho.tamanho}
+              dados={tamanho}
+              onClick={() => handleSelectTamanho(tamanho)}
+              isSelected={selectedTamanho?.tamanho === tamanho.tamanho}
+            />
+          ))}
+        </DivTamanhoMarmita>
+        <div>
+          <h1>Acompanhamentos</h1>
+          {acompanhamentos.map((acompanhamento) => (
+            <AcompanhamentoCard
+              key={acompanhamento.nome}
+              dados={acompanhamento}
+              onClick={() => handleSelectItem(acompanhamento)}
+              isSelected={isItemSelected(acompanhamento)}
+            />
+          ))}
+        </div>
+        <div>
+          <h1>Proteínas</h1>
+          {proteinas.map((proteina) => (
+            <ProteinaCard
+              key={proteina.nome}
+              dados={proteina}
+              onClick={() => handleSelectItem(proteina)}
+              isSelected={isItemSelected(proteina)}
+            />
+          ))}
+        </div>
+        <div>
+          <h1>Bebidas</h1>
+          {bebidas.map((bebida) => (
+            <BebidaCard
+              key={bebida.nome}
+              dados={bebida}
+              onClick={() => handleSelectItem(bebida)}
+              isSelected={isItemSelected(bebida)}
+            />
+          ))}
+        </div>
+        <div>
+          <h1>Sobremesas</h1>
+          {sobremesas.map((sobremesa) => (
+            <SobremesaCard
+              key={sobremesa.nome}
+              dados={sobremesa}
+              onClick={() => handleSelectItem(sobremesa)}
+              isSelected={isItemSelected(sobremesa)}
+            />
+          ))}
+        </div>
+      </ItensContainer>
+      <ResumoContainer>
+        <ResumoCompraPopup>
+          <h2>Itens</h2>
+          <hr />
+          <p>Tamanho da Marmita: {selectedTamanho?.tamanho}</p>
+          <p>Itens Selecionados:</p>
+          <ul>
+            {selectedItems.map((item) => (
+              <li key={item.nome}>{item.nome}</li>
+            ))}
+          </ul>
+          <hr />
+          <p>Total: R$ {total.toFixed(2)}</p>
+          <button className="finalizar-compra" onClick={handleFinalizarCompra}>
+            Finalizar Compra
+          </button>
+        </ResumoCompraPopup>
+      </ResumoContainer>
     </Container>
   );
 }

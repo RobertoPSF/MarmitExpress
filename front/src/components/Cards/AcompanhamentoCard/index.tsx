@@ -8,11 +8,13 @@ interface Acompanhamento {
 
 interface Props {
     dados: Acompanhamento;
+    onClick: () => void;
+    isSelected: boolean;
 }
 
-export default function AcompanhamentoCard({ dados }: Props) {
+export default function AcompanhamentoCard({ dados, onClick, isSelected}: Props) {
     return (
-        <Container>
+        <Container onClick={onClick} isSelected={isSelected}>
             <Image src={dados.imagem} alt={`Imagem do acompanhamento ${dados.nome}`} />
             <div>
                 <h3>{dados.nome}</h3>

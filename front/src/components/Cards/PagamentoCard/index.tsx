@@ -46,7 +46,6 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
   let valorSutotal = 0;
   let totalCalculado = 100.0;
 
-  // Coloque o hook `useNavigate` dentro do componente
   const navigate = useNavigate();
 
   const handleConfirm = async () => {
