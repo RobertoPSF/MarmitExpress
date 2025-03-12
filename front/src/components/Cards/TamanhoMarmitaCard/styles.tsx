@@ -6,10 +6,9 @@ export const Container = styled.div<{ isSelected: boolean }>`
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   display: flex;
+  max-width: 15rem;
   flex-direction: column;
-  width: 300px;
-  height: 300px;
-  padding: 20px;
+  padding: 1rem;
   position: relative;
   border: 2px solid ${props => (props.isSelected ? '#313131' : 'transparent')};
   
@@ -26,7 +25,8 @@ export const Container = styled.div<{ isSelected: boolean }>`
   }
 
   #preco {
-    position: absolute;
+    display: flex;
+    align-self: self-end;
     bottom: 20px;
     right: 20px;
     font-size: 1rem;
@@ -36,7 +36,7 @@ export const Container = styled.div<{ isSelected: boolean }>`
 `;
 
 export const Image = styled.img`
-  max-width: 10rem;
-  max-height: 10rem;
+  min-width: 100%;
+  max-width: 100%;
   margin-bottom: 20px; 
 `;

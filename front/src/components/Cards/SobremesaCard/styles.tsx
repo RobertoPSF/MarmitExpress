@@ -7,9 +7,8 @@ export const Container = styled.div<{ isSelected: boolean }>`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 300px;
-  padding: 20px;
+  max-width: 15rem;
+  padding: 1.5rem;
   position: relative;
   border: 2px solid ${props => (props.isSelected ? '#313131' : 'transparent')};
   
@@ -30,7 +29,7 @@ export const Container = styled.div<{ isSelected: boolean }>`
 `;
 
 export const Image = styled.img`
-  max-width: 10rem;
-  max-height: 10rem;
-  margin-bottom: 20px; 
+  min-width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.5rem;  
 `;

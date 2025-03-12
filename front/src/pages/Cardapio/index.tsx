@@ -5,6 +5,7 @@ import {
   ResumoCompraPopup,
   ResumoContainer,
   ItensContainer,
+  DivItem
 } from './styles';
 import TamanhoMarmitaCard from '../../components/Cards/TamanhoMarmitaCard';
 import AcompanhamentoCard from '../../components/Cards/AcompanhamentoCard';
@@ -344,9 +345,9 @@ export default function Cardapio() {
             />
           ))}
         </DivTamanhoMarmita>
-        <div>
-          <h1>Acompanhamentos</h1>
-          {acompanhamentos.map((acompanhamento) => (
+        <h1>Acompanhamentos</h1>
+        <DivItem >
+            {acompanhamentos.map((acompanhamento) => (
             <AcompanhamentoCard
               key={acompanhamento.nome}
               dados={acompanhamento}
@@ -354,10 +355,11 @@ export default function Cardapio() {
               isSelected={isItemSelected(acompanhamento)}
             />
           ))}
-        </div>
-        <div>
-          <h1>Proteínas</h1>
-          {proteinas.map((proteina) => (
+        </DivItem>
+  
+        <h1>Proteínas</h1>
+        <DivItem>
+            {proteinas.map((proteina) => (
             <ProteinaCard
               key={proteina.nome}
               dados={proteina}
@@ -365,9 +367,10 @@ export default function Cardapio() {
               isSelected={isItemSelected(proteina)}
             />
           ))}
-        </div>
-        <div>
-          <h1>Bebidas</h1>
+        </DivItem>
+
+        <h1>Bebidas</h1>
+        <DivItem>
           {bebidas.map((bebida) => (
             <BebidaCard
               key={bebida.nome}
@@ -376,9 +379,10 @@ export default function Cardapio() {
               isSelected={isItemSelected(bebida)}
             />
           ))}
-        </div>
-        <div>
-          <h1>Sobremesas</h1>
+        </DivItem>
+
+        <h1>Sobremesas</h1>
+        <DivItem>
           {sobremesas.map((sobremesa) => (
             <SobremesaCard
               key={sobremesa.nome}
@@ -387,7 +391,8 @@ export default function Cardapio() {
               isSelected={isItemSelected(sobremesa)}
             />
           ))}
-        </div>
+        </DivItem>
+
       </ItensContainer>
       <ResumoContainer>
         <ResumoCompraPopup>

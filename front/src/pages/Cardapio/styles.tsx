@@ -65,27 +65,7 @@ export const DivTamanhoMarmita = styled.div`
 export const DivItem = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: min-content;
-  justify-content: left;
-  gap: 2vw;
   width: 100%;
-
-  h1 {
-    text-align: left;
-    width: 100%;
-    padding-left: 50px;
-  }
-
-  @media (max-width: 999px) {
-    flex-wrap: wrap;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-
-  @media (max-width: 600px) {
-    gap: 10px;
-  }
 `;
 
 export const ResumoCompraPopup = styled.div`
