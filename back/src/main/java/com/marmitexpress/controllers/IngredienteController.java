@@ -25,7 +25,7 @@ public class IngredienteController {
     @Autowired
     private RestauranteService restauranteService;
 
-    @PostMapping("/me")
+    @PostMapping
     public ResponseEntity<IngredienteResponseDTO> createIngrediente(@RequestBody IngredienteDTO ingredienteDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
@@ -38,7 +38,7 @@ public class IngredienteController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/me")
+    @GetMapping
     public ResponseEntity<List<IngredienteResponseDTO>> getMyIngredientes() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
@@ -65,7 +65,7 @@ public class IngredienteController {
     }
 
 
-    @GetMapping("/{restauranteId}")
+    @GetMapping("/restaurante/{restauranteId}")
     public ResponseEntity<List<IngredienteResponseDTO>> getIngredientesByRestaurante(@PathVariable UUID restauranteId) {
         List<IngredienteResponseDTO> ingredientes = ingredienteService.getIngredientesByRestaurante(restauranteId);
         return ResponseEntity.ok(ingredientes);

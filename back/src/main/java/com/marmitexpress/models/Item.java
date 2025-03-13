@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Item {
     @Id
@@ -20,6 +22,7 @@ public class Item {
     private byte[] foto; 
 
     @ManyToOne
+    @JsonIgnore
     private Restaurante restaurante; 
 
     public Item() {}

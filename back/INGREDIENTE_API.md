@@ -1,106 +1,120 @@
-# INGREDIENTE API Documentation
-
-## Overview
-The INGREDIENTE API allows for the management of ingredients within the system. It provides endpoints to create, retrieve, update, and delete ingredients, as well as to list ingredients associated with a specific restaurant.
+# Documentação da API de Ingredientes
 
 ## Endpoints
 
-### Create Ingredient
-- **POST** `/ingredientes/me`
-- **Description**: Creates a new ingredient for the authenticated restaurant.
-- **Request Body**:
-  ```json
-  {
-    "nome": "string",
-    "quantidade": "number"
-  }
-  ```
-- **Response**:
-  - **200 OK**: Returns the created ingredient.
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "quantidade": "number",
-    "restauranteId": "UUID"
-  }
-  ```
-  - **403 Forbidden**: If the restaurant is not found.
+### 1. Criar Ingrediente
+**POST** `/ingredientes`
 
-### Get My Ingredients
-- **GET** `/ingredientes/me`
-- **Description**: Retrieves a list of ingredients for the authenticated restaurant.
-- **Response**:
-  - **200 OK**: Returns a list of ingredients.
-  ```json
-  [
-    {
-      "id": "UUID",
-      "nome": "string",
-      "quantidade": "number",
-      "restauranteId": "UUID"
-    }
-  ]
-  ```
-  - **403 Forbidden**: If the restaurant is not found.
+#### Corpo da Requisição
+```json
+{
+  "nome": "Nome do Ingrediente"
+}
+```
 
-### Update Ingredient
-- **PUT** `/ingredientes/{id}`
-- **Description**: Updates an existing ingredient.
-- **Request Body**:
-  ```json
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "nome": "Nome do Ingrediente",
+  "restauranteId": "uuid"
+}
+```
+
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "message": "Acesso negado"
+}
+```
+
+---
+### 2. Listar Ingredientes do Meu Restaurante
+**GET** `/ingredientes`
+
+#### Resposta de Sucesso (200 OK)
+```json
+[
   {
-    "nome": "string",
-    "quantidade": "number"
+    "id": "uuid",
+    "nome": "Nome do Ingrediente",
+    "restauranteId": "uuid"
   }
-  ```
-- **Response**:
-  - **200 OK**: Returns the updated ingredient.
-  ```json
+]
+```
+
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "message": "Acesso negado"
+}
+```
+
+---
+### 3. Atualizar Ingrediente
+**PUT** `/ingredientes/{id}`
+
+#### Corpo da Requisição
+```json
+{
+  "nome": "Novo Nome do Ingrediente"
+}
+```
+
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "nome": "Novo Nome do Ingrediente",
+  "restauranteId": "uuid"
+}
+```
+
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "message": "Acesso negado"
+}
+```
+
+---
+### 4. Listar Ingredientes de um Restaurante Específico
+**GET** `/ingredientes/restaurante/{restauranteId}`
+
+#### Resposta de Sucesso (200 OK)
+```json
+[
   {
-    "id": "UUID",
-    "nome": "string",
-    "quantidade": "number",
-    "restauranteId": "UUID"
+    "id": "uuid",
+    "nome": "Nome do Ingrediente",
+    "restauranteId": "uuid"
   }
-  ```
-  - **403 Forbidden**: If the restaurant is not found.
+]
+```
 
-### Get Ingredients by Restaurant
-- **GET** `/ingredientes/{restauranteId}`
-- **Description**: Retrieves a list of ingredients associated with a specific restaurant.
-- **Response**:
-  - **200 OK**: Returns a list of ingredients.
-  ```json
-  [
-    {
-      "id": "UUID",
-      "nome": "string",
-      "quantidade": "number",
-      "restauranteId": "UUID"
-    }
-  ]
-  ```
+---
+### 5. Buscar Ingrediente por ID
+**GET** `/ingredientes/{id}`
 
-### Get Ingredient by ID
-- **GET** `/ingredientes/{id}`
-- **Description**: Retrieves a specific ingredient by its ID.
-- **Response**:
-  - **200 OK**: Returns the ingredient.
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "quantidade": "number",
-    "restauranteId": "UUID"
-  }
-  ```
-  - **404 Not Found**: If the ingredient is not found.
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "nome": "Nome do Ingrediente",
+  "restauranteId": "uuid"
+}
+```
 
-### Delete Ingredient
-- **DELETE** `/ingredientes/{id}`
-- **Description**: Deletes a specific ingredient by its ID.
-- **Response**:
-  - **204 No Content**: If the ingredient is successfully deleted.
-  - **403 Forbidden**: If the restaurant is not found.
+---
+### 6. Deletar Ingrediente
+**DELETE** `/ingredientes/{id}`
+
+#### Resposta de Sucesso (204 No Content)
+
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "message": "Acesso negado"
+}
+```
 

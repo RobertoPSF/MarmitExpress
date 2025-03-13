@@ -105,8 +105,6 @@ public class ItemController {
         ));
     }
 
-
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarItem(@PathVariable UUID id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -125,29 +123,29 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/restaurante")
-public ResponseEntity<List<ItemResponseDTO>> buscarItensPorRestaurante() {
-    String email = SecurityContextHolder.getContext().getAuthentication().getName();
-    Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+    @GetMapping("/restaurante/{restauranteiId}")
+    public ResponseEntity<List<ItemResponseDTO>> buscarItensPorRestaurante() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
 
-    if (restaurante == null) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        List<Item> itens = itemService.buscarItensPorRestaurante(restaurante);
+
+        List<ItemResponseDTO> itemResponseDTOs = itens.stream()
+            .map(item -> new ItemResponseDTO(
+                item.getId(),
+                item.getNome(),
+                item.getPreco(),
+                item.getQuantidade(),
+                item.getRestaurante().getId()
+            ))
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(itemResponseDTOs);
     }
-
-    List<Item> itens = itemService.buscarItensPorRestaurante(restaurante);
-
-    List<ItemResponseDTO> itemResponseDTOs = itens.stream()
-        .map(item -> new ItemResponseDTO(
-            item.getId(),
-            item.getNome(),
-            item.getPreco(),
-            item.getQuantidade(),
-            item.getRestaurante().getId()
-        ))
-        .collect(Collectors.toList());
-
-    return ResponseEntity.ok(itemResponseDTOs);
-}
 
 
 }

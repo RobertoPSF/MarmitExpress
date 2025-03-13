@@ -1,89 +1,87 @@
-# RESTAURANTE API Documentation
+# Documentação da API - RestauranteController
 
-## Authentication
-All endpoints except `/restaurantes/login` require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+Esta documentação detalha os endpoints relacionados à gestão de restaurantes na plataforma MarmitExpress.
 
+## Endpoints
 
-## 1. List Restaurants
-- **HTTP Method:** GET
-- **Endpoint:** `/restaurantes`
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  [
+### Listar todos os restaurantes
+**GET** `/restaurantes`
+
+**Resposta:**
+```json
+[
     {
-      "id": "UUID",
-      "nome": "string",
-      "email": "string",
-      "endereco": "string",
-      "telefone": "string",
-      "descricao": "string",
-      "aceitandoPedidos": true,
-      "chavePix": "string"
-    },
-    ...
-  ]
-  ```
+        "id": "UUID",
+        "nome": "Nome do Restaurante",
+        "email": "email@restaurante.com",
+        "endereco": "Endereço do restaurante",
+        "telefone": "(00) 00000-0000",
+        "descricao": "Breve descrição do restaurante",
+        "aceitandoPedidos": true,
+        "chavePix": "chave-pix",
+        "ingredientes": [...],
+        "listaDeItens": [...],
+        "marmitas": [...]
+    }
+]
+```
 
-## 2. Get Restaurant by ID
-- **HTTP Method:** GET
-- **Endpoint:** `/restaurantes/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
+### Buscar restaurante por ID
+**GET** `/restaurantes/{id}`
+
+**Resposta:**
+- **200 OK** - Restaurante encontrado
+- **404 Not Found** - Restaurante inexistente
+
+**Exemplo de resposta (200 OK):**
+```json
+{
     "id": "UUID",
-    "nome": "string",
-    "email": "string",
-    "endereco": "string",
-    "telefone": "string",
-    "descricao": "string",
+    "nome": "Nome do Restaurante",
+    "email": "email@restaurante.com",
+    "endereco": "Endereço do restaurante",
+    "telefone": "(00) 00000-0000",
+    "descricao": "Breve descrição do restaurante",
     "aceitandoPedidos": true,
-    "chavePix": "string"
-  }
-  ```
-  - **Status:** 404 Not Found (if restaurant not found)
+    "chavePix": "chave-pix",
+    "ingredientes": [...],
+    "listaDeItens": [...],
+    "marmitas": [...]
+}
+```
 
-## 3. Update Restaurant
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/restaurantes/{id}`
-- **Path Variable:** `id` (UUID)
-- **Request Body:**
-  ```json
-  {
-    "nome": "string",
-    "endereco": "string",
-    "telefone": "string",
-    "descricao": "string",
-    "aceitandoPedidos": true,
-    "chavePix": "string"
-  }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "email": "string",
-    "endereco": "string",
-    "telefone": "string",
-    "descricao": "string",
-    "aceitandoPedidos": true,
-    "chavePix": "string"
-  }
-  ```
-  - **Status:** 404 Not Found (if restaurant not found)
+### Buscar meu perfil
+**GET** `/restaurantes/me`
 
-## 6. Delete Restaurant
-- **HTTP Method:** DELETE
-- **Endpoint:** `/restaurantes/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
+**Resposta:**
+- **200 OK** - Perfil encontrado
+- **404 Not Found** - Perfil inexistente
+
+**Exemplo de resposta:** Igual ao endpoint de busca por ID.
+
+### Atualizar meu perfil
+**PUT** `/restaurantes/me`
+
+**Body:**
+```json
+{
+    "nome": "Novo Nome",
+    "endereco": "Novo Endereço",
+    "descricao": "Nova descrição",
+    "aceitandoPedidos": true,
+    "chavePix": "nova-chave-pix"
+}
+```
+
+**Resposta:**
+- **200 OK** - Perfil atualizado com sucesso
+- **404 Not Found** - Perfil inexistente
+
+**Exemplo de resposta:** Igual ao endpoint de busca por ID.
+
+### Deletar restaurante
+**DELETE** `/restaurantes/{id}`
+
+**Resposta:**
+- **204 No Content** - Restaurante deletado com sucesso
+- **404 Not Found** - Restaurante inexistente

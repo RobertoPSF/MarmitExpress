@@ -3,6 +3,8 @@ package com.marmitexpress.models;
 import jakarta.persistence.*;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ingrediente {
     @Id
@@ -13,6 +15,7 @@ public class Ingrediente {
     private String nome;
 
     @ManyToOne
+    @JsonIgnore
     private Restaurante restaurante;
 
     public Ingrediente() {}

@@ -1,115 +1,112 @@
-# CLIENTE API Documentation
+# Documentação da API Cliente
 
-## Authentication
-All endpoints require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+## Endpoints
 
-## 1. List Clients
-- **Only Admin**
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes`
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  [
-    {
-      "id": "UUID",
-      "nome": "string",
-      "email": "string",
-      "endereco": "string",
-      "telefone": "string"
-    }
-  ]
-  ```
+### 1. Listar Clientes
+**GET** `/clientes`
 
-## 2. Get My Profile
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes/me`
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
+#### Resposta de Sucesso (200 OK)
+```json
+[
   {
-    "id": "UUID",
-    "nome": "string",
-    "email": "string",
-    "endereco": "string",
-    "telefone": "string"
+    "id": "uuid",
+    "nome": "Nome do Cliente",
+    "email": "cliente@email.com",
+    "endereco": "Endereço do Cliente",
+    "telefone": "Telefone do Cliente"
   }
-  ```
-  - **Status:** 404 Not Found (if client not found)
+]
+```
 
-## 3. Update My Profile
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/clientes/me`
-- **Request Body:**
-  ```json
-  {
-    "nome": "string",
-    "endereco": "string",
-    "telefone": "string"
-  }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "email": "string",
-    "endereco": "string",
-    "telefone": "string"
-  }
-  ```
-  - **Status:** 404 Not Found (if client not found)
+---
+### 2. Buscar Meu Perfil
+**GET** `/clientes/me`
 
-## 4. Delete Client
-- **HTTP Method:** DELETE
-- **Endpoint:** `/clientes/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "nome": "Nome do Cliente",
+  "email": "cliente@email.com",
+  "endereco": "Endereço do Cliente",
+  "telefone": "Telefone do Cliente"
+}
+```
 
-## 5. Create Payment
-- **HTTP Method:** POST
-- **Endpoint:** `/clientes/pagamentos`
-- **Request Parameters:**
-  - `valor`: Double
-  - `descricao`: String
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
-    "id": "UUID",
-    "valor": "double",
-    "descricao": "string",
-    "status": "string"
-  }
-  ```
+#### Resposta de Erro (404 Not Found)
+```json
+{
+  "message": "Cliente não encontrado"
+}
+```
 
-## 6. Generate QR Code for Payment
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes/pagamentos/{id}/qr-code`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Content-Type:** `image/png`
-  - **Body:** Binary QR code image
-  - **Status:** 404 Not Found (if payment not found)
+---
+### 3. Atualizar Perfil
+**PUT** `/clientes/me`
 
-## 7. Check Payment Status
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes/pagamentos/{id}/status`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  "string"  // Payment status
-  ```
-  - **Status:** 404 Not Found (if payment not found)
+#### Corpo da Requisição
+```json
+{
+  "nome": "Novo Nome",
+  "endereco": "Novo Endereço",
+  "telefone": "Novo Telefone"
+}
+```
 
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "nome": "Novo Nome",
+  "email": "cliente@email.com",
+  "endereco": "Novo Endereço",
+  "telefone": "Novo Telefone"
+}
+```
+
+#### Resposta de Erro (404 Not Found)
+```json
+{
+  "message": "Cliente não encontrado"
+}
+```
+
+---
+### 4. Deletar Cliente
+**DELETE** `/clientes/{id}`
+
+#### Resposta de Sucesso (204 No Content)
+
+---
+### 5. Criar Pagamento
+**POST** `/clientes/pagamentos`
+
+#### Parâmetros da Requisição
+- `valor` (Double) - Valor do pagamento
+- `descricao` (String) - Descrição do pagamento
+
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "valor": 50.00,
+  "descricao": "Pagamento de pedido",
+  "status": "PENDENTE"
+}
+```
+
+---
+### 6. Gerar QR Code para Pagamento
+**GET** `/clientes/pagamentos/{id}/qr-code`
+
+#### Resposta de Sucesso (200 OK)
+- Retorna a imagem do QR Code no formato PNG
+
+---
+### 7. Verificar Status do Pagamento
+**GET** `/clientes/pagamentos/{id}/status`
+
+#### Resposta de Sucesso (200 OK)
+```json
+"PAGO"
+```

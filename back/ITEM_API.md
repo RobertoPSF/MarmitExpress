@@ -1,112 +1,140 @@
-# ITEM API Documentation
+# Documentação da API de Itens - MarmitExpress
 
-## Overview
-The ITEM API allows for the management of items within the system. It provides endpoints to create, retrieve, update, and delete items, as well as to list items associated with a specific restaurant.
+## Introdução
+A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os itens do seu cardápio. Apenas restaurantes autenticados podem realizar operações nos itens que pertencem a eles.
 
 ## Endpoints
 
-### Create Item
-- **POST** `/itens`
-- **Description**: Creates a new item.
-- **Request Body**:
-  ```json
-  {
-    "nome": "string",
-    "preco": "number",
-    "quantidade": "number"
-  }
-  ```
-- **Response**:
-  - **200 OK**: Returns the created item.
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "preco": "number",
-    "quantidade": "number",
-    "restauranteId": "UUID"
-  }
-  ```
-  - **403 Forbidden**: If the restaurant is not found.
+### Criar um Item
+**POST /itens**
 
-### List Items
-- **GET** `/itens`
-- **Description**: Retrieves a list of all items.
-- **Response**:
-  - **200 OK**: Returns a list of items.
-  ```json
-  [
-    {
-      "id": "UUID",
-      "nome": "string",
-      "preco": "number",
-      "quantidade": "number",
-      "restauranteId": "UUID"
-    }
-  ]
-  ```
+**Requisição:**
+```json
+{
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
 
-### Get Item by ID
-- **GET** `/itens/{id}`
-- **Description**: Retrieves a specific item by its ID.
-- **Response**:
-  - **200 OK**: Returns the item.
-  ```json
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Apenas o restaurante dono pode cadastrar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
+
+---
+
+### Listar todos os Itens
+**GET /itens**
+
+**Resposta (200 OK):**
+```json
+[
   {
-    "id": "UUID",
-    "nome": "string",
-    "preco": "number",
-    "quantidade": "number",
-    "restauranteId": "UUID"
+    "id": "UUID-do-item",
+    "nome": "Arroz com Feijão",
+    "preco": 12.50,
+    "quantidade": 10,
+    "restauranteId": "UUID-do-restaurante"
   }
-  ```
-  - **404 Not Found**: If the item is not found.
+]
+```
 
-### Update Item
-- **PUT** `/itens/{id}`
-- **Description**: Updates an existing item.
-- **Request Body**:
-  ```json
+---
+
+### Buscar um Item por ID
+**GET /itens/{id}**
+
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Retorna `404 Not Found` caso o item não exista.
+
+---
+
+### Atualizar um Item
+**PUT /itens/{id}**
+
+**Requisição:**
+```json
+{
+  "nome": "Feijoada",
+  "preco": 15.00,
+  "quantidade": 5
+}
+```
+
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Feijoada",
+  "preco": 15.00,
+  "quantidade": 5,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Apenas o restaurante dono pode atualizar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
+
+---
+
+### Deletar um Item
+**DELETE /itens/{id}**
+
+**Resposta (204 No Content)**
+
+**Restrições:**
+- Apenas o restaurante dono pode deletar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
+
+---
+
+### Buscar Itens de um Restaurante
+**GET /itens/restaurante/{restauranteId}**
+
+**Resposta (200 OK):**
+```json
+[
   {
-    "nome": "string",
-    "preco": "number",
-    "quantidade": "number"
+    "id": "UUID-do-item",
+    "nome": "Arroz com Feijão",
+    "preco": 12.50,
+    "quantidade": 10,
+    "restauranteId": "UUID-do-restaurante"
   }
-  ```
-- **Response**:
-  - **200 OK**: Returns the updated item.
-  ```json
-  {
-    "id": "UUID",
-    "nome": "string",
-    "preco": "number",
-    "quantidade": "number",
-    "restauranteId": "UUID"
-  }
-  ```
-  - **403 Forbidden**: If the restaurant is not found or does not own the item.
+]
+```
 
-### Delete Item
-- **DELETE** `/itens/{id}`
-- **Description**: Deletes a specific item by its ID.
-- **Response**:
-  - **204 No Content**: If the item is successfully deleted.
-  - **403 Forbidden**: If the restaurant is not found or does not own the item.
+**Restrições:**
+- Apenas restaurantes autenticados podem acessar seus itens.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
 
-### Get Items by Restaurant
-- **GET** `/itens/restaurante`
-- **Description**: Retrieves a list of items associated with the authenticated restaurant.
-- **Response**:
-  - **200 OK**: Returns a list of items.
-  ```json
-  [
-    {
-      "id": "UUID",
-      "nome": "string",
-      "preco": "number",
-      "quantidade": "number",
-      "restauranteId": "UUID"
-    }
-  ]
-  ```
-  - **403 Forbidden**: If the restaurant is not found.
+---
+
+## Observações
+- Todos os endpoints que requerem autenticação validam o restaurante pelo email cadastrado.
+- Para qualquer erro de permissão ou item inexistente, a API retorna os códigos apropriados (`403` ou `404`).
+

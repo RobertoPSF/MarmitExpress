@@ -26,7 +26,7 @@ public class MarmitaController {
     @Autowired
     private RestauranteService restauranteService;
 
-    @GetMapping("/listar/{restauranteId}")
+    @GetMapping("/restaurante/{restauranteId}")
     public ResponseEntity<List<MarmitaResponseDTO>> listarMarmitaByRestaurante(@PathVariable UUID restauranteId) {
         List<Marmita> marmitas = marmitaService.getMarmitasByRestaurante(restauranteId);
         List<MarmitaResponseDTO> marmitaResponseDTOs = marmitas.stream()
