@@ -5,7 +5,7 @@ import {
   ResumoCompraPopup,
   ResumoContainer,
   ItensContainer,
-  DivItem
+  DivItem,
 } from './styles';
 import TamanhoMarmitaCard from '../../components/Cards/TamanhoMarmitaCard';
 import AcompanhamentoCard from '../../components/Cards/AcompanhamentoCard';
@@ -315,8 +315,13 @@ export default function Cardapio() {
   if (error) return <p>{error}</p>;
 
   const handleFinalizarCompra = () => {
-    alert('Compra finalizada!');
-    navigate('/pagamento');
+    navigate('/pagamento', {
+      state: {
+        tamanho: selectedTamanho,
+        itens: selectedItems,
+        total: total,
+      },
+    });
   };
 
   return (
@@ -346,8 +351,8 @@ export default function Cardapio() {
           ))}
         </DivTamanhoMarmita>
         <h1>Acompanhamentos</h1>
-        <DivItem >
-            {acompanhamentos.map((acompanhamento) => (
+        <DivItem>
+          {acompanhamentos.map((acompanhamento) => (
             <AcompanhamentoCard
               key={acompanhamento.nome}
               dados={acompanhamento}
@@ -356,10 +361,10 @@ export default function Cardapio() {
             />
           ))}
         </DivItem>
-  
+
         <h1>Proteínas</h1>
         <DivItem>
-            {proteinas.map((proteina) => (
+          {proteinas.map((proteina) => (
             <ProteinaCard
               key={proteina.nome}
               dados={proteina}
@@ -392,7 +397,6 @@ export default function Cardapio() {
             />
           ))}
         </DivItem>
-
       </ItensContainer>
       <ResumoContainer>
         <ResumoCompraPopup>

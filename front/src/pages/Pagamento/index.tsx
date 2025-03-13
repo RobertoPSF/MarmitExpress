@@ -1,16 +1,29 @@
 import React from 'react';
-import CardPagamento from '../../components/Cards/PagamentoCard'
+import { useLocation } from 'react-router-dom';
+import CardPagamento from '../../components/Cards/PagamentoCard';
 
 const Pagamento: React.FC = () => {
-  const dados = {
-    quantidade: 4,
-    tipoItem: "marmita (G)",
-    preco: 25.50
+  const location = useLocation();
+  const { tamanho, itens, total } = location.state || {
+    tamanho: 'Não informado', // Valor padrão para evitar erro
+    itens: [],
+    total: 0,
   };
-  
-  return(
-    <CardPagamento dados={dados}/>
-  );
+
+  const dados = {
+    quantidade: itens.length,
+    tamanho: tamanho?.tamanho,
+    tipoItem: tamanho?.tamanho
+      ? `Marmita (${tamanho.tamanho})`
+      : 'Nenhum tamanho selecionado',
+    preco: total + (tamanho?.preco || 0), // Adiciona o preço da marmita
+    itens: [
+      ...itens,
+      { nome: `Marmita (${tamanho.tamanho})`, valor: tamanho?.preco || 0 },
+    ],
+  };
+
+  return <CardPagamento dados={dados} />;
 };
 
 export default Pagamento;

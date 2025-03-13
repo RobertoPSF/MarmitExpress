@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import IMG from '../../../assets/imageExemplo.svg?react'
+import IMG from '../../../assets/imageExemplo.svg?react';
 
 export const Container = styled.div`
   display: flex;
@@ -10,14 +10,16 @@ export const Container = styled.div`
   border-radius: 15px;
   padding: 2rem;
   gap: 10px;
+  margin-top: -10vh;
+  margin-bottom: 5vh;
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
-  p{
+  p {
     color: gray;
   }
 
-  h3{
+  h3 {
     font-weight: 500;
   }
 `;
@@ -26,29 +28,29 @@ export const RestauranteContent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  #nomeRestaurante{
+  #nomeRestaurante {
     margin-left: 1rem;
   }
 `;
 
 export const ItemCard = styled.div`
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   width: 100%;
 
-  p{
+  p {
     color: black;
   }
 
-  #itemQuantidade{
-
+  #itemQuantidade {
   }
 
-  #itemTipo{
+  #itemTipo {
     margin-left: 0.5rem;
   }
 
-  #itemPreco{
+  #itemPreco {
     display: flex;
     align-self: self-end;
   }
@@ -61,7 +63,7 @@ export const Row = styled.div`
 `;
 
 export const Line = styled.div`
-  border-bottom: 2px solid #F1F2F3;
+  border-bottom: 2px solid #f1f2f3;
   width: 100%;
 `;
 

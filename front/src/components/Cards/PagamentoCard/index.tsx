@@ -10,8 +10,6 @@ import Button from '../../Button';
 import restaurante from '../../../data/restaurantes.json';
 import { useNavigate } from 'react-router-dom';
 
-const restaurantesMock = restaurante;
-
 interface Restaurante {
   id: string;
   nome: string;
@@ -31,10 +29,16 @@ interface Restaurante {
   }[];
 }
 
+interface Item {
+  nome: string;
+  valor?: number;
+}
+
 interface Pagamento {
   quantidade: number;
   tipoItem: string;
   preco: number;
+  itens: Item[];
 }
 
 interface PagamentoCardProps {
@@ -42,9 +46,9 @@ interface PagamentoCardProps {
 }
 
 export default function PagamentoCard({ dados }: PagamentoCardProps) {
-  const { quantidade, tipoItem, preco } = dados;
-  let valorSutotal = 0;
-  let totalCalculado = 100.0;
+  const { quantidade, tipoItem, preco, itens } = dados;
+  const valorEntrega = 7.0;
+  const totalCalculado = preco + valorEntrega;
 
   const navigate = useNavigate();
 
@@ -55,45 +59,54 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
 
   return (
     <Container>
-      <p>seu pedido pendente</p>
-      {/*IMPORT CARD RESTAURANTE*/}
+      <p>Seu pedido pendente</p>
+
+      {/* Informações do Restaurante */}
       <RestauranteContent>
         <ImagemRestaurante />
-        <h3 id="nomeRestaurante">NOME Restaurante</h3>
+        <h3 id="nomeRestaurante">Nome do Restaurante</h3>
       </RestauranteContent>
 
       <Line />
 
       <h3>Itens</h3>
 
-      <ItemCard>
-        {/* IMAGEM DO RESTAURANTE */}
-        <p id="itemQuantidade">{quantidade + 'X'}</p>
-        <p id="itemTipo">{tipoItem}</p>
-        <p id="itemPreco">{'R$ ' + preco}</p>
-      </ItemCard>
-      {/*LOGICA PARA INTES NO CARRINHO*/}
+      {itens.map((item, index) => {
+        const precoItem = item.valor || 0.0;
+        return (
+          <ItemCard key={index}>
+            <p id="itemQuantidade">1x {item.nome}</p>
+            {precoItem === 0.0 ? (
+              <p>Complemento</p>
+            ) : (
+              <p id="itemPreco">R$ {precoItem.toFixed(2)}</p>
+            )}
+          </ItemCard>
+        );
+      })}
 
       <Line />
+
+      {/* Resumo de Pagamento */}
       <div id="PagamentoInfo">
         <Row>
           <p>Subtotal</p>
-          <p>{valorSutotal}</p>
+          <p>R$ {preco.toFixed(2)}</p>
         </Row>
 
         <Row>
           <p>Valor da entrega</p>
-          <p>{7}</p>
+          <p>R$ {valorEntrega.toFixed(2)}</p>
         </Row>
 
         <Row>
           <p>Forma de pagamento</p>
-          <p>{'Pix'}</p>
+          <p>Pix</p>
         </Row>
 
         <Row>
           <p>Total</p>
-          <p>{totalCalculado}</p>
+          <p>R$ {totalCalculado.toFixed(2)}</p>
         </Row>
       </div>
 
