@@ -1,24 +1,24 @@
-# AUTHENTICATION API Documentation
+# Documentação da API de Autenticação  
 
-## Overview
-The API uses JSON Web Tokens (JWT) for authentication. All endpoints except `/auth/login` and `/auth/register` require a valid JWT token in the Authorization header.
+## Visão Geral  
+A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exceto `/auth/login` e `/auth/register`, requerem um token JWT válido no cabeçalho Authorization.  
 
-## Authentication Flow
-1. Client registers using `/auth/register` endpoint
-2. Client logs in using `/auth/login` endpoint to obtain JWT token
-3. Client includes token in Authorization header for subsequent requests
-4. Server validates token for each request
+## Fluxo de Autenticação  
+1. O cliente se registra usando o endpoint `/auth/register`  
+2. O cliente faz login usando o endpoint `/auth/login` para obter um token JWT  
+3. O cliente inclui o token no cabeçalho Authorization para requisições subsequentes  
+4. O servidor valida o token para cada requisição  
 
-## Token Format
-`Authorization: Bearer <token>`
+## Formato do Token  
+`Authorization: Bearer <token>`  
 
-## Endpoints
+## Endpoints  
 
-### 1. Register User
-- **HTTP Method:** POST
-- **Endpoint:** `/auth/register`
-- **Content-Type:** application/json
-- **Request Body:**
+### 1. Registrar Usuário  
+- **Método HTTP:** POST  
+- **Endpoint:** `/auth/register`  
+- **Content-Type:** application/json  
+- **Corpo da Requisição:**  
   ```json
   {
     "nome": "string",
@@ -28,65 +28,66 @@ The API uses JSON Web Tokens (JWT) for authentication. All endpoints except `/au
     "telefone": "string",
     "role": "CLIENTE|RESTAURANTE|ADMIN"
   }
-  ```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
+  ```  
+- **Resposta:**  
+  - **Status:** 201 Created  
+  - **Corpo:**  
   ```json
   "Usuário cadastrado com sucesso."
-  ```
-  - **Status:** 400 Bad Request (if email already exists or invalid role)
+  ```  
+  - **Status:** 400 Bad Request (se o e-mail já existir ou o papel for inválido)  
 
-### 2. Login
-- **HTTP Method:** POST
-- **Endpoint:** `/auth/login`
-- **Content-Type:** application/json
-- **Request Body:**
+### 2. Login  
+- **Método HTTP:** POST  
+- **Endpoint:** `/auth/login`  
+- **Content-Type:** application/json  
+- **Corpo da Requisição:**  
   ```json
   {
     "email": "string",
     "senha": "string"
   }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
+  ```  
+- **Resposta:**  
+  - **Status:** 200 OK  
+  - **Corpo:**  
   ```json
   {
     "token": "string"
   }
-  ```
-  - **Status:** 401 Unauthorized (if authentication fails)
+  ```  
+  - **Status:** 401 Unauthorized (se a autenticação falhar)  
 
-### 2. Change password
-- **HTTP Method:** POST
-- **Endpoint:** `/auth/new-password`
-- **Content-Type:** application/json
-- **Request Body:**
+### 3. Alterar Senha  
+- **Método HTTP:** POST  
+- **Endpoint:** `/auth/new-password`  
+- **Content-Type:** application/json  
+- **Corpo da Requisição:**  
   ```json
   {
     "email": "string",
     "senha": "string"
   }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
+  ```  
+- **Resposta:**  
+  - **Status:** 200 OK  
+  - **Corpo:**  
   ```json
   {
     "token": "string"
   }
-  ```
-  - **Status:** 404 Not found (if email not exist)
+  ```  
+  - **Status:** 404 Not Found (se o e-mail não existir)  
 
-## Error Responses
-- **400 Bad Request**: Invalid request data or validation errors
-- **401 Unauthorized**: Invalid or expired token
-- **403 Forbidden**: Valid token but insufficient permissions
+## Respostas de Erro  
+- **400 Bad Request**: Dados inválidos na requisição ou erros de validação  
+- **401 Unauthorized**: Token inválido ou expirado  
+- **403 Forbidden**: Token válido, mas sem permissões suficientes  
 
-## Security Best Practices
-1. Always use HTTPS for API communication
-2. Store tokens securely (e.g., in memory or secure storage)
-3. Implement token refresh mechanism
-4. Use strong passwords and implement password policies
-5. Regularly rotate signing keys
+## Melhores Práticas de Segurança  
+1. Sempre utilize HTTPS para comunicação com a API  
+2. Armazene os tokens de forma segura (ex.: em memória ou armazenamento seguro)  
+3. Implemente um mecanismo de renovação de token  
+4. Utilize senhas fortes e implemente políticas de senha  
+5. Faça a rotação regular das chaves de assinatura
+
