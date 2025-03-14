@@ -21,11 +21,11 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
 - **Corpo da Requisição:**  
   ```json
   {
-    "nome": "string",
-    "email": "string",
-    "senha": "string",
-    "endereco": "string",
-    "telefone": "string",
+    "nome": "Nome do usuario",
+    "email": "usuario@email.com",
+    "senha": "password",
+    "endereco": "Rua, número e bairro",
+    "telefone": "(00) 00000-0000",
     "role": "CLIENTE|RESTAURANTE|ADMIN"
   }
   ```  
@@ -44,8 +44,8 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
 - **Corpo da Requisição:**  
   ```json
   {
-    "email": "string",
-    "senha": "string"
+    "email": "usuario@email.com",
+    "senha": "password"
   }
   ```  
 - **Resposta:**  
@@ -53,7 +53,7 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
   - **Corpo:**  
   ```json
   {
-    "token": "string"
+    "token": "token"
   }
   ```  
   - **Status:** 401 Unauthorized (se a autenticação falhar)  
@@ -65,8 +65,8 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
 - **Corpo da Requisição:**  
   ```json
   {
-    "email": "string",
-    "senha": "string"
+    "email": "usuario@email.com",
+    "senha": "password"
   }
   ```  
 - **Resposta:**  
@@ -74,7 +74,7 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
   - **Corpo:**  
   ```json
   {
-    "token": "string"
+    "token": "token"
   }
   ```  
   - **Status:** 404 Not Found (se o e-mail não existir)  
