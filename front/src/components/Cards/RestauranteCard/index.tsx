@@ -32,8 +32,8 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
           <StyledIcon icon="emojione:star" />
           <p>{dados.avaliacoes.toFixed(1)}</p>
         </div>*/}
-  
-        <p id='descricao'>{dados.descricao}</p>
+
+        <p id="descricao">{dados.descricao}</p>
         {/*
         <div id='fidelidade'>
           <Presente />
@@ -41,7 +41,6 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
           <StyledIcon icon={"material-symbols-light:verified"} id='verificado'/>
         </div>
          */}
-        
       </Information>
     </Container>
   );

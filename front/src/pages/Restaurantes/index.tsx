@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-// import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
+import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import restaurante from '../../data/restaurantes.json';
 
 const restaurantesMock = restaurante;
@@ -27,10 +27,15 @@ interface Restaurante {
 }
 
 export default function Restaurantes() {
+  const [filtros, setFiltros] = useState({
+    area: '',
+    precoMin: 0,
+    precoMax: 999,
+    cozinha: '',
+  });
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Simula um delay para carregar os dados (caso necessário)
@@ -45,21 +50,31 @@ export default function Restaurantes() {
     }, 1000);
   }, []);
 
+  // Filtra os restaurantes de acordo com os filtros aplicados
+  const filteredRestaurants = restaurantes.filter((r) => {
+    return;
+    // (!filtros.area || r.endereco.includes(filtros.area)) &&
+    //   (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
+    //   r.preco >= (filtros.precoMin || 0) &&
+    //   r.preco <= (filtros.precoMax || 999);
+  });
+
   if (isLoading)
     return (
       <Container>
-        <p>Carregando restaurantes...</p>
+        <p style={{ color: 'white' }}>Carregando restaurantes...</p>
       </Container>
     );
   if (error) return <p>{error}</p>;
 
   return (
     <Container>
-      {/* <SidebarFiltros setFiltros={setFiltros} /> */}
+      <SidebarFiltros setFiltros={setFiltros} />
       <DivRestaurantes>
         {restaurantes.length > 0 ? (
           restaurantes.map((restaurante) => (
             <NavLink
+              style={{ height: '120px' }}
               key={restaurante.id}
               to={`/restaurante/${restaurante.id}/cardapio`}
             >

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import image from '../../../assets/imageExemplo.svg?react';
-import presente from '../../../assets/presenteIcon.svg?react'
+import presente from '../../../assets/presenteIcon.svg?react';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
@@ -13,8 +13,8 @@ export const Container = styled.div`
   border-radius: 15px;
   display: flex;
   gap: 10px;
-  max-width: 12rem;
-  min-width: 12rem;
+  width: auto;
+  height: 120px;
   padding: 10px;
   transition: box-shadow 0.2s ease-in-out;
 `;
@@ -23,26 +23,26 @@ export const Information = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 70%;
-  h3{
+  h3 {
     font-size: 0.8rem;
   }
-  #descricao{
-    margin-top: 0.5rem; 
+  #descricao {
+    margin-top: 0.5rem;
     font-size: 0.6rem;
-    color: #7A7A7A;
+    color: #7a7a7a;
   }
 
-  #avaliacoes{
+  #avaliacoes {
     display: flex;
     flex-direction: row;
     align-items: center;
-    p{
+    p {
       font-size: 0.6rem;
       font-weight: 400;
     }
   }
 
-  #fidelidade{
+  #fidelidade {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,12 +51,12 @@ export const Information = styled.div`
     padding: 1px;
     max-height: 1rem;
     margin-top: 0.4rem;
-    p{
+    p {
       font-size: 0.5rem;
       margin-left: 0.2rem;
     }
 
-    #verificado{
+    #verificado {
       color: grey;
     }
   }
@@ -71,7 +71,6 @@ export const Img = styled(image)`
   height: 100%;
   width: 30%;
 `;
-
 
 export const Presente = styled(presente)`
   width: 0.6rem;
