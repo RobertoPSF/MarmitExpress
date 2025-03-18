@@ -1,120 +1,129 @@
-# MARMITA API Documentation
+# Documentação da API de Marmitas - MarmitExpress
 
-## Authentication
-All endpoints require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+## Endpoints
 
-## 1. Create Marmita
-- **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/marmitas`
-- **Request Body:**
+### Criar Marmita
+**POST** `/marmitas`
+
+#### Requisição
 ```json
 {
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int",
+  "nome": "Marmita Especial",
+  "preco": 25.50,
+  "quantidade": 10,
   "ingredientes": [
-    { "id": "UUID", "nome": "string" }
+    { "id": "UUID-do-ingrediente", "nome": "Arroz" },
+    { "id": "UUID-do-ingrediente", "nome": "Feijão" }
   ],
-  "restauranteId": "UUID"
-}
-```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "ingredientes": [
-    { "id": "UUID", "nome": "string" }
-  ],
-  "restauranteId": "UUID"
+  "restauranteId": "UUID-do-restaurante"
 }
 ```
 
-## 2. List Marmitas
-- **HTTP Method:** GET
-- **Endpoint:** `/marmitas`
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
+#### Resposta
+```json
+{
+  "id": "UUID-gerado",
+  "nome": "Marmita Especial",
+  "preco": 25.50,
+  "quantidade": 10,
+  "ingredientes": [
+    { "id": "UUID-do-ingrediente", "nome": "Arroz" },
+    { "id": "UUID-do-ingrediente", "nome": "Feijão" }
+  ],
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+### Listar Todas as Marmitas
+**GET** `/marmitas`
+
+#### Resposta
 ```json
 [
   {
-    "id": "UUID",
-    "nome": "string",
-    "preco": double,
-    "quantidade": int,
+    "id": "UUID-gerado",
+    "nome": "Marmita Simples",
+    "preco": 15.00,
+    "quantidade": 5,
     "ingredientes": [
-      { "id": "UUID", "nome": "string" }
+      { "id": "UUID-do-ingrediente", "nome": "Macarrão" }
     ],
-    "restauranteId": "UUID"
-  },
-  ...
+    "restauranteId": "UUID-do-restaurante"
+  }
 ]
 ```
 
-## 3. Get Marmita by ID
-- **HTTP Method:** GET
-- **Endpoint:** `/marmitas/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "ingredientes": [
-    { "id": "UUID", "nome": "string" }
-  ],
-  "restauranteId": "UUID"
-}
-```
-  - **Status:** 404 Not Found (if marmita not found)
+### Buscar Marmita por ID
+**GET** `/marmitas/{id}`
 
-## 4. Update Marmita
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/marmitas/{id}`
-- **Path Variable:** `id` (UUID)
-- **Request Body:**
+#### Resposta
 ```json
 {
-  "nome": "string",
-  "preco": double,
-  "quantidade": int,
+  "id": "UUID-gerado",
+  "nome": "Marmita Fit",
+  "preco": 20.00,
+  "quantidade": 3,
   "ingredientes": [
-    { "id": "UUID", "nome": "string" }
-  ]
-}
-```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": double,
-  "quantidade": int,
-  "ingredientes": [
-    { "id": "UUID", "nome": "string" }
+    { "id": "UUID-do-ingrediente", "nome": "Frango" }
   ],
-  "restauranteId": "UUID"
+  "restauranteId": "UUID-do-restaurante"
 }
 ```
-  - **Status:** 404 Not Found (if marmita not found)
 
-## 5. Delete Marmita
-- **HTTP Method:** DELETE
-- **Endpoint:** `/marmitas/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
+### Listar Marmitas de um Restaurante
+**GET** `/marmitas/restaurante/{restauranteId}`
+
+#### Resposta
+```json
+[
+  {
+    "id": "UUID-gerado",
+    "nome": "Marmita Completa",
+    "preco": 30.00,
+    "quantidade": 8,
+    "ingredientes": [
+      { "id": "UUID-do-ingrediente", "nome": "Arroz" },
+      { "id": "UUID-do-ingrediente", "nome": "Carne" }
+    ],
+    "restauranteId": "UUID-do-restaurante"
+  }
+]
+```
+
+### Atualizar Marmita
+**PUT** `/marmitas/{id}`
+
+#### Requisição
+```json
+{
+  "nome": "Marmita Premium",
+  "preco": 35.00,
+  "quantidade": 12,
+  "ingredientes": [
+    { "id": "UUID-do-ingrediente", "nome": "Peixe" }
+  ],
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+#### Resposta
+```json
+{
+  "id": "UUID-gerado",
+  "nome": "Marmita Premium",
+  "preco": 35.00,
+  "quantidade": 12,
+  "ingredientes": [
+    { "id": "UUID-do-ingrediente", "nome": "Peixe" }
+  ],
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+### Deletar Marmita
+**DELETE** `/marmitas/{id}`
+
+#### Resposta
+- **204 No Content** caso a exclusão seja bem-sucedida.
+- **403 Forbidden** se o restaurante não tiver permissão para excluir.
+

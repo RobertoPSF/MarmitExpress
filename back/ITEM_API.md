@@ -1,103 +1,140 @@
-# ITEM API Documentation
+# Documentação da API de Itens - MarmitExpress
 
-## Authentication
-All endpoints require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+## Introdução
+A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os itens do seu cardápio. Apenas restaurantes autenticados podem realizar operações nos itens que pertencem a eles.
 
-## 1. Create Item
-- **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/itens`
-- **Request Body:**
+## Endpoints
+
+### Criar um Item
+**POST /itens**
+
+**Requisição:**
 ```json
 {
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int",
-  "restauranteId": "UUID"
-}
-```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int",
-  "restauranteId": "UUID"
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
 }
 ```
 
-## 2. List Items
-- **HTTP Method:** GET
-- **Endpoint:** `/itens`
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Apenas o restaurante dono pode cadastrar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
+
+---
+
+### Listar todos os Itens
+**GET /itens**
+
+**Resposta (200 OK):**
 ```json
 [
   {
-    "id": "UUID",
-    "nome": "string",
-    "preco": "double",
-    "quantidade": "int",
-    "restauranteId": "UUID"
-  },
-  ...
+    "id": "UUID-do-item",
+    "nome": "Arroz com Feijão",
+    "preco": 12.50,
+    "quantidade": 10,
+    "restauranteId": "UUID-do-restaurante"
+  }
 ]
 ```
 
-## 3. Get Item by ID
-- **HTTP Method:** GET
-- **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int",
-  "restauranteId": "UUID"
-}
-```
-  - **Status:** 404 Not Found (if item not found)
+---
 
-## 4. Update Item
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (UUID)
-- **Request Body:**
-```json
-{
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int"
-}
-```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-```json
-{
-  "id": "UUID",
-  "nome": "string",
-  "preco": "double",
-  "quantidade": "int",
-  "restauranteId": "UUID"
-}
-```
-  - **Status:** 404 Not Found (if item not found)
+### Buscar um Item por ID
+**GET /itens/{id}**
 
-## 5. Delete Item
-- **HTTP Method:** DELETE
-- **Endpoint:** `/itens/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Arroz com Feijão",
+  "preco": 12.50,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Retorna `404 Not Found` caso o item não exista.
+
+---
+
+### Atualizar um Item
+**PUT /itens/{id}**
+
+**Requisição:**
+```json
+{
+  "nome": "Feijoada",
+  "preco": 15.00,
+  "quantidade": 5
+}
+```
+
+**Resposta (200 OK):**
+```json
+{
+  "id": "UUID-do-item",
+  "nome": "Feijoada",
+  "preco": 15.00,
+  "quantidade": 5,
+  "restauranteId": "UUID-do-restaurante"
+}
+```
+
+**Restrições:**
+- Apenas o restaurante dono pode atualizar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
+
+---
+
+### Deletar um Item
+**DELETE /itens/{id}**
+
+**Resposta (204 No Content)**
+
+**Restrições:**
+- Apenas o restaurante dono pode deletar um item.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
+
+---
+
+### Buscar Itens de um Restaurante
+**GET /itens/restaurante/{restauranteId}**
+
+**Resposta (200 OK):**
+```json
+[
+  {
+    "id": "UUID-do-item",
+    "nome": "Arroz com Feijão",
+    "preco": 12.50,
+    "quantidade": 10,
+    "restauranteId": "UUID-do-restaurante"
+  }
+]
+```
+
+**Restrições:**
+- Apenas restaurantes autenticados podem acessar seus itens.
+- Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
+
+---
+
+## Observações
+- Todos os endpoints que requerem autenticação validam o restaurante pelo email cadastrado.
+- Para qualquer erro de permissão ou item inexistente, a API retorna os códigos apropriados (`403` ou `404`).
 

@@ -8,7 +8,7 @@ public class Marmita extends Item {
 
     @ManyToMany
     @JoinTable(
-        name = "marmita_ingrediente",
+        name = "marmita",
         joinColumns = @JoinColumn(name = "marmita_id"),
         inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
     )

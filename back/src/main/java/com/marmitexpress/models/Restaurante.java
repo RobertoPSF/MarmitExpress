@@ -1,25 +1,29 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Restaurante extends Usuario {
-    
+
     @Column(nullable = true)
     private String descricao;
 
     private boolean aceitandoPedidos = false;
 
-    @OneToMany(mappedBy = "restaurante")
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingrediente> ingredientes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> listaDeItens = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurante")
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Marmita> marmitas = new ArrayList<>();
-    
+
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> listaDePedidos = new ArrayList<>();
+
     @Column(unique = true, nullable = true, length = 77)
     private String chavePix;
 
@@ -37,39 +41,45 @@ public class Restaurante extends Usuario {
         this.setTelefone(telefone);
     }
 
-    public boolean isAceitandoPedidos() {return aceitandoPedidos;}
+    public boolean isAceitandoPedidos() { return aceitandoPedidos; }
 
+    public void setAceitandoPedidos(boolean aceitandoPedidos) { this.aceitandoPedidos = aceitandoPedidos; }
 
-    public void setAceitandoPedidos(boolean aceitandoPedidos) {this.aceitandoPedidos = aceitandoPedidos;}
+    public List<Ingrediente> getIngredientes() { return ingredientes; }
 
+    public void setIngredientes(List<Ingrediente> ingredientes) { this.ingredientes = ingredientes; }
 
-    public List<Item> getListaDeItens() {return listaDeItens;}
-
-
-    public void setListaDeItens(List<Item> itens) {this.listaDeItens = itens;}
-
-    public void setListaDeItens(Item item) {
-        if (this.listaDeItens == null) {
-            this.listaDeItens = new ArrayList<>();
-        }this.listaDeItens.add(item);
+    public void addIngrediente(Ingrediente ingrediente) {
+        ingrediente.setRestaurante(this);
+        this.ingredientes.add(ingrediente);
     }
 
-    public List<Marmita> getMarmitas() {return marmitas;}
+    public String getDescricao() { return descricao; }
 
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setMarmitas(Marmita marmita) {this.marmitas.add(marmita);}
+    public String getChavePix() { return chavePix; }
 
+    public void setChavePix(String chavePix) { this.chavePix = chavePix; }
 
-    public String getDescricao() {return descricao;}
+    public List<Item> getListaDeItens() { return listaDeItens; }
 
+    public void setListaDeItens(Item item) { 
+        item.setRestaurante(this);
+        this.listaDeItens.add(item);
+    }
 
-    public void setDescricao(String descricao) {this.descricao = descricao;}
+    public List<Marmita> getMarmitas() { return marmitas; }
 
+    public void setMarmitas(Marmita marmita) { 
+        marmita.setRestaurante(this);
+        this.marmitas.add(marmita);
+    }
 
-    public String getChavePix() {return chavePix;}
+    public List<Pedido> getListaDePedidos() { return listaDePedidos; }
 
-
-    public void setChavePix(String chavePix) {this.chavePix = chavePix;}
-
-
+    public void setListaDePedidos(Pedido pedido) { 
+        pedido.setRestaurante(this);
+        this.listaDePedidos.add(pedido);
+    }
 }

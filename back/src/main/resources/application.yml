@@ -6,8 +6,20 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   web:
     cors:
       allowed-origins: "*"
       allowed-methods: "*"
       allowed-headers: "*"
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:my-secret-key}
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

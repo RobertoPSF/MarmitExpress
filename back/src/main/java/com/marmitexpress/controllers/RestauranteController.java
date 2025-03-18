@@ -32,11 +32,37 @@ public class RestauranteController {
                 restaurante.getTelefone(),
                 restaurante.getDescricao(),
                 restaurante.isAceitandoPedidos(),
-                restaurante.getChavePix()
+                restaurante.getChavePix(),
+                restaurante.getIngredientes(),
+                restaurante.getListaDeItens(),
+                restaurante.getMarmitas()
             ))
             .toList();
-
+            
         return ResponseEntity.ok(restaurantes);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RestauranteResponseDTO> buscarRestaurantePorId(@PathVariable UUID id) {
+        Restaurante restaurante = restauranteService.buscarRestaurantePorId(id)
+                .orElse(null);
+
+        if (restaurante != null) {
+            return ResponseEntity.ok(new RestauranteResponseDTO(
+                restaurante.getId(),
+                restaurante.getNome(),
+                restaurante.getEmail(),
+                restaurante.getEndereco(),
+                restaurante.getTelefone(),
+                restaurante.getDescricao(),
+                restaurante.isAceitandoPedidos(),
+                restaurante.getChavePix(),
+                restaurante.getIngredientes(),
+                restaurante.getListaDeItens(),
+                restaurante.getMarmitas()
+            ));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/me")
@@ -53,7 +79,10 @@ public class RestauranteController {
                 restaurante.getTelefone(),
                 restaurante.getDescricao(),
                 restaurante.isAceitandoPedidos(),
-                restaurante.getChavePix()
+                restaurante.getChavePix(),
+                restaurante.getIngredientes(),
+                restaurante.getListaDeItens(),
+                restaurante.getMarmitas()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -81,7 +110,10 @@ public class RestauranteController {
                 restauranteExistente.getTelefone(),
                 restauranteExistente.getDescricao(),
                 restauranteExistente.isAceitandoPedidos(),
-                restauranteExistente.getChavePix()
+                restauranteExistente.getChavePix(),
+                restauranteExistente.getIngredientes(),
+                restauranteExistente.getListaDeItens(),
+                restauranteExistente.getMarmitas()
             ));
         }
 

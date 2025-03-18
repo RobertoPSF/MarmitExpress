@@ -19,7 +19,7 @@ public class MarmitaService {
     public Marmita criarMarmita(Marmita marmita) {
         return marmitaRepository.save(marmita);
     }
-
+    
     public List<Marmita> listarMarmitas() {
         return marmitaRepository.findAll();
     }
@@ -60,5 +60,9 @@ public class MarmitaService {
         }
 
         return marmitaRepository.save(marmitaExistente);
+    }
+
+    public List<Marmita> getMarmitasByRestaurante(UUID restauranteId) {
+        return marmitaRepository.findByRestauranteId(restauranteId);
     }
 }

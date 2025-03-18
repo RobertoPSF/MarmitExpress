@@ -2,12 +2,14 @@ package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.MarmitaDTO;
 import com.marmitexpress.dto.MarmitaResponseDTO;
-import com.marmitexpress.models.Marmita;
 import com.marmitexpress.models.Restaurante;
+import com.marmitexpress.models.Marmita;
 import com.marmitexpress.services.MarmitaService;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/marmitas")
-@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")
 public class MarmitaController {
 
     @Autowired
@@ -25,14 +26,31 @@ public class MarmitaController {
     @Autowired
     private RestauranteService restauranteService;
 
+    @GetMapping("/restaurante/{restauranteId}")
+    public ResponseEntity<List<MarmitaResponseDTO>> listarMarmitaByRestaurante(@PathVariable UUID restauranteId) {
+        List<Marmita> marmitas = marmitaService.getMarmitasByRestaurante(restauranteId);
+        List<MarmitaResponseDTO> marmitaResponseDTOs = marmitas.stream()
+            .map(marmita -> new MarmitaResponseDTO(
+                marmita.getId(),
+                marmita.getNome(),
+                marmita.getPreco(),
+                marmita.getQuantidade(),
+                marmita.getIngredientes(),
+                marmita.getRestaurante().getId()
+            ))
+            .toList();
+        return ResponseEntity.ok(marmitaResponseDTOs);
+    }
+
     @PostMapping
     public ResponseEntity<MarmitaResponseDTO> criarMarmita(@RequestBody MarmitaDTO dto) {
-        Optional<Restaurante> restauranteOpt = restauranteService.buscarRestaurantePorId(dto.getRestauranteId());
-        if (restauranteOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Restaurante restaurante = restauranteOpt.get();
         Marmita novaMarmita = new Marmita();
         novaMarmita.setNome(dto.getNome());
         novaMarmita.setPreco(dto.getPreco());
@@ -52,9 +70,11 @@ public class MarmitaController {
         ));
     }
 
+
     @GetMapping
     public ResponseEntity<List<MarmitaResponseDTO>> listarMarmitas() {
-        List<MarmitaResponseDTO> marmitas = marmitaService.listarMarmitas().stream()
+        List<Marmita> marmitas = marmitaService.listarMarmitas();
+        List<MarmitaResponseDTO> marmitaResponseDTOs = marmitas.stream()
             .map(marmita -> new MarmitaResponseDTO(
                 marmita.getId(),
                 marmita.getNome(),
@@ -64,12 +84,12 @@ public class MarmitaController {
                 marmita.getRestaurante().getId()
             ))
             .toList();
-
-        return ResponseEntity.ok(marmitas);
+        return ResponseEntity.ok(marmitaResponseDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MarmitaResponseDTO> buscarMarmitaPorId(@PathVariable UUID id) {
+    public ResponseEntity<MarmitaResponseDTO> buscarMarmitaPorId(@PathVariable UUID id) { 
+
         Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
 
         return marmitaOpt.map(marmita -> ResponseEntity.ok(new MarmitaResponseDTO(
@@ -84,32 +104,51 @@ public class MarmitaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MarmitaResponseDTO> atualizarMarmita(@PathVariable UUID id, @RequestBody MarmitaDTO dto) {
-        Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
-        if (marmitaOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Marmita marmita = marmitaOpt.get();
-        if (dto.getNome() != null) marmita.setNome(dto.getNome());
-        if (dto.getPreco() != null) marmita.setPreco(dto.getPreco());
-        if (dto.getQuantidade() != null) marmita.setQuantidade(dto.getQuantidade());
-        if (dto.getIngredientes() != null) marmita.setIngredientes(dto.getIngredientes());
+        Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
+        if (marmitaOpt.isEmpty() || !marmitaOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
-        marmitaService.atualizarMarmita(id, marmita);
+        Marmita marmitaAtualizada = new Marmita();
+        marmitaAtualizada.setNome(dto.getNome());
+        marmitaAtualizada.setPreco(dto.getPreco());
+        marmitaAtualizada.setQuantidade(dto.getQuantidade());
+        marmitaAtualizada.setIngredientes(dto.getIngredientes());
+        marmitaAtualizada.setRestaurante(restaurante);
+
+        Marmita marmitaSalva = marmitaService.atualizarMarmita(id, marmitaAtualizada);
 
         return ResponseEntity.ok(new MarmitaResponseDTO(
-            marmita.getId(),
-            marmita.getNome(),
-            marmita.getPreco(),
-            marmita.getQuantidade(),
-            marmita.getIngredientes(),
-            marmita.getRestaurante().getId()
+            marmitaSalva.getId(),
+            marmitaSalva.getNome(),
+            marmitaSalva.getPreco(),
+            marmitaSalva.getQuantidade(),
+            marmitaSalva.getIngredientes(),
+            marmitaSalva.getRestaurante().getId()
         ));
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarMarmita(@PathVariable UUID id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restaurante == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Optional<Marmita> marmitaOpt = marmitaService.buscarMarmitaPorId(id);
+        if (marmitaOpt.isEmpty() || !marmitaOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         marmitaService.deletarMarmita(id);
         return ResponseEntity.noContent().build();
     }
