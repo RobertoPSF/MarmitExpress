@@ -311,8 +311,18 @@ export default function Cardapio() {
     }
   };
 
-  if (isLoading) return <p>Carregando tamanhos e acompanhamentos...</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading)
+    return (
+      <Container>
+        <p>Carregando tamanhos e acompanhamentos...</p>
+      </Container>
+    );
+  if (error)
+    return (
+      <Container>
+        <p>{error}</p>
+      </Container>
+    );
 
   const handleFinalizarCompra = () => {
     navigate('/pagamento', {
@@ -335,10 +345,11 @@ export default function Cardapio() {
       <ItensContainer>
         {restaurante && (
           <>
-            <h1>{restaurante.nome}</h1>
-            <h2>{restaurante.descricao}</h2>
+            <h1 style={{ color: 'white' }}>{restaurante.nome}</h1>
+            <h2 style={{ color: 'white' }}>{restaurante.descricao}</h2>
           </>
         )}
+        <h1>Tamanho da MarmitEx</h1>
         <DivTamanhoMarmita>
           {/* <h1>Itens para venda</h1>
         <>
@@ -346,7 +357,6 @@ export default function Cardapio() {
             <ItensCard imagem={''} nome={item.nome} valor={item.preco} />
           ))}
         </> */}
-          <h1>Tamanho da MarmitEx</h1>
           {tamanhos.map((tamanho) => (
             <TamanhoMarmitaCard
               key={tamanho.tamanho}

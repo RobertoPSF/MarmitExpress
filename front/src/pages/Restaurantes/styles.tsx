@@ -20,7 +20,6 @@ export const Container = styled.div`
 export const DivRestaurantes = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 120px;
   gap: 2vw;
   width: 53vw;
 

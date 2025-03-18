@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
+  justify-content: center;
+  padding: 100px;
+  min-height: 64.5vh;
   width: 100%;
 `;
 
@@ -13,7 +14,7 @@ export const ItensContainer = styled.div`
   gap: 20px;
   justify-content: center;
   margin-bottom: 50px;
-  margin-top: 17.5vh;
+  margin-top: -35vh;
   padding-top: 40px;
   width: 70%;
   min-height: 64.5vh;
@@ -30,11 +31,6 @@ export const ItensContainer = styled.div`
     padding-top: 10px;
     gap: 20px;
   }
-
-  h2{
-    margin-left: 2.5rem;
-    font-size: 2rem;
-  }
 `;
 
 export const ResumoContainer = styled.div`
@@ -42,18 +38,8 @@ export const ResumoContainer = styled.div`
 `;
 
 export const DivTamanhoMarmita = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: min-content;
-  justify-content: left;
-  gap: 0vw;
-  width: 100%;
-
-  h1 {
-    text-align: left;
-    width: 100%;
-    padding-left: 50px;
-  }
+  display: grid;
+  grid-template-columns: auto auto auto;
 
   @media (max-width: 999px) {
     flex-wrap: wrap;
@@ -68,9 +54,11 @@ export const DivTamanhoMarmita = styled.div`
 `;
 
 export const DivItem = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
+  display: grid;
+  padding: 20px;
+  grid-template-columns: auto auto auto auto;
+  gap: 15px;
 `;
 
 export const ResumoCompraPopup = styled.div`
