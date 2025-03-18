@@ -35,60 +35,40 @@ public class SecurityConfigurations {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/new-password").permitAll()
-                        
+                        .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register", "/auth/new-password").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/clientes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/clientes/me").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.PUT, "/clientes/me").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasAnyRole("ADMIN","CLIENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasAnyRole("ADMIN", "CLIENTE")
 
-                        .requestMatchers(HttpMethod.GET, "/restaurantes").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/restaurantes/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/restaurantes", "/restaurantes/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/me").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.PUT, "/restaurantes/me").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.DELETE, "/restaurantes/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/ingredientes").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/ingredientes").hasRole("RESTAURANTE")
+                        .requestMatchers(HttpMethod.GET, "/ingredientes", "/ingredientes/{id}", "/ingredientes/restaurante/{restauranteId}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/ingredientes/{id}").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/ingredientes/restaurante/{restauranteId}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/ingredientes/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/ingredientes/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/itens").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/itens").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/itens/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/itens", "/itens/{id}", "/itens/restaurante/{restauranteId}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/itens/{id}").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.DELETE, "/itens/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/itens/restaurante/{restauranteId}").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/marmitas").hasRole("RESTAURANTE")
-                        // New routes to be added with correct permissions
-                        .requestMatchers(HttpMethod.GET, "/clientes/me").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/clientes/me").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/pagamentos").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/qr-code").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/status").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.POST, "/itens").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/itens").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET, "/itens/{id}").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/itens/{id}").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.DELETE, "/itens/{id}").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/marmitas/{id}").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/marmitas/{id}").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.DELETE, "/marmitas/{id}").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.GET, "/pedidos/{id}").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET, "/clientes/{id}/pedidos").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/pagamentos/{id}/confirmar").hasRole("RESTAURANTE") // Restaurante confirma pagamento
-                        .requestMatchers(HttpMethod.GET, "/marmitas/restaurante/{restauranteId}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/marmitas").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/marmitas/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/marmitas", "/marmitas/{id}", "/marmitas/restaurante/{restauranteId}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/marmitas/{id}").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.DELETE, "/marmitas/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/pedidos").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/pedidos/{id}", "/clientes/{id}/pedidos").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").hasRole("CLIENTE")
+
+                        .requestMatchers(HttpMethod.POST, "/pagamentos").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/qr-code", "/pagamentos/{id}/status").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PUT, "/pagamentos/{id}/confirmar").hasRole("RESTAURANTE")
 
                         .requestMatchers(HttpMethod.GET, "/health").permitAll()
                         .anyRequest().authenticated()
@@ -117,5 +97,4 @@ public class SecurityConfigurations {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
