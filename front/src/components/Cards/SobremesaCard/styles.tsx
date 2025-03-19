@@ -4,11 +4,11 @@ import ImgCard from '../../../assets/marmita.svg?react';
 export const Container = styled.div<{ isSelected: boolean }>`
   align-items: center;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
-  max-width: 15rem;
   flex-direction: column;
-  padding: 1rem;
+  max-width: 15rem;
+  padding: 1.5rem;
   position: relative;
   border: 2px solid ${props => (props.isSelected ? '#313131' : 'transparent')};
   
@@ -23,14 +23,7 @@ export const Container = styled.div<{ isSelected: boolean }>`
     color: #24292e;
     max-width: 75%;
   }
-
-  #preco {
-    display: flex;
-    align-self: self-end;
-    bottom: 20px;
-    right: 20px;
-    font-size: 1rem;
-  }
+  
   justify-content: center;
   margin: 50px;
 `;
@@ -38,5 +31,5 @@ export const Container = styled.div<{ isSelected: boolean }>`
 export const Image = styled.img`
   min-width: 100%;
   max-width: 100%;
-  margin-bottom: 20px; 
+  margin-bottom: 1.5rem;  
 `;

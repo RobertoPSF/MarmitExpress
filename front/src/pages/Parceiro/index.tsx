@@ -6,8 +6,10 @@ import {
   RestauranteRecuperacaoForm,
 } from '../../components/Forms';
 import { useState } from 'react';
+import useNoAuthRedirect from '../../hooks/useNoAuthRedirect';
 
 export default function Parceiro() {
+  useNoAuthRedirect();
   const [isLoginForm, setIsLoginForm] = useState(true); // Estado para alternar entre login e cadastro
   const [isForgotPassword, setIsForgotPassword] = useState(false); // Estado para alternar para recuperação de senha
 
