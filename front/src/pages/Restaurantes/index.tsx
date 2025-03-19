@@ -73,22 +73,13 @@ export default function Restaurantes() {
       <DivRestaurantes>
         {restaurantes.length > 0 ? (
           restaurantes.map((restaurante) => (
-            <>
-              <NavLink
-                style={{ height: '120px' }}
-                key={restaurante.id}
-                to={`/restaurante/${restaurante.id}/cardapio`}
-              >
-                <CardRestaurante dados={restaurante} />
-              </NavLink>
-              <NavLink
-                style={{ height: '120px' }}
-                key={restaurante.id}
-                to={`/restaurante/${restaurante.id}/cardapio`}
-              >
-                <CardRestaurante dados={restaurante} />
-              </NavLink>
-            </>
+            <NavLink
+              style={{ height: '120px' }}
+              key={restaurante.id}
+              to={`/restaurante/${restaurante.id}/cardapio`}
+            >
+              <CardRestaurante dados={restaurante} />
+            </NavLink>
           ))
         ) : (
           <p>Não existem Restaurantes cadastrados.</p>
