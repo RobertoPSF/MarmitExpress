@@ -5,8 +5,10 @@ import {
   RestauranteCadastroForm,
 } from '../../components/Forms';
 import { useState } from 'react';
+import useNoAuthRedirect from '../../hooks/useNoAuthRedirect';
 
 export default function Parceiro() {
+  useNoAuthRedirect();
   const [isLoginForm, setIsLoginForm] = useState(true); // Estado para alternar entre login e cadastro
 
   const handleOpenRegister = () => {
