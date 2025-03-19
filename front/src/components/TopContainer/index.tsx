@@ -13,6 +13,9 @@ export default function TopContainer() {
         </>
       ) : null}
       {location.pathname === '/restaurantes' ? <h1>Restaurantes</h1> : null}
+      {location.pathname === '/meu-restaurante' ? (
+        <h1>Meu Restaurante</h1>
+      ) : null}
       {location.pathname === '/meus-pedidos' ? <h1>Meus Pedidos</h1> : null}
       {location.pathname === '/contato' ? <h1>Contato</h1> : null}
       {location.pathname === '/sobre' ? <h1>Sobre</h1> : null}

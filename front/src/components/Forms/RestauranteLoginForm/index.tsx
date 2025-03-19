@@ -25,7 +25,9 @@ const RestauranteLoginForm: React.FC = () => {
         alert('Login realizado com sucesso!');
         // Aqui você pode armazenar o token se necessário
         const { token } = response.data;
-        console.log('Token recebido:', token);
+        localStorage.setItem('authToken', token); // Armazenar token localmente
+        alert('Login realizado com sucesso!');
+        window.location.href = '/meu-restaurante';
       } else {
         alert('Erro ao fazer Login. Verifique os dados e tente novamente.');
       }
