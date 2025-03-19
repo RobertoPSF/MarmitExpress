@@ -3,9 +3,7 @@ import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
 import { NavLink } from 'react-router-dom';
-import restaurante from '../../data/restaurantes.json';
-
-const restaurantesMock = restaurante;
+import RestaurantService from '../../services/RestauranteService';
 
 interface Restaurante {
   id: string;
@@ -37,17 +35,23 @@ export default function Restaurantes() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Instancia o serviço
+  const restaurantService = new RestaurantService();
+
+  // Faz a requisição de restaurantes ao montar o componente
   useEffect(() => {
-    // Simula um delay para carregar os dados (caso necessário)
-    setTimeout(() => {
-      try {
-        setRestaurantes(restaurantesMock); // Agora os dados são passados corretamente
-      } catch (err) {
+    const fetchRestaurants = async () => {
+      setIsLoading(true);
+      const response = await restaurantService.getRestaurants();
+      if (response && response.status === 200) {
+        setRestaurantes(response.data);
+      } else {
         setError('Erro ao carregar restaurantes');
-      } finally {
-        setIsLoading(false);
       }
-    }, 1000);
+      setIsLoading(false);
+    };
+
+    fetchRestaurants();
   }, []);
 
   // Filtra os restaurantes de acordo com os filtros aplicados
