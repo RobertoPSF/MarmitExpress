@@ -86,7 +86,9 @@ export default function Restaurantes() {
             </NavLink>
           ))
         ) : (
-          <p>Não existem Restaurantes cadastrados.</p>
+          <p style={{ color: 'white' }}>
+            Não existem Restaurantes cadastrados.
+          </p>
         )}
       </DivRestaurantes>
     </Container>

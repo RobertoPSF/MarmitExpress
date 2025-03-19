@@ -8,8 +8,8 @@ class AuthService extends CoreService {
     nome: string;
     email: string;
     senha: string;
-    descricao: string;
-    chavePix: string;
+    descricao?: string;
+    chavePix?: string;
     endereco: string;
     telefone: string;
     role: 'CLIENTE' | 'RESTAURANTE';
