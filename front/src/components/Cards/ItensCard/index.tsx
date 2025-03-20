@@ -1,23 +1,21 @@
 import { Container, Imagem } from './styles';
 
-interface ItemCard {
+interface ItemCardProps {
   imagem: string;
   nome: string;
   valor: number;
 }
 
-export default function RestauranteCard() {
-  const item: ItemCard = {
-    imagem: 'URL da Imagem',
-    nome: 'Coca pet',
-    valor: 19,
-  };
-
+export default function RestauranteCard({
+  imagem,
+  nome,
+  valor,
+}: ItemCardProps) {
   return (
     <Container>
-      <Imagem />
-      <p>{item.nome}</p>
-      <h3>R$ {item.valor}</h3>
+      <Imagem src={imagem} alt={nome} /> {/* Passando a URL da imagem */}
+      <p>{nome}</p>
+      <h3>R$ {valor}</h3>
     </Container>
   );
 }

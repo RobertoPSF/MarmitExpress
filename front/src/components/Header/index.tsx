@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Container,
   LinkComponent,
@@ -8,17 +8,32 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownButton,
+  InvisibleDiv,
 } from './styles';
 import ClienteLoginPopup from '../PopUps/ClienteLoginPopUp';
 
 export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
   const token = localStorage.getItem('authToken');
 
   const toggleLoginPopup = () => {
     setIsLoginOpen(!isLoginOpen);
   };
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
+        console.log(payload);
+        setUserRole(payload.role); // Pega a role do usuário
+      } catch (error) {
+        console.error('Erro ao decodificar o token:', error);
+        setUserRole(null);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -40,12 +55,25 @@ export default function Header() {
         <p>Restaurantes</p>
       </LinkComponent>
 
-      <LinkComponent to="/meus-pedidos">
-        <StyledIcon icon={'solar:bag-check-outline'} />
-        <p>Meus Pedidos</p>
-      </LinkComponent>
+      {token ? (
+        userRole === 'ROLE_CLIENTE' ? (
+          <LinkComponent to="/meus-pedidos">
+            <StyledIcon icon={'solar:bag-check-outline'} />
+            <p>Meus Pedidos</p>
+          </LinkComponent>
+        ) : userRole === 'ROLE_RESTAURANTE' ? (
+          <LinkComponent to="/meu-restaurante">
+            <StyledIcon icon={'solar:bag-check-outline'} />
+            <p>Meu Restaurante</p>
+          </LinkComponent>
+        ) : (
+          <InvisibleDiv />
+        )
+      ) : (
+        <InvisibleDiv />
+      )}
 
-      {token ? ( // Se houver um token, mostra "Minha Conta"
+      {token ? (
         <div style={{ position: 'relative' }}>
           <PopUpButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <StyledIcon icon={'ph:user-bold'} />

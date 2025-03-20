@@ -3,8 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 2vw;
   justify-content: center;
   margin-bottom: 10vh;
   margin-top: -7vh;
@@ -19,15 +18,14 @@ export const Container = styled.div`
 `;
 
 export const DivRestaurantes = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: min-content;
-  justify-content: baseline;
+  display: grid;
+  grid-template-columns: 50% 50%;
   gap: 2vw;
-  width: 55vw;
+  width: 53vw;
+  height: min-content;
 
   @media (max-width: 999px) {
-    flex-direction: column;
+    grid-template-columns: auto;
     gap: 20px;
     width: 100%;
   }

@@ -11,9 +11,8 @@ export const Container = styled.div`
   justify-content: center;
   margin-bottom: 50px;
   margin-top: 17.5vh;
-  padding-top: 40px;
   width: 100%;
-  height: max-content;
+  min-height: 40vh;
 `;
 
 export const Content = styled.div`
