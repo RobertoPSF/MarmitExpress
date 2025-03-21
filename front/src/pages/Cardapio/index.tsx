@@ -39,7 +39,7 @@ export default function Cardapio() {
   const [total, setTotal] = useState(0);
   const restaurantService = new RestaurantService();
   const id = location.state?.id;
-  console.log(restaurante?.aceitandoPedidos);
+
   useEffect(() => {
     const fetchRestaurant = async () => {
       if (!id) {
@@ -108,7 +108,7 @@ export default function Cardapio() {
         <h1 style={{ color: 'white' }}>{restaurante.nome}</h1>
         <h3 style={{ color: 'white' }}>{restaurante.descricao}</h3>
         <hr style={{ width: '97%', marginLeft: '0' }} />
-        <h2>Itens à venda no nosso cardápio</h2>
+        <h2>Acompanhamentos</h2>
         <DivItem>
           {restaurante?.listaDeItens?.length ? (
             restaurante.listaDeItens.map((item) => (

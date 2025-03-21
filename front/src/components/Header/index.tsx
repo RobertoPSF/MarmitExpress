@@ -6,20 +6,25 @@ import {
   StyledIcon,
   PopUpButton,
   DropdownMenu,
-  DropdownItem,
   DropdownButton,
   InvisibleDiv,
 } from './styles';
-import ClienteLoginPopup from '../PopUps/ClienteLoginPopUp';
+import ClienteLoginPopUp from '../PopUps/ClienteLoginPopUp';
+import EditProfilePopUp from '../PopUps/EditProfilePopUp';
 
 export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const token = localStorage.getItem('authToken');
 
   const toggleLoginPopup = () => {
     setIsLoginOpen(!isLoginOpen);
+  };
+
+  const toggleEditProfilePopup = () => {
+    setIsEditProfileOpen(!isEditProfileOpen);
   };
 
   useEffect(() => {
@@ -107,8 +112,12 @@ export default function Header() {
 
           {isDropdownOpen && (
             <DropdownMenu>
-              <DropdownItem to="/">Editar Perfil</DropdownItem>
-              <DropdownItem to="/">Trocar Senha</DropdownItem>
+              <DropdownButton as="button" onClick={toggleEditProfilePopup}>
+                Editar Perfil
+              </DropdownButton>
+              <DropdownButton as="button" onClick={handleLogout}>
+                Trocar Senha
+              </DropdownButton>
               <DropdownButton as="button" onClick={handleLogout}>
                 Sair
               </DropdownButton>
@@ -123,7 +132,13 @@ export default function Header() {
       )}
 
       {isLoginOpen && (
-        <ClienteLoginPopup isOpen={isLoginOpen} onClose={toggleLoginPopup} />
+        <ClienteLoginPopUp isOpen={isLoginOpen} onClose={toggleLoginPopup} />
+      )}
+      {isEditProfileOpen && (
+        <EditProfilePopUp
+          isOpen={isEditProfileOpen}
+          onClose={toggleEditProfilePopup}
+        />
       )}
     </Container>
   );

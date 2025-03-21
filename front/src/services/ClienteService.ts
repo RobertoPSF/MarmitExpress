@@ -17,7 +17,12 @@ class ClienteService extends CoreService {
   // Buscar meu perfil
   async getMeuPerfil(): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().get(`${this.baseRoute}/me`);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(`${this.baseRoute}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;
@@ -27,7 +32,12 @@ class ClienteService extends CoreService {
   // Atualizar meu perfil
   async updateMeuPerfil(data: object): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().put(`${this.baseRoute}/me`, data);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().put(`${this.baseRoute}/me`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;

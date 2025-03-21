@@ -27,9 +27,15 @@ class RestaurantService extends CoreService {
   // Buscar meu perfil
   async getMyProfile(): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().get(`${this.baseRoute}/me`);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(`${this.baseRoute}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
+      console.error('Erro ao buscar perfil:', error);
       return null;
     }
   }
@@ -37,7 +43,12 @@ class RestaurantService extends CoreService {
   // Atualizar meu perfil
   async updateMyProfile(data: object): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().put(`${this.baseRoute}/me`, data);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().put(`${this.baseRoute}/me`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;

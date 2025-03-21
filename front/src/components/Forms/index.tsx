@@ -6,3 +6,4 @@ export { default as ClienteRecuperacaoForm } from './ClienteRecuperacaoForm';
 export { default as RestauranteLoginForm } from './RestauranteLoginForm';
 export { default as RestauranteCadastroForm } from './RestauranteCadastroForm';
 export { default as RestauranteRecuperacaoForm } from './RestauranteRecuperacaoForm';
+export { default as EditProfileForm } from './ClienteLoginForm copy';
