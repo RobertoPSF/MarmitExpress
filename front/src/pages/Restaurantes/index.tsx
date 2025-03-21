@@ -12,16 +12,6 @@ interface Restaurante {
   descricao: string;
   telefone: string;
   aceitandoPedidos: boolean;
-  chavePix: string;
-  itens: { id: string; nome: string; preco: number; quantidade: number }[];
-  pedidos: {
-    id: string;
-    clienteId: string;
-    status: string;
-    dataHora: string;
-    valorTotal: number;
-    itens: { produtoId: string; quantidade: number; precoUnitario: number }[];
-  }[];
 }
 
 export default function Restaurantes() {
@@ -81,7 +71,7 @@ export default function Restaurantes() {
               style={{ height: '120px' }}
               key={restaurante.id}
               to={`/restaurante/${restaurante.id}/cardapio`}
-              state={{ restaurante }}
+              state={{ id: restaurante.id }}
             >
               <CardRestaurante dados={restaurante} />
             </NavLink>

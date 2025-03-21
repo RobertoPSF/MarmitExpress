@@ -1,64 +1,52 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
+  display: grid;
   justify-content: center;
-  padding: 100px;
+  padding: 10vh 14vw;
   min-height: 64.5vh;
-  width: 100%;
+  margin-top: -30vh;
+  grid-template-columns: auto auto;
+
+  @media (max-width: 999px) {
+    grid-template-columns: auto;
+    margin-top: -20vh;
+    width: 100%;
+    padding: 10vh 0;
+  }
 `;
 
 export const ItensContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  justify-content: center;
   margin-bottom: 50px;
-  margin-top: -35vh;
-  padding-top: 40px;
-  width: 70%;
   min-height: 64.5vh;
   height: max-content;
-
-  @media (max-width: 999px) {
-    margin-top: 10vh;
-    padding-top: 20px;
-    gap: 30px;
-  }
-
-  @media (max-width: 600px) {
-    margin-top: 5vh;
-    padding-top: 10px;
-    gap: 20px;
-  }
 `;
 
 export const ResumoContainer = styled.div`
-  width: 30%;
-`;
-
-export const DivTamanhoMarmita = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
-
+  width: 25vw;
+  margin-top: 16vh;
   @media (max-width: 999px) {
-    flex-wrap: wrap;
-    flex-direction: column;
-    gap: 20px;
+    margin-top: 0;
+    grid-template-columns: auto;
     width: 100%;
-  }
-
-  @media (max-width: 600px) {
-    gap: 10px;
   }
 `;
 
 export const DivItem = styled.div`
   width: 100%;
   display: grid;
-  padding: 20px;
-  grid-template-columns: auto auto auto auto;
+  padding: 1vw;
+  grid-template-columns: 10vw 10vw 10vw 10vw;
   gap: 15px;
+
+  @media (max-width: 999px) {
+    grid-template-columns: auto;
+    gap: 20px;
+    width: 100%;
+  }
 `;
 
 export const ResumoCompraPopup = styled.div`
@@ -69,7 +57,6 @@ export const ResumoCompraPopup = styled.div`
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  z-index: 1000;
 
   h2 {
     font-weight: bold;
@@ -121,5 +108,12 @@ export const ResumoCompraPopup = styled.div`
     margin-top: 10px;
     padding: 10px;
     width: 100%;
+
+    &:disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
   }
 `;

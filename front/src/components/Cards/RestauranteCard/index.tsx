@@ -1,4 +1,5 @@
-import { Container, Img, Information } from './styles';
+import { useState } from 'react';
+import { Container, Img, Information, Open, StyledIcon, Title } from './styles';
 
 interface Restaurante {
   id: string | number;
@@ -6,7 +7,7 @@ interface Restaurante {
   endereco: string;
   descricao: string;
   telefone: string;
-  // aceitandoPedidos: boolean;
+  aceitandoPedidos: boolean;
   // avaliacoes: number[];
 }
 
@@ -22,11 +23,16 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
   //   return (total / avaliacoes.length).toFixed(1);
   // };
 
+  const [isOpen] = useState<boolean>(false);
+
   return (
     <Container>
-      <Img />
+      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
       <Information>
-        <h3>{dados.nome}</h3>
+        <Title>
+          <h3>{dados.nome}</h3>
+          <Open $isOpen={isOpen} />
+        </Title>
         {/*
         <div id='avaliacoes'>
           <StyledIcon icon="emojione:star" />

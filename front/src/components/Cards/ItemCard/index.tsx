@@ -2,7 +2,6 @@ import { Container, StyledIcon } from './styles';
 
 interface Item {
   nome: string;
-  descricao: string;
 }
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 export default function ItemCard({ dados, onClick, isSelected }: Props) {
   return (
     <Container onClick={onClick} isSelected={isSelected}>
-      <StyledIcon icon={'ep:food'} style={{ fontSize: 30 }} />
+      <StyledIcon icon={'ep:food'} />
       <h3>{dados.nome}</h3>
     </Container>
   );
