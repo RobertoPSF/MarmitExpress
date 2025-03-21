@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Img, Information, Open, StyledIcon, Title } from './styles';
+import { Container, Information, Open, StyledIcon, Title } from './styles';
 
 interface Restaurante {
   id: string | number;
