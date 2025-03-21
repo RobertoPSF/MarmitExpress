@@ -23,7 +23,7 @@ export default function RestauranteCard({ dados }: RestauranteCardProps) {
   //   return (total / avaliacoes.length).toFixed(1);
   // };
 
-  const [isOpen] = useState<boolean>(false);
+  const [isOpen] = useState<boolean>(dados.aceitandoPedidos);
 
   return (
     <Container>
