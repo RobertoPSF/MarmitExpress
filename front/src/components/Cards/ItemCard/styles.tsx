@@ -7,6 +7,7 @@ export const Container = styled.div<{ isSelected: boolean }>`
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   flex-direction: column;
+  background-color: white;
   padding: 15px;
   gap: 10px;
   width: 100%;

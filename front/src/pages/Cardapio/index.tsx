@@ -97,7 +97,7 @@ export default function Cardapio() {
   if (!restaurante) {
     return (
       <Container>
-        <h1 style={{ color: 'white' }}>{'Carregando cardápio...'}</h1>
+        <h1 style={{ color: 'white' }}>{'Cardápio não encontrado...'}</h1>
       </Container>
     );
   }

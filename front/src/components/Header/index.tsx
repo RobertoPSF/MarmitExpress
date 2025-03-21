@@ -47,30 +47,55 @@ export default function Header() {
         <p>MarmitExpress</p>
       </LinkComponent>
 
-      <LinkComponent to="/restaurantes">
-        <StyledIcon
-          icon={'material-symbols:store-outline-rounded'}
-          style={{ fontSize: 30 }}
-        />
-        <p>Restaurantes</p>
-      </LinkComponent>
-
       {token ? (
         userRole === 'ROLE_CLIENTE' ? (
-          <LinkComponent to="/meus-pedidos">
-            <StyledIcon icon={'solar:bag-check-outline'} />
-            <p>Meus Pedidos</p>
-          </LinkComponent>
+          <>
+            <LinkComponent to="/restaurantes">
+              <StyledIcon
+                icon={'material-symbols:store-outline-rounded'}
+                style={{ fontSize: 30 }}
+              />
+              <p>Restaurantes</p>
+            </LinkComponent>
+            <LinkComponent to="/meus-pedidos">
+              <StyledIcon icon={'solar:bag-check-outline'} />
+              <p>Meus Pedidos</p>
+            </LinkComponent>
+          </>
         ) : userRole === 'ROLE_RESTAURANTE' ? (
-          <LinkComponent to="/meu-restaurante">
-            <StyledIcon icon={'solar:bag-check-outline'} />
-            <p>Meu Restaurante</p>
-          </LinkComponent>
+          <>
+            <LinkComponent to="/meu-restaurante">
+              <StyledIcon icon={'material-symbols:store-outline-rounded'} />
+              <p>Meu Restaurante</p>
+            </LinkComponent>
+            <LinkComponent to="/pedidos">
+              <StyledIcon icon={'solar:bag-check-outline'} />
+              <p>Pedidos</p>
+            </LinkComponent>
+          </>
         ) : (
-          <InvisibleDiv />
+          <>
+            <LinkComponent to="/restaurantes">
+              <StyledIcon
+                icon={'material-symbols:store-outline-rounded'}
+                style={{ fontSize: 30 }}
+              />
+              <p>Restaurantes</p>
+            </LinkComponent>
+            <InvisibleDiv />
+          </>
         )
       ) : (
-        <InvisibleDiv />
+        <>
+          <LinkComponent to="/restaurantes">
+            <StyledIcon
+              icon={'material-symbols:store-outline-rounded'}
+              style={{ fontSize: 30 }}
+            />
+            <p>Restaurantes</p>
+          </LinkComponent>
+          <InvisibleDiv />
+        </>
       )}
 
       {token ? (

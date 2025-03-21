@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  justify-content: center;
-  padding: 10vh 14vw;
+  justify-content: space-between;
+  padding: 10vh;
   min-height: 64.5vh;
+  gap: 2vw;
   margin-top: -30vh;
   grid-template-columns: auto auto;
 
@@ -12,7 +13,7 @@ export const Container = styled.div`
     grid-template-columns: auto;
     margin-top: -20vh;
     width: 100%;
-    padding: 10vh 0;
+    padding: 10vh;
   }
 `;
 

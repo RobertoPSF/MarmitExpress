@@ -30,7 +30,7 @@ export default function MeusPedidos() {
         {pedidos.length > 0 ? (
           pedidos.map((pedido) => <div>{pedido}</div>)
         ) : (
-          <p>Você ainda não tem pedidos.</p>
+          <h2>Você ainda não tem pedidos.</h2>
         )}
       </div>
     </Container>

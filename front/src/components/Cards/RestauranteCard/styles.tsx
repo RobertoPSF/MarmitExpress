@@ -11,6 +11,7 @@ export const Container = styled.div`
   background-color: white;
   border-radius: 15px;
   display: flex;
+  align-items: center;
   gap: 10px;
   width: auto;
   height: 120px;
