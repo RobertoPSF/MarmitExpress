@@ -1,11 +1,13 @@
-# Documentação da API de Itens - MarmitExpress
+# Documentação da API de Produtos - MarmitExpress
+
 
 ## Introdução
 A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os itens do seu cardápio. Apenas restaurantes autenticados podem realizar operações nos itens que pertencem a eles.
 
 ## Endpoints
 
-### Criar um Item
+### Criar um Produto
+
 **POST /itens**
 
 **Requisição:**
@@ -35,7 +37,8 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Listar todos os Itens
+### Listar todos os Produtos
+
 **GET /itens**
 
 **Resposta (200 OK):**
@@ -53,7 +56,8 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Buscar um Item por ID
+### Buscar um Produto por ID
+
 **GET /itens/{id}**
 
 **Resposta (200 OK):**
@@ -72,7 +76,8 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Atualizar um Item
+### Atualizar um Produto
+
 **PUT /itens/{id}**
 
 **Requisição:**
@@ -101,7 +106,8 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Deletar um Item
+### Deletar um Produto
+
 **DELETE /itens/{id}**
 
 **Resposta (204 No Content)**
@@ -112,7 +118,8 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Buscar Itens de um Restaurante
+### Buscar Produtos de um Restaurante
+
 **GET /itens/restaurante/{restauranteId}**
 
 **Resposta (200 OK):**
@@ -137,4 +144,3 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 ## Observações
 - Todos os endpoints que requerem autenticação validam o restaurante pelo email cadastrado.
 - Para qualquer erro de permissão ou item inexistente, a API retorna os códigos apropriados (`403` ou `404`).
-
