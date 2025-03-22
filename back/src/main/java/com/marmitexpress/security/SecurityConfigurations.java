@@ -37,7 +37,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/new-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/new-password").hasAnyRole("RESTAURANTE", "CLIENTE", "ADMIN")
                         
                         .requestMatchers(HttpMethod.GET, "/clientes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/clientes/me").hasRole("CLIENTE")
