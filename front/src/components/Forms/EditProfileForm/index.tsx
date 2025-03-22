@@ -16,21 +16,14 @@ const formatPhoneNumber = (value: string) => {
   }
 };
 
-interface Restaurante {
+interface Profile {
   id: string;
   nome: string;
   endereco: string;
-  descricao: string;
+  descricao?: string;
   telefone: string;
-  aceitandoPedidos: boolean;
-  chavePix: string;
-}
-
-interface Cliente {
-  id: string;
-  nome: string;
-  endereco: string;
-  telefone: string;
+  aceitandoPedidos?: boolean;
+  chavePix?: string;
 }
 
 interface EditProfileProps {
@@ -40,24 +33,25 @@ interface EditProfileProps {
 const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const token = localStorage.getItem('authToken');
-  const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
-  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const restauranteService = new RestauranteService();
   const clienteService = new ClienteService();
+
+  const [formDataPerfil, setFormDataPerfil] = useState<Partial<Profile>>({});
 
   useEffect(() => {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
-        setUserRole(payload.role); // Pega a role do usuário
-        console.log(payload.role);
+        setUserRole(payload.role); // Define a role do usuário
 
         if (payload.role === 'ROLE_CLIENTE') {
           const fetchCliente = async () => {
             try {
               const response = await clienteService.getMeuPerfil();
               if (response?.status === 200) {
-                setCliente(response.data);
+                setProfile(response.data);
+                setFormDataPerfil(response.data); // Preenche os campos com os dados do perfil
               } else {
                 console.error('Erro ao buscar cliente:', response);
               }
@@ -71,7 +65,8 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
             try {
               const response = await restauranteService.getMyProfile();
               if (response?.status === 200) {
-                setRestaurante(response.data);
+                setProfile(response.data);
+                setFormDataPerfil(response.data); // Preenche os campos com os dados do perfil
               } else {
                 console.error('Erro ao buscar restaurante:', response);
               }
@@ -89,35 +84,29 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
     }
   }, [token]);
 
-  const [formDataPerfil, setFormDataPerfil] = useState({
-    telefone: '',
-    nome: '',
-    endereco: '',
-    descricao: '',
-    chavePix: '',
-    aceitandoPedidos: '',
-  });
-
   const handleChangePerfil = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === 'telefone') {
-      setFormDataPerfil({
-        ...formDataPerfil,
-        [name]: formatPhoneNumber(value),
-      });
-    } else {
-      setFormDataPerfil({ ...formDataPerfil, [name]: value });
-    }
+    setFormDataPerfil((prev) => ({
+      ...prev,
+      [name]: name === 'telefone' ? formatPhoneNumber(value) : value,
+    }));
   };
 
   const handleSubmitPerfil = async () => {
+    if (!profile) return;
+
+    const updatedData = {
+      ...profile, // Mantém os valores originais
+      ...formDataPerfil, // Substitui apenas os valores alterados
+    };
+
     try {
       if (userRole === 'ROLE_CLIENTE') {
         const response = await clienteService.updateMeuPerfil({
-          nome: formDataPerfil.nome,
-          endereco: formDataPerfil.endereco,
-          telefone: formDataPerfil.telefone,
+          nome: updatedData.nome,
+          endereco: updatedData.endereco,
+          telefone: updatedData.telefone,
         });
         if (response?.status === 200) {
           alert('Perfil atualizado com sucesso!');
@@ -129,12 +118,12 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
         }
       } else if (userRole === 'ROLE_RESTAURANTE') {
         const response = await restauranteService.updateMyProfile({
-          nome: formDataPerfil.nome,
-          endereco: formDataPerfil.endereco,
-          telefone: formDataPerfil.telefone,
-          descricao: formDataPerfil.descricao,
-          chavePix: formDataPerfil.chavePix,
-          aceitandoPedidos: formDataPerfil.aceitandoPedidos,
+          nome: updatedData.nome,
+          endereco: updatedData.endereco,
+          telefone: updatedData.telefone,
+          descricao: updatedData.descricao,
+          chavePix: updatedData.chavePix,
+          aceitandoPedidos: updatedData.aceitandoPedidos,
         });
         if (response?.status === 200) {
           alert('Perfil atualizado com sucesso!');
@@ -155,38 +144,25 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
 
   return (
     <>
-      {token ? (
-        userRole === 'ROLE_CLIENTE' ? (
-          <>
-            <p>Usuário Cliente</p>
-            <p>{cliente?.nome}</p>
-          </>
-        ) : userRole === 'ROLE_RESTAURANTE' ? (
-          <>
-            <p>Usuário Restaurante</p>
-            <p>{restaurante?.nome}</p>
-          </>
-        ) : (
-          <p>{'Role não identificada...'}</p>
-        )
-      ) : null}
-
       <Input
         placeHolderContainer="Nome"
         name="nome"
-        value={formDataPerfil.nome}
+        placeholder={profile?.nome}
+        value={formDataPerfil.nome || ''}
         onChange={handleChangePerfil}
       />
       <Input
         placeHolderContainer="Endereço"
         name="endereco"
-        value={formDataPerfil.endereco}
+        placeholder={profile?.endereco}
+        value={formDataPerfil.endereco || ''}
         onChange={handleChangePerfil}
       />
       <Input
         placeHolderContainer="Telefone"
         name="telefone"
-        value={formDataPerfil.telefone}
+        placeholder={profile?.telefone}
+        value={formDataPerfil.telefone || ''}
         onChange={handleChangePerfil}
       />
       {userRole === 'ROLE_RESTAURANTE' && (
@@ -194,19 +170,15 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
           <Input
             placeHolderContainer="Descrição"
             name="descricao"
-            value={formDataPerfil.descricao}
+            placeholder={profile?.descricao}
+            value={formDataPerfil.descricao || ''}
             onChange={handleChangePerfil}
           />
           <Input
             placeHolderContainer="Chave Pix"
             name="chavePix"
-            value={formDataPerfil.chavePix}
-            onChange={handleChangePerfil}
-          />
-          <Input
-            placeHolderContainer="Aceitando Pedidos"
-            name="aceitandoPedidos"
-            value={formDataPerfil.aceitandoPedidos}
+            placeholder={profile?.chavePix}
+            value={formDataPerfil.chavePix || ''}
             onChange={handleChangePerfil}
           />
         </>
