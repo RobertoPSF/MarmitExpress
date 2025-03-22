@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.marmitexpress.models.Ingrediente;
-import com.marmitexpress.models.Item;
+import com.marmitexpress.models.Produto;
 import com.marmitexpress.models.Marmita;
 
 public record RestauranteResponseDTO(
@@ -17,6 +17,6 @@ public record RestauranteResponseDTO(
     boolean aceitandoPedidos,
     String chavePix,
     List<Ingrediente> ingredientes,
-    List<Item> listaDeItens,
+    List<Produto> listaDeProdutos,
     List<Marmita> marmitas
 ) {}

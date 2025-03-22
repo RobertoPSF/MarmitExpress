@@ -27,10 +27,10 @@ public class PedidoController {
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private ItemRepository itemRepository;
+    private ProdutoRepository itemRepository;
 
     @Autowired
-    private PedidoItemRepository pedidoItemRepository;
+    private DetalhePedidoRepository pedidoItemRepository;
 
     @Autowired
     private ClienteService clienteService;
@@ -47,7 +47,7 @@ public class PedidoController {
             return ResponseEntity.badRequest().body("Restaurante não encontrado.");
         }
 
-        List<Item> itens = itemRepository.findAllById(pedidoRequest.getItensIds());
+        List<Produto> itens = itemRepository.findAllById(pedidoRequest.getItensIds());
         if (itens.isEmpty()) {
             return ResponseEntity.badRequest().body("Nenhum item encontrado.");
         }
@@ -60,8 +60,8 @@ public class PedidoController {
         pedido = pedidoRepository.save(pedido);
 
         double precoTotal = 0;
-        for (Item item : itens) {
-            PedidoItem pedidoItem = new PedidoItem(null, pedido, item, 1); // Quantidade padrão 1
+        for (Produto item : itens) {
+            DetalhePedido pedidoItem = new DetalhePedido(null, pedido, item, 1); // Quantidade padrão 1
             pedidoItemRepository.save(pedidoItem);
             precoTotal += item.getPreco();
         }

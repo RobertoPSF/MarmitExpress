@@ -1,10 +1,10 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.dto.ItemDTO;
-import com.marmitexpress.dto.ItemResponseDTO;
-import com.marmitexpress.models.Item;
+import com.marmitexpress.dto.ProdutoDTO;
+import com.marmitexpress.dto.ProdutoResponseDTO;
+import com.marmitexpress.models.Produto;
 import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.services.ItemService;
+import com.marmitexpress.services.ProdutoService;
 import com.marmitexpress.services.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,16 +20,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/itens")
 @CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "*")
-public class ItemController {
+public class ProdutoController {
 
     @Autowired
-    private ItemService itemService;
+    private ProdutoService itemService;
 
     @Autowired
     private RestauranteService restauranteService;
 
     @PostMapping
-    public ResponseEntity<ItemResponseDTO> criarItem(@RequestBody ItemDTO dto) {
+    public ResponseEntity<ProdutoResponseDTO> criarItem(@RequestBody ProdutoDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
 
@@ -37,11 +37,11 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item novoItem = new Item(null, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
+        Produto novoItem = new Produto(null, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
 
-        Item itemSalvo = itemService.criarItem(novoItem);
+        Produto itemSalvo = itemService.criarItem(novoItem);
 
-        return ResponseEntity.ok(new ItemResponseDTO(
+        return ResponseEntity.ok(new ProdutoResponseDTO(
             itemSalvo.getId(),
             itemSalvo.getNome(),
             itemSalvo.getPreco(),
@@ -52,9 +52,9 @@ public class ItemController {
 
 
     @GetMapping
-    public ResponseEntity<List<ItemResponseDTO>> listarItens() {
-        List<ItemResponseDTO> itens = itemService.listarItens().stream()
-            .map(item -> new ItemResponseDTO(
+    public ResponseEntity<List<ProdutoResponseDTO>> listarItens() {
+        List<ProdutoResponseDTO> itens = itemService.listarItens().stream()
+            .map(item -> new ProdutoResponseDTO(
                 item.getId(),
                 item.getNome(),
                 item.getPreco(),
@@ -67,10 +67,10 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemResponseDTO> buscarItemPorId(@PathVariable UUID id) {
-        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
+    public ResponseEntity<ProdutoResponseDTO> buscarItemPorId(@PathVariable UUID id) {
+        Optional<Produto> itemOpt = itemService.buscarItemPorId(id);
 
-        return itemOpt.map(item -> ResponseEntity.ok(new ItemResponseDTO(
+        return itemOpt.map(item -> ResponseEntity.ok(new ProdutoResponseDTO(
             item.getId(),
             item.getNome(),
             item.getPreco(),
@@ -80,7 +80,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemResponseDTO> atualizarItem(@PathVariable UUID id, @RequestBody ItemDTO dto) {
+    public ResponseEntity<ProdutoResponseDTO> atualizarItem(@PathVariable UUID id, @RequestBody ProdutoDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
 
@@ -88,15 +88,15 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
+        Optional<Produto> itemOpt = itemService.buscarItemPorId(id);
         if (itemOpt.isEmpty() || !itemOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item itemAtualizado = new Item(id, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
-        Item itemSalvo = itemService.atualizarItem(id, itemAtualizado);
+        Produto itemAtualizado = new Produto(id, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
+        Produto itemSalvo = itemService.atualizarItem(id, itemAtualizado);
 
-        return ResponseEntity.ok(new ItemResponseDTO(
+        return ResponseEntity.ok(new ProdutoResponseDTO(
             itemSalvo.getId(),
             itemSalvo.getNome(),
             itemSalvo.getPreco(),
@@ -114,7 +114,7 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Optional<Item> itemOpt = itemService.buscarItemPorId(id);
+        Optional<Produto> itemOpt = itemService.buscarItemPorId(id);
         if (itemOpt.isEmpty() || !itemOpt.get().getRestaurante().getId().equals(restaurante.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -124,7 +124,7 @@ public class ItemController {
     }
 
     @GetMapping("/restaurante/{restauranteiId}")
-    public ResponseEntity<List<ItemResponseDTO>> buscarItensPorRestaurante() {
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarItensPorRestaurante() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
 
@@ -132,10 +132,10 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        List<Item> itens = itemService.buscarItensPorRestaurante(restaurante);
+        List<Produto> itens = itemService.buscarItensPorRestaurante(restaurante);
 
-        List<ItemResponseDTO> itemResponseDTOs = itens.stream()
-            .map(item -> new ItemResponseDTO(
+        List<ProdutoResponseDTO> itemResponseDTOs = itens.stream()
+            .map(item -> new ProdutoResponseDTO(
                 item.getId(),
                 item.getNome(),
                 item.getPreco(),

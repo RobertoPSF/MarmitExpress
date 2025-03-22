@@ -10,18 +10,17 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED) // Para herança entre Item e Marmita
-public class Item {
+public class DetalhePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
-    private String nome;
-    private double preco;
-    private int quantidade;
-    private byte[] foto;
+    @ManyToOne
+    private Pedido pedido;
 
     @ManyToOne
-    private Restaurante restaurante;
+    private Produto item; // Pode ser Marmita ou qualquer outro item
+
+    private int quantidade; // Quantidade do item no pedido
 }

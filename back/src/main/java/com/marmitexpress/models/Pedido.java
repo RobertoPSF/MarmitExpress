@@ -31,6 +31,6 @@ public class Pedido {
     private StatusPedido status = StatusPedido.PENDENTE; // Começa como PENDENTE
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<PedidoItem> itens; // Relacionamento com PedidoItem
+    private List<DetalhePedido> itens; // Relacionamento com DetalhePedido
 }
 

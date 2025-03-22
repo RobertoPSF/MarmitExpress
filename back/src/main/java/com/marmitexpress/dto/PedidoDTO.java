@@ -1,7 +1,7 @@
 package com.marmitexpress.dto;
 
 import com.marmitexpress.models.Pedido;
-import com.marmitexpress.models.PedidoItem;
+import com.marmitexpress.models.DetalhePedido;
 import com.marmitexpress.models.StatusPedido;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class PedidoDTO {
         this.status = pedido.getStatus();
         this.precoTotal = pedido.getPreco(); // Preço total do pedido
         this.itensIds = pedido.getItens().stream()
-            .map(PedidoItem::getItem) // Obtém o Item de PedidoItem
+            .map(DetalhePedido::getItem) // Obtém o Item de PedidoItem
             .map(item -> item.getId()) // Pega o UUID do Item
             .collect(Collectors.toList());
     }

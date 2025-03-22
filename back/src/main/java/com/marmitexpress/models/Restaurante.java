@@ -21,7 +21,7 @@ public class Restaurante extends Usuario {
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Item> listaDeItens = new ArrayList<>();
+    private List<Produto> listaDeProdutos = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Marmita> marmitas = new ArrayList<>();
@@ -50,9 +50,9 @@ public class Restaurante extends Usuario {
         this.ingredientes.add(ingrediente);
     }
 
-    public void setListaDeItens(Item item) { 
-        item.setRestaurante(this);
-        this.listaDeItens.add(item);
+    public void setListaDeProdutos(Produto produto) { 
+        produto.setRestaurante(this);
+        this.listaDeProdutos.add(produto);
     }
 
     public void setMarmitas(Marmita marmita) { 

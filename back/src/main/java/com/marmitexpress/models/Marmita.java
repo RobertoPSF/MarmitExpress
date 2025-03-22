@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Marmita extends Item {
+public class Marmita extends Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // Gera um UUID automaticamente

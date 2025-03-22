@@ -1,9 +1,9 @@
 package com.marmitexpress.services;
 
 import com.marmitexpress.exceptions.ItemNotFoundException;
-import com.marmitexpress.models.Item;
+import com.marmitexpress.models.Produto;
 import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.repositorys.ItemRepository;
+import com.marmitexpress.repositorys.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +12,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ItemService {
+public class ProdutoService {
 
     @Autowired
-    private ItemRepository itemRepository;
+    private ProdutoRepository itemRepository;
 
-    public Item criarItem(Item item) {
+    public Produto criarItem(Produto item) {
         return itemRepository.save(item);
     }
 
-    public List<Item> listarItens() {
+    public List<Produto> listarItens() {
         return itemRepository.findAll();
     }
 
-    public Optional<Item> buscarItemPorId(UUID id) {
+    public Optional<Produto> buscarItemPorId(UUID id) {
         return itemRepository.findById(id);
     }
 
@@ -36,13 +36,13 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
-    public Item atualizarItem(UUID id, Item itemAtualizado) {
-        Optional<Item> itemOpt = itemRepository.findById(id);
+    public Produto atualizarItem(UUID id, Produto itemAtualizado) {
+        Optional<Produto> itemOpt = itemRepository.findById(id);
         if (itemOpt.isEmpty()) {
             throw new ItemNotFoundException();
         }
 
-        Item itemExistente = itemOpt.get();
+        Produto itemExistente = itemOpt.get();
 
         if (itemAtualizado.getNome() != null) {
             itemExistente.setNome(itemAtualizado.getNome());
@@ -60,7 +60,7 @@ public class ItemService {
         return itemRepository.save(itemExistente);
     }
 
-    public List<Item> buscarItensPorRestaurante(Restaurante restaurante) {
+    public List<Produto> buscarItensPorRestaurante(Restaurante restaurante) {
         return itemRepository.findByRestaurante(restaurante);
     }
 

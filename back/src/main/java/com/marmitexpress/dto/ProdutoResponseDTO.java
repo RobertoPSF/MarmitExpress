@@ -2,7 +2,7 @@ package com.marmitexpress.dto;
 
 import java.util.UUID;
 
-public record ItemResponseDTO (
+public record ProdutoResponseDTO (
     UUID id,
     String nome,
     double preco,
