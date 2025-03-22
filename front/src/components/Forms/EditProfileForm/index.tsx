@@ -128,6 +128,7 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
         if (response?.status === 200) {
           alert('Perfil atualizado com sucesso!');
           onClose();
+          window.location.reload(); // Recarrega a página após a atualização
         } else {
           alert(
             'Erro ao atualizar perfil. Verifique os dados e tente novamente.',
