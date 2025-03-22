@@ -1,27 +1,26 @@
 package com.marmitexpress.models;
 
 import jakarta.persistence.*;
+import lombok.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Marmita extends Item {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID) // Gera um UUID automaticamente
+    private UUID id;
 
     @ManyToMany
     @JoinTable(
-        name = "marmita",
+        name = "marmita_ingredientes", // Nome da tabela de relação (evita conflito com a tabela "marmita")
         joinColumns = @JoinColumn(name = "marmita_id"),
         inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
     )
     private List<Ingrediente> ingredientes;
-
-    public Marmita() {}
-
-    public Marmita(String nome, double preco, int quantidade, Restaurante restaurante, List<Ingrediente> ingredientes) {
-        super(nome, preco, quantidade, restaurante);
-        this.ingredientes = ingredientes;
-    }
-
-    public List<Ingrediente> getIngredientes() {return ingredientes;}
-
-    public void setIngredientes(List<Ingrediente> ingredientes) {this.ingredientes = ingredientes;}
 }

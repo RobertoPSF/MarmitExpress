@@ -44,7 +44,7 @@ public class SecurityConfigurations {
 
                         .requestMatchers(HttpMethod.GET, "/restaurantes", "/restaurantes/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/me").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.PUT, "/restaurantes/me").hasRole("RESTAURANTE")
+                        .requestMatchers(HttpMethod.PATCH, "/restaurantes/me").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.DELETE, "/restaurantes/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/ingredientes").hasRole("RESTAURANTE")
@@ -67,8 +67,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").hasRole("CLIENTE")
 
                         .requestMatchers(HttpMethod.POST, "/pagamentos").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/qr-code", "/pagamentos/{id}/status").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/pagamentos/{id}/confirmar").hasRole("RESTAURANTE")
+                        .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/qrcode", "/pagamentos/{id}/status").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PATCH, "/pagamentos/{id}/confirmar").hasRole("RESTAURANTE")
 
                         .requestMatchers(HttpMethod.GET, "/health").permitAll()
                         .anyRequest().authenticated()
@@ -81,7 +81,7 @@ public class SecurityConfigurations {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

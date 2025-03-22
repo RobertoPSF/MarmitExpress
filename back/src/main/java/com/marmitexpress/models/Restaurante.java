@@ -1,10 +1,15 @@
 package com.marmitexpress.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Restaurante extends Usuario {
 
     @Column(nullable = true)
@@ -28,7 +33,6 @@ public class Restaurante extends Usuario {
     private String chavePix;
 
     public Restaurante() {
-
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
@@ -41,42 +45,20 @@ public class Restaurante extends Usuario {
         this.setTelefone(telefone);
     }
 
-    public boolean isAceitandoPedidos() { return aceitandoPedidos; }
-
-    public void setAceitandoPedidos(boolean aceitandoPedidos) { this.aceitandoPedidos = aceitandoPedidos; }
-
-    public List<Ingrediente> getIngredientes() { return ingredientes; }
-
-    public void setIngredientes(List<Ingrediente> ingredientes) { this.ingredientes = ingredientes; }
-
     public void addIngrediente(Ingrediente ingrediente) {
         ingrediente.setRestaurante(this);
         this.ingredientes.add(ingrediente);
     }
-
-    public String getDescricao() { return descricao; }
-
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-
-    public String getChavePix() { return chavePix; }
-
-    public void setChavePix(String chavePix) { this.chavePix = chavePix; }
-
-    public List<Item> getListaDeItens() { return listaDeItens; }
 
     public void setListaDeItens(Item item) { 
         item.setRestaurante(this);
         this.listaDeItens.add(item);
     }
 
-    public List<Marmita> getMarmitas() { return marmitas; }
-
     public void setMarmitas(Marmita marmita) { 
         marmita.setRestaurante(this);
         this.marmitas.add(marmita);
     }
-
-    public List<Pedido> getListaDePedidos() { return listaDePedidos; }
 
     public void setListaDePedidos(Pedido pedido) { 
         pedido.setRestaurante(this);

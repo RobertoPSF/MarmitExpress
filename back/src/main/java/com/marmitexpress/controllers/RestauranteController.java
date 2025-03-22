@@ -88,7 +88,7 @@ public class RestauranteController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/me")
+    @PatchMapping("/me")
     public ResponseEntity<RestauranteResponseDTO> atualizarPerfil(@RequestBody RestauranteDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);

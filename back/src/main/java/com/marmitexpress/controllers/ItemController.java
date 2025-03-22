@@ -37,7 +37,7 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item novoItem = new Item(dto.getNome(), dto.getPreco(), dto.getQuantidade(), restaurante);
+        Item novoItem = new Item(null, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
 
         Item itemSalvo = itemService.criarItem(novoItem);
 
@@ -93,7 +93,7 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item itemAtualizado = new Item(dto.getNome(), dto.getPreco(), dto.getQuantidade(), restaurante);
+        Item itemAtualizado = new Item(id, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
         Item itemSalvo = itemService.atualizarItem(id, itemAtualizado);
 
         return ResponseEntity.ok(new ItemResponseDTO(
