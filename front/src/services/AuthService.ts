@@ -40,11 +40,20 @@ class AuthService extends CoreService {
     }
   }
 
-  async recuperarSenha(data: { email: string }): Promise<AxiosResponse | null> {
+  async changePassword(credentials: {
+    email: string;
+    senha: string;
+  }): Promise<AxiosResponse | null> {
     try {
+      const token = localStorage.getItem('authToken');
       const response = await this.getApi().post(
-        `${this.baseRoute}/recuperar-senha`,
-        data,
+        `${this.baseRoute}/new-password`,
+        credentials,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       return response;
     } catch (error) {
