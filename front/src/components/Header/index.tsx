@@ -11,10 +11,12 @@ import {
 } from './styles';
 import ClienteLoginPopUp from '../PopUps/ClienteLoginPopUp';
 import EditProfilePopUp from '../PopUps/EditProfilePopUp';
+import ChangePasswordPopUp from '../PopUps/ChangePasswordPopUp';
 
 export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const token = localStorage.getItem('authToken');
@@ -25,6 +27,10 @@ export default function Header() {
 
   const toggleEditProfilePopup = () => {
     setIsEditProfileOpen(!isEditProfileOpen);
+  };
+
+  const toggleChangePasswordPopup = () => {
+    setIsChangePasswordOpen(!isChangePasswordOpen);
   };
 
   useEffect(() => {
@@ -115,7 +121,7 @@ export default function Header() {
               <DropdownButton as="button" onClick={toggleEditProfilePopup}>
                 Editar Perfil
               </DropdownButton>
-              <DropdownButton as="button" onClick={handleLogout}>
+              <DropdownButton as="button" onClick={toggleChangePasswordPopup}>
                 Trocar Senha
               </DropdownButton>
               <DropdownButton as="button" onClick={handleLogout}>
@@ -138,6 +144,12 @@ export default function Header() {
         <EditProfilePopUp
           isOpen={isEditProfileOpen}
           onClose={toggleEditProfilePopup}
+        />
+      )}
+      {isChangePasswordOpen && (
+        <ChangePasswordPopUp
+          isOpen={isChangePasswordOpen}
+          onClose={toggleChangePasswordPopup}
         />
       )}
     </Container>

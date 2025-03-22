@@ -7,3 +7,4 @@ export { default as RestauranteLoginForm } from './RestauranteLoginForm';
 export { default as RestauranteCadastroForm } from './RestauranteCadastroForm';
 export { default as RestauranteRecuperacaoForm } from './RestauranteRecuperacaoForm';
 export { default as EditProfileForm } from './EditProfileForm';
+export { default as ChangePasswordForm } from './ChangePasswordForm';
