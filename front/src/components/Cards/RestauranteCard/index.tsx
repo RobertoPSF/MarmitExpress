@@ -2,13 +2,10 @@ import { useState } from 'react';
 import { Container, Information, Open, StyledIcon, Title } from './styles';
 
 interface Restaurante {
-  id: string | number;
+  id: string;
   nome: string;
-  endereco: string;
   descricao: string;
-  telefone: string;
   aceitandoPedidos: boolean;
-  // avaliacoes: number[];
 }
 
 interface RestauranteCardProps {

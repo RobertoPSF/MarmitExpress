@@ -1,33 +1,6 @@
-import {
-  Container,
-  RestauranteContent,
-  ImagemRestaurante,
-  Row,
-  Line,
-  ItemCard,
-} from './styles';
+import {Container,RestauranteContent,ImagemRestaurante,Row,Line,ItemCard,} from './styles';
 import Button from '../../Button';
-import restaurante from '../../../data/restaurantes.json';
 import { useNavigate } from 'react-router-dom';
-
-interface Restaurante {
-  id: string;
-  nome: string;
-  endereco: string;
-  descricao: string;
-  telefone: string;
-  aceitandoPedidos: boolean;
-  chavePix: string;
-  itens: { id: string; nome: string; preco: number; quantidade: number }[];
-  pedidos: {
-    id: string;
-    clienteId: string;
-    status: string;
-    dataHora: string;
-    valorTotal: number;
-    itens: { produtoId: string; quantidade: number; precoUnitario: number }[];
-  }[];
-}
 
 interface Item {
   nome: string;

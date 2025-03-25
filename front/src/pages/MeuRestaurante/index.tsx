@@ -1,7 +1,11 @@
-import { Container } from './styles';
+import { Container, Section } from './styles';
 import { useState, useEffect } from 'react';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
+import RestauranteCard from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
+import ItemCard from '../../components/Cards/ExclusiveVisualisationItemCard';
+import IngredienteCard from '../../components/Cards/ExclusiveVisualisationIngredienteCard';
+import MarmitaCard from '../../components/Cards/ExclusiveVisualisationMarmitaCard';
 
 interface Ingrediente {
   id: string;
@@ -15,6 +19,14 @@ interface Item {
   quantidade: number;
 }
 
+interface Marmita {
+  id: string;
+  nome: string;
+  preco: number;
+  quantidade: number;
+  ingredientes: Ingrediente[];
+}
+
 interface Restaurante {
   id: string;
   nome: string;
@@ -24,6 +36,7 @@ interface Restaurante {
   aceitandoPedidos: boolean;
   chavePix: string;
   ingredientes: Ingrediente[];
+  marmitas: Marmita[];
   listaDeItens: Item[];
 }
 
@@ -31,17 +44,16 @@ export default function MeuRestaurante() {
   useAuthRedirect();
 
   const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>([]);
 
   useEffect(() => {
-    // Criando uma instância de RestauranteService
     const restauranteService = new RestauranteService();
-
-    // Chamando o método getMyProfile da instância criada
     restauranteService
       .getMyProfile()
       .then((response) => {
         if (response?.data) {
-          setRestaurante(response.data); // Assumindo que a resposta tem a propriedade "data"
+          setRestaurante(response.data);
         }
       })
       .catch((error) => {
@@ -49,32 +61,70 @@ export default function MeuRestaurante() {
       });
   }, []);
 
-  console.log(restaurante);
+  const handleSelectItem = (item: Item) => {
+    setSelectedItems((prevSelected) =>
+      prevSelected.includes(item.id)
+        ? prevSelected.filter((id) => id !== item.id)
+        : [...prevSelected, item.id]
+    );
+  };
+
+  const handleSelectIngrediente = (ingrediente: Ingrediente) => {
+    setSelectedIngredientes((prevSelected) =>
+      prevSelected.includes(ingrediente.id)
+        ? prevSelected.filter((id) => id !== ingrediente.id)
+        : [...prevSelected, ingrediente.id]
+    );
+  };
+
+  const isItemSelected = (item: Item) => selectedItems.includes(item.id);
+  const isIngredienteSelected = (ingrediente: Ingrediente) => selectedIngredientes.includes(ingrediente.id);
 
   return (
     <Container>
-      <div>{restaurante?.nome}</div>
-      <div>{restaurante?.endereco}</div>
-      <div>{restaurante?.descricao}</div>
-      <div>{restaurante?.telefone}</div>
-      <div>
-        {restaurante?.aceitandoPedidos
-          ? 'Aceitando Pedidos'
-          : 'Não Aceitando Pedidos'}
-      </div>
-      <div>{restaurante?.chavePix}</div>
-      {/* Listagem de Itens */}
-      <div>
-        {restaurante?.listaDeItens.map((item) => (
-          <p key={item.id}>{item.nome}</p>
+      <RestauranteCard dados={restaurante} />
+      
+      <h1>Tamanho da MarmitEx</h1>
+      <Section>
+        {restaurante?.marmitas.map((marmita) => (
+          <MarmitaCard
+            key={marmita.id}
+            dados={{ nome: marmita.nome, preco: marmita.preco }}
+            onClick={() => handleSelectItem(marmita)}
+            isSelected={isItemSelected(marmita)}
+          />
         ))}
-      </div>
-      {/* Listagem de Ingredientes */}
-      <div>
+      </Section>
+
+      <h1>Acompanhamentos</h1>
+      <Section>
         {restaurante?.ingredientes.map((ingrediente) => (
-          <p key={ingrediente.id}>{ingrediente.nome}</p>
+          <IngredienteCard 
+            key={ingrediente.id} 
+            dados={ingrediente}
+            onClick={() => handleSelectIngrediente(ingrediente)}
+            isSelected={isIngredienteSelected(ingrediente)}
+          />
         ))}
-      </div>
+      </Section>
+
+      <h1>Itens</h1>
+      <Section>
+        {(() => {
+          const listaFiltrada = restaurante?.listaDeItens.filter(
+            (item) => !restaurante.marmitas.some((marmita) => marmita.id === item.id)
+          ) || [];
+
+          return listaFiltrada.map((item) => (
+            <ItemCard
+              key={item.id}
+              dados={{ nome: item.nome, preco: item.preco }}
+              onClick={() => handleSelectItem(item)}
+              isSelected={isItemSelected(item)}
+            />
+          ));
+        })()}
+      </Section>
     </Container>
   );
 }
