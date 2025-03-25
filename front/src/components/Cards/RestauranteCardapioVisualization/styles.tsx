@@ -10,7 +10,6 @@ export const Container = styled.div`
   width: 100%;
   height: 120px;
   padding: 10px;
-  color: white;
 `;
 
 export const Information = styled.div`

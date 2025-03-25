@@ -6,12 +6,20 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 64.5vh;
+  width: 60vw;
   margin: 4vh 0;
   gap: 2rem;
-  h1{
+  h1 {
     align-self: flex-start;
-    margin-left: 3rem;
   }
+`;
+
+export const TitleSection = styled.div`
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  height: auto;
 `;
 
 export const Section = styled.div`
@@ -21,24 +29,27 @@ export const Section = styled.div`
   width: 90%;
   flex-wrap: wrap;
   gap: 1rem;
-`
+`;
 
 const Button = styled.button`
   background: none;
-  width: 5%;
-  height: 5%;
   border: none;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
   display: flex;
   align-self: end;
   justify-self: end;
+
+  :hover {
+    opacity: 0.7;
+  }
 `;
 
 export const IconAdd = styled(Icon)`
   width: 100%;
   height: 100%;
-
-`
+`;
 
 interface AddButtonProps {
   icon: string;

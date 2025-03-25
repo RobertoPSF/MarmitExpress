@@ -1,9 +1,9 @@
-import { Container, Section, AddButton } from './styles';
+import { Container, Section, AddButton, TitleSection } from './styles';
 import { useState, useEffect } from 'react';
 import PopUp from '../../components/PopUps/AddItemPopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
-import RestauranteCard from '../../components/Cards/RestauranteCard';
+import RestauranteCard from '../../components/Cards/RestauranteCardapioVisualization';
 import ItemCard from '../../components/Cards/ItemCard';
 import IngredienteCard from '../../components/Cards/IngredienteCard';
 import MarmitaCard from '../../components/Cards/MarmitaCard';
@@ -97,9 +97,14 @@ export default function MeuRestaurante() {
 
   return (
     <Container>
-      <RestauranteCard dados={restaurante} />
+      <RestauranteCard style={{ color: 'black' }} dados={restaurante} />
 
-      <h1>Tamanho da MarmitEx</h1>
+      <TitleSection>
+        <h1>Tamanho da MarmitEx</h1>
+        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+      </TitleSection>
+
       <Section>
         {restaurante?.marmitas.map((marmita) => (
           <MarmitaCard
@@ -110,10 +115,12 @@ export default function MeuRestaurante() {
           />
         ))}
       </Section>
-      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
 
-      <h1>Acompanhamentos</h1>
+      <TitleSection>
+        <h1>Acompanhamentos</h1>
+        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+      </TitleSection>
       <Section>
         {restaurante?.ingredientes.map((ingrediente) => (
           <IngredienteCard
@@ -124,10 +131,12 @@ export default function MeuRestaurante() {
           />
         ))}
       </Section>
-      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
 
-      <h1>Itens</h1>
+      <TitleSection>
+        <h1>Itens</h1>
+        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+      </TitleSection>
       <Section>
         {(() => {
           const listaFiltrada =
@@ -146,8 +155,6 @@ export default function MeuRestaurante() {
           ));
         })()}
       </Section>
-      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
     </Container>
   );
 }
