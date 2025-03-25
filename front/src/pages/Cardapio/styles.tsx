@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import RestauranteCardComponent from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
 
 export const Container = styled.div`
   display: grid;
@@ -26,26 +27,18 @@ export const ItensContainer = styled.div`
   height: max-content;
 `;
 
+export const RestauranteCard = styled(RestauranteCardComponent)`
+  h1{
+    color: white;
+  }
+`
+
 export const ResumoContainer = styled.div`
   width: 25vw;
   margin-top: 16vh;
   @media (max-width: 999px) {
     margin-top: 0;
     grid-template-columns: auto;
-    width: 100%;
-  }
-`;
-
-export const DivItem = styled.div`
-  width: 100%;
-  display: grid;
-  padding: 1vw;
-  grid-template-columns: 10vw 10vw 10vw 10vw;
-  gap: 15px;
-
-  @media (max-width: 999px) {
-    grid-template-columns: auto;
-    gap: 20px;
     width: 100%;
   }
 `;
@@ -118,3 +111,12 @@ export const ResumoCompraPopup = styled.div`
     }
   }
 `;
+
+export const Section = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 90%;
+  flex-wrap: wrap;
+  gap: 1rem;
+`
