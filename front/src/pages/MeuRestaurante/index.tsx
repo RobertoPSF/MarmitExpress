@@ -1,11 +1,13 @@
-import { Container, Section } from './styles';
+import { Container, Section, AddButton } from './styles';
 import { useState, useEffect } from 'react';
+import PopUp from '../../components/PopUps/AddItemPopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
 import RestauranteCard from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
 import ItemCard from '../../components/Cards/ExclusiveVisualisationItemCard';
 import IngredienteCard from '../../components/Cards/ExclusiveVisualisationIngredienteCard';
 import MarmitaCard from '../../components/Cards/ExclusiveVisualisationMarmitaCard';
+import React from 'react';
 
 interface Ingrediente {
   id: string;
@@ -77,6 +79,16 @@ export default function MeuRestaurante() {
     );
   };
 
+  const [isPopUpOpen, setIsPopUpOpen] = React.useState(false);
+
+  const openPopUp = () => {
+    setIsPopUpOpen(true);
+  };
+
+  const closePopUp = () => {
+    setIsPopUpOpen(false);
+  };
+
   const isItemSelected = (item: Item) => selectedItems.includes(item.id);
   const isIngredienteSelected = (ingrediente: Ingrediente) => selectedIngredientes.includes(ingrediente.id);
 
@@ -95,6 +107,8 @@ export default function MeuRestaurante() {
           />
         ))}
       </Section>
+      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
 
       <h1>Acompanhamentos</h1>
       <Section>
@@ -107,6 +121,8 @@ export default function MeuRestaurante() {
           />
         ))}
       </Section>
+      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
 
       <h1>Itens</h1>
       <Section>
@@ -125,6 +141,8 @@ export default function MeuRestaurante() {
           ));
         })()}
       </Section>
+      <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
+      <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
     </Container>
   );
 }
