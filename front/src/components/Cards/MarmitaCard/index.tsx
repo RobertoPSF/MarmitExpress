@@ -1,4 +1,4 @@
-import { Container, Information, StyledIcon} from './styles';
+import { Container, Information, StyledIcon } from './styles';
 
 interface Marmita {
   nome: string;
@@ -11,16 +11,23 @@ interface MarmitaCardProps {
   isSelected: boolean;
 }
 
-const formatarMoeda = (valor: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+const formatarMoeda = (valor: number) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+    valor,
+  );
 
-export default function MarmitaCard({ dados, onClick, isSelected  }: MarmitaCardProps) {
+export default function MarmitaCard({
+  dados,
+  onClick,
+  isSelected,
+}: MarmitaCardProps) {
   if (!dados) {
     return <p>Mrmita não encontrado.</p>;
   }
 
   return (
     <Container onClick={onClick} isSelected={isSelected}>
-      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
+      <StyledIcon icon={'ph:bowl-food'} />
       <Information>
         <p>{dados.nome}</p>
       </Information>

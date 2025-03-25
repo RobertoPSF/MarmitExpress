@@ -27,7 +27,7 @@ export default function ItemCard({
 
   return (
     <Container onClick={onClick} isSelected={isSelected}>
-      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
+      <StyledIcon icon={'mingcute:drink-line'} />
       <Information>
         <p>{dados.nome}</p>
       </Information>

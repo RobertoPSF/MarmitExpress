@@ -16,15 +16,15 @@ export const Container = styled.div<{ isSelected: boolean }>`
   gap: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
-  
-  h3{
+
+  h3 {
     position: absolute;
     bottom: 0.5rem;
     font-size: 0.9rem;
     font-weight: 600;
   }
 
-  p{
+  p {
     font-size: 1rem;
     font-weight: 400;
     color: #293138;
@@ -42,6 +42,5 @@ export const StyledIcon = styled(Icon)`
   width: 100%;
   height: auto;
   border-radius: 10px;
-  transition: transform 0.5s ease-in-out;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f1f2f3;
 `;
