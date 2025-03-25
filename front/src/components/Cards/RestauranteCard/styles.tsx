@@ -7,6 +7,7 @@ export const Container = styled.div`
   }
   display: flex;
   background-color: white;
+  align-items: center;
   border-radius: 15px;
   display: flex;
   gap: 10px;
@@ -35,8 +36,8 @@ export const StyledIcon = styled(Icon)`
   color: #24292e;
   background-color: #f1f2f3;
   border-radius: 7px;
-  height: auto;
-  width: 30%;
+  height: min-content;
+  width: 100px;
 `;
 
 interface OpenProps {
