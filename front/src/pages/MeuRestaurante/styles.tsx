@@ -12,6 +12,11 @@ export const Container = styled.div`
   h1 {
     align-self: flex-start;
   }
+
+  @media (max-width: 999px) {
+    width: 90vw;
+    padding: 10vh;
+  }
 `;
 
 export const TitleSection = styled.div`
