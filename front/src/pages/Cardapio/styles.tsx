@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import RestauranteCardComponent from '../../components/Cards/RestauranteCard';
+import RestauranteCardComponent from '../../components/Cards/RestauranteCardapioVisualization';
 
 export const Container = styled.div`
   display: grid;
   justify-content: space-between;
-  padding: 10vh;
+  padding: 5vw;
   min-height: 64.5vh;
+  width: 90vw;
   gap: 2vw;
   margin-top: -30vh;
   grid-template-columns: auto auto;
@@ -28,10 +29,10 @@ export const ItensContainer = styled.div`
 `;
 
 export const RestauranteCard = styled(RestauranteCardComponent)`
-  h1{
+  h1 {
     color: white;
   }
-`
+`;
 
 export const ResumoContainer = styled.div`
   width: 25vw;
@@ -119,4 +120,4 @@ export const Section = styled.div`
   width: 90%;
   flex-wrap: wrap;
   gap: 1rem;
-`
+`;
