@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import PopUp from '../../components/PopUps/AddItemPopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
-import RestauranteCard from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
-import ItemCard from '../../components/Cards/ExclusiveVisualisationItemCard';
-import IngredienteCard from '../../components/Cards/ExclusiveVisualisationIngredienteCard';
-import MarmitaCard from '../../components/Cards/ExclusiveVisualisationMarmitaCard';
+import RestauranteCard from '../../components/Cards/RestauranteCard';
+import ItemCard from '../../components/Cards/ItemCard';
+import IngredienteCard from '../../components/Cards/IngredienteCard';
+import MarmitaCard from '../../components/Cards/MarmitaCard';
 import React from 'react';
 
 interface Ingrediente {
@@ -47,7 +47,9 @@ export default function MeuRestaurante() {
 
   const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>([]);
+  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
+    [],
+  );
 
   useEffect(() => {
     const restauranteService = new RestauranteService();
@@ -67,7 +69,7 @@ export default function MeuRestaurante() {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(item.id)
         ? prevSelected.filter((id) => id !== item.id)
-        : [...prevSelected, item.id]
+        : [...prevSelected, item.id],
     );
   };
 
@@ -75,7 +77,7 @@ export default function MeuRestaurante() {
     setSelectedIngredientes((prevSelected) =>
       prevSelected.includes(ingrediente.id)
         ? prevSelected.filter((id) => id !== ingrediente.id)
-        : [...prevSelected, ingrediente.id]
+        : [...prevSelected, ingrediente.id],
     );
   };
 
@@ -90,12 +92,13 @@ export default function MeuRestaurante() {
   };
 
   const isItemSelected = (item: Item) => selectedItems.includes(item.id);
-  const isIngredienteSelected = (ingrediente: Ingrediente) => selectedIngredientes.includes(ingrediente.id);
+  const isIngredienteSelected = (ingrediente: Ingrediente) =>
+    selectedIngredientes.includes(ingrediente.id);
 
   return (
     <Container>
       <RestauranteCard dados={restaurante} />
-      
+
       <h1>Tamanho da MarmitEx</h1>
       <Section>
         {restaurante?.marmitas.map((marmita) => (
@@ -113,8 +116,8 @@ export default function MeuRestaurante() {
       <h1>Acompanhamentos</h1>
       <Section>
         {restaurante?.ingredientes.map((ingrediente) => (
-          <IngredienteCard 
-            key={ingrediente.id} 
+          <IngredienteCard
+            key={ingrediente.id}
             dados={ingrediente}
             onClick={() => handleSelectIngrediente(ingrediente)}
             isSelected={isIngredienteSelected(ingrediente)}
@@ -127,9 +130,11 @@ export default function MeuRestaurante() {
       <h1>Itens</h1>
       <Section>
         {(() => {
-          const listaFiltrada = restaurante?.listaDeItens.filter(
-            (item) => !restaurante.marmitas.some((marmita) => marmita.id === item.id)
-          ) || [];
+          const listaFiltrada =
+            restaurante?.listaDeItens.filter(
+              (item) =>
+                !restaurante.marmitas.some((marmita) => marmita.id === item.id),
+            ) || [];
 
           return listaFiltrada.map((item) => (
             <ItemCard
