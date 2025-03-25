@@ -3,24 +3,22 @@ import image from '../../../assets/imageExemplo.svg?react';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
-position: relative;
+  &:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
   display: flex;
   align-items: center;
-  width: 90%;
-  padding: 1rem;
-  
-  h1{
-    color: #24292e;
-    font-size: 1.5rem;
-  }
-  p{
-    color: #999999;
-    font-size: 1rem;
-  }
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+  gap: 10px;
+  width: auto;
+  height: 120px;
+  padding: 10px;
+  transition: box-shadow 0.2s ease-in-out;
 `;
 
 export const Information = styled.div`
-  margin-left: 10%;
   display: flex;
   flex-direction: column;
   width: 80%;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Information, Open, ImgRestaurante } from './styles';
+import { Container, Information, Open, EditIcon } from './styles';
 
 interface Restaurante {
   nome: string;
@@ -9,7 +9,7 @@ interface Restaurante {
 
 interface RestauranteCardProps {
   dados: Restaurante | null;
-  className?: string; 
+  className?: string;
 }
 
 function RestauranteCard({ dados, className }: RestauranteCardProps) {
@@ -21,9 +21,9 @@ function RestauranteCard({ dados, className }: RestauranteCardProps) {
 
   return (
     <Container className={className}>
-      <ImgRestaurante />
+      <EditIcon icon={'material-symbols:store-outline-rounded'} />
       <Information>
-        <h1>{dados.nome}</h1>
+        <h2>{dados.nome}</h2>
         <p>{dados.endereco}</p>
         <Open $isOpen={isOpen}>{isOpen ? 'Aberto' : 'Fechado'}</Open>
       </Information>
