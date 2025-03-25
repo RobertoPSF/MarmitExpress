@@ -1,50 +1,34 @@
 import { useState } from 'react';
-import { Container, Information, Open, StyledIcon, Title } from './styles';
+import { Container, Information, Open, ImgRestaurante } from './styles';
 
 interface Restaurante {
-  id: string;
   nome: string;
-  descricao: string;
   aceitandoPedidos: boolean;
+  endereco: string;
 }
 
 interface RestauranteCardProps {
-  dados: Restaurante;
+  dados: Restaurante | null;
+  className?: string; 
 }
 
-export default function RestauranteCard({ dados }: RestauranteCardProps) {
-  // Calcula a média das avaliações
-  // const calcularMediaAvaliacoes = (avaliacoes: number[]) => {
-  //   if (avaliacoes.length === 0) return 'Sem avaliações';
-  //   const total = avaliacoes.reduce((acc, nota) => acc + nota, 0);
-  //   return (total / avaliacoes.length).toFixed(1);
-  // };
+function RestauranteCard({ dados, className }: RestauranteCardProps) {
+  if (!dados) {
+    return <p>Restaurante não encontrado.</p>;
+  }
 
   const [isOpen] = useState<boolean>(dados.aceitandoPedidos);
 
   return (
-    <Container>
-      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
+    <Container className={className}>
+      <ImgRestaurante />
       <Information>
-        <Title>
-          <h3>{dados.nome}</h3>
-          <Open $isOpen={isOpen} />
-        </Title>
-        {/*
-        <div id='avaliacoes'>
-          <StyledIcon icon="emojione:star" />
-          <p>{dados.avaliacoes.toFixed(1)}</p>
-        </div>*/}
-
-        <p id="descricao">{dados.descricao}</p>
-        {/*
-        <div id='fidelidade'>
-          <Presente />
-          <p>Programa de fidelidade</p>
-          <StyledIcon icon={"material-symbols-light:verified"} id='verificado'/>
-        </div>
-         */}
+        <h1>{dados.nome}</h1>
+        <p>{dados.endereco}</p>
+        <Open $isOpen={isOpen}>{isOpen ? 'Aberto' : 'Fechado'}</Open>
       </Information>
     </Container>
   );
 }
+
+export default RestauranteCard;
