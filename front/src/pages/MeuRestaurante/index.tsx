@@ -2,10 +2,10 @@ import { Container, Section } from './styles';
 import { useState, useEffect } from 'react';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
-import RestauranteCard from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
-import ItemCard from '../../components/Cards/ExclusiveVisualisationItemCard';
-import IngredienteCard from '../../components/Cards/ExclusiveVisualisationIngredienteCard';
-import MarmitaCard from '../../components/Cards/ExclusiveVisualisationMarmitaCard';
+import RestauranteCard from '../../components/Cards/RestauranteCard';
+import ItemCard from '../../components/Cards/ItemCard';
+import IngredienteCard from '../../components/Cards/IngredienteCard';
+import MarmitaCard from '../../components/Cards/MarmitaCard';
 
 interface Ingrediente {
   id: string;

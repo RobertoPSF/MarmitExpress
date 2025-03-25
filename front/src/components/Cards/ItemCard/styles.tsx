@@ -1,38 +1,57 @@
 import styled from 'styled-components';
+import image from '../../../assets/imageExemplo.svg?react';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div<{ isSelected: boolean }>`
+  position: relative;
   display: flex;
-  align-items: center;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   flex-direction: column;
   background-color: white;
-  padding: 15px;
-  gap: 10px;
-  width: 100%;
-  height: 100%;
-  text-align: center;
+  align-items: center;
+  border-radius: 15px;
+  display: flex;
+  width: 8rem;
+  height: 12rem;
+  padding: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
 
-  h3 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
+  
+  h3{
+    position: absolute;
+    bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
   }
+`;
 
-  p {
-    font-size: 0.8rem;
-    color: #24292e;
-    max-width: 75%;
+export const Information = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 2.5rem;
+  text-align: center;
+
+  p{
+    font-size: 1rem;
+    font-weight: 400;
+    color: #293138;
   }
+`;
+
+export const Img = styled(image)`
+  height: 100%;
+  width: 30%;
+  //Quando tiver imagem esse container será útil
 `;
 
 export const StyledIcon = styled(Icon)`
   color: #24292e;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
-  background-color: #f6f7f9;
   transition: transform 0.5s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;

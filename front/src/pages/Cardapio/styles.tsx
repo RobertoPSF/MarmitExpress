@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import RestauranteCardComponent from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
+import RestauranteCardComponent from '../../components/Cards/RestauranteCard';
 
 export const Container = styled.div`
   display: grid;

@@ -1,9 +1,9 @@
 import { Container, ResumoCompraPopup, ResumoContainer, RestauranteCard, ItensContainer, Section} from './styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ItemCard from '../../components/Cards/ExclusiveVisualisationItemCard';
-import MarmitaCard from '../../components/Cards/ExclusiveVisualisationMarmitaCard';
-import IngredienteCard from '../../components/Cards/ExclusiveVisualisationIngredienteCard';
+import ItemCard from '../../components/Cards/ItemCard';
+import MarmitaCard from '../../components/Cards/MarmitaCard';
+import IngredienteCard from '../../components/Cards/IngredienteCard';
 import RestaurantService from '../../services/RestauranteService';
 
 interface Ingrediente {
@@ -146,7 +146,7 @@ export default function Cardapio() {
             })}
           </ul>
           <p>Total: {formatarMoeda(total)}</p>
-          <button onClick={handleFinalizarCompra} disabled={!restaurante.aceitandoPedidos}>
+          <button onClick={handleFinalizarCompra} disabled={restaurante.aceitandoPedidos}>
             Finalizar Compra
           </button>
         </ResumoCompraPopup>

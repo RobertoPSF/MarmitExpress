@@ -1,12 +1,13 @@
 import React from 'react';
 import { BlankPageContainer } from './styles';
-import Card from '../../components/Cards/ExclusiveVisualisationRestauranteCard';
+import Card from '../../components/Cards/PedidosCard';
  
 const BlankPage: React.FC = () => {
   const dados = {
-    nome: 'Casa do Galioto',
-    aceitandoPedidos: true,
-    endereco: 'Rua Exemplo, 123'
+    nomeRestaurante: 'Casa do Galioto',
+    dataDoPedido: "17/03/2025 17:00H",
+    total: 200.00,
+    statusPedido: "Em andamento"
   };
   return <BlankPageContainer>
          <Card dados={dados} />
