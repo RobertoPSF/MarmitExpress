@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Information, Open, EditIcon } from './styles';
+import { Container, Information, Open, StyledIcon } from './styles';
 
 interface Restaurante {
   nome: string;
@@ -21,7 +21,7 @@ function RestauranteCard({ dados, className }: RestauranteCardProps) {
 
   return (
     <Container className={className}>
-      <EditIcon icon={'material-symbols:store-outline-rounded'} />
+      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
       <Information>
         <h2>{dados.nome}</h2>
         <p>{dados.endereco}</p>

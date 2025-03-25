@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import image from '../../../assets/imageExemplo.svg?react';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
@@ -7,7 +6,6 @@ export const Container = styled.div`
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
   display: flex;
-  align-items: center;
   background-color: white;
   border-radius: 15px;
   display: flex;
@@ -21,18 +19,24 @@ export const Container = styled.div`
 export const Information = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  max-width: 70%;
+  h3 {
+    font-size: 0.8rem;
+  }
+  p {
+    white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
+    overflow: hidden; /* Oculta qualquer conteúdo que ultrapasse o pai */
+    text-overflow: ellipsis; /* Adiciona "..." no final do texto cortado */
+    max-width: 100%;
+  }
 `;
 
-export const ImgRestaurante = styled(image)`
-  height: 8rem;
-  width: 8rem;
-  //Quando tiver imagem esse container será útil
-`;
-
-export const EditIcon = styled(Icon)`
-  width: 100%;
-  height: 100%;
+export const StyledIcon = styled(Icon)`
+  color: #24292e;
+  background-color: #f1f2f3;
+  border-radius: 7px;
+  height: auto;
+  width: 30%;
 `;
 
 interface OpenProps {
@@ -40,6 +44,5 @@ interface OpenProps {
 }
 
 export const Open = styled.div<OpenProps>`
-  margin-right: 1rem;
   color: ${({ $isOpen }) => ($isOpen ? 'green' : 'red')};
 `;
