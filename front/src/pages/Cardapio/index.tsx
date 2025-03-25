@@ -160,19 +160,23 @@ export default function Cardapio() {
 
       <ResumoContainer>
         <ResumoCompraPopup>
-          <h2>Itens Selecionados</h2>
+          <h2>Seu pedido</h2>
+          <hr />
+          <p>Itens Selecionados:</p>
           <ul>
             {selectedItems.map((itemId) => {
               const item = restaurante.listaDeItens.find(
                 (i) => i.id === itemId,
               );
-              return item ? <li key={item.id}>{item.nome}</li> : null;
+              return item ? <li key={item.id}>- {item.nome}</li> : null;
             })}
           </ul>
+          <hr />
           <p>Total: {formatarMoeda(total)}</p>
           <button
+            className="finalizar-compra"
             onClick={handleFinalizarCompra}
-            disabled={restaurante.aceitandoPedidos}
+            disabled={!restaurante.aceitandoPedidos}
           >
             Finalizar Compra
           </button>
