@@ -21,7 +21,7 @@ export const DivRestaurantes = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
   gap: 2vw;
-  width: 53vw;
+  width: 55vw;
   height: min-content;
 
   @media (max-width: 999px) {

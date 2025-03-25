@@ -1,4 +1,4 @@
-import { Container, StyledIcon} from './styles';
+import { Container, StyledIcon } from './styles';
 
 interface Ingrediente {
   nome: string;
@@ -10,15 +10,18 @@ interface IngredienteCardProps {
   isSelected: boolean;
 }
 
-
-export default function IngredienteCard({ dados, onClick, isSelected  }: IngredienteCardProps) {
+export default function IngredienteCard({
+  dados,
+  onClick,
+  isSelected,
+}: IngredienteCardProps) {
   if (!dados) {
     return <p>Ingrediente não encontrado.</p>;
   }
 
   return (
     <Container onClick={onClick} isSelected={isSelected}>
-      <StyledIcon icon={'material-symbols:store-outline-rounded'} />
+      <StyledIcon icon={'ep:food'} />
       <p>{dados.nome}</p>
     </Container>
   );

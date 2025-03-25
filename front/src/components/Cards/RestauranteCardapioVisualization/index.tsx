@@ -12,7 +12,10 @@ interface RestauranteCardProps {
   className?: string;
 }
 
-function RestauranteCard({ dados, className }: RestauranteCardProps) {
+function RestauranteCardapioVisualization({
+  dados,
+  className,
+}: RestauranteCardProps) {
   if (!dados) {
     return <p>Restaurante não encontrado.</p>;
   }
@@ -31,4 +34,4 @@ function RestauranteCard({ dados, className }: RestauranteCardProps) {
   );
 }
 
-export default RestauranteCard;
+export default RestauranteCardapioVisualization;
