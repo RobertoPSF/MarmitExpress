@@ -1,13 +1,14 @@
 import { Container, Section, AddButton, TitleSection } from './styles';
 import { useState, useEffect } from 'react';
-import PopUp from '../../components/PopUps/AddItemPopUp';
+import AddItemPopUp from '../../components/PopUps/AddItemPopUp';
+import AddMarmitaPopUp from '../../components/PopUps/AddMarmitaPopUp';
+import AddIngredientePopUp from '../../components/PopUps/AddIngredientePopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
 import RestauranteCard from '../../components/Cards/RestauranteCardapioVisualization';
 import ItemCard from '../../components/Cards/ItemCard';
 import IngredienteCard from '../../components/Cards/IngredienteCard';
 import MarmitaCard from '../../components/Cards/MarmitaCard';
-import React from 'react';
 
 interface Ingrediente {
   id: string;
@@ -81,15 +82,19 @@ export default function MeuRestaurante() {
     );
   };
 
-  const [isPopUpOpen, setIsPopUpOpen] = React.useState(false);
+  const [isAddItemPopUpOpen, setIsAddItemPopUpOpen] = useState(false);
+  const [isAddMarmitaPopUpOpen, setIsAddMarmitaPopUpOpen] = useState(false);
+  const [isAddIngredientePopUpOpen, setIsAddIngredientePopUpOpen] =
+    useState(false);
 
-  const openPopUp = () => {
-    setIsPopUpOpen(true);
-  };
+  const openAddItemPopUp = () => setIsAddItemPopUpOpen(true);
+  const closeAddItemPopUp = () => setIsAddItemPopUpOpen(false);
 
-  const closePopUp = () => {
-    setIsPopUpOpen(false);
-  };
+  const openAddIngredientePopUp = () => setIsAddIngredientePopUpOpen(true);
+  const closeAddIngredientePopUp = () => setIsAddIngredientePopUpOpen(false);
+
+  const openAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(true);
+  const closeAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(false);
 
   const isItemSelected = (item: Item) => selectedItems.includes(item.id);
   const isIngredienteSelected = (ingrediente: Ingrediente) =>
@@ -101,8 +106,11 @@ export default function MeuRestaurante() {
 
       <TitleSection>
         <h1>Tamanho da MarmitEx</h1>
-        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+        <AddButton icon={'carbon:add-filled'} onClick={openAddMarmitaPopUp} />
+        <AddMarmitaPopUp
+          isOpen={isAddMarmitaPopUpOpen}
+          onClose={closeAddMarmitaPopUp}
+        />
       </TitleSection>
 
       <Section>
@@ -118,8 +126,14 @@ export default function MeuRestaurante() {
 
       <TitleSection>
         <h1>Acompanhamentos</h1>
-        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+        <AddButton
+          icon={'carbon:add-filled'}
+          onClick={openAddIngredientePopUp}
+        />
+        <AddIngredientePopUp
+          isOpen={isAddIngredientePopUpOpen}
+          onClose={closeAddIngredientePopUp}
+        />
       </TitleSection>
       <Section>
         {restaurante?.ingredientes.map((ingrediente) => (
@@ -134,8 +148,8 @@ export default function MeuRestaurante() {
 
       <TitleSection>
         <h1>Itens</h1>
-        <AddButton icon={'carbon:add-filled'} onClick={openPopUp} />
-        <PopUp isOpen={isPopUpOpen} onClose={closePopUp} />
+        <AddButton icon={'carbon:add-filled'} onClick={openAddItemPopUp} />
+        <AddItemPopUp isOpen={isAddItemPopUpOpen} onClose={closeAddItemPopUp} />
       </TitleSection>
       <Section>
         {(() => {

@@ -8,3 +8,6 @@ export { default as RestauranteCadastroForm } from './RestauranteCadastroForm';
 export { default as RestauranteRecuperacaoForm } from './RestauranteRecuperacaoForm';
 export { default as EditProfileForm } from './EditProfileForm';
 export { default as ChangePasswordForm } from './ChangePasswordForm';
+export { default as AddItemForm } from './AddItemForm';
+export { default as AddMarmitaForm } from './AddMarmitaForm';
+export { default as AddIngredienteForm } from './AddIngredienteForm';

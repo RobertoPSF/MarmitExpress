@@ -1,15 +1,12 @@
 import CoreService from './CoreService';
 import { AxiosResponse } from 'axios';
 
-class MarmitaService extends CoreService {
-  private baseRoute = '/marmitas';
+class IngredienteService extends CoreService {
+  private baseRoute = '/ingredientes';
 
-  // Criar Marmita
-  async createMarmita(credentials: {
+  // Criar um ingrediente
+  async createIngrediente(credentials: {
     nome: string;
-    preco: number;
-    quantidade: number;
-    restauranteId: string;
   }): Promise<AxiosResponse | null> {
     try {
       const token = localStorage.getItem('authToken');
@@ -28,8 +25,8 @@ class MarmitaService extends CoreService {
     }
   }
 
-  // Listar todas as Marmitas
-  async getMarmitas(): Promise<AxiosResponse | null> {
+  // Listar ingredientes do restaurante do usuário
+  async getIngredientes(): Promise<AxiosResponse | null> {
     try {
       const response = await this.getApi().get(this.baseRoute);
       return response;
@@ -38,8 +35,8 @@ class MarmitaService extends CoreService {
     }
   }
 
-  // Buscar Marmita por ID
-  async getMarmitaById(id: string): Promise<AxiosResponse | null> {
+  // Buscar ingrediente por ID
+  async getIngredienteById(id: string): Promise<AxiosResponse | null> {
     try {
       const response = await this.getApi().get(`${this.baseRoute}/${id}`);
       return response;
@@ -48,8 +45,31 @@ class MarmitaService extends CoreService {
     }
   }
 
-  // Listar Marmitas de um Restaurante
-  async getMarmitasByRestaurant(
+  // Atualizar ingrediente
+  async updateIngrediente(
+    id: string,
+    data: { nome: string },
+  ): Promise<AxiosResponse | null> {
+    try {
+      const response = await this.getApi().put(`${this.baseRoute}/${id}`, data);
+      return response;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  // Deletar ingrediente
+  async deleteIngrediente(id: string): Promise<AxiosResponse | null> {
+    try {
+      const response = await this.getApi().delete(`${this.baseRoute}/${id}`);
+      return response;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  // Listar ingredientes de um restaurante específico
+  async getIngredientesByRestaurante(
     restauranteId: string,
   ): Promise<AxiosResponse | null> {
     try {
@@ -61,26 +81,6 @@ class MarmitaService extends CoreService {
       return null;
     }
   }
-
-  // Atualizar Marmita
-  async updateMarmita(id: string, data: object): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().put(`${this.baseRoute}/${id}`, data);
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  // Deletar Marmita
-  async deleteMarmita(id: string): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().delete(`${this.baseRoute}/${id}`);
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
 }
 
-export default MarmitaService;
+export default IngredienteService;

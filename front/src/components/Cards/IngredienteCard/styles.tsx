@@ -10,8 +10,8 @@ export const Container = styled.div<{ isSelected: boolean }>`
   align-items: center;
   border-radius: 15px;
   display: flex;
-  width: 9rem;
-  height: 11rem;
+  width: 8rem;
+  height: 12rem;
   padding: 10px;
   gap: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -23,6 +23,16 @@ export const Container = styled.div<{ isSelected: boolean }>`
     font-size: 0.9rem;
     font-weight: 600;
   }
+`;
+
+export const Information = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 2.5rem;
+  text-align: center;
 
   p {
     font-size: 1rem;
