@@ -89,6 +89,7 @@
 #### Parâmetros da Requisição
 - `valor` (Double) - Valor do pagamento
 - `descricao` (String) - Descrição do pagamento
+- `idPedido` (UUID) - ID do pedido associado ao pagamento
 
 #### Resposta de Sucesso (200 OK)
 ```json
@@ -100,6 +101,7 @@
 }
 ```
 
+
 ---
 ### 6. Gerar QR Code para Pagamento do Cliente
 
@@ -109,6 +111,7 @@
 - Retorna a imagem do QR Code no formato PNG
 
 ---
+
 ### 7. Verificar Status do Pagamento do Cliente
 
 **GET** `/clientes/pagamentos/{id}/status`
@@ -116,4 +119,10 @@
 #### Resposta de Sucesso (200 OK)
 ```json
 "PAGO"
+```
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "error": "Acesso negado."
+}
 ```
