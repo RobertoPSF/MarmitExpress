@@ -97,13 +97,12 @@ public class ClienteController {
 
     @PostMapping("/pagamentos")
     public ResponseEntity<Pagamento> criarPagamento(
-    @RequestParam Double valor,
-    @RequestParam String descricao,
-    @RequestParam UUID idPedido) {
-        Pagamento pagamento = pagamentoService.criarPagamento(valor, descricao, idPedido);
+        @RequestParam String descricao,
+        @RequestParam UUID idPedido) {
+        Pagamento pagamento = pagamentoService.criarPagamento(descricao, idPedido);
+
     return ResponseEntity.ok(pagamento);
 }
-
 
     @GetMapping("/pagamentos/{id}/qr-code")
     public ResponseEntity<byte[]> gerarQrCode(@PathVariable UUID id) {

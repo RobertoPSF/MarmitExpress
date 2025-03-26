@@ -87,7 +87,6 @@
 **POST** `/clientes/pagamentos`
 
 #### Parâmetros da Requisição
-- `valor` (Double) - Valor do pagamento
 - `descricao` (String) - Descrição do pagamento
 - `idPedido` (UUID) - ID do pedido associado ao pagamento
 
@@ -95,14 +94,11 @@
 ```json
 {
   "id": "uuid",
-  "valor": 50.00,
+  "valor": 50.00, // O valor do pagamento é automaticamente definido como o valor total do pedido.
   "descricao": "Pagamento de pedido",
   "status": "PENDENTE"
 }
 ```
-
-
----
 ### 6. Gerar QR Code para Pagamento do Cliente
 
 **GET** `/clientes/pagamentos/{id}/qr-code`

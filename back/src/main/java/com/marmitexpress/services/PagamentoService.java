@@ -34,12 +34,14 @@ public class PagamentoService {
             .orElseThrow(() -> new PagamentoNotFoundException());
     }
     
-    public Pagamento criarPagamento(Double valor, String descricao, UUID idPedido) {
+public Pagamento criarPagamento(String descricao, UUID idPedido) {
+
     Pedido pedido = pedidoRepository.findById(idPedido)
         .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
     Pagamento pagamento = new Pagamento();
-    pagamento.setValor(valor);
+    pagamento.setValor(pedido.getPreco()); // Set the payment amount directly from the order total
+    // Removed the valor parameter and set the payment amount from the order
     pagamento.setDescricao(descricao);
     pagamento.setPedido(pedido);
     pagamento.setStatus(StatusPagamento.PENDENTE); // Definir como pendente inicialmente
