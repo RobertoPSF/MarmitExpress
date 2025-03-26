@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import PopUpComponent from '../PopUp';
 import Button from '../../Button';
 import { ContentPopup } from './styles';
-import { ClienteLoginForm, ClienteCadastroForm, ClienteRecuperacaoForm } from '../../Forms';
+import {
+  ClienteLoginForm,
+  ClienteCadastroForm,
+  ClienteRecuperacaoForm,
+} from '../../Forms';
 
 interface PopUpProps {
   isOpen: boolean;
@@ -45,7 +49,10 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
               </>
             ) : (
               <>
-                <ClienteLoginForm onClose={onClose} onForgotPassword={handleForgotPassword} />
+                <ClienteLoginForm
+                  onClose={onClose}
+                  onForgotPassword={handleForgotPassword}
+                />
                 <p>ou</p>
                 <Button type="white" onClick={handleOpenRegister}>
                   Criar uma conta

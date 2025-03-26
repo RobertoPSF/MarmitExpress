@@ -26,6 +26,12 @@ export const ItensContainer = styled.div`
   margin-bottom: 50px;
   min-height: 64.5vh;
   height: max-content;
+
+  @media (max-width: 999px) {
+    margin-top: -8vh;
+    grid-template-columns: auto;
+    width: 100%;
+  }
 `;
 
 export const RestauranteCard = styled(RestauranteCardComponent)`
@@ -40,7 +46,7 @@ export const ResumoContainer = styled.div`
   @media (max-width: 999px) {
     margin-top: 0;
     grid-template-columns: auto;
-    width: 100%;
+    width: auto;
   }
 `;
 
@@ -114,10 +120,17 @@ export const ResumoCompraPopup = styled.div`
 `;
 
 export const Section = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   flex-direction: row;
   justify-content: space-evenly;
   width: 90%;
   flex-wrap: wrap;
   gap: 1rem;
+
+  @media (max-width: 999px) {
+    margin-top: 0;
+    grid-template-columns: auto;
+    width: 100%;
+  }
 `;

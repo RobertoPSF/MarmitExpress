@@ -10,11 +10,13 @@ interface Restaurante {
 interface RestauranteCardProps {
   dados: Restaurante | null;
   className?: string;
+  style?: React.CSSProperties; // Adicionando a prop style
 }
 
 function RestauranteCardapioVisualization({
   dados,
   className,
+  style,
 }: RestauranteCardProps) {
   if (!dados) {
     return <p>Restaurante não encontrado.</p>;
@@ -26,8 +28,8 @@ function RestauranteCardapioVisualization({
     <Container className={className}>
       <StyledIcon icon={'material-symbols:store-outline-rounded'} />
       <Information>
-        <h2>{dados.nome}</h2>
-        <p>{dados.endereco}</p>
+        <h2 style={{ color: style?.color || 'white' }}>{dados.nome}</h2>
+        <p style={{ color: style?.color || 'white' }}>{dados.endereco}</p>
         <Open $isOpen={isOpen}>{isOpen ? 'Aberto' : 'Fechado'}</Open>
       </Information>
     </Container>

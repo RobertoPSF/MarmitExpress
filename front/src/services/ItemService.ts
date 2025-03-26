@@ -5,9 +5,23 @@ class ItemService extends CoreService {
   private baseRoute = '/itens';
 
   // Criar um item
-  async createItem(data: object): Promise<AxiosResponse | null> {
+  async createItem(credentials: {
+    nome: string;
+    preco: number;
+    quantidade: number;
+    restauranteId: string;
+  }): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().post(this.baseRoute, data);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().post(
+        `${this.baseRoute}`,
+        credentials,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       return response;
     } catch (error) {
       return null;

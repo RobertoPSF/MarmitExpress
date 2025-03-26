@@ -123,7 +123,7 @@ export default function Cardapio() {
           ))}
         </Section>
 
-        <h2>Ingredientes</h2>
+        <h2>Acompanhamentos</h2>
         <Section>
           {restaurante?.ingredientes.map((ingrediente) => (
             <IngredienteCard

@@ -7,13 +7,13 @@ import PedidoService from '../../services/PedidoService';
 export default function MeusPedidos() {
   useAuthRedirect();
   const [pedidos, setPedidos] = useState([]);
-  const pedidoService =  new PedidoService();
-   
+  const pedidoService = new PedidoService();
+
   return (
     <Container>
       <div>
         {pedidos.length > 0 ? (
-          pedidos.map((pedido) => <PedidoCard dados = {pedido} />)
+          pedidos.map((pedido) => <PedidoCard dados={pedido} />)
         ) : (
           <h2>Você ainda não tem pedidos.</h2>
         )}
