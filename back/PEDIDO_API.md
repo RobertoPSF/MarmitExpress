@@ -1,109 +1,120 @@
-# PEDIDO API Documentation
+# Documentação da API de Pedidos - MarmitExpress
 
-## Authentication
-All endpoints require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+## Endpoints
 
-## 1. Create Order
-- **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/pedidos`
-- **Request Body:**
-  ```json
+### 1. Criar Pedido
+
+**POST** `/pedidos`
+
+#### Descrição
+Cria um novo pedido para o cliente autenticado.
+
+#### Corpo da Requisição
+```json
+{
+  "restauranteId": "uuid",
+  "itensIds": ["uuid1", "uuid2"],
+  "endereco": "string"
+}
+```
+
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "restauranteId": "uuid",
+  "clienteId": "uuid",
+  "endereco": "string",
+  "status": "PENDENTE",
+  "preco": 0.0
+}
+```
+
+#### Resposta de Erro (400 Bad Request)
+```json
+{
+  "error": "Restaurante não encontrado."
+}
+```
+```json
+{
+  "error": "Nenhum item encontrado."
+}
+```
+
+---
+
+### 2. Listar Pedidos do Cliente
+
+**GET** `/pedidos/cliente`
+
+#### Descrição
+Recupera todos os pedidos do cliente autenticado.
+
+#### Resposta de Sucesso (200 OK)
+```json
+[
   {
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "itens": [
-      {
-        "produtoId": UUID,
-        "quantidade": int
-      }
-    ],
-    "enderecoEntrega": "string",
-    "formaPagamento": "string"
+    "id": "uuid",
+    "restauranteId": "uuid",
+    "clienteId": "uuid",
+    "endereco": "string",
+    "status": "PENDENTE",
+    "preco": 0.0
   }
-  ```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
-  ```json
-  {
-    "id": UUID,
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "status": "string",
-    "dataHora": "string",
-    "valorTotal": double
-  }
-  ```
+]
+```
 
-## 2. Get Order by ID
-- **HTTP Method:** GET
-- **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
-    "id": UUID,
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "status": "string",
-    "dataHora": "string",
-    "valorTotal": double,
-    "itens": [
-      {
-        "produtoId": UUID,
-        "quantidade": int,
-        "precoUnitario": double
-      }
-    ]
-  }
-  ```
-  - **Status:** 404 Not Found (if order not found)
+---
 
-## 3. Update Order Status
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/pedidos/{id}/status`
-- **Path Variable:** `id` (UUID)
-- **Request Body:**
-  ```json
-  {
-    "status": "string"
-  }
-  ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  "Status do pedido atualizado com sucesso."
-  ```
+### 3. Buscar Pedido por ID
 
-## 4. List Orders by Client
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes/{id}/pedidos`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  [
-    {
-      "id": UUID,
-      "restauranteId": UUID,
-      "status": "string",
-      "dataHora": "string",
-      "valorTotal": double
-    }
-  ]
-  ```
+**GET** `/pedidos/{id}`
 
-## 5. Cancel Order
-- **HTTP Method:** DELETE
-- **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
-  - **Status:** 400 Bad Request (if order cannot be canceled)
+#### Descrição
+Recupera um pedido específico pelo seu ID.
+
+#### Resposta de Sucesso (200 OK)
+```json
+{
+  "id": "uuid",
+  "restauranteId": "uuid",
+  "clienteId": "uuid",
+  "endereco": "string",
+  "status": "PENDENTE",
+  "preco": 0.0
+}
+```
+
+#### Resposta de Erro (404 Not Found)
+```json
+{
+  "error": "Pedido não encontrado."
+}
+```
+
+---
+
+### 4. Cancelar Pedido
+
+**DELETE** `/pedidos/{id}`
+
+#### Descrição
+Cancela um pedido para o cliente autenticado.
+
+#### Resposta de Sucesso (200 OK)
+```json
+"Pedido cancelado."
+```
+
+#### Resposta de Erro (403 Forbidden)
+```json
+{
+  "error": "Você não tem permissão para cancelar este pedido."
+}
+```
+#### Resposta de Erro (404 Not Found)
+```json
+{
+  "error": "Pedido não encontrado."
+}
