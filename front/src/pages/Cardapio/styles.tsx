@@ -130,7 +130,7 @@ export const Section = styled.div`
 
   @media (max-width: 999px) {
     margin-top: 0;
-    grid-template-columns: auto;
+    grid-template-columns: auto auto;
     width: 100%;
   }
 `;

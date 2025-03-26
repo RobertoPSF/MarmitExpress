@@ -51,6 +51,7 @@ export default function Cardapio() {
     [],
   );
   const [total, setTotal] = useState(0);
+  const [taxaEntrega, setTaxaEntrega] = useState(0); //Futuramente adicionar a Taxa de Entrega e adicionar valor ao pedido
   const restaurantService = new RestaurantService();
   const id = location.state?.id;
 
@@ -69,12 +70,43 @@ export default function Cardapio() {
       .catch((error) => console.error('Erro ao buscar restaurante:', error));
   }, [id]);
 
+  const handleSelectMarmita = (marmita: Marmita) => {
+    setSelectedItems((prev) => {
+      const isSelected = prev.includes(marmita.id);
+      const updatedSelectedItems = isSelected
+        ? prev.filter((id) => id !== marmita.id)
+        : [...prev, marmita.id];
+
+      // Recalcula o total incluindo marmitas
+      const novoTotal =
+        (restaurante?.listaDeItens || [])
+          .filter((i) => updatedSelectedItems.includes(i.id))
+          .reduce((acc, curr) => acc + curr.preco, 0) +
+        (restaurante?.marmitas || [])
+          .filter((m) => updatedSelectedItems.includes(m.id))
+          .reduce((acc, curr) => acc + curr.preco, 0);
+
+      setTotal(novoTotal);
+      return updatedSelectedItems;
+    });
+  };
+
   const handleSelectItem = (item: Item) => {
-    setSelectedItems((prev) =>
-      prev.includes(item.id)
-        ? prev.filter((id) => id !== item.id)
-        : [...prev, item.id],
-    );
+    setSelectedItems((prev) => {
+      const isSelected = prev.includes(item.id);
+      const updatedSelectedItems = isSelected
+        ? prev.filter((id) => id !== item.id) // Remove o item se já estiver selecionado
+        : [...prev, item.id]; // Adiciona o item se ainda não estiver selecionado
+
+      // Recalcula o total somando os preços dos itens selecionados
+      const novoTotal =
+        restaurante?.listaDeItens
+          .filter((i) => updatedSelectedItems.includes(i.id))
+          .reduce((acc, curr) => acc + curr.preco, 0) || 0;
+
+      setTotal(novoTotal); // Atualiza o estado do total
+      return updatedSelectedItems;
+    });
   };
 
   const handleSelectIngrediente = (ingrediente: Ingrediente) => {
@@ -172,13 +204,14 @@ export default function Cardapio() {
             })}
           </ul>
           <hr />
+          <p>Taxa de Entrega: {formatarMoeda(taxaEntrega)}</p>
           <p>Total: {formatarMoeda(total)}</p>
           <button
             className="finalizar-compra"
             onClick={handleFinalizarCompra}
             disabled={!restaurante.aceitandoPedidos}
           >
-            Finalizar Compra
+            Fazer Pedido
           </button>
         </ResumoCompraPopup>
       </ResumoContainer>

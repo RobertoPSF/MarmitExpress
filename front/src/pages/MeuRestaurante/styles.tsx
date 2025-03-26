@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
-  align-items: center;
   display: flex;
   flex-direction: column;
   min-height: 64.5vh;
@@ -28,12 +27,19 @@ export const TitleSection = styled.div`
 `;
 
 export const Section = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   flex-direction: row;
   justify-content: space-evenly;
   width: 90%;
   flex-wrap: wrap;
   gap: 1rem;
+
+  @media (max-width: 999px) {
+    margin-top: 0;
+    grid-template-columns: auto auto;
+    width: 100%;
+  }
 `;
 
 const Button = styled.button`
