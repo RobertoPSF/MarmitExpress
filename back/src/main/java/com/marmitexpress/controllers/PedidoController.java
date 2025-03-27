@@ -43,6 +43,10 @@ public class PedidoController {
         Cliente cliente = clienteService.buscarClientePorEmail(email);
 
         var restauranteOpt = restauranteRepository.findById(pedidoRequest.getRestauranteId());
+        if (restauranteOpt.get().isAceitandoPedidos() == false) {
+            return ResponseEntity.badRequest().body("Restaurante não está aceitando pedidos no momento.");
+        }
+
         if (restauranteOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("Restaurante não encontrado.");
         }

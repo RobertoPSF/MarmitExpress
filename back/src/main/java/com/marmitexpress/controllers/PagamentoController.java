@@ -1,43 +1,42 @@
 package com.marmitexpress.controllers;
+import com.marmitexpress.models.*;
+import com.marmitexpress.services.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import com.marmitexpress.models.Pagamento;
-import com.marmitexpress.repositorys.PagamentoRepository;
-import com.marmitexpress.services.PagamentoService;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
-
 @RestController
 @RequestMapping("/pagamentos")
 public class PagamentoController {
 
-    private final PagamentoService pagamentoService;
-    private final PagamentoRepository pagamentoRepository;
+    @Autowired
+    private  PagamentoService pagamentoService;
+    @Autowired
+    private ClienteService clienteService;
 
-    public PagamentoController(PagamentoService pagamentoService, PagamentoRepository pagamentoRepository) {
-        this.pagamentoService = pagamentoService;
-        this.pagamentoRepository = pagamentoRepository;
-    }
+    @PostMapping
+    public ResponseEntity<Pagamento> criarPagamento(
+        @RequestParam String descricao,
+        @RequestParam UUID idPedido) {
+        Pagamento pagamento = pagamentoService.criarPagamento(descricao, idPedido);
 
-    // JSON Payload
+        return ResponseEntity.ok(pagamento);
+    }   
+
     @GetMapping("/{id}/qrcode")
-public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable UUID id) {
-    Optional<Pagamento> pagamentoOpt = pagamentoRepository.findById(id);
+    public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable UUID id) {
+        Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
+        String payloadPix = pagamentoService.gerarPayloadPix(pagamento);
 
-    if (pagamentoOpt.isEmpty()) {
-        return ResponseEntity.notFound().build();
-    }
+        Map<String, String> response = new HashMap<>();
+        response.put("payload", payloadPix);
 
-    Pagamento pagamento = pagamentoOpt.get();
-    String payloadPix = pagamentoService.gerarPayloadPix(pagamento);
-
-    Map<String, String> response = new HashMap<>();
-    response.put("payload", payloadPix);
-
-    return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}/confirmar")
@@ -47,5 +46,23 @@ public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable UUID id
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pagamento não encontrado ou já confirmado.");
         }
         return ResponseEntity.ok("Pagamento confirmado com sucesso.");
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<String> verificarStatusPagamento(@PathVariable UUID id) {
+
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+    Cliente cliente = clienteService.buscarClientePorEmail(email);
+    if (cliente == null) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado.");
+    }
+
+    Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
+    
+    if (!pagamento.getPedido().getCliente().getId().equals(cliente.getId())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado.");
+    }
+    return ResponseEntity.ok(pagamento.getStatus().toString());
     }
 }
