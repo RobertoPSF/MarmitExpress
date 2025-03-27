@@ -34,7 +34,7 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeProdutos(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ))
             .toList();
@@ -58,7 +58,7 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeProdutos(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ));
         }
@@ -81,14 +81,14 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeProdutos(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ));
         }
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/me")
+    @PutMapping("/me")
     public ResponseEntity<RestauranteResponseDTO> atualizarPerfil(@RequestBody RestauranteDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
@@ -112,7 +112,7 @@ public class RestauranteController {
                 restauranteExistente.isAceitandoPedidos(),
                 restauranteExistente.getChavePix(),
                 restauranteExistente.getIngredientes(),
-                restauranteExistente.getListaDeProdutos(),
+                restauranteExistente.getListaDeItems(),
                 restauranteExistente.getMarmitas()
             ));
         }

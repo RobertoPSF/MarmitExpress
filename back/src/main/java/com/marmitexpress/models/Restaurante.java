@@ -1,9 +1,9 @@
 package com.marmitexpress.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +21,13 @@ public class Restaurante extends Usuario {
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Produto> listaDeProdutos = new ArrayList<>();
+    private List<Item> listaDeItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Marmita> marmitas = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("restaurante-pedido")
     private List<Pedido> listaDePedidos = new ArrayList<>();
 
     @Column(unique = true, nullable = true, length = 77)
@@ -45,22 +46,7 @@ public class Restaurante extends Usuario {
         this.setTelefone(telefone);
     }
 
-    public void addIngrediente(Ingrediente ingrediente) {
-        ingrediente.setRestaurante(this);
-        this.ingredientes.add(ingrediente);
-    }
-
-    public void setListaDeProdutos(Produto produto) { 
-        produto.setRestaurante(this);
-        this.listaDeProdutos.add(produto);
-    }
-
-    public void setMarmitas(Marmita marmita) { 
-        marmita.setRestaurante(this);
-        this.marmitas.add(marmita);
-    }
-
-    public void setListaDePedidos(Pedido pedido) { 
+    public void addPedido(Pedido pedido) {
         pedido.setRestaurante(this);
         this.listaDePedidos.add(pedido);
     }

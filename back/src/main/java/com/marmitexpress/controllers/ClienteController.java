@@ -29,7 +29,8 @@ public class ClienteController {
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getEndereco(),
-                cliente.getTelefone()
+                cliente.getTelefone(),
+                cliente.getListaDePedidos()
             ))
             .toList();
         
@@ -47,7 +48,8 @@ public class ClienteController {
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getEndereco(),
-                cliente.getTelefone()
+                cliente.getTelefone(),
+                cliente.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -70,7 +72,8 @@ public class ClienteController {
                 clienteExistente.getNome(),
                 clienteExistente.getEmail(),
                 clienteExistente.getEndereco(),
-                clienteExistente.getTelefone()
+                clienteExistente.getTelefone(),
+                clienteExistente.getListaDePedidos()
             ));
         }
 

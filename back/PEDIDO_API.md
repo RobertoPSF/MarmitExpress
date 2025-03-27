@@ -1,120 +1,143 @@
-# Documentação da API de Pedidos - MarmitExpress
+# PEDIDO_API.md
 
-## Endpoints
+## API de Pedidos - MarmitExpress
 
-### 1. Criar Pedido
-
-**POST** `/pedidos`
-
-#### Descrição
-Cria um novo pedido para o cliente autenticado.
-
-#### Corpo da Requisição
-```json
-{
-  "restauranteId": "uuid",
-  "itensIds": ["uuid1", "uuid2"],
-  "endereco": "string"
-}
-```
-
-#### Resposta de Sucesso (200 OK)
-```json
-{
-  "id": "uuid",
-  "restauranteId": "uuid",
-  "clienteId": "uuid",
-  "endereco": "string",
-  "status": "PENDENTE",
-  "preco": 0.0
-}
-```
-
-#### Resposta de Erro (400 Bad Request)
-```json
-{
-  "error": "Restaurante não encontrado."
-}
-```
-```json
-{
-  "error": "Nenhum item encontrado."
-}
-```
+Esta API gerencia pedidos no sistema MarmitExpress. A seguir estão os endpoints disponíveis para manipulação de pedidos.
 
 ---
 
-### 2. Listar Pedidos do Cliente
+## **1. Criar Pedido**
 
-**GET** `/pedidos/cliente`
+**Endpoint:**
+```http
+POST /pedidos
+```
 
-#### Descrição
-Recupera todos os pedidos do cliente autenticado.
+**Descrição:**
+Cria um novo pedido para um cliente autenticado.
 
-#### Resposta de Sucesso (200 OK)
-```json
-[
+**Requisição:**
+- **Body (JSON):**
+  ```json
   {
-    "id": "uuid",
-    "restauranteId": "uuid",
-    "clienteId": "uuid",
-    "endereco": "string",
-    "status": "PENDENTE",
-    "preco": 0.0
+    "itensQuantidades": {
+      "item_id1": quantidade,
+      "item_id2": quantidade
+    },
+    "restauranteId": "uuid_do_restaurante",
+    "endereco": "Endereço de entrega"
   }
-]
+  ```
+
+**Resposta:**
+- **200 OK:** Pedido criado com sucesso.
+- **400 Bad Request:** Erro na criação do pedido.
+
+---
+
+## **2. Listar Pedidos do Cliente**
+
+**Endpoint:**
+```http
+GET /pedidos/cliente
+```
+
+**Descrição:**
+Retorna a lista de pedidos do cliente autenticado.
+
+**Requisição:**
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+  ```
+
+**Resposta:**
+- **200 OK:** Retorna uma lista de pedidos do cliente.
+  ```json
+  [
+    {
+      "id": "uuid_do_pedido",
+      "clienteId": "uuid_do_cliente",
+      "restauranteId": "uuid_do_restaurante",
+      "status": "EM_PROCESSAMENTO",
+      "precoTotal": 50.0,
+      "itensIds": ["uuid_item1", "uuid_item2"]
+    }
+  ]
+  ```
+
+---
+
+## **3. Buscar Pedido por ID**
+
+**Endpoint:**
+```http
+GET /pedidos/{id}
+```
+
+**Descrição:**
+Busca um pedido pelo seu ID (disponível para restaurante/admin).
+
+**Parâmetros:**
+- `id` (UUID) - ID do pedido a ser buscado.
+
+**Resposta:**
+- **200 OK:** Retorna os detalhes do pedido.
+- **404 Not Found:** Pedido não encontrado.
+
+---
+
+## **4. Cancelar Pedido**
+
+**Endpoint:**
+```http
+DELETE /pedidos/{id}
+```
+
+**Descrição:**
+Permite que o cliente autenticado cancele um pedido.
+
+**Parâmetros:**
+- `id` (UUID) - ID do pedido a ser cancelado.
+
+**Requisição:**
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+  ```
+
+**Resposta:**
+- **200 OK:** Pedido cancelado com sucesso.
+- **403 Forbidden:** Cliente não tem permissão para cancelar o pedido.
+- **404 Not Found:** Pedido não encontrado.
+
+---
+
+## **Estruturas de Dados**
+
+### **PedidoDTO** (Resposta)
+```json
+{
+  "id": "uuid_do_pedido",
+  "clienteId": "uuid_do_cliente",
+  "restauranteId": "uuid_do_restaurante",
+  "status": "EM_PROCESSAMENTO",
+  "precoTotal": 50.0,
+  "itensIds": ["uuid_item1", "uuid_item2"]
+}
+```
+
+### **PedidoRequestDTO** (Requisição)
+```json
+{
+  "itensQuantidades": {
+    "item_id1": quantidade,
+    "item_id2": quantidade
+  },
+  "restauranteId": "uuid_do_restaurante",
+  "endereco": "Endereço de entrega"
+}
 ```
 
 ---
 
-### 3. Buscar Pedido por ID
-
-**GET** `/pedidos/{id}`
-
-#### Descrição
-Recupera um pedido específico pelo seu ID.
-
-#### Resposta de Sucesso (200 OK)
-```json
-{
-  "id": "uuid",
-  "restauranteId": "uuid",
-  "clienteId": "uuid",
-  "endereco": "string",
-  "status": "PENDENTE",
-  "preco": 0.0
-}
-```
-
-#### Resposta de Erro (404 Not Found)
-```json
-{
-  "error": "Pedido não encontrado."
-}
-```
-
----
-
-### 4. Cancelar Pedido
-
-**DELETE** `/pedidos/{id}`
-
-#### Descrição
-Cancela um pedido para o cliente autenticado.
-
-#### Resposta de Sucesso (200 OK)
-```json
-"Pedido cancelado."
-```
-
-#### Resposta de Erro (403 Forbidden)
-```json
-{
-  "error": "Você não tem permissão para cancelar este pedido."
-}
-```
-#### Resposta de Erro (404 Not Found)
-```json
-{
-  "error": "Pedido não encontrado."
-}

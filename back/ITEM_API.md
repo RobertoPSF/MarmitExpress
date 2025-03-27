@@ -1,4 +1,4 @@
-# Documentação da API de Produtos - MarmitExpress
+# Documentação da API de Items - MarmitExpress
 
 
 ## Introdução
@@ -6,7 +6,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ## Endpoints
 
-### Criar um Produto
+### Criar um Item
 
 **POST /itens**
 
@@ -37,7 +37,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Listar todos os Produtos
+### Listar todos os Items
 
 **GET /itens**
 
@@ -56,7 +56,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Buscar um Produto por ID
+### Buscar um Item por ID
 
 **GET /itens/{id}**
 
@@ -76,7 +76,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Atualizar um Produto
+### Atualizar um Item
 
 **PUT /itens/{id}**
 
@@ -106,7 +106,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Deletar um Produto
+### Deletar um Item
 
 **DELETE /itens/{id}**
 
@@ -118,7 +118,7 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-### Buscar Produtos de um Restaurante
+### Buscar Items de um Restaurante
 
 **GET /itens/restaurante/{restauranteId}**
 

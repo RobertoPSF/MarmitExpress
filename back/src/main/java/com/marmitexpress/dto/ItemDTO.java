@@ -2,15 +2,15 @@ package com.marmitexpress.dto;
 
 import java.util.UUID;
 
-public class ProdutoDTO {
+public class ItemDTO {
     private String nome;
     private Double preco;
     private Integer quantidade;
     private UUID restauranteId;
 
-    public ProdutoDTO() {}
+    public ItemDTO() {}
 
-    public ProdutoDTO(String nome, Double preco, Integer quantidade, UUID restauranteId) {
+    public ItemDTO(String nome, Double preco, Integer quantidade, UUID restauranteId) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;

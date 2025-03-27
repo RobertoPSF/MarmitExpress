@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -19,5 +21,6 @@ public class Ingrediente {
     private String nome;
 
     @ManyToOne
+    @JsonIgnore
     private Restaurante restaurante;
 }

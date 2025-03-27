@@ -1,5 +1,6 @@
 package com.marmitexpress.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,10 +18,11 @@ public class DetalhePedido {
     private UUID id;
 
     @ManyToOne
+    @JsonBackReference("pedido-detalhe")
     private Pedido pedido;
 
     @ManyToOne
-    private Produto item; // Pode ser Marmita ou qualquer outro item
+    private Item item; // Pode ser Marmita ou qualquer outro item
 
     private int quantidade; // Quantidade do item no pedido
 }

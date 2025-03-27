@@ -1,5 +1,8 @@
 package com.marmitexpress.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,11 +21,13 @@ public class Pedido {
     private UUID id;
 
     @ManyToOne
+    @JsonBackReference("restaurante-pedido")
     private Restaurante restaurante;
 
     private double preco;
 
     @ManyToOne
+    @JsonBackReference("cliente-pedido")
     private Cliente cliente;
 
     private String endereco;
@@ -30,7 +35,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.PENDENTE; // Começa como PENDENTE
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("pedido-detalhe")
     private List<DetalhePedido> itens; // Relacionamento com DetalhePedido
 }
-

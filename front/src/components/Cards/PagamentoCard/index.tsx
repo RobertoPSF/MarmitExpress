@@ -25,7 +25,7 @@ interface Restaurante {
     status: string;
     dataHora: string;
     valorTotal: number;
-    itens: { produtoId: string; quantidade: number; precoUnitario: number }[];
+    itens: { ItemId: string; quantidade: number; precoUnitario: number }[];
   }[];
 }
 

@@ -37,7 +37,7 @@
         "valorTotal": 66.0,
         "itens": [
           {
-            "produtoId": "item1",
+            "ItemId": "item1",
             "quantidade": 2,
             "precoUnitario": 30.0
           }
@@ -51,12 +51,12 @@
         "valorTotal": 34.0,
         "itens": [
           {
-            "produtoId": "item2",
+            "ItemId": "item2",
             "quantidade": 1,
             "precoUnitario": 28.0
           },
           {
-            "produtoId": "item3",
+            "ItemId": "item3",
             "quantidade": 1,
             "precoUnitario": 6.0
           }
@@ -102,7 +102,7 @@
         "valorTotal": 55.8,
         "itens": [
           {
-            "produtoId": "item1",
+            "ItemId": "item1",
             "quantidade": 2,
             "precoUnitario": 25.9
           }
@@ -116,12 +116,12 @@
         "valorTotal": 34.9,
         "itens": [
           {
-            "produtoId": "item2",
+            "ItemId": "item2",
             "quantidade": 1,
             "precoUnitario": 29.9
           },
           {
-            "produtoId": "item3",
+            "ItemId": "item3",
             "quantidade": 1,
             "precoUnitario": 5.0
           }
@@ -167,7 +167,7 @@
         "valorTotal": 77.0,
         "itens": [
           {
-            "produtoId": "item1",
+            "ItemId": "item1",
             "quantidade": 2,
             "precoUnitario": 35.0
           }
@@ -181,12 +181,12 @@
         "valorTotal": 52.0,
         "itens": [
           {
-            "produtoId": "item2",
+            "ItemId": "item2",
             "quantidade": 1,
             "precoUnitario": 45.0
           },
           {
-            "produtoId": "item3",
+            "ItemId": "item3",
             "quantidade": 1,
             "precoUnitario": 7.0
           }

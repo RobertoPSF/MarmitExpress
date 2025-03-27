@@ -44,7 +44,7 @@ public class SecurityConfigurations {
 
                         .requestMatchers(HttpMethod.GET, "/restaurantes", "/restaurantes/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/me").hasRole("RESTAURANTE")
-                        .requestMatchers(HttpMethod.PATCH, "/restaurantes/me").hasRole("RESTAURANTE")
+                        .requestMatchers(HttpMethod.PUT, "/restaurantes/me").hasRole("RESTAURANTE")
                         .requestMatchers(HttpMethod.DELETE, "/restaurantes/{id}").hasAnyRole("RESTAURANTE", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/ingredientes").hasRole("RESTAURANTE")
