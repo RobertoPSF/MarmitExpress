@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import Button from '../../Button';
+import Text from '../../Text';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService'; // Importando o AuthService
 
-const RestauranteLoginForm: React.FC = () => {
+interface RestauranteLoginProps {
+  onForgotPassword: () => void;
+}
+
+const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPassword }) => {
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -25,7 +30,9 @@ const RestauranteLoginForm: React.FC = () => {
         alert('Login realizado com sucesso!');
         // Aqui você pode armazenar o token se necessário
         const { token } = response.data;
-        console.log('Token recebido:', token);
+        localStorage.setItem('authToken', token); // Armazenar token localmente
+        alert('Login realizado com sucesso!');
+        window.location.href = '/meu-restaurante';
       } else {
         alert('Erro ao fazer Login. Verifique os dados e tente novamente.');
       }
@@ -55,7 +62,7 @@ const RestauranteLoginForm: React.FC = () => {
         onChange={handleChangeLogin}
       />
 
-      <a>Esqueceu a senha?</a>
+      <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar

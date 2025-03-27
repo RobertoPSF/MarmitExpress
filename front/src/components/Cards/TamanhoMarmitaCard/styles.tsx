@@ -1,33 +1,42 @@
 import styled from 'styled-components';
 import ImgCard from '../../../assets/marmita.svg?react';
 
-export const Container = styled.div`
-  align-items: center;
+export const Container = styled.div<{ isSelected: boolean }>`
   align-items: center;
   border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   display: flex;
+  max-width: 15rem;
   flex-direction: column;
+  padding: 1rem;
+  position: relative;
+  border: 2px solid ${props => (props.isSelected ? '#313131' : 'transparent')};
+  
   h3 {
-    font-size: 0.5rem;
+    font-size: 1rem;
     font-weight: 500;
     margin: 0;
   }
 
   p {
-    font-size: 0.4rem;
+    font-size: 0.8rem;
     color: #24292e;
     max-width: 75%;
   }
 
   #preco {
-    margin-bottom: 0.5rem;
+    display: flex;
+    align-self: self-end;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1rem;
   }
-  justify-content: left;
+  justify-content: center;
   margin: 50px;
 `;
 
-export const Imagem = styled(ImgCard)`
-  max-width: 5rem;
-  max-height: 5rem;
+export const Image = styled.img`
+  min-width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px; 
 `;

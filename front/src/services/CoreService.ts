@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import config from '../config.json'; // Ajuste o caminho se necessário
 import Cookies from 'js-cookie'; // Para acessar o token JWT dos cookies
 
-const API_URL = config.API_URL;
+const API_URL = config.API_LOCAL;
 
 class CoreService {
   protected api: AxiosInstance;

@@ -9,7 +9,9 @@ import Parceiro from '../pages/Parceiro';
 import TopContainer from '../components/TopContainer';
 import Header from '../components/Header';
 import Blank from '../pages/BlankPage';
-import RestaurantePage from '../pages/RestaurantePage';
+import Cardapio from '../pages/Cardapio';
+import Pagamento from '../pages/Pagamento';
+import MeuRestaurante from '../pages/MeuRestaurante';
 
 export default function AppRoutes() {
   return (
@@ -20,12 +22,14 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/restaurantes" element={<Restaurantes />} />
         <Route path="/meus-pedidos" element={<MeusPedidos />} />
+        <Route path="/meu-restaurante" element={<MeuRestaurante />} />
         <Route path="/contato" element={<Contato />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/status" element={<Status />} />
         <Route path="/auth/parceiro" element={<Parceiro />} />
         <Route path="/blank" element={<Blank />} />
-        <Route path="/restaurante/:id" element={<RestaurantePage />} />
+        <Route path="/restaurante/:id/cardapio" element={<Cardapio />} />
+        <Route path="/pagamento" element={<Pagamento />} />
       </Routes>
     </BrowserRouter>
   );
