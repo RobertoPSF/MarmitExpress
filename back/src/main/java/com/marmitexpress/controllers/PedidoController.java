@@ -5,6 +5,8 @@ import com.marmitexpress.dto.PedidoRequestDTO;
 import com.marmitexpress.models.*;
 import com.marmitexpress.repositorys.*;
 import com.marmitexpress.services.ClienteService;
+import com.marmitexpress.services.PedidoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,55 +26,22 @@ public class PedidoController {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private RestauranteRepository restauranteRepository;
-
-    @Autowired
-    private ProdutoRepository itemRepository;
-
-    @Autowired
-    private DetalhePedidoRepository pedidoItemRepository;
-
-    @Autowired
     private ClienteService clienteService;
-
-    // Criar pedido (Cliente)
+    
+    @Autowired
+    private PedidoService pedidoService;
     @PostMapping
     public ResponseEntity<?> criarPedido(@RequestBody PedidoRequestDTO pedidoRequest) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
-
-        var restauranteOpt = restauranteRepository.findById(pedidoRequest.getRestauranteId());
-        if (restauranteOpt.get().isAceitandoPedidos() == false) {
-            return ResponseEntity.badRequest().body("Restaurante não está aceitando pedidos no momento.");
+        System.out.println("Pedido: " + pedidoRequest);
+        try {
+            Pedido pedido = pedidoService.criarPedido(pedidoRequest, cliente);
+            return ResponseEntity.ok(pedido);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        if (restauranteOpt.isEmpty()) {
-            return ResponseEntity.badRequest().body("Restaurante não encontrado.");
-        }
-
-        List<Produto> itens = itemRepository.findAllById(pedidoRequest.getItensIds());
-        if (itens.isEmpty()) {
-            return ResponseEntity.badRequest().body("Nenhum item encontrado.");
-        }
-
-        Pedido pedido = new Pedido();
-        pedido.setRestaurante(restauranteOpt.get());
-        pedido.setCliente(cliente);
-        pedido.setEndereco(pedidoRequest.getEndereco());
-        pedido.setStatus(StatusPedido.PENDENTE);
-        pedido = pedidoRepository.save(pedido);
-
-        double precoTotal = 0;
-        for (Produto item : itens) {
-            DetalhePedido pedidoItem = new DetalhePedido(null, pedido, item, 1); // Quantidade padrão 1
-            pedidoItemRepository.save(pedidoItem);
-            precoTotal += item.getPreco();
-        }
-
-        pedido.setPreco(precoTotal);
-        pedidoRepository.save(pedido);
-        return ResponseEntity.ok(new PedidoDTO(pedido));
     }
 
     // Cliente vê seus pedidos

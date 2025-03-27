@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 @RestController
 @RequestMapping("/pagamentos")
+@CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "")
 public class PagamentoController {
 
     @Autowired
