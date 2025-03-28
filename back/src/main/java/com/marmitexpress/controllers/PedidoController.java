@@ -1,7 +1,7 @@
 package com.marmitexpress.controllers;
 
+import com.marmitexpress.dto.PedidoResponseDTO;
 import com.marmitexpress.dto.PedidoDTO;
-import com.marmitexpress.dto.PedidoRequestDTO;
 import com.marmitexpress.models.*;
 import com.marmitexpress.repositorys.*;
 import com.marmitexpress.services.ClienteService;
@@ -31,7 +31,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
     @PostMapping
-    public ResponseEntity<?> criarPedido(@RequestBody PedidoRequestDTO pedidoRequest) {
+    public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoRequest) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
@@ -46,13 +46,13 @@ public class PedidoController {
 
     // Cliente vê seus pedidos
     @GetMapping("/cliente")
-    public ResponseEntity<List<PedidoDTO>> listarPedidosCliente(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<PedidoResponseDTO>> listarPedidosCliente(@RequestHeader("Authorization") String token) {
         
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
         
         List<Pedido> pedidos = pedidoRepository.findByCliente(cliente);
-        List<PedidoDTO> pedidosDTO = pedidos.stream().map(PedidoDTO::new).collect(Collectors.toList());
+        List<PedidoResponseDTO> pedidosDTO = pedidos.stream().map(PedidoResponseDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(pedidosDTO);
     }
 
@@ -61,7 +61,7 @@ public class PedidoController {
     //@PreAuthorize("hasAnyRole('RESTAURANTE', 'ADMIN')")
     public ResponseEntity<?> buscarPedido(@PathVariable UUID id) {
         Optional<Pedido> pedido = pedidoRepository.findById(id);
-        return pedido.map(p -> ResponseEntity.ok(new PedidoDTO(p))).orElseGet(() -> ResponseEntity.notFound().build());
+        return pedido.map(p -> ResponseEntity.ok(new PedidoResponseDTO(p))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Cliente pode cancelar um pedido

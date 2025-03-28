@@ -1,6 +1,6 @@
 package com.marmitexpress.services;
 
-import com.marmitexpress.dto.PedidoRequestDTO;
+import com.marmitexpress.dto.PedidoDTO;
 import com.marmitexpress.exceptions.PedidoNotFoundException;
 import com.marmitexpress.models.Cliente;
 import com.marmitexpress.models.DetalhePedido;
@@ -33,7 +33,7 @@ public class PedidoService {
     @Autowired
     private DetalhePedidoRepository detalhePedidoRepository;
 
-    public Pedido criarPedido(PedidoRequestDTO pedidoRequestDTO, Cliente cliente) {
+    public Pedido criarPedido(PedidoDTO pedidoRequestDTO, Cliente cliente) {
         var restauranteOpt = restauranteRepository.findById(pedidoRequestDTO.getRestauranteId());
         if (restauranteOpt.isEmpty()) {
             throw new RuntimeException("Restaurante não encontrado");

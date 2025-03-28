@@ -24,22 +24,29 @@ public class PagamentoService {
     public Pagamento criarPagamento(String descricao, UUID idPedido) {
         Pedido pedido = pedidoRepository.findById(idPedido)
             .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
-
+    
         Pagamento pagamento = new Pagamento();
         pagamento.setValor(pedido.getPreco());
         pagamento.setDescricao(descricao);
         pagamento.setPedido(pedido);
         pagamento.setStatus(StatusPagamento.PENDENTE);
-
-        // Verificação mais segura do restaurante e chave Pix
+    
+        // Primeiro persiste o pagamento para gerar o ID
+        pagamento = pagamentoRepository.save(pagamento);
+    
+        // Verificação do restaurante e chave Pix
         if (pedido.getRestaurante() != null && pedido.getRestaurante().getChavePix() != null) {
             String qrCode = gerarPayloadPix(pagamento);
             pagamento.setQrCode(qrCode);
             pagamento.setChavePix(pedido.getRestaurante().getChavePix());
+            
+            // Atualiza o pagamento com o QR Code e a chave Pix
+            pagamento = pagamentoRepository.save(pagamento);
         }
-
-        return pagamentoRepository.save(pagamento);
+    
+        return pagamento;
     }
+    
 
     public boolean confirmarPagamento(UUID id) {
         Pagamento pagamento = pagamentoRepository.findById(id)
@@ -62,7 +69,7 @@ public class PagamentoService {
     public String gerarPayloadPix(Pagamento pagamento) {
         String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
         String nomeRestaurante = pagamento.getPedido().getRestaurante().getNome();
-        String cidadeRestaurante = "Campina Grande";
+        String cidadeRestaurante = "CAMPINA GRANDE";
         double valor = pagamento.getValor();
         String txid = pagamento.getId().toString();
 
