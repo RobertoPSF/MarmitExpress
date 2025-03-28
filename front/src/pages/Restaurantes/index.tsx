@@ -12,6 +12,16 @@ interface Restaurante {
   descricao: string;
   telefone: string;
   aceitandoPedidos: boolean;
+  chavePix: string;
+  itens: { id: string; nome: string; preco: number; quantidade: number }[];
+  pedidos: {
+    id: string;
+    clienteId: string;
+    status: string;
+    dataHora: string;
+    valorTotal: number;
+    itens: { ItemId: string; quantidade: number; precoUnitario: number }[];
+  }[];
 }
 
 export default function Restaurantes() {

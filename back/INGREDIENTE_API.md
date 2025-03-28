@@ -1,8 +1,10 @@
-# Documentação da API de Ingredientes
+# Documentação da API de Ingredientes - MarmitExpress
+
 
 ## Endpoints
 
-### 1. Criar Ingrediente
+### 1. Criar Ingrediente no Cardápio
+
 **POST** `/ingredientes`
 
 #### Corpo da Requisição
@@ -29,7 +31,8 @@
 ```
 
 ---
-### 2. Listar Ingredientes do Meu Restaurante
+### 2. Listar Ingredientes do Restaurante
+
 **GET** `/ingredientes`
 
 #### Resposta de Sucesso (200 OK)
@@ -51,7 +54,8 @@
 ```
 
 ---
-### 3. Atualizar Ingrediente
+### 3. Atualizar Dados do Ingrediente
+
 **PUT** `/ingredientes/{id}`
 
 #### Corpo da Requisição
@@ -79,6 +83,7 @@
 
 ---
 ### 4. Listar Ingredientes de um Restaurante Específico
+
 **GET** `/ingredientes/restaurante/{restauranteId}`
 
 #### Resposta de Sucesso (200 OK)
@@ -94,6 +99,7 @@
 
 ---
 ### 5. Buscar Ingrediente por ID
+
 **GET** `/ingredientes/{id}`
 
 #### Resposta de Sucesso (200 OK)
@@ -106,7 +112,8 @@
 ```
 
 ---
-### 6. Deletar Ingrediente
+### 6. Deletar Ingrediente do Cardápio
+
 **DELETE** `/ingredientes/{id}`
 
 #### Resposta de Sucesso (204 No Content)
@@ -117,4 +124,3 @@
   "message": "Acesso negado"
 }
 ```
-

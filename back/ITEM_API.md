@@ -1,4 +1,4 @@
-# Documentação da API de Itens - MarmitExpress
+# Documentação da API de Items - MarmitExpress
 
 ## Introdução
 
@@ -40,7 +40,15 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
+<<<<<<< HEAD
+
 ### Listar todos os Itens
+
+=======
+
+### Listar todos os Items
+
+> > > > > > > main
 
 **GET /itens**
 
@@ -128,7 +136,15 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
+<<<<<<< HEAD
+
 ### Buscar Itens de um Restaurante
+
+=======
+
+### Buscar Items de um Restaurante
+
+> > > > > > > main
 
 **GET /itens/restaurante/{restauranteId}**
 

@@ -17,6 +17,6 @@ public record RestauranteResponseDTO(
     boolean aceitandoPedidos,
     String chavePix,
     List<Ingrediente> ingredientes,
-    List<Item> listaDeItens,
+    List<Item> listaDeItems,
     List<Marmita> marmitas
 ) {}

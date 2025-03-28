@@ -22,6 +22,8 @@ MarmitExpress
 │   │   │   │           │   └── Model.java
 │   │   │   │           │
 │   │   │   │           ├── security
+│   │   │   │           │   ├── SecurityFilter.java
+│   │   │   │           │   └── SecurityConfigurations.java
 │   │   │   │           │
 │   │   │   │           └── Application.java
 │   │   │   └── resources

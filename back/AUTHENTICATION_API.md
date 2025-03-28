@@ -1,9 +1,11 @@
-# Documentação da API de Autenticação  
+# Documentação da API de Autenticação - MarmitExpress
+
 
 ## Visão Geral  
 A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exceto `/auth/login` e `/auth/register`, requerem um token JWT válido no cabeçalho Authorization.  
 
-## Fluxo de Autenticação  
+## Fluxo de Autenticação - Como Funciona
+
 1. O cliente se registra usando o endpoint `/auth/register`  
 2. O cliente faz login usando o endpoint `/auth/login` para obter um token JWT  
 3. O cliente inclui o token no cabeçalho Authorization para requisições subsequentes  
@@ -58,7 +60,8 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
   ```  
   - **Status:** 401 Unauthorized (se a autenticação falhar)  
 
-### 3. Alterar Senha  
+### 3. Atualizar Senha do Usuário
+
 - **Método HTTP:** POST  
 - **Endpoint:** `/auth/new-password`  
 - **Content-Type:** application/json  
@@ -70,24 +73,26 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
   }
   ```  
 - **Resposta:**  
-  - **Status:** 200 OK  
+- **Status:** 200 OK (Senha atualizada com sucesso)  
+
   - **Corpo:**  
   ```json
   {
     "token": "token"
   }
   ```  
-  - **Status:** 404 Not Found (se o e-mail não existir)  
+- **Status:** 404 Not Found (se o e-mail não estiver cadastrado)  
+
 
 ## Respostas de Erro  
 - **400 Bad Request**: Dados inválidos na requisição ou erros de validação  
 - **401 Unauthorized**: Token inválido ou expirado  
 - **403 Forbidden**: Token válido, mas sem permissões suficientes  
 
-## Melhores Práticas de Segurança  
+## Melhores Práticas de Segurança para a API
+
 1. Sempre utilize HTTPS para comunicação com a API  
 2. Armazene os tokens de forma segura (ex.: em memória ou armazenamento seguro)  
 3. Implemente um mecanismo de renovação de token  
 4. Utilize senhas fortes e implemente políticas de senha  
 5. Faça a rotação regular das chaves de assinatura
-

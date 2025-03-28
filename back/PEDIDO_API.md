@@ -1,109 +1,143 @@
-# PEDIDO API Documentation
+# PEDIDO_API.md
 
-## Authentication
-All endpoints require a valid JWT token in the Authorization header:
-`Authorization: Bearer <token>`
+## API de Pedidos - MarmitExpress
 
-## 1. Create Order
-- **HTTP Method:** POST
-- **Content-Type:** application/json
-- **Endpoint:** `/pedidos`
-- **Request Body:**
+Esta API gerencia pedidos no sistema MarmitExpress. A seguir estão os endpoints disponíveis para manipulação de pedidos.
+
+---
+
+## **1. Criar Pedido**
+
+**Endpoint:**
+```http
+POST /pedidos
+```
+
+**Descrição:**
+Cria um novo pedido para um cliente autenticado.
+
+**Requisição:**
+- **Body (JSON):**
   ```json
   {
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "itens": [
-      {
-        "produtoId": UUID,
-        "quantidade": int
-      }
-    ],
-    "enderecoEntrega": "string",
-    "formaPagamento": "string"
-  }
-  ```
-- **Response:**
-  - **Status:** 201 Created
-  - **Body:**
-  ```json
-  {
-    "id": UUID,
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "status": "string",
-    "dataHora": "string",
-    "valorTotal": double
+    "itensQuantidades": {
+      "item_id1": quantidade,
+      "item_id2": quantidade
+    },
+    "restauranteId": "uuid_do_restaurante",
+    "endereco": "Endereço de entrega"
   }
   ```
 
-## 2. Get Order by ID
-- **HTTP Method:** GET
-- **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  {
-    "id": UUID,
-    "clienteId": UUID,
-    "restauranteId": UUID,
-    "status": "string",
-    "dataHora": "string",
-    "valorTotal": double,
-    "itens": [
-      {
-        "produtoId": UUID,
-        "quantidade": int,
-        "precoUnitario": double
-      }
-    ]
-  }
-  ```
-  - **Status:** 404 Not Found (if order not found)
+**Resposta:**
+- **200 OK:** Pedido criado com sucesso.
+- **400 Bad Request:** Erro na criação do pedido.
 
-## 3. Update Order Status
-- **HTTP Method:** PUT
-- **Content-Type:** application/json
-- **Endpoint:** `/pedidos/{id}/status`
-- **Path Variable:** `id` (UUID)
-- **Request Body:**
-  ```json
-  {
-    "status": "string"
-  }
+---
+
+## **2. Listar Pedidos do Cliente**
+
+**Endpoint:**
+```http
+GET /pedidos/cliente
+```
+
+**Descrição:**
+Retorna a lista de pedidos do cliente autenticado.
+
+**Requisição:**
+- **Headers:**
   ```
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
-  ```json
-  "Status do pedido atualizado com sucesso."
+  Authorization: Bearer <token>
   ```
 
-## 4. List Orders by Client
-- **HTTP Method:** GET
-- **Endpoint:** `/clientes/{id}/pedidos`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 200 OK
-  - **Body:**
+**Resposta:**
+- **200 OK:** Retorna uma lista de pedidos do cliente.
   ```json
   [
     {
-      "id": UUID,
-      "restauranteId": UUID,
-      "status": "string",
-      "dataHora": "string",
-      "valorTotal": double
+      "id": "uuid_do_pedido",
+      "clienteId": "uuid_do_cliente",
+      "restauranteId": "uuid_do_restaurante",
+      "status": "EM_PROCESSAMENTO",
+      "precoTotal": 50.0,
+      "itensIds": ["uuid_item1", "uuid_item2"]
     }
   ]
   ```
 
-## 5. Cancel Order
-- **HTTP Method:** DELETE
-- **Endpoint:** `/pedidos/{id}`
-- **Path Variable:** `id` (UUID)
-- **Response:**
-  - **Status:** 204 No Content
-  - **Status:** 400 Bad Request (if order cannot be canceled)
+---
+
+## **3. Buscar Pedido por ID**
+
+**Endpoint:**
+```http
+GET /pedidos/{id}
+```
+
+**Descrição:**
+Busca um pedido pelo seu ID (disponível para restaurante/admin).
+
+**Parâmetros:**
+- `id` (UUID) - ID do pedido a ser buscado.
+
+**Resposta:**
+- **200 OK:** Retorna os detalhes do pedido.
+- **404 Not Found:** Pedido não encontrado.
+
+---
+
+## **4. Cancelar Pedido**
+
+**Endpoint:**
+```http
+DELETE /pedidos/{id}
+```
+
+**Descrição:**
+Permite que o cliente autenticado cancele um pedido.
+
+**Parâmetros:**
+- `id` (UUID) - ID do pedido a ser cancelado.
+
+**Requisição:**
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+  ```
+
+**Resposta:**
+- **200 OK:** Pedido cancelado com sucesso.
+- **403 Forbidden:** Cliente não tem permissão para cancelar o pedido.
+- **404 Not Found:** Pedido não encontrado.
+
+---
+
+## **Estruturas de Dados**
+
+### **PedidoDTO** (Resposta)
+```json
+{
+  "id": "uuid_do_pedido",
+  "clienteId": "uuid_do_cliente",
+  "restauranteId": "uuid_do_restaurante",
+  "status": "EM_PROCESSAMENTO",
+  "precoTotal": 50.0,
+  "itensIds": ["uuid_item1", "uuid_item2"]
+}
+```
+
+### **PedidoRequestDTO** (Requisição)
+```json
+{
+  "itensQuantidades": {
+    "item_id1": quantidade,
+    "item_id2": quantidade
+  },
+  "restauranteId": "uuid_do_restaurante",
+  "endereco": "Endereço de entrega"
+}
+```
+
+---
+
