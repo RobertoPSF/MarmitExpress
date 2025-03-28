@@ -1,8 +1,10 @@
-# Documentação da API Cliente
+# Documentação da API de Clientes - MarmitExpress
+
 
 ## Endpoints
 
-### 1. Listar Clientes
+### 1. Listar Todos os Clientes
+
 **GET** `/clientes`
 
 #### Resposta de Sucesso (200 OK)
@@ -19,7 +21,8 @@
 ```
 
 ---
-### 2. Buscar Meu Perfil
+### 2. Buscar Perfil do Cliente
+
 **GET** `/clientes/me`
 
 #### Resposta de Sucesso (200 OK)
@@ -41,7 +44,8 @@
 ```
 
 ---
-### 3. Atualizar Perfil
+### 3. Atualizar Dados do Cliente
+
 **PUT** `/clientes/me`
 
 #### Corpo da Requisição
@@ -78,35 +82,4 @@
 #### Resposta de Sucesso (204 No Content)
 
 ---
-### 5. Criar Pagamento
-**POST** `/clientes/pagamentos`
-
-#### Parâmetros da Requisição
-- `valor` (Double) - Valor do pagamento
-- `descricao` (String) - Descrição do pagamento
-
-#### Resposta de Sucesso (200 OK)
-```json
-{
-  "id": "uuid",
-  "valor": 50.00,
-  "descricao": "Pagamento de pedido",
-  "status": "PENDENTE"
-}
-```
-
----
-### 6. Gerar QR Code para Pagamento
-**GET** `/clientes/pagamentos/{id}/qr-code`
-
-#### Resposta de Sucesso (200 OK)
-- Retorna a imagem do QR Code no formato PNG
-
----
-### 7. Verificar Status do Pagamento
-**GET** `/clientes/pagamentos/{id}/status`
-
-#### Resposta de Sucesso (200 OK)
-```json
-"PAGO"
 ```

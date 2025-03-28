@@ -2,7 +2,11 @@
 
 ## Endpoints
 
-### Criar Marmita
+
+## Endpoints
+
+### 1. Criar Marmita
+
 **POST** `/marmitas`
 
 #### Requisição
@@ -34,7 +38,8 @@
 }
 ```
 
-### Listar Todas as Marmitas
+### 2. Listar Todas as Marmitas
+
 **GET** `/marmitas`
 
 #### Resposta
@@ -53,7 +58,8 @@
 ]
 ```
 
-### Buscar Marmita por ID
+### 3. Buscar Marmita por ID
+
 **GET** `/marmitas/{id}`
 
 #### Resposta
@@ -70,7 +76,8 @@
 }
 ```
 
-### Listar Marmitas de um Restaurante
+### 4. Listar Marmitas de um Restaurante
+
 **GET** `/marmitas/restaurante/{restauranteId}`
 
 #### Resposta
@@ -90,7 +97,8 @@
 ]
 ```
 
-### Atualizar Marmita
+### 5. Atualizar Marmita
+
 **PUT** `/marmitas/{id}`
 
 #### Requisição
@@ -120,10 +128,10 @@
 }
 ```
 
-### Deletar Marmita
+### 6. Deletar Marmita
+
 **DELETE** `/marmitas/{id}`
 
 #### Resposta
 - **204 No Content** caso a exclusão seja bem-sucedida.
 - **403 Forbidden** se o restaurante não tiver permissão para excluir.
-

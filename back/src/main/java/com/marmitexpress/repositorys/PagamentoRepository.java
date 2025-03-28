@@ -7,5 +7,5 @@ import com.marmitexpress.models.Pagamento;
 
 
 public interface PagamentoRepository extends JpaRepository<Pagamento, UUID> {
-    // Métodos customizados podem ser adicionados aqui
+    
 }

@@ -3,18 +3,12 @@ package com.marmitexpress.controllers;
 import com.marmitexpress.dto.ClienteDTO;
 import com.marmitexpress.dto.ClienteResponseDTO;
 import com.marmitexpress.models.Cliente;
-import com.marmitexpress.models.Pagamento;
 import com.marmitexpress.services.ClienteService;
-import com.marmitexpress.services.PagamentoService;
-import com.marmitexpress.services.QrCodeService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,12 +20,6 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
     
-    @Autowired
-    private PagamentoService pagamentoService;
-    
-    @Autowired
-    private QrCodeService qrCodeService;
-
     @GetMapping
     public ResponseEntity<List<ClienteResponseDTO>> listarClientes() {
         List<ClienteResponseDTO> clientes = clienteService.listarClientes()
@@ -41,7 +29,8 @@ public class ClienteController {
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getEndereco(),
-                cliente.getTelefone()
+                cliente.getTelefone(),
+                cliente.getListaDePedidos()
             ))
             .toList();
         
@@ -59,7 +48,8 @@ public class ClienteController {
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getEndereco(),
-                cliente.getTelefone()
+                cliente.getTelefone(),
+                cliente.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -82,7 +72,8 @@ public class ClienteController {
                 clienteExistente.getNome(),
                 clienteExistente.getEmail(),
                 clienteExistente.getEndereco(),
-                clienteExistente.getTelefone()
+                clienteExistente.getTelefone(),
+                clienteExistente.getListaDePedidos()
             ));
         }
 
@@ -95,31 +86,4 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/pagamentos")
-    public ResponseEntity<Pagamento> criarPagamento(@RequestParam Double valor, 
-                                                    @RequestParam String descricao) {
-        Pagamento pagamento = pagamentoService.criarPagamento(valor, descricao);
-        return ResponseEntity.ok(pagamento);
-    }
-
-    @GetMapping("/pagamentos/{id}/qr-code")
-    public ResponseEntity<byte[]> gerarQrCode(@PathVariable UUID id) {
-        Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
-        String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
-        String dadosPagamento = String.format("marmitexpress://pagamento/%d?valor=%.2f&chave=%s", 
-            id, pagamento.getValor(), chavePix);
-            
-        String qrCodeBase64 = qrCodeService.generateQrCode(dadosPagamento, 300, 300);
-        byte[] qrCodeImage = Base64.getDecoder().decode(qrCodeBase64.split(",")[1]);
-        
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(qrCodeImage);
-    }
-
-    @GetMapping("/pagamentos/{id}/status")
-    public ResponseEntity<String> verificarStatusPagamento(@PathVariable UUID id) {
-        Pagamento pagamento = pagamentoService.buscarPagamentoPorId(id);
-        return ResponseEntity.ok(pagamento.getStatus().toString());
-    }
 }

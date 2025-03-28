@@ -34,7 +34,7 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeItens(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ))
             .toList();
@@ -58,7 +58,7 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeItens(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ));
         }
@@ -81,7 +81,7 @@ public class RestauranteController {
                 restaurante.isAceitandoPedidos(),
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
-                restaurante.getListaDeItens(),
+                restaurante.getListaDeItems(),
                 restaurante.getMarmitas()
             ));
         }
@@ -112,7 +112,7 @@ public class RestauranteController {
                 restauranteExistente.isAceitandoPedidos(),
                 restauranteExistente.getChavePix(),
                 restauranteExistente.getIngredientes(),
-                restauranteExistente.getListaDeItens(),
+                restauranteExistente.getListaDeItems(),
                 restauranteExistente.getMarmitas()
             ));
         }

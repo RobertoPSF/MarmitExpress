@@ -1,60 +1,31 @@
 package com.marmitexpress.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED) // Para herança entre Item e Marmita
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
+
     private String nome;
     private double preco;
     private int quantidade;
-    private byte[] foto; 
+    private byte[] foto;
 
     @ManyToOne
+
     @JsonIgnore
-    private Restaurante restaurante; 
-
-    public Item() {}
-
-    public Item(String nome, double preco, int quantidade, Restaurante restaurante) {
-        this.nome = nome;
-        this.preco = preco;
-        this.quantidade = quantidade;
-        this.restaurante = restaurante;
-    }
-
-
-    public UUID getId() {return id;}
-
-    public String getNome() {return nome;}
-
-    public void setNome(String nome) {this.nome = nome;}
-
-    public double getPreco() {return preco;}
-
-    public void setPreco(double preco) {this.preco = preco;}
-
-    public int getQuantidade() {return quantidade;}
-
-    public void setQuantidade(int quantidade) {this.quantidade = quantidade;}
-
-    public byte[] getFoto() {return foto;}
-
-    public void setFoto(byte[] foto) {this.foto = foto;}
-
-    public Restaurante getRestaurante() {return restaurante;}
-
-    public void setRestaurante(Restaurante restaurante) {this.restaurante = restaurante;}
-
+    private Restaurante restaurante;
 }

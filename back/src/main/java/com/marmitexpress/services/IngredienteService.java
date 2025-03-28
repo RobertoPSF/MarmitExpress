@@ -32,7 +32,7 @@ public class IngredienteService {
             throw new IllegalArgumentException("O nome do ingrediente não pode estar vazio.");
         }
 
-        Ingrediente ingrediente = new Ingrediente(ingredienteDTO.getNome(), restaurante);
+        Ingrediente ingrediente = new Ingrediente(null, ingredienteDTO.getNome(), restaurante);
         Ingrediente savedIngrediente = ingredienteRepository.save(ingrediente);
         return new IngredienteResponseDTO(savedIngrediente.getId(), savedIngrediente.getNome(), restauranteId);
     }

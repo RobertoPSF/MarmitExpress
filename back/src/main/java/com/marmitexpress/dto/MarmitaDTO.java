@@ -5,6 +5,10 @@ import java.util.UUID;
 
 import com.marmitexpress.models.Ingrediente;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class MarmitaDTO {
     private String nome;
     private Double preco;
@@ -22,18 +26,4 @@ public class MarmitaDTO {
         this.restauranteId = restauranteId;
     }
     
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public Double getPreco() { return preco; }
-    public void setPreco(Double preco) { this.preco = preco; }
-
-    public Integer getQuantidade() { return quantidade; }
-    public void setQuantidade(Integer quantidade) { this.quantidade = quantidade; }
-
-    public List<Ingrediente> getIngredientes() { return ingredientes; }
-    public void setIngredientes(List<Ingrediente> ingredientes) { this.ingredientes = ingredientes; }
-
-    public UUID getRestauranteId() { return restauranteId; }
-    public void setRestauranteId(UUID restauranteId) { this.restauranteId = restauranteId; }
 }
