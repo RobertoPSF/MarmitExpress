@@ -1,5 +1,7 @@
 package com.marmitexpress.services;
 
+import java.util.Locale;
+
 public class PixGeneratorService {
 
     public static String gerarPayloadPix(String chavePix, String nomeCobranca, double valor,
@@ -7,7 +9,8 @@ public class PixGeneratorService {
         String payload = "000201";
 
         // Merchant Account Information (tag 26)
-        String merchantAccountInfo = formatarCampo("00", "br.gov.bcb.pix") + formatarChavePix(chavePix);
+        String merchantAccountInfo = formatarCampo("00", "br.gov.bcb.pix");
+        merchantAccountInfo += formatarCampo("01", chavePix); // Adiciona a chave Pix corretamente
 
         if (nomeCobranca != null && !nomeCobranca.isEmpty()) {
             merchantAccountInfo += formatarCampo("02", nomeCobranca);
@@ -18,15 +21,18 @@ public class PixGeneratorService {
         // Outros campos fixos do Pix
         payload += formatarCampo("52", "0000");
         payload += formatarCampo("53", "986");
-        payload += formatarCampo("54", String.format("%.2f", valor).replace(",", ".")); // Ajuste na formatação do valor
+
+        // Garantia de que o valor tem sempre o formato correto com ponto decimal
+        String valorFormatado = String.format(Locale.US, "%.2f", valor);
+        payload += formatarCampo("54", valorFormatado);
+
         payload += formatarCampo("58", "BR");
         payload += formatarCampo("59", nomeReceptor);
         payload += formatarCampo("60", cidadeReceptor);
 
-        // Additional Data Field Template (tag 62)
+        // Additional Data Field Template (tag 62) - Verifica se deve ser incluído
         if (codigoPagamento != null && !codigoPagamento.isEmpty()) {
-            String additionalData = formatarCampo("05", codigoPagamento);
-            payload += formatarCampo("62", additionalData);
+            payload += formatarCampo("62", formatarCampo("05", codigoPagamento));
         }
 
         // Adiciona CRC16
@@ -34,23 +40,6 @@ public class PixGeneratorService {
         payload += calcularCRC16(payload);
 
         return payload;
-    }
-
-    /**
-     * Verifica o tipo da chave Pix e a formata corretamente para evitar erros.
-     */
-    public static String formatarChavePix(String chavePix) {
-        if (chavePix.contains("@")) { // E-mail
-            return formatarCampo("01", chavePix);
-        } else if (chavePix.matches("^\\+?\\d{11,}$")) { // Telefone (com ou sem +55)
-            return formatarCampo("01", chavePix);
-        } else if (chavePix.matches("^\\d{11}$") || chavePix.matches("^\\d{14}$")) { // CPF ou CNPJ
-            return formatarCampo("01", chavePix);
-        } else if (chavePix.matches("^[a-fA-F0-9\\-]{32,36}$")) { // Chave Aleatória (32 a 36 caracteres)
-            return formatarCampo("01", chavePix);
-        } else {
-            throw new IllegalArgumentException("Chave Pix inválida: " + chavePix);
-        }
     }
 
     /**

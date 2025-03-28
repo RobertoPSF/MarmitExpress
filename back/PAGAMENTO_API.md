@@ -1,81 +1,87 @@
-# Documentação da API de Pagamentos - MarmitExpress
+# API de Pagamentos - MarmitExpress
+
+## Introdução
+A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmação de pagamentos. Esta API suporta transações via PIX, fornecendo payloads para QR Code e atualizando o status dos pagamentos.
 
 ## Endpoints
 
-### 1. Obter Payload do QR Code
+### 1. Criar Pagamento
+**POST** `/pagamentos`
 
+#### Request Body:
+```json
+{
+  "descricao": "Pedido de almoço",
+  "idPedido": "UUID do pedido"
+}
+```
+
+#### Response (200 OK):
+```json
+{
+  "id": "UUID do pagamento",
+  "valor": 25.50,
+  "status": "PENDENTE",
+  "descricao": "Pedido de almoço",
+  "qrCode": "Código QR para pagamento",
+  "chavePix": "Chave PIX para pagamento",
+  "dataCriacao": "2025-03-27T12:00:00",
+  "dataAtualizacao": "2025-03-27T12:00:00",
+  "pedido": { 
+      "id": "uuid_do_pedido",
+      "clienteId": "uuid_do_cliente",
+      "restauranteId": "uuid_do_restaurante",
+      "status": "EM_PROCESSAMENTO",
+      "precoTotal": 50.0,
+      "itensIds": ["uuid_item1", "uuid_item2"]
+      }
+}
+```
+
+#### Respostas:
+- `403 FORBIDDEN`: Se o cliente não estiver autenticado.
+
+---
+
+### 2. Obter Payload PIX
 **GET** `/pagamentos/{id}/qrcode`
 
-#### Descrição
-Recupera o payload do QR code para um pagamento específico identificado pelo seu ID.
-
-#### Resposta de Sucesso (200 OK)
+#### Response (200 OK):
 ```json
 {
-  "payload": "string"
-}
-```
-### Resposta de Erro (404 Not Found)
-```json
-{
-  "error": "Pagamento não encontrado."
+  "payload": "payload PIX para pagamento"
 }
 ```
 
-### 2. Confirmar Pagamento
+#### Respostas:
+- `403 FORBIDDEN`: Se o cliente não estiver autenticado.
+- `404 NOT FOUND`: Se o pagamento não for encontrado.
+
+---
+
+### 3. Confirmar Pagamento
 **PATCH** `/pagamentos/{id}/confirmar`
 
-### Descrição
-Confirma um pagamento identificado pelo seu ID.
-
-### Resposta de Sucesso (200 OK)
+#### Response (200 OK):
 ```json
 "Pagamento confirmado com sucesso."
 ```
 
-### Resposta de Erro (404 Not Found)
-```json
-{
-  "error": "Pagamento não encontrado ou já confirmado."
-}
-```
+#### Respostas:
+- `403 FORBIDDEN`: Se o usuário não for um restaurante autorizado.
+- `404 NOT FOUND`: Se o pagamento já estiver confirmado ou não existir.
 
-### 3. Criar Pagamento
-**POST** `/pagamentos`
-
-#### Nota
-Os pedidos não podem ser feitos se o restaurante não estiver aceitando pedidos.
-
-
-#### Descrição
-Cria um novo pagamento associado a um pedido.
-
-#### Parâmetros da Requisição
-- `descricao` (String) - Descrição do pagamento.
-- `idPedido` (UUID) - ID do pedido associado ao pagamento.
-
-#### Resposta de Sucesso (200 OK)
-```json
-{
-  "id": "uuid",
-  "valor": 50.00,
-  "descricao": "Pagamento de pedido",
-  "status": "PENDENTE"
-}
-```
+---
 
 ### 4. Verificar Status do Pagamento
 **GET** `/pagamentos/{id}/status`
 
-#### Descrição
-Verifica o status de um pagamento específico.
-
-#### Resposta de Sucesso (200 OK)
+#### Response (200 OK):
 ```json
-"PAGO"
+"PENDENTE"
 ```
-#### Resposta de Erro (403 Forbidden)
-```json
-{
-  "error": "Acesso negado."
-}
+
+#### Respostas:
+- `403 FORBIDDEN`: Se o pagamento não pertencer ao cliente autenticado.
+- `404 NOT FOUND`: Se o pagamento não existir.
+
