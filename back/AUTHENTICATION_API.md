@@ -21,6 +21,9 @@ A API utiliza JSON Web Tokens (JWT) para autenticação. Todos os endpoints, exc
 - **Endpoint:** `/auth/register`  
 - **Content-Type:** application/json  
 - **Corpo da Requisição:**  
+### Observação
+- O campo `nomeProprietario` é obrigatório para usuários do tipo restaurante e deve conter o nome do titular da conta vinculada à chave PIX (Se ela for do tipo Pessoa Física).
+- Para outros tipos de usuários (clientes e administradores), esse campo não é utilizado.
   ```json
   {
     "nome": "Nome do usuario",

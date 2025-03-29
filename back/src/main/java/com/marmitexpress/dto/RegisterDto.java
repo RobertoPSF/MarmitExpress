@@ -14,6 +14,8 @@ public record RegisterDto(
         @Size(min = 3, message = "O nome deve conter no mínimo 3 caracteres!")
         String nome,
 
+        String nomeProprietario,
+        
         @Email(message = "O email fornecido não é válido!")
         @NotBlank(message = "O atributo email é obrigatório!")
         String email,

@@ -65,13 +65,27 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado.");
         }
 
+        if(data.role() == UsuarioRole.RESTAURANTE && data.nomeProprietario() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nome do proprietário é obrigatório para o restaurante.");
+        }
+        if(data.role() == UsuarioRole.RESTAURANTE && data.nomeProprietario().length() < 3) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nome do proprietário deve ter no mínimo 3 caracteres.");
+        }
         String encryptedPassword = passwordEncoder.encode(data.senha());
         
         Usuario newUsuario;
         if (data.role() == UsuarioRole.CLIENTE) {
             newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
-            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
+            Restaurante restaurante = new Restaurante();
+            restaurante.setNome(data.nome());
+            restaurante.setEmail(data.email());
+            restaurante.setSenha(encryptedPassword);
+            restaurante.setEndereco(data.endereco());
+            restaurante.setTelefone(data.telefone());
+            restaurante.setRole(UsuarioRole.RESTAURANTE);
+            restaurante.setNomeProprietario(data.nomeProprietario());
+            newUsuario = restaurante;
         } else if (data.role() == UsuarioRole.ADMIN) {
             newUsuario = new Admin(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else {    

@@ -68,13 +68,13 @@ public class PagamentoService {
 
     public String gerarPayloadPix(Pagamento pagamento) {
         String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
-        String nomeRestaurante = pagamento.getPedido().getRestaurante().getNome().toUpperCase();
+        String nomeProprietario = pagamento.getPedido().getRestaurante().getNomeProprietario().toUpperCase();
         String cidadeRestaurante = "CAMPINA GRANDE";
         double valor = pagamento.getValor();
         String txid = pagamento.getId().toString();
         String descricao = "Pedido #" + pagamento.getPedido().getId().toString().substring(0, 8);
     
-        return PixGeneratorService.gerarPayloadPix(chavePix, valor, nomeRestaurante, cidadeRestaurante, txid, descricao);
+        return PixGeneratorService.gerarPayloadPix(chavePix, valor, nomeProprietario, cidadeRestaurante, txid, descricao);
     }
     
 
