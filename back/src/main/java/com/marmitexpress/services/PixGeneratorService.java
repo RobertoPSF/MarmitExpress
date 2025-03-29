@@ -5,28 +5,32 @@ import java.util.Locale;
 public class PixGeneratorService {
 
     public static String gerarPayloadPix(String chavePix, double valor,
-                                         String nomeReceptor, String cidadeReceptor, String codigoPagamento) {
+                                         String nomeReceptor, String cidadeReceptor, String codigoPagamento, String descricao) {
         String payload = "000201";
 
         // Merchant Account Information (tag 26)
         String merchantAccountInfo = formatarCampo("00", "br.gov.bcb.pix");
         merchantAccountInfo += formatarCampo("01", chavePix);
-        merchantAccountInfo += formatarCampo("02", "marmitexpress"); // Nome fixo da cobrança
-
-        // Corrigindo a Tag 26 para ter o comprimento correto
+        merchantAccountInfo += formatarCampo("02", descricao);
         payload += formatarCampo("26", merchantAccountInfo);
 
         // Outros campos fixos do Pix
         payload += formatarCampo("52", "0000");
         payload += formatarCampo("53", "986");
 
-        // Garantia de que o valor sempre terá ponto decimal
-        String valorFormatado = String.format(Locale.US, "%.2f", valor);
-        payload += formatarCampo("54", valorFormatado);
+        // Adiciona a tag de valor apenas se for maior que zero
+        if (valor > 0) {
+            String valorFormatado = String.format(Locale.US, "%.2f", valor);
+            payload += formatarCampo("54", valorFormatado);
+        }
 
         payload += formatarCampo("58", "BR");
-        payload += formatarCampo("59", nomeReceptor.toUpperCase());
-        payload += formatarCampo("60", cidadeReceptor);
+
+        // Nome do recebedor limitado a 25 caracteres
+        payload += formatarCampo("59", nomeReceptor.toUpperCase().substring(0, Math.min(25, nomeReceptor.length())));
+
+        // Cidade do recebedor (mínimo 4 caracteres)
+        payload += formatarCampo("60", cidadeReceptor.length() < 4 ? "N/A" : cidadeReceptor);
 
         // Additional Data Field Template (tag 62) - TxID corretamente formatado
         if (codigoPagamento != null && !codigoPagamento.isEmpty()) {
