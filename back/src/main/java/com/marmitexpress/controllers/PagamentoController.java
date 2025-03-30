@@ -50,7 +50,7 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }   
 
-    @GetMapping("/{id}/qrcode")
+    @GetMapping("/{id}/payload")
     public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable UUID id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);

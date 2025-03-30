@@ -68,14 +68,15 @@ public class PagamentoService {
 
     public String gerarPayloadPix(Pagamento pagamento) {
         String chavePix = pagamento.getPedido().getRestaurante().getChavePix();
-        String nomeRestaurante = pagamento.getPedido().getRestaurante().getNome();
+        String nomeProprietario = pagamento.getPedido().getRestaurante().getNomeProprietario().toUpperCase();
         String cidadeRestaurante = "CAMPINA GRANDE";
         double valor = pagamento.getValor();
         String txid = pagamento.getId().toString();
-
-        // Chamando o serviço injetado corretamente
-        return PixGeneratorService.gerarPayloadPix(chavePix, chavePix, valor, nomeRestaurante, cidadeRestaurante, txid);
+        String descricao = "Pedido #" + pagamento.getPedido().getId().toString().substring(0, 8);
+    
+        return PixGeneratorService.gerarPayloadPix(chavePix, valor, nomeProprietario, cidadeRestaurante, txid, descricao);
     }
+    
 
     public byte[] gerarQrCode(UUID pagamentoId) {
         Pagamento pagamento = buscarPagamentoPorId(pagamentoId);

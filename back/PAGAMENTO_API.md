@@ -43,8 +43,8 @@ A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmaç�
 
 ---
 
-### 2. Obter Payload PIX
-**GET** `/pagamentos/{id}/qrcode`
+### 2. Obter Payload PIX para o FRONT-END gerar o QrCode do pagamento
+**GET** `/pagamentos/{id}/payload`
 
 #### Response (200 OK):
 ```json

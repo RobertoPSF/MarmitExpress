@@ -4,35 +4,37 @@ import java.util.Locale;
 
 public class PixGeneratorService {
 
-    public static String gerarPayloadPix(String chavePix, String nomeCobranca, double valor,
-                                         String nomeReceptor, String cidadeReceptor, String codigoPagamento) {
+    public static String gerarPayloadPix(String chavePix, double valor,
+                                         String nomeReceptor, String cidadeReceptor, String codigoPagamento, String descricao) {
         String payload = "000201";
 
         // Merchant Account Information (tag 26)
         String merchantAccountInfo = formatarCampo("00", "br.gov.bcb.pix");
-        merchantAccountInfo += formatarCampo("01", chavePix); // Adiciona a chave Pix corretamente
-
-        if (nomeCobranca != null && !nomeCobranca.isEmpty()) {
-            merchantAccountInfo += formatarCampo("02", nomeCobranca);
-        }
-
+        merchantAccountInfo += formatarCampo("01", chavePix);
+        merchantAccountInfo += formatarCampo("02", descricao);
         payload += formatarCampo("26", merchantAccountInfo);
 
         // Outros campos fixos do Pix
         payload += formatarCampo("52", "0000");
         payload += formatarCampo("53", "986");
 
-        // Garantia de que o valor tem sempre o formato correto com ponto decimal
-        String valorFormatado = String.format(Locale.US, "%.2f", valor);
-        payload += formatarCampo("54", valorFormatado);
+        // Adiciona a tag de valor apenas se for maior que zero
+        if (valor > 0) {
+            String valorFormatado = String.format(Locale.US, "%.2f", valor);
+            payload += formatarCampo("54", valorFormatado);
+        }
 
         payload += formatarCampo("58", "BR");
-        payload += formatarCampo("59", nomeReceptor);
-        payload += formatarCampo("60", cidadeReceptor);
 
-        // Additional Data Field Template (tag 62) - Verifica se deve ser incluído
+        // Nome do recebedor limitado a 25 caracteres
+        payload += formatarCampo("59", nomeReceptor.toUpperCase().substring(0, Math.min(25, nomeReceptor.length())));
+
+        // Cidade do recebedor (mínimo 4 caracteres)
+        payload += formatarCampo("60", cidadeReceptor.length() < 4 ? "N/A" : cidadeReceptor);
+
+        // Additional Data Field Template (tag 62) - TxID corretamente formatado
         if (codigoPagamento != null && !codigoPagamento.isEmpty()) {
-            payload += formatarCampo("62", formatarCampo("05", codigoPagamento));
+            payload += formatarCampo("62", formatarCampo("05", codigoPagamento.substring(0, Math.min(25, codigoPagamento.length()))));
         }
 
         // Adiciona CRC16
