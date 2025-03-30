@@ -1,64 +1,53 @@
 import styled from 'styled-components';
+import RestauranteCardComponent from '../../components/Cards/RestauranteCardapioVisualization';
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 100px;
+  display: grid;
+  justify-content: space-between;
+  padding: 5vw;
   min-height: 64.5vh;
-  width: 100%;
+  width: 90vw;
+  gap: 2vw;
+  margin-top: -30vh;
+  grid-template-columns: auto auto;
+
+  @media (max-width: 999px) {
+    grid-template-columns: auto;
+    margin-top: -20vh;
+    width: 100%;
+    padding: 10vh;
+  }
 `;
 
 export const ItensContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  justify-content: center;
   margin-bottom: 50px;
-  margin-top: -35vh;
-  padding-top: 40px;
-  width: 70%;
   min-height: 64.5vh;
   height: max-content;
 
   @media (max-width: 999px) {
-    margin-top: 10vh;
-    padding-top: 20px;
-    gap: 30px;
+    margin-top: -8vh;
+    grid-template-columns: auto;
+    width: 100%;
   }
+`;
 
-  @media (max-width: 600px) {
-    margin-top: 5vh;
-    padding-top: 10px;
-    gap: 20px;
+export const RestauranteCard = styled(RestauranteCardComponent)`
+  h1 {
+    color: white;
   }
 `;
 
 export const ResumoContainer = styled.div`
-  width: 30%;
-`;
-
-export const DivTamanhoMarmita = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
-
+  width: 25vw;
+  margin-top: 16vh;
   @media (max-width: 999px) {
-    flex-wrap: wrap;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
+    margin-top: 0;
+    grid-template-columns: auto;
+    width: auto;
   }
-
-  @media (max-width: 600px) {
-    gap: 10px;
-  }
-`;
-
-export const DivItem = styled.div`
-  width: 100%;
-  display: grid;
-  padding: 20px;
-  grid-template-columns: auto auto auto auto;
-  gap: 15px;
 `;
 
 export const ResumoCompraPopup = styled.div`
@@ -69,7 +58,6 @@ export const ResumoCompraPopup = styled.div`
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  z-index: 1000;
 
   h2 {
     font-weight: bold;
@@ -120,6 +108,29 @@ export const ResumoCompraPopup = styled.div`
     font-size: 1em;
     margin-top: 10px;
     padding: 10px;
+    width: 100%;
+
+    &:disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+`;
+
+export const Section = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 90%;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  @media (max-width: 999px) {
+    margin-top: 0;
+    grid-template-columns: auto auto;
     width: 100%;
   }
 `;

@@ -81,7 +81,7 @@ export default function Restaurantes() {
               style={{ height: '120px' }}
               key={restaurante.id}
               to={`/restaurante/${restaurante.id}/cardapio`}
-              state={{ restaurante }}
+              state={{ id: restaurante.id }}
             >
               <CardRestaurante dados={restaurante} />
             </NavLink>

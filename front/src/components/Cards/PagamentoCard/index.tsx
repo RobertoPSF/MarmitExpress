@@ -7,7 +7,6 @@ import {
   ItemCard,
 } from './styles';
 import Button from '../../Button';
-import restaurante from '../../../data/restaurantes.json';
 import { useNavigate } from 'react-router-dom';
 
 interface Restaurante {

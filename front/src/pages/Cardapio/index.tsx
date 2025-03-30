@@ -1,65 +1,128 @@
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import AcompanhamentoCard from '../../components/Cards/AcompanhamentoCard';
 import {
   Container,
   ResumoCompraPopup,
   ResumoContainer,
+  RestauranteCard,
   ItensContainer,
-  DivItem,
+  Section,
 } from './styles';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ItemCard from '../../components/Cards/ItemCard';
+import MarmitaCard from '../../components/Cards/MarmitaCard';
+import IngredienteCard from '../../components/Cards/IngredienteCard';
+import RestaurantService from '../../services/RestauranteService';
 
-interface Acompanhamento {
-  imagem: string;
+interface Ingrediente {
+  id: string;
+  nome: string;
+}
+
+interface Item {
+  id: string;
+  nome: string;
+  preco: number;
+}
+
+interface Marmita {
+  id: string;
+  nome: string;
+  preco: number;
+  ingredientes: Ingrediente[];
+}
+
+interface Restaurante {
+  id: string;
   nome: string;
   descricao: string;
+  aceitandoPedidos: boolean;
+  endereco: string;
+  listaDeItens: Item[];
+  marmitas: Marmita[];
+  ingredientes: Ingrediente[];
 }
 
 export default function Cardapio() {
   const location = useLocation();
-  const restaurante = location.state?.restaurante; // Pegando os dados do restaurante
-
-  if (!restaurante) {
-    return <p>Erro ao carregar os dados do restaurante.</p>;
-  }
-
-  const [selectedItems, setSelectedItems] = useState<
-    (Acompanhamento)[]
-  >([]);
-  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+  const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
+    [],
+  );
+  const [total, setTotal] = useState(0);
+  const [taxaEntrega, setTaxaEntrega] = useState(0); //Futuramente adicionar a Taxa de Entrega e adicionar valor ao pedido
+  const restaurantService = new RestaurantService();
+  const id = location.state?.id;
 
-  const handleRemoveItem = (
-    item: Acompanhamento,
-  ) => {
-    setSelectedItems(selectedItems.filter((i) => i.nome !== item.nome));
-    setTotal(total);
-  };
-
-  const isItemSelected = (
-    item: Acompanhamento,
-  ) => {
-    return selectedItems.some((i) => i.nome === item.nome);
-  };
-
-  const handleSelectItem = (
-    item: Acompanhamento,
-  ) => {
-    if (isItemSelected(item)) {
-      handleRemoveItem(item);
-    } else {
-      setSelectedItems([...selectedItems, item]);
-      setTotal(total);
+  useEffect(() => {
+    if (!id) {
+      console.error('ID do restaurante não encontrado.');
+      return;
     }
+    restaurantService
+      .getRestaurantById(id)
+      .then((response) => {
+        if (response?.status === 200) {
+          setRestaurante(response.data);
+        }
+      })
+      .catch((error) => console.error('Erro ao buscar restaurante:', error));
+  }, [id]);
+
+  const handleSelectMarmita = (marmita: Marmita) => {
+    setSelectedItems((prev) => {
+      const isSelected = prev.includes(marmita.id);
+      const updatedSelectedItems = isSelected
+        ? prev.filter((id) => id !== marmita.id)
+        : [...prev, marmita.id];
+
+      // Recalcula o total incluindo marmitas
+      const novoTotal =
+        (restaurante?.listaDeItens || [])
+          .filter((i) => updatedSelectedItems.includes(i.id))
+          .reduce((acc, curr) => acc + curr.preco, 0) +
+        (restaurante?.marmitas || [])
+          .filter((m) => updatedSelectedItems.includes(m.id))
+          .reduce((acc, curr) => acc + curr.preco, 0);
+
+      setTotal(novoTotal);
+      return updatedSelectedItems;
+    });
   };
+
+  const handleSelectItem = (item: Item) => {
+    setSelectedItems((prev) => {
+      const isSelected = prev.includes(item.id);
+      const updatedSelectedItems = isSelected
+        ? prev.filter((id) => id !== item.id) // Remove o item se já estiver selecionado
+        : [...prev, item.id]; // Adiciona o item se ainda não estiver selecionado
+
+      // Recalcula o total somando os preços dos itens selecionados
+      const novoTotal =
+        restaurante?.listaDeItens
+          .filter((i) => updatedSelectedItems.includes(i.id))
+          .reduce((acc, curr) => acc + curr.preco, 0) || 0;
+
+      setTotal(novoTotal); // Atualiza o estado do total
+      return updatedSelectedItems;
+    });
+  };
+
+  const handleSelectIngrediente = (ingrediente: Ingrediente) => {
+    setSelectedIngredientes((prev) =>
+      prev.includes(ingrediente.id)
+        ? prev.filter((id) => id !== ingrediente.id)
+        : [...prev, ingrediente.id],
+    );
+  };
+
+  const isItemSelected = (item: Item) => selectedItems.includes(item.id);
+  const isIngredienteSelected = (ingrediente: Ingrediente) =>
+    selectedIngredientes.includes(ingrediente.id);
 
   const handleFinalizarCompra = () => {
-    navigate('/pagamento', {
-      state: {
-        itens: selectedItems,
-        total: total,
-      },
-    });
+    navigate('/pagamento', { state: { itens: selectedItems, total } });
   };
 
   const formatarMoeda = (valor: number) =>
@@ -68,38 +131,90 @@ export default function Cardapio() {
       currency: 'BRL',
     }).format(valor);
 
+  if (!restaurante) {
+    return (
+      <Container>
+        <h1 style={{ color: 'white' }}>Cardápio não encontrado...</h1>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <ItensContainer>
-        <h1>{restaurante.nome}</h1>
-        <h2>{restaurante.descricao}</h2>
-        <DivItem>
-          {restaurante.listaDeItens.map((item: { id: Key | null | undefined; nome: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; preco: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
-            <AcompanhamentoCard 
-            dados={item} 
-            onClick={() => handleSelectItem(item)}
-            isSelected={isItemSelected(item)}
+        <RestauranteCard dados={restaurante} />
+        <h2>Marmitas</h2>
+        <Section>
+          {restaurante?.marmitas.map((marmita) => (
+            <MarmitaCard
+              key={marmita.id}
+              dados={{ nome: marmita.nome, preco: marmita.preco }}
+              onClick={() => handleSelectItem(marmita)}
+              isSelected={isItemSelected(marmita)}
             />
           ))}
-        </DivItem>
+        </Section>
+
+        <h2>Acompanhamentos</h2>
+        <Section>
+          {restaurante?.ingredientes.map((ingrediente) => (
+            <IngredienteCard
+              key={ingrediente.id}
+              dados={ingrediente}
+              onClick={() => handleSelectIngrediente(ingrediente)}
+              isSelected={isIngredienteSelected(ingrediente)}
+            />
+          ))}
+        </Section>
+
+        <h2>Itens</h2>
+        <Section>
+          {(() => {
+            const listaFiltrada =
+              restaurante?.listaDeItens.filter(
+                (item) =>
+                  !restaurante.marmitas.some(
+                    (marmita) => marmita.id === item.id,
+                  ),
+              ) || [];
+
+            return listaFiltrada.map((item) => (
+              <ItemCard
+                key={item.id}
+                dados={{ nome: item.nome, preco: item.preco }}
+                onClick={() => handleSelectItem(item)}
+                isSelected={isItemSelected(item)}
+              />
+            ));
+          })()}
+        </Section>
       </ItensContainer>
-      {/* <ResumoContainer>
+
+      <ResumoContainer>
         <ResumoCompraPopup>
-          <h2>Itens</h2>
+          <h2>Seu pedido</h2>
           <hr />
           <p>Itens Selecionados:</p>
           <ul>
-            {selectedItems.map((item) => (
-              <li key={item.nome}>- {item.nome}</li>
-            ))}
+            {selectedItems.map((itemId) => {
+              const item = restaurante.listaDeItens.find(
+                (i) => i.id === itemId,
+              );
+              return item ? <li key={item.id}>- {item.nome}</li> : null;
+            })}
           </ul>
           <hr />
+          <p>Taxa de Entrega: {formatarMoeda(taxaEntrega)}</p>
           <p>Total: {formatarMoeda(total)}</p>
-          <button className="finalizar-compra" onClick={handleFinalizarCompra}>
-            Finalizar Compra
+          <button
+            className="finalizar-compra"
+            onClick={handleFinalizarCompra}
+            disabled={!restaurante.aceitandoPedidos}
+          >
+            Fazer Pedido
           </button>
         </ResumoCompraPopup>
-      </ResumoContainer> */}
+      </ResumoContainer>
     </Container>
   );
 }

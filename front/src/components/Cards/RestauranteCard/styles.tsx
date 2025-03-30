@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import image from '../../../assets/imageExemplo.svg?react';
-import presente from '../../../assets/presenteIcon.svg?react';
 import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
@@ -8,12 +6,12 @@ export const Container = styled.div`
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
   display: flex;
-  align-items: center;
   background-color: white;
+  align-items: center;
   border-radius: 15px;
   display: flex;
   gap: 10px;
-  width: auto;
+  width: 100%;
   height: 120px;
   padding: 10px;
   transition: box-shadow 0.2s ease-in-out;
@@ -26,53 +24,26 @@ export const Information = styled.div`
   h3 {
     font-size: 0.8rem;
   }
-  #descricao {
-    margin-top: 0.5rem;
-    font-size: 0.6rem;
-    color: #7a7a7a;
-  }
-
-  #avaliacoes {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    p {
-      font-size: 0.6rem;
-      font-weight: 400;
-    }
-  }
-
-  #fidelidade {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #f1f1f1;
-    border-radius: 0.3rem;
-    padding: 1px;
-    max-height: 1rem;
-    margin-top: 0.4rem;
-    p {
-      font-size: 0.5rem;
-      margin-left: 0.2rem;
-    }
-
-    #verificado {
-      color: grey;
-    }
+  p {
+    white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
+    overflow: hidden; /* Oculta qualquer conteúdo que ultrapasse o pai */
+    text-overflow: ellipsis; /* Adiciona "..." no final do texto cortado */
+    max-width: 100%;
   }
 `;
 
 export const StyledIcon = styled(Icon)`
-  color: #ffffff;
-  height: 0.8rem;
+  color: #24292e;
+  background-color: #f1f2f3;
+  border-radius: 7px;
+  height: min-content;
+  width: 100px;
 `;
 
-export const Img = styled(image)`
-  height: 100%;
-  width: 30%;
-`;
+interface OpenProps {
+  $isOpen?: boolean;
+}
 
-export const Presente = styled(presente)`
-  width: 0.6rem;
-  margin-left: 2px;
+export const Open = styled.div<OpenProps>`
+  color: ${({ $isOpen }) => ($isOpen ? 'green' : 'red')};
 `;

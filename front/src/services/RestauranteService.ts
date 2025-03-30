@@ -4,16 +4,6 @@ import { AxiosResponse } from 'axios';
 class RestaurantService extends CoreService {
   private baseRoute = '/restaurantes';
 
-  // Criar restaurante
-  async createRestaurant(data: object): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().post(this.baseRoute, data);
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
-
   // Listar todos os restaurantes
   async getRestaurants(): Promise<AxiosResponse | null> {
     try {
@@ -34,31 +24,31 @@ class RestaurantService extends CoreService {
     }
   }
 
-  // Atualizar restaurante por ID
-  async updateRestaurant(
-    id: string,
-    data: object,
-  ): Promise<AxiosResponse | null> {
+  // Buscar meu perfil
+  async getMyProfile(): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().put(`${this.baseRoute}/${id}`, data);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(`${this.baseRoute}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
+      console.error('Erro ao buscar perfil:', error);
       return null;
     }
   }
 
-  // Adicionar avaliação ao restaurante
-  async addEvaluation(
-    id: string,
-    rating: number,
-  ): Promise<AxiosResponse | null> {
+  // Atualizar meu perfil
+  async updateMyProfile(data: object): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().put(
-        `${this.baseRoute}/${id}/avaliacao`,
-        {
-          avaliacao: rating,
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().put(`${this.baseRoute}/me`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       return response;
     } catch (error) {
       return null;

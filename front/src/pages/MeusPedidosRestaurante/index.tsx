@@ -1,0 +1,23 @@
+import { Container } from './styles';
+import { useState } from 'react';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
+import PedidoCard from '../../components/Cards/PedidosCard';
+import PedidoService from '../../services/PedidoService';
+
+export default function MeusPedidosRestaurante() {
+  useAuthRedirect();
+  const [pedidos, setPedidos] = useState([]);
+  const pedidoService = new PedidoService();
+
+  return (
+    <Container>
+      <div>
+        {pedidos.length > 0 ? (
+          pedidos.map((pedido) => <PedidoCard dados={pedido} />)
+        ) : (
+          <h2>Sem pedidos existentes.</h2>
+        )}
+      </div>
+    </Container>
+  );
+}

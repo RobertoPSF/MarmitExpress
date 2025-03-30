@@ -1,18 +1,13 @@
 import { useState } from 'react';
 import Button from '../../Button';
-import Text from '../../Text';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService';
 
 interface ClienteLoginProps {
   onClose: () => void;
-  onForgotPassword: () => void;
 }
 
-const ClienteLoginForm: React.FC<ClienteLoginProps> = ({
-  onClose,
-  onForgotPassword,
-}) => {
+const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -82,10 +77,6 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({
         value={formDataLogin.senha}
         onChange={handleChangeLogin}
       />
-
-      <a href="#" onClick={onForgotPassword}>
-        Esqueceu a senha?
-      </a>
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar

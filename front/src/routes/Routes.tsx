@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Restaurantes from '../pages/Restaurantes';
 import MeusPedidos from '../pages/MeusPedidos';
+import MeusPedidosRestaurante from '../pages/MeusPedidosRestaurante';
 import Contato from '../pages/Contato';
 import Sobre from '../pages/Sobre';
 import Status from '../pages/Status';
@@ -22,6 +23,7 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/restaurantes" element={<Restaurantes />} />
         <Route path="/meus-pedidos" element={<MeusPedidos />} />
+        <Route path="/pedidos" element={<MeusPedidosRestaurante />} />
         <Route path="/meu-restaurante" element={<MeuRestaurante />} />
         <Route path="/contato" element={<Contato />} />
         <Route path="/sobre" element={<Sobre />} />

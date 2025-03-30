@@ -1,7 +1,7 @@
 # Documentação da API de Items - MarmitExpress
 
-
 ## Introdução
+
 A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os itens do seu cardápio. Apenas restaurantes autenticados podem realizar operações nos itens que pertencem a eles.
 
 ## Endpoints
@@ -11,43 +11,55 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 **POST /itens**
 
 **Requisição:**
+
 ```json
 {
   "nome": "Arroz com Feijão",
-  "preco": 12.50,
+  "preco": 12.5,
   "quantidade": 10,
   "restauranteId": "UUID-do-restaurante"
 }
 ```
 
 **Resposta (200 OK):**
+
 ```json
 {
   "id": "UUID-do-item",
   "nome": "Arroz com Feijão",
-  "preco": 12.50,
+  "preco": 12.5,
   "quantidade": 10,
   "restauranteId": "UUID-do-restaurante"
 }
 ```
 
 **Restrições:**
+
 - Apenas o restaurante dono pode cadastrar um item.
 - Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
 
 ---
 
+<<<<<<< HEAD
+
+### Listar todos os Itens
+
+=======
+
 ### Listar todos os Items
+
+> > > > > > > main
 
 **GET /itens**
 
 **Resposta (200 OK):**
+
 ```json
 [
   {
     "id": "UUID-do-item",
     "nome": "Arroz com Feijão",
-    "preco": 12.50,
+    "preco": 12.5,
     "quantidade": 10,
     "restauranteId": "UUID-do-restaurante"
   }
@@ -61,17 +73,19 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 **GET /itens/{id}**
 
 **Resposta (200 OK):**
+
 ```json
 {
   "id": "UUID-do-item",
   "nome": "Arroz com Feijão",
-  "preco": 12.50,
+  "preco": 12.5,
   "quantidade": 10,
   "restauranteId": "UUID-do-restaurante"
 }
 ```
 
 **Restrições:**
+
 - Retorna `404 Not Found` caso o item não exista.
 
 ---
@@ -81,26 +95,29 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 **PUT /itens/{id}**
 
 **Requisição:**
+
 ```json
 {
   "nome": "Feijoada",
-  "preco": 15.00,
+  "preco": 15.0,
   "quantidade": 5
 }
 ```
 
 **Resposta (200 OK):**
+
 ```json
 {
   "id": "UUID-do-item",
   "nome": "Feijoada",
-  "preco": 15.00,
+  "preco": 15.0,
   "quantidade": 5,
   "restauranteId": "UUID-do-restaurante"
 }
 ```
 
 **Restrições:**
+
 - Apenas o restaurante dono pode atualizar um item.
 - Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
 
@@ -113,22 +130,32 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 **Resposta (204 No Content)**
 
 **Restrições:**
+
 - Apenas o restaurante dono pode deletar um item.
 - Retorna `403 Forbidden` caso o usuário autenticado não seja o dono do item.
 
 ---
 
+<<<<<<< HEAD
+
+### Buscar Itens de um Restaurante
+
+=======
+
 ### Buscar Items de um Restaurante
+
+> > > > > > > main
 
 **GET /itens/restaurante/{restauranteId}**
 
 **Resposta (200 OK):**
+
 ```json
 [
   {
     "id": "UUID-do-item",
     "nome": "Arroz com Feijão",
-    "preco": 12.50,
+    "preco": 12.5,
     "quantidade": 10,
     "restauranteId": "UUID-do-restaurante"
   }
@@ -136,11 +163,13 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 ```
 
 **Restrições:**
+
 - Apenas restaurantes autenticados podem acessar seus itens.
 - Retorna `403 Forbidden` caso o usuário autenticado não seja um restaurante.
 
 ---
 
 ## Observações
+
 - Todos os endpoints que requerem autenticação validam o restaurante pelo email cadastrado.
 - Para qualquer erro de permissão ou item inexistente, a API retorna os códigos apropriados (`403` ou `404`).
