@@ -41,6 +41,7 @@ public class RestauranteService {
         restaurante.setEndereco(restauranteAtualizado.getEndereco());
         restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
         restaurante.setDescricao(restauranteAtualizado.getDescricao());
+        restaurante.setChavePix(restauranteAtualizado.getChavePix());
         return restauranteRepository.save(restaurante);
     }
 

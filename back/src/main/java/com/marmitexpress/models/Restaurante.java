@@ -14,6 +14,7 @@ public class Restaurante extends Usuario {
 
     @Column(nullable = false)
     private String nomeProprietario;
+    
     @Column(nullable = true)
     private String descricao;
 
@@ -39,7 +40,7 @@ public class Restaurante extends Usuario {
         this.setRole(UsuarioRole.RESTAURANTE);
     }
 
-    public Restaurante(String nome, String email, String senha, String endereco, String telefone, String nomeProprietario) {
+    public Restaurante(String nome, String email, String senha, String endereco, String telefone, String nomeProprietario, String descricao, String chavePix) {
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
@@ -47,6 +48,8 @@ public class Restaurante extends Usuario {
         this.setEndereco(endereco);
         this.setTelefone(telefone);
         this.setNomeProprietario(nomeProprietario);
+        this.setDescricao(descricao);
+        this.setChavePix(chavePix);;
     }
 
     public void addPedido(Pedido pedido) {
