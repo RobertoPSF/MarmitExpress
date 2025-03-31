@@ -26,7 +26,7 @@ public class RestauranteController {
             .stream()
             .map(restaurante -> new RestauranteResponseDTO(
                 restaurante.getId(),
-                restaurante.getNomeRestaurante(),
+                restaurante.getNome(),
                 restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
@@ -51,7 +51,7 @@ public class RestauranteController {
         if (restaurante != null) {
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restaurante.getId(),
-                restaurante.getNomeRestaurante(),
+                restaurante.getNome(),
                 restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
@@ -75,7 +75,7 @@ public class RestauranteController {
         if (restaurante != null) {
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restaurante.getId(),
-                restaurante.getNomeRestaurante(),
+                restaurante.getNome(),
                 restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
@@ -97,7 +97,7 @@ public class RestauranteController {
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
 
         if (restauranteExistente != null) {
-            if (dto.getNomeRestaurante() != null) restauranteExistente.setNome(dto.getNomeRestaurante());
+            if (dto.getNome() != null) restauranteExistente.setNome(dto.getNome());
             if (dto.getEndereco() != null) restauranteExistente.setEndereco(dto.getEndereco());
             if (dto.getDescricao() != null) restauranteExistente.setDescricao(dto.getDescricao());
             if (dto.getAceitandoPedidos() != null) restauranteExistente.setAceitandoPedidos(dto.getAceitandoPedidos());
@@ -107,7 +107,7 @@ public class RestauranteController {
 
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restauranteExistente.getId(),
-                restauranteExistente.getNomeRestaurante(),
+                restauranteExistente.getNome(),
                 restauranteExistente.getNomeProprietario(),
                 restauranteExistente.getEmail(),
                 restauranteExistente.getEndereco(),

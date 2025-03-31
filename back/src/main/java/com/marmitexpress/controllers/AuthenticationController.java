@@ -77,6 +77,7 @@ public class AuthenticationController {
         if (data.role() == UsuarioRole.CLIENTE) {
             newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
+            // newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone(), data.nomeProprietario());
             Restaurante restaurante = new Restaurante();
             restaurante.setNome(data.nome());
             restaurante.setEmail(data.email());
@@ -91,7 +92,7 @@ public class AuthenticationController {
         } else {    
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido.");
         }
-        System.out.println(newUsuario);
+        System.out.println("Salvando usuário: " + newUsuario);
         usuarioRepository.save(newUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso.");
     }

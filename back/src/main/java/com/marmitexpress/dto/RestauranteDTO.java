@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestauranteDTO {
-    private String nomeRestaurante;
+    private String nome;
     private String nomeProprietario;
     private String email;
     private String senha;
