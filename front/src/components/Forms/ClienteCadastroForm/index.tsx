@@ -70,6 +70,7 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
 
   return (
     <>
+      <p>Para se cadastrar, preencha os dados abaixo:</p>
       <Input
         name="telefone"
         placeholder="(00) 90000-0000"

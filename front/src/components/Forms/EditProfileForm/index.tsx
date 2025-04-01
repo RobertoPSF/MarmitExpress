@@ -145,6 +145,7 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
 
   return (
     <>
+      <p>Edite os dados do seu perfil abaixo:</p>
       <Input
         placeHolderContainer="Nome"
         name="nome"

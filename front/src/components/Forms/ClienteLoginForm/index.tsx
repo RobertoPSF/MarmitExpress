@@ -60,6 +60,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
 
   return (
     <>
+      <p>Seja bem-vindo. Faça seu login abaixo:</p>
       <Input
         placeHolderContainer="E-mail"
         name="email"
