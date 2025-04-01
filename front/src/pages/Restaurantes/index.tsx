@@ -69,7 +69,7 @@ export default function Restaurantes() {
         <p style={{ color: 'white' }}>Carregando restaurantes...</p>
       </Container>
     );
-  if (error) return <p>{error}</p>;
+  if (error) return <Container style={{ color: 'white' }}>{error}</Container>;
 
   return (
     <Container>

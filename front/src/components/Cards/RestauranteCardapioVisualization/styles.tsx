@@ -40,5 +40,6 @@ interface OpenProps {
 }
 
 export const Open = styled.div<OpenProps>`
+  font-weight: bold;
   color: ${({ $isOpen }) => ($isOpen ? 'green' : 'red')};
 `;

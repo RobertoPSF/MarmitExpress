@@ -24,6 +24,7 @@ const RestauranteCadastroForm: React.FC = () => {
     chavePix: '',
     endereco: '',
     telefone: '',
+    nomeProprietario: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +37,16 @@ const RestauranteCadastroForm: React.FC = () => {
   };
 
   const validarFormulario = () => {
-    const { email, senha, nome, descricao, chavePix, endereco, telefone } =
-      formDataCadastro;
+    const {
+      email,
+      senha,
+      nome,
+      descricao,
+      chavePix,
+      endereco,
+      telefone,
+      nomeProprietario,
+    } = formDataCadastro;
     if (
       !email ||
       !senha ||
@@ -45,7 +54,8 @@ const RestauranteCadastroForm: React.FC = () => {
       !descricao ||
       !chavePix ||
       !endereco ||
-      !telefone
+      !telefone ||
+      !nomeProprietario
     ) {
       alert('Todos os campos são obrigatórios.');
       return false;
@@ -70,6 +80,7 @@ const RestauranteCadastroForm: React.FC = () => {
         chavePix: formDataCadastro.chavePix,
         endereco: formDataCadastro.endereco,
         telefone: formDataCadastro.telefone,
+        nomeProprietario: formDataCadastro.nomeProprietario,
         role: 'RESTAURANTE',
       });
 
@@ -117,6 +128,14 @@ const RestauranteCadastroForm: React.FC = () => {
         value={formDataCadastro.descricao}
         onChange={handleChangeCadastro}
         placeHolderContainer="Descrição"
+      />
+
+      <Input
+        name="nomeProprietario"
+        placeholder="Nome do Dono"
+        value={formDataCadastro.nomeProprietario}
+        onChange={handleChangeCadastro}
+        placeHolderContainer="Proprietário"
       />
 
       <Input

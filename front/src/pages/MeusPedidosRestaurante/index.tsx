@@ -1,23 +1,24 @@
 import { Container } from './styles';
 import { useEffect, useState } from 'react';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
-import PedidoCard from '../../components/Cards/PedidosCard';
-import PedidoService from '../../services/PedidoService';
+import PedidoCardRestaurante from '../../components/Cards/PedidosCardRestaurante';
+import RestaurantService from '../../services/RestauranteService';
 
 export default function MeusPedidosRestaurante() {
   useAuthRedirect();
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
-    const pedidoService = new PedidoService();
+    const restauranteService = new RestaurantService();
     const token = localStorage.getItem('authToken');
     if (token) {
       try {
-        pedidoService
-          .getPedidosByCliente()
+        const id = JSON.parse(atob(token.split('.')[1])).id;
+        restauranteService
+          .getRestaurantById(id)
           .then((response) => {
             if (response?.data) {
-              setPedidos(response.data);
+              setPedidos(response.data.listaDePedidos);
             }
           })
           .catch((error) => {
@@ -32,9 +33,9 @@ export default function MeusPedidosRestaurante() {
   return (
     <Container>
       {pedidos.length > 0 ? (
-        pedidos.map((pedido) => <PedidoCard dados={pedido} />)
+        pedidos.map((pedido) => <PedidoCardRestaurante dados={pedido} />)
       ) : (
-        <h2>Sem pedidos existentes.</h2>
+        <h2 style={{ color: 'white' }}>Sem pedidos existentes.</h2>
       )}
     </Container>
   );

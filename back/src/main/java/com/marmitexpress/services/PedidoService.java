@@ -92,11 +92,11 @@ public class PedidoService {
         return pedidoRepository.findAll();
     }
 
-    public Optional<Pedido> buscarPedidoPorId(UUID id) {
+    public Optional<Pedido> buscarPedidoPorId(Long id) {
         return pedidoRepository.findById(id);
     }
 
-    public void deletarPedido(UUID id) {
+    public void deletarPedido(Long id) {
         if (!pedidoRepository.existsById(id)) {
             throw new PedidoNotFoundException();
         }

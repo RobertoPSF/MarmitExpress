@@ -36,7 +36,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ))
             .toList();
             
@@ -61,7 +62,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -85,7 +87,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -117,7 +120,8 @@ public class RestauranteController {
                 restauranteExistente.getChavePix(),
                 restauranteExistente.getIngredientes(),
                 restauranteExistente.getListaDeItems(),
-                restauranteExistente.getMarmitas()
+                restauranteExistente.getMarmitas(),
+                restauranteExistente.getListaDePedidos()
             ));
         }
 
