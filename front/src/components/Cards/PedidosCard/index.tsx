@@ -15,10 +15,6 @@ interface Pedido {
   itensIds: [];
 }
 
-interface restaurante {
-  nome: string;
-}
-
 interface PedidoCardProps {
   dados: Pedido | null;
 }
