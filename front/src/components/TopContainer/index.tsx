@@ -21,11 +21,14 @@ export default function TopContainer() {
         <h1>Pedidos do Restaurante</h1>
       ) : null}
       {location.pathname === '/contato' ? <h1>Contato</h1> : null}
+      {location.pathname === '/about/parceiro' ? (
+        <h1>Como ser parceiro</h1>
+      ) : null}
       {location.pathname === '/sobre' ? <h1>Sobre</h1> : null}
       {location.pathname === '/pagamento' ? <h1>Finalize seu pedido</h1> : null}
       {location.pathname === '/:id/cardapio' ? <h1>Opa</h1> : null}
       {location.pathname === '/auth/parceiro' ? (
-        <h1>Página do Parceiro</h1>
+        <h1>Login ou Cadastro do Parceiro</h1>
       ) : null}
       {location.pathname === '/status' ? (
         <h1>Estatísticas e Status do Site</h1>
