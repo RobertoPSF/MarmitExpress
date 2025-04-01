@@ -46,8 +46,6 @@ const Button = styled.button`
   height: 45px;
   cursor: pointer;
   display: flex;
-  align-self: end;
-  justify-self: end;
 
   :hover {
     opacity: 0.7;
@@ -65,6 +63,19 @@ interface AddButtonProps {
 }
 
 export const AddButton = ({ icon, onClick }: AddButtonProps) => {
+  return (
+    <Button onClick={onClick}>
+      <IconAdd icon={icon} />
+    </Button>
+  );
+};
+
+interface EditButtonProps {
+  icon: string;
+  onClick: () => void;
+}
+
+export const EditButton = ({ icon, onClick }: EditButtonProps) => {
   return (
     <Button onClick={onClick}>
       <IconAdd icon={icon} />

@@ -11,3 +11,4 @@ export { default as ChangePasswordForm } from './ChangePasswordForm';
 export { default as AddItemForm } from './AddItemForm';
 export { default as AddMarmitaForm } from './AddMarmitaForm';
 export { default as AddIngredienteForm } from './AddIngredienteForm';
+export { default as OpenLojaForm } from './OpenLojaForm';

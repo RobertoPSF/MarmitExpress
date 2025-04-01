@@ -1,7 +1,14 @@
-import { Container, Section, AddButton, TitleSection } from './styles';
+import {
+  Container,
+  Section,
+  AddButton,
+  TitleSection,
+  EditButton,
+} from './styles';
 import { useState, useEffect } from 'react';
 import AddItemPopUp from '../../components/PopUps/AddItemPopUp';
 import AddMarmitaPopUp from '../../components/PopUps/AddMarmitaPopUp';
+import EditLojaPopUp from '../../components/PopUps/EditLojaPopUp';
 import AddIngredientePopUp from '../../components/PopUps/AddIngredientePopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
@@ -83,6 +90,7 @@ export default function MeuRestaurante() {
   };
 
   const [isAddItemPopUpOpen, setIsAddItemPopUpOpen] = useState(false);
+  const [isEditLojaPopUpOpen, setIsOpenEditLojaPopUp] = useState(false);
   const [isAddMarmitaPopUpOpen, setIsAddMarmitaPopUpOpen] = useState(false);
   const [isAddIngredientePopUpOpen, setIsAddIngredientePopUpOpen] =
     useState(false);
@@ -96,13 +104,23 @@ export default function MeuRestaurante() {
   const openAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(true);
   const closeAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(false);
 
+  const openEditLojaPopUp = () => setIsOpenEditLojaPopUp(true);
+  const closeEditLojaPopUp = () => setIsOpenEditLojaPopUp(false);
+
   const isItemSelected = (item: Item) => selectedItems.includes(item.id);
   const isIngredienteSelected = (ingrediente: Ingrediente) =>
     selectedIngredientes.includes(ingrediente.id);
 
   return (
     <Container>
-      <RestauranteCard style={{ color: 'black' }} dados={restaurante} />
+      <TitleSection style={{ justifyContent: 'center' }}>
+        <RestauranteCard style={{ color: 'black' }} dados={restaurante} />
+        <EditButton icon={'lucide:edit'} onClick={openEditLojaPopUp} />
+        <EditLojaPopUp
+          isOpen={isEditLojaPopUpOpen}
+          onClose={closeEditLojaPopUp}
+        />
+      </TitleSection>
 
       <TitleSection>
         <h1>Tamanho da MarmitEx</h1>
