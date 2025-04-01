@@ -40,7 +40,7 @@ interface Restaurante {
   chavePix: string;
   ingredientes: Ingrediente[];
   marmitas: Marmita[];
-  listaDeItens: Item[];
+  listaDeItems: Item[];
 }
 
 export default function MeuRestaurante() {
@@ -154,10 +154,15 @@ export default function MeuRestaurante() {
       <Section>
         {(() => {
           const listaFiltrada =
-            restaurante?.listaDeItens.filter(
-              (item) =>
-                !restaurante.marmitas.some((marmita) => marmita.id === item.id),
-            ) || [];
+            Array.isArray(restaurante?.listaDeItems) &&
+            Array.isArray(restaurante?.marmitas)
+              ? restaurante.listaDeItems.filter(
+                  (item) =>
+                    !restaurante.marmitas.some(
+                      (marmita) => marmita.id === item.id,
+                    ),
+                )
+              : [];
 
           return listaFiltrada.map((item) => (
             <ItemCard
