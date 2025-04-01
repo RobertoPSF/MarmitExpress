@@ -9,7 +9,7 @@ import com.marmitexpress.models.Marmita;
 
 public record RestauranteResponseDTO(
     UUID id,
-    String nomeRestaurante,
+    String nome,
     String nomeProprietario,
     String email,
     String endereco,

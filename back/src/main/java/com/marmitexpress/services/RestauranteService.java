@@ -36,11 +36,12 @@ public class RestauranteService {
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RestauranteNotFoundException());
         restaurante.setSenha(restauranteAtualizado.getSenha());
-        restaurante.setNomeRestaurante(restauranteAtualizado.getNomeRestaurante());
+        restaurante.setNome(restauranteAtualizado.getNome());
         restaurante.setNomeProprietario(restauranteAtualizado.getNomeProprietario());
         restaurante.setEndereco(restauranteAtualizado.getEndereco());
         restaurante.setAceitandoPedidos(restauranteAtualizado.isAceitandoPedidos());
         restaurante.setDescricao(restauranteAtualizado.getDescricao());
+        restaurante.setChavePix(restauranteAtualizado.getChavePix());
         return restauranteRepository.save(restaurante);
     }
 

@@ -37,7 +37,7 @@ interface Restaurante {
   descricao: string;
   aceitandoPedidos: boolean;
   endereco: string;
-  listaDeItens: Item[];
+  listaDeItems: Item[];
   marmitas: Marmita[];
   ingredientes: Ingrediente[];
 }
@@ -79,7 +79,7 @@ export default function Cardapio() {
 
       // Recalcula o total incluindo marmitas
       const novoTotal =
-        (restaurante?.listaDeItens || [])
+        (restaurante?.listaDeItems || [])
           .filter((i) => updatedSelectedItems.includes(i.id))
           .reduce((acc, curr) => acc + curr.preco, 0) +
         (restaurante?.marmitas || [])
@@ -100,7 +100,7 @@ export default function Cardapio() {
 
       // Recalcula o total somando os preços dos itens selecionados
       const novoTotal =
-        restaurante?.listaDeItens
+        restaurante?.listaDeItems
           .filter((i) => updatedSelectedItems.includes(i.id))
           .reduce((acc, curr) => acc + curr.preco, 0) || 0;
 
@@ -148,9 +148,14 @@ export default function Cardapio() {
           {restaurante?.marmitas.map((marmita) => (
             <MarmitaCard
               key={marmita.id}
-              dados={{ nome: marmita.nome, preco: marmita.preco }}
+              dados={{
+                id: marmita.id,
+                nome: marmita.nome,
+                preco: marmita.preco,
+              }}
               onClick={() => handleSelectItem(marmita)}
               isSelected={isItemSelected(marmita)}
+              deletar={false}
             />
           ))}
         </Section>
@@ -163,6 +168,7 @@ export default function Cardapio() {
               dados={ingrediente}
               onClick={() => handleSelectIngrediente(ingrediente)}
               isSelected={isIngredienteSelected(ingrediente)}
+              deletar={false}
             />
           ))}
         </Section>
@@ -171,19 +177,23 @@ export default function Cardapio() {
         <Section>
           {(() => {
             const listaFiltrada =
-              restaurante?.listaDeItens.filter(
-                (item) =>
-                  !restaurante.marmitas.some(
-                    (marmita) => marmita.id === item.id,
-                  ),
-              ) || [];
+              Array.isArray(restaurante?.listaDeItems) &&
+              Array.isArray(restaurante?.marmitas)
+                ? restaurante.listaDeItems.filter(
+                    (item) =>
+                      !restaurante.marmitas.some(
+                        (marmita) => marmita.id === item.id,
+                      ),
+                  )
+                : [];
 
             return listaFiltrada.map((item) => (
               <ItemCard
                 key={item.id}
-                dados={{ nome: item.nome, preco: item.preco }}
+                dados={{ id: item.id, nome: item.nome, preco: item.preco }}
                 onClick={() => handleSelectItem(item)}
                 isSelected={isItemSelected(item)}
+                deletar={false}
               />
             ));
           })()}
@@ -197,7 +207,7 @@ export default function Cardapio() {
           <p>Itens Selecionados:</p>
           <ul>
             {selectedItems.map((itemId) => {
-              const item = restaurante.listaDeItens.find(
+              const item = restaurante.listaDeItems.find(
                 (i) => i.id === itemId,
               );
               return item ? <li key={item.id}>- {item.nome}</li> : null;

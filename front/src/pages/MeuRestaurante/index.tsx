@@ -40,7 +40,7 @@ interface Restaurante {
   chavePix: string;
   ingredientes: Ingrediente[];
   marmitas: Marmita[];
-  listaDeItens: Item[];
+  listaDeItems: Item[];
 }
 
 export default function MeuRestaurante() {
@@ -116,8 +116,9 @@ export default function MeuRestaurante() {
       <Section>
         {restaurante?.marmitas.map((marmita) => (
           <MarmitaCard
+            deletar={true}
             key={marmita.id}
-            dados={{ nome: marmita.nome, preco: marmita.preco }}
+            dados={{ id: marmita.id, nome: marmita.nome, preco: marmita.preco }}
             onClick={() => handleSelectItem(marmita)}
             isSelected={isItemSelected(marmita)}
           />
@@ -142,6 +143,7 @@ export default function MeuRestaurante() {
             dados={ingrediente}
             onClick={() => handleSelectIngrediente(ingrediente)}
             isSelected={isIngredienteSelected(ingrediente)}
+            deletar={true}
           />
         ))}
       </Section>
@@ -154,17 +156,23 @@ export default function MeuRestaurante() {
       <Section>
         {(() => {
           const listaFiltrada =
-            restaurante?.listaDeItens.filter(
-              (item) =>
-                !restaurante.marmitas.some((marmita) => marmita.id === item.id),
-            ) || [];
+            Array.isArray(restaurante?.listaDeItems) &&
+            Array.isArray(restaurante?.marmitas)
+              ? restaurante.listaDeItems.filter(
+                  (item) =>
+                    !restaurante.marmitas.some(
+                      (marmita) => marmita.id === item.id,
+                    ),
+                )
+              : [];
 
           return listaFiltrada.map((item) => (
             <ItemCard
               key={item.id}
-              dados={{ nome: item.nome, preco: item.preco }}
+              dados={{ id: item.id, nome: item.nome, preco: item.preco }}
               onClick={() => handleSelectItem(item)}
               isSelected={isItemSelected(item)}
+              deletar={true}
             />
           ));
         })()}

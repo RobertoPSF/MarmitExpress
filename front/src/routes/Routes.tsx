@@ -7,6 +7,7 @@ import Contato from '../pages/Contato';
 import Sobre from '../pages/Sobre';
 import Status from '../pages/Status';
 import Parceiro from '../pages/Parceiro';
+import AboutParceiro from '../pages/AboutParceiro';
 import TopContainer from '../components/TopContainer';
 import Header from '../components/Header';
 import Blank from '../pages/BlankPage';
@@ -29,6 +30,7 @@ export default function AppRoutes() {
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/status" element={<Status />} />
         <Route path="/auth/parceiro" element={<Parceiro />} />
+        <Route path="/about/parceiro" element={<AboutParceiro />} />
         <Route path="/blank" element={<Blank />} />
         <Route path="/restaurante/:id/cardapio" element={<Cardapio />} />
         <Route path="/pagamento" element={<Pagamento />} />
