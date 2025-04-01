@@ -51,7 +51,6 @@ export default function Cardapio() {
     [],
   );
   const [total, setTotal] = useState(0);
-  const [taxaEntrega, setTaxaEntrega] = useState(0); //Futuramente adicionar a Taxa de Entrega e adicionar valor ao pedido
   const restaurantService = new RestaurantService();
   const id = location.state?.id;
 
@@ -214,7 +213,6 @@ export default function Cardapio() {
             })}
           </ul>
           <hr />
-          <p>Taxa de Entrega: {formatarMoeda(taxaEntrega)}</p>
           <p>Total: {formatarMoeda(total)}</p>
           <button
             className="finalizar-compra"
