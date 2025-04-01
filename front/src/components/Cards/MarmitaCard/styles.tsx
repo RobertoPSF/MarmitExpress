@@ -53,3 +53,39 @@ export const StyledIcon = styled(Icon)`
   border-radius: 10px;
   background-color: #f1f2f3;
 `;
+
+const Button = styled.button`
+  position: absolute;
+  background: none;
+  border: none;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  align-self: end;
+  justify-self: end;
+
+  :hover {
+    opacity: 0.7;
+  }
+`;
+
+export const IconAdd = styled(Icon)`
+  color: red;
+  width: 100%;
+  height: 100%;
+`;
+
+interface DeleteButtonProps {
+  icon: string;
+  onClick: () => void;
+}
+
+export const DeleteButton = ({ icon, onClick }: DeleteButtonProps) => {
+  return (
+    <Button onClick={onClick}>
+      <IconAdd icon={icon} />
+    </Button>
+  );
+};

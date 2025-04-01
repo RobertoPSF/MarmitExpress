@@ -116,8 +116,9 @@ export default function MeuRestaurante() {
       <Section>
         {restaurante?.marmitas.map((marmita) => (
           <MarmitaCard
+            deletar={true}
             key={marmita.id}
-            dados={{ nome: marmita.nome, preco: marmita.preco }}
+            dados={{ id: marmita.id, nome: marmita.nome, preco: marmita.preco }}
             onClick={() => handleSelectItem(marmita)}
             isSelected={isItemSelected(marmita)}
           />
@@ -142,6 +143,7 @@ export default function MeuRestaurante() {
             dados={ingrediente}
             onClick={() => handleSelectIngrediente(ingrediente)}
             isSelected={isIngredienteSelected(ingrediente)}
+            deletar={true}
           />
         ))}
       </Section>
@@ -167,9 +169,10 @@ export default function MeuRestaurante() {
           return listaFiltrada.map((item) => (
             <ItemCard
               key={item.id}
-              dados={{ nome: item.nome, preco: item.preco }}
+              dados={{ id: item.id, nome: item.nome, preco: item.preco }}
               onClick={() => handleSelectItem(item)}
               isSelected={isItemSelected(item)}
+              deletar={true}
             />
           ));
         })()}

@@ -61,7 +61,12 @@ class IngredienteService extends CoreService {
   // Deletar ingrediente
   async deleteIngrediente(id: string): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().delete(`${this.baseRoute}/${id}`);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().delete(`${this.baseRoute}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;

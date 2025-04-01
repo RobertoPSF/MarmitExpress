@@ -148,9 +148,14 @@ export default function Cardapio() {
           {restaurante?.marmitas.map((marmita) => (
             <MarmitaCard
               key={marmita.id}
-              dados={{ nome: marmita.nome, preco: marmita.preco }}
+              dados={{
+                id: marmita.id,
+                nome: marmita.nome,
+                preco: marmita.preco,
+              }}
               onClick={() => handleSelectItem(marmita)}
               isSelected={isItemSelected(marmita)}
+              deletar={false}
             />
           ))}
         </Section>
@@ -163,6 +168,7 @@ export default function Cardapio() {
               dados={ingrediente}
               onClick={() => handleSelectIngrediente(ingrediente)}
               isSelected={isIngredienteSelected(ingrediente)}
+              deletar={false}
             />
           ))}
         </Section>
@@ -184,9 +190,10 @@ export default function Cardapio() {
             return listaFiltrada.map((item) => (
               <ItemCard
                 key={item.id}
-                dados={{ nome: item.nome, preco: item.preco }}
+                dados={{ id: item.id, nome: item.nome, preco: item.preco }}
                 onClick={() => handleSelectItem(item)}
                 isSelected={isItemSelected(item)}
+                deletar={false}
               />
             ));
           })()}
