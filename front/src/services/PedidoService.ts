@@ -41,11 +41,14 @@ class PedidoService extends CoreService {
   }
 
   // Listar pedidos de um cliente
-  async getPedidosByCliente(clienteId: string): Promise<AxiosResponse | null> {
+  async getPedidosByCliente(): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().get(
-        `/clientes/${clienteId}/pedidos`,
-      );
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(`${this.baseRoute}/cliente`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;

@@ -8,10 +8,15 @@ export const Container = styled.div`
   background-color: white;
   align-items: center;
   border-radius: 15px;
-  width: 25rem;
+  width: auto;
   height: 10rem;
   padding: 10px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
 `;
 
 export const Header = styled.div`
@@ -35,18 +40,18 @@ export const Informations = styled.div`
   width: 80%;
   height: 100%;
 
-  #nomeRestaurante{
+  #nomeRestaurante {
     font-weight: 500;
   }
 
-  #dataPedido{
+  #dataPedido {
     margin-top: 10%;
     font-size: 0.8rem;
     color: #636363;
     font-weight: 400;
   }
 
-  #totalPedido{
+  #totalPedido {
     margin-top: 5%;
     color: #3d3d3d;
     font-weight: 400;
