@@ -34,7 +34,13 @@ export default function MeusPedidos() {
       {pedidos.length > 0 ? (
         pedidos.map((pedido) => <PedidoCard dados={pedido} />)
       ) : (
-        <h2>
+        <h2
+          style={{
+            position: 'absolute',
+            alignSelf: 'center',
+            justifySelf: 'center',
+          }}
+        >
           Você ainda não tem pedidos. <br />
           Corre lá e faz um agoraa! :D
         </h2>

@@ -120,17 +120,14 @@ export const ResumoCompraPopup = styled.div`
 `;
 
 export const Section = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto;
+  display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   width: 90%;
   flex-wrap: wrap;
   gap: 1rem;
 
   @media (max-width: 999px) {
     margin-top: 0;
-    grid-template-columns: auto auto;
     width: 100%;
   }
 `;
