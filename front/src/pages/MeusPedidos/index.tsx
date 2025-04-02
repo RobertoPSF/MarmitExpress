@@ -32,7 +32,11 @@ export default function MeusPedidos() {
   return (
     <Container>
       {pedidos.length > 0 ? (
-        pedidos.map((pedido) => <PedidoCard dados={pedido} />)
+        pedidos.map((pedido) => (
+          <>
+            <PedidoCard dados={pedido} />
+          </>
+        ))
       ) : (
         <h2
           style={{

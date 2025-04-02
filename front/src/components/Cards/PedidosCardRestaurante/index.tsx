@@ -36,7 +36,7 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
     <Container>
       <Header>
         <Informations>
-          <p id="nomeRestaurante">Pedido de: {dados.restauranteId}</p>
+          <p id="nomeRestaurante">Pedido Nº: {dados.id}</p>
           {/* <p id="dataPedido">{dados.dataDoPedido}</p> */}
           {/*Aqui tem outra data que não sei se é o horario que foi feito ou a hora da entrega*/}
           <p id="totalPedido">Total: {formatarMoeda(dados.preco)}</p>

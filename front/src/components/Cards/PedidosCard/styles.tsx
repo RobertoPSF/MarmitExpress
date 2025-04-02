@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Icon } from '@iconify/react';
+import { NavLink } from 'react-router-dom';
 
-export const Container = styled.div`
+export const Container = styled(NavLink)`
   position: relative;
   display: flex;
   flex-direction: column;

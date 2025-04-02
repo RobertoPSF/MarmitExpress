@@ -13,6 +13,7 @@ import Header from '../components/Header';
 import Blank from '../pages/BlankPage';
 import Cardapio from '../pages/Cardapio';
 import Pagamento from '../pages/Pagamento';
+import Pedido from '../pages/Pedido';
 import MeuRestaurante from '../pages/MeuRestaurante';
 
 export default function AppRoutes() {
@@ -24,6 +25,7 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/restaurantes" element={<Restaurantes />} />
         <Route path="/meus-pedidos" element={<MeusPedidos />} />
+        <Route path="/meus-pedidos/:id" element={<Pedido />} />
         <Route path="/pedidos" element={<MeusPedidosRestaurante />} />
         <Route path="/meu-restaurante" element={<MeuRestaurante />} />
         <Route path="/contato" element={<Contato />} />
