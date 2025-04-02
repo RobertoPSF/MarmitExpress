@@ -15,6 +15,8 @@ import MarmitaCard from '../../components/Cards/MarmitaCard';
 import IngredienteCard from '../../components/Cards/IngredienteCard';
 import RestaurantService from '../../services/RestauranteService';
 import PedidoAddMarmitaPopUp from '../../components/PopUps/PedidoAddMarmitaPopUp';
+import Input from '../../components/Input';
+import PedidoService from '../../services/PedidoService';
 
 interface Ingrediente {
   id: string;
@@ -52,6 +54,7 @@ export default function Cardapio() {
   const [selectedItems, setSelectedItems] = useState<
     { id: string; nome: string; preco: number }[]
   >([]);
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
 
   const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
     [],
@@ -66,8 +69,10 @@ export default function Cardapio() {
   };
 
   const [total, setTotal] = useState(0);
+  const [endereco, setEndereco] = useState('');
   const restaurantService = new RestaurantService();
   const id = location.state?.id;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -87,19 +92,25 @@ export default function Cardapio() {
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
       const isSelected = prev.some((i) => i.id === item.id);
-      const updatedItems = isSelected
-        ? prev.filter((i) => i.id !== item.id) // Remove se já estiver selecionado
-        : [...prev, item]; // Adiciona se ainda não estiver
+      let updatedItems;
 
-      // Recalcular total incluindo itens e marmitas
+      if (isSelected) {
+        updatedItems = prev.filter((i) => i.id !== item.id);
+        setSelectedItemIds((prevIds) => prevIds.filter((id) => id !== item.id));
+      } else {
+        updatedItems = [...prev, item];
+        setSelectedItemIds((prevIds) => [...prevIds, item.id]);
+      }
+
+      // Recalcular total
       const novoTotal =
-        updatedItems.reduce((acc, curr) => acc + curr.preco, 0) + // Soma itens
+        updatedItems.reduce((acc, curr) => acc + curr.preco, 0) +
         selectedMarmitas.reduce((acc, curr) => {
           const marmitaInfo = restaurante?.marmitas.find(
             (m) => m.id === curr.idMarmita,
           );
           return marmitaInfo ? acc + marmitaInfo.preco : acc;
-        }, 0); // Soma marmitas
+        }, 0);
 
       setTotal(novoTotal);
       return updatedItems;
@@ -118,10 +129,51 @@ export default function Cardapio() {
   const isIngredienteSelected = (ingrediente: Ingrediente) =>
     selectedIngredientes.includes(ingrediente.id);
 
-  const handleFinalizarCompra = () => {
+  const handleFinalizarCompra = async () => {
+    if (!restaurante) return;
+
+    setLoading(true);
+
     try {
-      navigate('/pagamento', { state: { itens: selectedItems, total } });
-    } catch {}
+      const itensQuantidades: Record<string, number> = {};
+
+      // Contabiliza os itens individuais
+      selectedItems.forEach((item) => {
+        itensQuantidades[item.id] = (itensQuantidades[item.id] || 0) + 1;
+      });
+
+      // Contabiliza as marmitas
+      selectedMarmitas.forEach((marmita) => {
+        itensQuantidades[marmita.idMarmita] =
+          (itensQuantidades[marmita.idMarmita] || 0) + 1;
+      });
+
+      const pedidoData = {
+        itensQuantidades, // Agora no formato esperado pelo endpoint
+        restauranteId: restaurante.id,
+        endereco,
+      };
+
+      const pedidoService = new PedidoService();
+      console.log('📦 Enviando pedido:', JSON.stringify(pedidoData, null, 2));
+
+      const response = await pedidoService.createPedido(pedidoData);
+
+      if (response?.status === 200 || response?.status === 201) {
+        const pedidoId = response.data.id;
+        navigate(`/meus-pedidos/${pedidoId}`);
+      } else {
+        console.error('❌ Erro ao criar pedido:', response);
+      }
+    } catch (error) {
+      console.error('❌ Erro ao criar pedido:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEnderecoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndereco(event.target.value);
   };
 
   const [selectedMarmitas, setSelectedMarmitas] = useState<
@@ -166,7 +218,7 @@ export default function Cardapio() {
             <MarmitaCard
               key={marmita.id}
               dados={marmita}
-              onClick={() => openPedidoAddMarmitaPopUp(marmita.id)} // <-- Agora passa o ID correto!
+              onClick={() => openPedidoAddMarmitaPopUp(marmita.id)}
               isSelected={isItemSelected(marmita)}
               deletar={false}
             />
@@ -267,12 +319,20 @@ export default function Cardapio() {
 
           <hr />
           <p>Total: {formatarMoeda(total)}</p>
+          <Input
+            name="endereco"
+            placeholder="Rua Exemplo, 123"
+            value={endereco}
+            onChange={handleEnderecoChange}
+            placeHolderContainer="Endereço de Entrega"
+          />
+
           <button
             className="finalizar-compra"
             onClick={handleFinalizarCompra}
             disabled={!restaurante.aceitandoPedidos}
           >
-            Fazer Pedido
+            {loading ? 'Finalizando...' : 'Fazer Pedido'}
           </button>
         </ResumoCompraPopup>
       </ResumoContainer>

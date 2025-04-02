@@ -7,7 +7,12 @@ class PedidoService extends CoreService {
   // Criar um pedido
   async createPedido(data: object): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().post(this.baseRoute, data);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().post(this.baseRoute, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;
