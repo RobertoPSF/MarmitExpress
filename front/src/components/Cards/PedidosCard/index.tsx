@@ -53,9 +53,8 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
     <Container to={`/meus-pedidos/${dados.id}`}>
       <Header>
         <Informations>
-          <p id="nomeRestaurante">
-            Pedido no(a): {nomeRestaurante || 'Restaurante desconhecido'}
-          </p>
+          <p id="nomeRestaurante">Pedido Nº{dados.id}</p>
+          <p> Comprada em: {nomeRestaurante || 'Restaurante desconhecido'}</p>
           <p id="totalPedido">Total: {formatarMoeda(dados.precoTotal)}</p>
         </Informations>
 
