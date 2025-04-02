@@ -33,7 +33,11 @@ export default function MeusPedidosRestaurante() {
   return (
     <Container>
       {pedidos.length > 0 ? (
-        pedidos.map((pedido) => <PedidoCardRestaurante dados={pedido} />)
+        pedidos.map((pedido) => (
+          <>
+            <PedidoCardRestaurante dados={pedido} />
+          </>
+        ))
       ) : (
         <h2 style={{ color: 'white' }}>Sem pedidos existentes.</h2>
       )}

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import IMG from '../../../assets/imageExemplo.svg?react';
+import { Icon } from '@iconify/react';
 
 export const Container = styled.div`
   display: flex;
@@ -69,4 +70,12 @@ export const Line = styled.div`
 
 export const ImagemRestaurante = styled(IMG)`
   width: 7rem;
+`;
+
+export const StyledIcon = styled(Icon)`
+  color: #24292e;
+  background-color: #f1f2f3;
+  border-radius: 7px;
+  height: min-content;
+  width: 100px;
 `;

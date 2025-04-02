@@ -11,7 +11,7 @@ const Pedido: React.FC = () => {
   useEffect(() => {
     if (!pedidoId) {
       console.warn('ID do pedido não encontrado na URL. Redirecionando...');
-      navigate('/meus-pedidos');
+      navigate('/pedidos');
       return;
     }
 
@@ -22,11 +22,11 @@ const Pedido: React.FC = () => {
           setPedido(response.data);
         } else {
           console.warn('Pedido não encontrado. Redirecionando...');
-          navigate('/meus-pedidos');
+          navigate('/pedidos');
         }
       } catch (error) {
         console.error('Erro ao buscar pedido:', error);
-        navigate('/meus-pedidos');
+        navigate('/pedidos');
       }
     };
 

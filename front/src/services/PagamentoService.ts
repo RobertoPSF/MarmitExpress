@@ -4,71 +4,76 @@ import { AxiosResponse } from 'axios';
 class PagamentoService extends CoreService {
   private baseRoute = '/pagamentos';
 
-  // Criar pagamento
-  async criarPagamento(
-    descricao: string,
-    idPedido: string,
-  ): Promise<AxiosResponse | null> {
+  // Criar um pagamento
+  async createPagamento(data: object): Promise<AxiosResponse | null> {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await this.getApi().post(
-        this.baseRoute,
-        { descricao, idPedido },
-        {
-          headers: { Authorization: `Bearer ${token}` },
+      const response = await this.getApi().post(this.baseRoute, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       return response;
     } catch (error) {
+      console.error('Erro ao criar pagamento:', error);
       return null;
     }
   }
 
   // Obter payload PIX para gerar QR Code
-  async obterPayloadPix(idPagamento: string): Promise<AxiosResponse | null> {
+  async getPixPayload(id: string): Promise<AxiosResponse | null> {
     try {
       const token = localStorage.getItem('authToken');
       const response = await this.getApi().get(
-        `${this.baseRoute}/${idPagamento}/payload`,
+        `${this.baseRoute}/${id}/payload`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
       );
       return response;
     } catch (error) {
+      console.error('Erro ao obter payload PIX:', error);
       return null;
     }
   }
 
   // Confirmar pagamento
-  async confirmarPagamento(idPagamento: string): Promise<AxiosResponse | null> {
+  async confirmarPagamento(id: string): Promise<AxiosResponse | null> {
     try {
       const token = localStorage.getItem('authToken');
       const response = await this.getApi().patch(
-        `${this.baseRoute}/${idPagamento}/confirmar`,
+        `${this.baseRoute}/${id}/confirmar`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
       );
       return response;
     } catch (error) {
+      console.error('Erro ao confirmar pagamento:', error);
       return null;
     }
   }
 
   // Verificar status do pagamento
-  async verificarStatus(idPagamento: string): Promise<AxiosResponse | null> {
+  async getStatusPagamento(id: string): Promise<AxiosResponse | null> {
     try {
       const token = localStorage.getItem('authToken');
       const response = await this.getApi().get(
-        `${this.baseRoute}/${idPagamento}/status`,
+        `${this.baseRoute}/${id}/status`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
       );
       return response;
     } catch (error) {
+      console.error('Erro ao verificar status do pagamento:', error);
       return null;
     }
   }

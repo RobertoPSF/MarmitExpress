@@ -33,7 +33,7 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
   console.log(dados);
 
   return (
-    <Container>
+    <Container to={`/pedidos/${dados.id}`}>
       <Header>
         <Informations>
           <p id="nomeRestaurante">Pedido Nº: {dados.id}</p>
