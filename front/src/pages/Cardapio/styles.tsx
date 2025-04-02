@@ -6,10 +6,10 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 5vw;
   min-height: 64.5vh;
-  width: 90vw;
+  width: 98vw;
   gap: 2vw;
   margin-top: -30vh;
-  grid-template-columns: auto auto;
+  grid-template-columns: 70% 30%;
 
   @media (max-width: 999px) {
     grid-template-columns: auto;
@@ -121,12 +121,37 @@ export const ResumoCompraPopup = styled.div`
 
 export const Section = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 90%;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
 
   @media (max-width: 999px) {
+    margin-top: 0;
+    width: 100%;
+  }
+`;
+
+export const SectionIngredientes = styled.div`
+  display: grid;
+  grid-template-columns: 49.5% 49.5%;
+  width: 100%;
+  gap: 10px;
+
+  @media (max-width: 999px) {
+    grid-template-columns: 100%;
+    margin-top: 0;
+    width: 100%;
+  }
+`;
+
+export const SectionItens = styled.div`
+  display: grid;
+  grid-template-columns: 49.5% 49.5%;
+  width: 100%;
+  gap: 10px;
+
+  @media (max-width: 999px) {
+    grid-template-columns: 100%;
     margin-top: 0;
     width: 100%;
   }

@@ -29,7 +29,7 @@ export const TitleSection = styled.div`
 export const Section = styled.div`
   display: flex;
   flex-direction: row;
-  width: 90%;
+  width: 100%;
   flex-wrap: wrap;
   gap: 1rem;
 
@@ -47,7 +47,7 @@ const Button = styled.button`
   cursor: pointer;
   display: flex;
 
-  :hover {
+  &:hover {
     opacity: 0.7;
   }
 `;
@@ -70,6 +70,11 @@ export const AddButton = ({ icon, onClick }: AddButtonProps) => {
   );
 };
 
+export const IconEdit = styled(Icon)`
+  width: 100%;
+  height: 100%;
+`;
+
 interface EditButtonProps {
   icon: string;
   onClick: () => void;
@@ -78,7 +83,7 @@ interface EditButtonProps {
 export const EditButton = ({ icon, onClick }: EditButtonProps) => {
   return (
     <Button onClick={onClick}>
-      <IconAdd icon={icon} />
+      <IconEdit icon={icon} />
     </Button>
   );
 };
