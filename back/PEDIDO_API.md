@@ -102,3 +102,58 @@ Authorization: Bearer <token>
 - **403 Forbidden**: Cliente não tem permissão para cancelar este pedido.
 - **404 Not Found**: Pedido não encontrado.
 
+---
+
+### Atualizar Status do Pedido
+
+**PUT** `/pedidos/{id}/status`
+
+#### Descrição
+Permite que restaurantes e administradores atualizem o status do pedido.
+
+#### Requisição
+```json
+{
+  "id": "UUID do pedido",
+  "status": "EM_PREPARO|PRONTO|A_CAMINHO|ENTREGUE"
+}
+```
+
+#### Resposta
+```json
+{
+  "id": "UUID do pedido",
+  "status": "PENDENTE",
+  "endereco": "Endereço do pedido",
+  "precoTotal": 25.50,
+  "itensIds": ["item 1", "item 2"]
+}
+```
+
+- **200 OK**: Status atualizado com sucesso.
+- **404 Not Found**: Pedido não encontrado.
+
+---
+
+### Marcar Pedido como Entregue
+
+**PUT** `/pedidos/{id}/entregar`
+
+#### Descrição
+Altera o status do pedido para **ENTREGUE**.
+
+#### Resposta
+```json
+{
+  "id": "UUID do pedido",
+  "status": "PENDENTE",
+  "endereco": "Endereço do pedido",
+  "precoTotal": 25.50,
+  "itensIds": ["item 1", "item 2"]
+}
+```
+
+- **200 OK**: Pedido marcado como entregue.
+- **404 Not Found**: Pedido não encontrado.
+
+---

@@ -1,11 +1,13 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.PedidoResponseDTO;
+import com.marmitexpress.dto.AtualizarStatusPedido;
 import com.marmitexpress.dto.PedidoDTO;
 import com.marmitexpress.models.*;
 import com.marmitexpress.repositorys.*;
 import com.marmitexpress.services.ClienteService;
 import com.marmitexpress.services.PedidoService;
+import com.marmitexpress.services.RestauranteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,15 @@ public class PedidoController {
     
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private RestauranteService restauranteService;
+
     @PostMapping
     public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoRequest) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
-        System.out.println("Pedido: " + pedidoRequest);
         try {
             Pedido pedido = pedidoService.criarPedido(pedidoRequest, cliente);
             return ResponseEntity.ok(pedido);
@@ -79,4 +84,52 @@ public class PedidoController {
         pedidoRepository.deleteById(id);
         return ResponseEntity.ok("Pedido cancelado.");
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> atualizarStatusPedido(@PathVariable UUID id, @RequestBody AtualizarStatusPedido novoStatus) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restauranteExistente != null) {
+            Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+
+            if (pedidoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Pedido pedido = pedidoOpt.get();
+            pedido.setStatus(novoStatus.getStatus());
+            pedidoRepository.save(pedido);
+
+            return ResponseEntity.ok(new PedidoResponseDTO(pedido));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/entregar")
+    public ResponseEntity<?> marcarPedidoComoEntregue(@PathVariable UUID id) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+
+        if (cliente != null) {
+            Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+
+            if (pedidoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Pedido pedido = pedidoOpt.get();
+            pedido.setStatus(StatusPedido.ENTREGUE);
+            pedidoRepository.save(pedido);
+
+            return ResponseEntity.ok(new PedidoResponseDTO(pedido));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+
 }
