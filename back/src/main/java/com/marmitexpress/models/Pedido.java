@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -14,8 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Pedido {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID AUTO-INCREMENTO
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
 
     @ManyToOne
     @JsonBackReference("restaurante-pedido")

@@ -5,10 +5,11 @@ import com.marmitexpress.models.Restaurante;
 import com.marmitexpress.models.Cliente;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+public interface PedidoRepository extends JpaRepository<Pedido, UUID> {
 
     List<Pedido> findByCliente(Cliente cliente);
     

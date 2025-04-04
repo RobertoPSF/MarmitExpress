@@ -1,12 +1,14 @@
 package com.marmitexpress.dto;
 
+import java.util.UUID;
+
 public class PagamentoDTO {
     private String descricao;
-    private Long idPedido;
+    private UUID idPedido;
 
     public PagamentoDTO() {}
 
-    public PagamentoDTO(String descricao, Long idPedido) {
+    public PagamentoDTO(String descricao, UUID idPedido) {
         this.descricao = descricao;
         this.idPedido = idPedido;
     }
@@ -15,8 +17,8 @@ public class PagamentoDTO {
 
     public void setDescricao(String descricao) {this.descricao = descricao;}
 
-    public Long getIdPedido() {return idPedido;}
+    public UUID getIdPedido() {return idPedido;}
 
-    public void setIdPedido(Long idPedido) {this.idPedido = idPedido;}
+    public void setIdPedido(UUID idPedido) {this.idPedido = idPedido;}
 }
 

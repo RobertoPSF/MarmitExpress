@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class PedidoResponseDTO {
-    private Long id;
+    private UUID id;
     private UUID clienteId;
     private UUID restauranteId;
     private StatusPedido status;

@@ -21,7 +21,7 @@ public class PagamentoService {
     @Autowired
     private QrCodeService qrCodeService;
     
-    public Pagamento criarPagamento(String descricao, Long idPedido) {
+    public Pagamento criarPagamento(String descricao, UUID idPedido) {
         Pedido pedido = pedidoRepository.findById(idPedido)
             .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
     
