@@ -44,6 +44,10 @@ export const ItemCard = styled.div`
     color: black;
   }
 
+  #acompanhamento {
+    margin-left: 1rem;
+  }
+
   #itemQuantidade {
   }
 

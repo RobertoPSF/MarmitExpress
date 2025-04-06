@@ -10,18 +10,28 @@ import Button from '../../Button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import RestauranteService from '../../../services/RestauranteService';
-import ItemService from '../../../services/ItemService';
 import PedidoService from '../../../services/PedidoService';
 import PagamentoService from '../../../services/PagamentoService';
+import IngredienteService from '../../../services/IngredienteService';
 
 interface Pagamento {
   id: string;
   clienteId: string;
   restauranteId: string;
   status: string;
-  quantidade: number;
   preco: number;
-  itens: { id?: string; nome?: string; valor?: number }[]; // ID pode estar indefinido
+  itens: {
+    id: string;
+    item: {
+      id: string;
+      nome: string;
+      preco: number;
+      quantidade: number;
+      foto: string | null;
+    };
+    quantidade: number;
+    ingredientesPersonalizados: string[];
+  }[];
 }
 
 interface PagamentoCardProps {
@@ -30,13 +40,45 @@ interface PagamentoCardProps {
 
 export default function PagamentoCard({ dados }: PagamentoCardProps) {
   const { preco, itens, restauranteId } = dados;
+  const [nomesIngredientes, setNomesIngredientes] = useState<
+    Record<string, string>
+  >({});
   const [restauranteNome, setRestauranteNome] =
     useState<string>('Carregando...');
-  const [itensDetalhados, setItensDetalhados] = useState<
-    { nome: string; valor: number }[]
-  >([]);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchNomesIngredientes() {
+      try {
+        const ids = itens
+          .flatMap((item) => item.ingredientesPersonalizados || [])
+          .filter((id, i, arr) => id && arr.indexOf(id) === i); // remove duplicados
+
+        const ingredienteService = new IngredienteService();
+        const results = await Promise.all(
+          ids.map(async (id) => {
+            try {
+              const res = await ingredienteService.getIngredienteById(id);
+              return { id, nome: res?.data?.nome || 'Acompanhamento' };
+            } catch {
+              return { id, nome: 'Acompanhamento' };
+            }
+          }),
+        );
+
+        const nomesMapeados: Record<string, string> = {};
+        results.forEach(({ id, nome }) => {
+          nomesMapeados[id] = nome;
+        });
+
+        setNomesIngredientes(nomesMapeados);
+      } catch (error) {
+        console.error('Erro ao buscar nomes dos ingredientes:', error);
+      }
+    }
+
+    fetchNomesIngredientes();
+  }, [itens]);
 
   useEffect(() => {
     async function fetchRestaurante() {
@@ -44,12 +86,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
         const restauranteService = new RestauranteService();
         const response =
           await restauranteService.getRestaurantById(restauranteId);
-
-        if (response && response.data) {
-          setRestauranteNome(response.data.nome);
-        } else {
-          setRestauranteNome('Restaurante Desconhecido');
-        }
+        setRestauranteNome(response?.data?.nome || 'Restaurante Desconhecido');
       } catch (error) {
         console.error('Erro ao buscar restaurante:', error);
         setRestauranteNome('Restaurante Desconhecido');
@@ -60,48 +97,6 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
       fetchRestaurante();
     }
   }, [restauranteId]);
-
-  useEffect(() => {
-    async function fetchItens() {
-      try {
-        const itemService = new ItemService();
-        const detalhes = await Promise.all(
-          itens.map(async (item) => {
-            // Se já tivermos um nome válido, usamos ele
-            if (item.nome && !item.nome.startsWith('Item ')) {
-              return { nome: item.nome, valor: item.valor || 0 };
-            }
-
-            // Se não houver ID, não podemos buscar no backend
-            if (!item.id) {
-              console.warn('Item sem ID:', item);
-              return { nome: 'Item Desconhecido', valor: item.valor || 0 };
-            }
-
-            // Buscando pelo ID
-            const response = await itemService.getItemById(item.id);
-            return response?.data
-              ? {
-                  nome: response.data.nome,
-                  valor: item.valor || response.data.preco,
-                }
-              : { nome: 'Item Desconhecido', valor: item.valor || 0 };
-          }),
-        );
-
-        setItensDetalhados(detalhes);
-      } catch (error) {
-        console.error('Erro ao buscar detalhes dos itens:', error);
-        setItensDetalhados(
-          itens.map(() => ({ nome: 'Item Desconhecido', valor: 0 })),
-        );
-      }
-    }
-
-    if (itens.length > 0) {
-      fetchItens();
-    }
-  }, [itens]);
 
   const handleGenPagamento = async () => {
     try {
@@ -118,7 +113,7 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
       const pagamentoService = new PagamentoService();
       const response = await pagamentoService.createPagamento(dadosPedido);
 
-      if (response && response.data) {
+      if (response?.data) {
         alert('Gerado pagamento para Pedido!');
         navigate(`/pagamento/${response.data.id}`);
       } else {
@@ -147,27 +142,46 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
     <Container>
       <p>Pedido Nº{dados.id}</p>
 
-      {/* Informações do Restaurante */}
       <RestauranteContent>
         <StyledIcon icon={'material-symbols:store-outline-rounded'} />
-        {/* <ImagemRestaurante /> */}
         <h3 id="nomeRestaurante">{restauranteNome}</h3>
       </RestauranteContent>
 
       <Line />
 
       <h3>Itens</h3>
+      {itens.map((itemPedido, index) => (
+        <div key={index}>
+          <ItemCard>
+            <p id="itemQuantidade">
+              {itemPedido.quantidade}x {itemPedido.item.nome}
+            </p>
+            <p id="itemPreco">
+              R$ {(itemPedido.item.preco * itemPedido.quantidade).toFixed(2)}
+            </p>
+          </ItemCard>
 
-      {itensDetalhados.map((item, index) => (
-        <ItemCard key={index}>
-          <p id="itemQuantidade">1x {item.nome}</p>
-          <p id="itemPreco">R$ {item.valor.toFixed(2)}</p>
-        </ItemCard>
+          {/* Verifica se há acompanhamentos */}
+          {itemPedido.ingredientesPersonalizados &&
+            itemPedido.ingredientesPersonalizados.length > 0 && (
+              <>
+                {itemPedido.ingredientesPersonalizados.map(
+                  (idIngrediente, subIndex) => (
+                    <ItemCard key={`${index}-acomp-${subIndex}`}>
+                      <p id="acompanhamento">
+                        - {nomesIngredientes[idIngrediente] || 'Acompanhamento'}
+                      </p>
+                      <p id="itemPreco">--</p>
+                    </ItemCard>
+                  ),
+                )}
+              </>
+            )}
+        </div>
       ))}
 
       <Line />
 
-      {/* Resumo de Pagamento */}
       <div id="PagamentoInfo">
         <Row>
           <p>Total</p>

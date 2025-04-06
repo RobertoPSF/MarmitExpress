@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CardPagamento from '../../components/Cards/PagamentoCard';
+import RestauranteService from '../../services/RestauranteService';
 import PedidoService from '../../services/PedidoService';
 
 const Pedido: React.FC = () => {
-  const { id: pedidoId } = useParams(); // Captura o ID do pedido da URL
+  const { id: pedidoId } = useParams(); // ID do pedido via rota
   const navigate = useNavigate();
-  const [pedido, setPedido] = useState<any>(null);
+  const [dadosPagamento, setDadosPagamento] = useState<any>(null);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
     if (!pedidoId) {
@@ -15,43 +17,53 @@ const Pedido: React.FC = () => {
       return;
     }
 
-    const fetchPedido = async () => {
+    const fetchPedidoDoRestaurante = async () => {
       try {
-        const response = await new PedidoService().getPedidoById(pedidoId);
-        if (response && response.status === 200) {
-          setPedido(response.data);
-        } else {
-          console.warn('Pedido não encontrado. Redirecionando...');
-          navigate('/meus-pedidos');
+        const restauranteService = new RestauranteService();
+        const pedidoService = new PedidoService();
+        const pedido = await pedidoService.getPedidoById(pedidoId);
+
+        const restaurante = await restauranteService.getRestaurantById(
+          pedido?.data.restauranteId,
+        );
+
+        if (!restaurante?.data) {
+          throw new Error('Restaurante não encontrado.');
         }
+
+        const pedidoEncontrado = restaurante.data.listaDePedidos.find(
+          (pedido: any) => String(pedido.id) === String(pedidoId),
+        );
+
+        if (!pedidoEncontrado) {
+          console.warn('Pedido não encontrado no restaurante.');
+          navigate('/meus-pedidos');
+          return;
+        }
+
+        // Aqui estamos mantendo o formato completo do pedido
+        const dadosCompletos = {
+          ...pedidoEncontrado,
+          clienteId: pedido?.data.clienteId,
+          restauranteId: pedido?.data.restauranteId,
+        };
+
+        setDadosPagamento(dadosCompletos);
       } catch (error) {
         console.error('Erro ao buscar pedido:', error);
         navigate('/meus-pedidos');
+      } finally {
+        setCarregando(false);
       }
     };
 
-    fetchPedido();
+    fetchPedidoDoRestaurante();
   }, [pedidoId, navigate]);
 
-  if (!pedido) return <p>Carregando pedido...</p>;
+  if (carregando) return <p>Carregando pedido...</p>;
+  if (!dadosPagamento) return <p>Pedido não encontrado.</p>;
 
-  const { id, clienteId, restauranteId, status, precoTotal, itensIds } = pedido;
-
-  const dados = {
-    id,
-    clienteId,
-    restauranteId,
-    status,
-    quantidade: itensIds.length,
-    tipoItem: `${id}`,
-    preco: precoTotal,
-    itens: itensIds.map((itemId: string) => ({
-      id: `${itemId}`,
-      valor: 0,
-    })),
-  };
-
-  return <CardPagamento dados={dados} />;
+  return <CardPagamento dados={dadosPagamento} />;
 };
 
 export default Pedido;

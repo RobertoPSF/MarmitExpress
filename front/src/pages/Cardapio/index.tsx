@@ -132,26 +132,61 @@ export default function Cardapio() {
   const handleFinalizarCompra = async () => {
     if (!restaurante) return;
 
+    if (!endereco.trim()) {
+      alert('Informe o endereço de entrega antes de finalizar o pedido.');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const itensQuantidades: Record<string, number> = {};
+      const itens: {
+        itemId: string;
+        ingredientes: string[];
+        quantidade: number;
+      }[] = [];
 
-      // Contabiliza os itens individuais
-      selectedItems.forEach((item) => {
-        itensQuantidades[item.id] = (itensQuantidades[item.id] || 0) + 1;
+      // Agrupar marmitas por ID e ingredientes
+      const marmitaMap = new Map<string, Map<string, number>>();
+
+      selectedMarmitas.forEach(({ idMarmita, ingredientes }) => {
+        const key = ingredientes.sort().join(',');
+        const keyMap = marmitaMap.get(idMarmita) || new Map<string, number>();
+        keyMap.set(key, (keyMap.get(key) || 0) + 1);
+        marmitaMap.set(idMarmita, keyMap);
       });
 
-      // Contabiliza as marmitas
-      selectedMarmitas.forEach((marmita) => {
-        itensQuantidades[marmita.idMarmita] =
-          (itensQuantidades[marmita.idMarmita] || 0) + 1;
+      marmitaMap.forEach((ingredienteMap, idMarmita) => {
+        ingredienteMap.forEach((quantidade, ingredienteKey) => {
+          const ingredientesArray = ingredienteKey
+            ? ingredienteKey.split(',')
+            : [];
+          itens.push({
+            itemId: idMarmita,
+            ingredientes: ingredientesArray,
+            quantidade,
+          });
+        });
+      });
+
+      // Agrupar itens comuns
+      const itemMap = new Map<string, number>();
+      selectedItems.forEach((item) => {
+        itemMap.set(item.id, (itemMap.get(item.id) || 0) + 1);
+      });
+
+      itemMap.forEach((quantidade, itemId) => {
+        itens.push({
+          itemId,
+          ingredientes: [],
+          quantidade,
+        });
       });
 
       const pedidoData = {
-        itensQuantidades, // Agora no formato esperado pelo endpoint
-        restauranteId: restaurante.id,
+        itens,
         endereco,
+        restauranteId: restaurante.id,
       };
 
       const pedidoService = new PedidoService();
@@ -164,9 +199,11 @@ export default function Cardapio() {
         navigate(`/meus-pedidos/${pedidoId}`);
       } else {
         console.error('❌ Erro ao criar pedido:', response);
+        alert('Erro ao criar pedido. Tente novamente.');
       }
     } catch (error) {
       console.error('❌ Erro ao criar pedido:', error);
+      alert('Erro ao criar pedido. Tente novamente.');
     } finally {
       setLoading(false);
     }
