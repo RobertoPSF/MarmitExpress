@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,14 +63,14 @@ public class PedidoController {
     // Restaurante/Admin busca pedido por ID
     @GetMapping("/{id}")
     //@PreAuthorize("hasAnyRole('RESTAURANTE', 'ADMIN')")
-    public ResponseEntity<?> buscarPedido(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPedido(@PathVariable Long id) {
         Optional<Pedido> pedido = pedidoRepository.findById(id);
         return pedido.map(p -> ResponseEntity.ok(new PedidoResponseDTO(p))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Cliente pode cancelar um pedido
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> cancelarPedido(@PathVariable UUID id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> cancelarPedido(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
         
@@ -86,7 +85,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> atualizarStatusPedido(@PathVariable UUID id, @RequestBody AtualizarStatusPedido novoStatus) {
+    public ResponseEntity<?> atualizarStatusPedido(@PathVariable Long id, @RequestBody AtualizarStatusPedido novoStatus) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
@@ -109,7 +108,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/entregar")
-    public ResponseEntity<?> marcarPedidoComoEntregue(@PathVariable UUID id) {
+    public ResponseEntity<?> marcarPedidoComoEntregue(@PathVariable Long id) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
