@@ -47,50 +47,12 @@ class ClienteService extends CoreService {
   // Deletar cliente por ID
   async deleteCliente(id: string): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().delete(`${this.baseRoute}/${id}`);
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  // Criar pagamento
-  async criarPagamento(
-    valor: number,
-    descricao: string,
-  ): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().post(
-        `${this.baseRoute}/pagamentos`,
-        { valor, descricao },
-      );
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  // Gerar QR Code para pagamento
-  async gerarQrCodePagamento(id: string): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().get(
-        `${this.baseRoute}/pagamentos/${id}/qr-code`,
-        {
-          responseType: 'blob',
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().delete(`${this.baseRoute}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
-      return response;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  // Verificar status do pagamento
-  async verificarStatusPagamento(id: string): Promise<AxiosResponse | null> {
-    try {
-      const response = await this.getApi().get(
-        `${this.baseRoute}/pagamentos/${id}/status`,
-      );
+      });
       return response;
     } catch (error) {
       return null;

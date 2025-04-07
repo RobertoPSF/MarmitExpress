@@ -5,6 +5,7 @@ interface Restaurante {
   nome: string;
   aceitandoPedidos: boolean;
   endereco: string;
+  descricao: string;
 }
 
 interface RestauranteCardProps {
@@ -30,6 +31,7 @@ function RestauranteCardapioVisualization({
       <Information>
         <h2 style={{ color: style?.color || 'white' }}>{dados.nome}</h2>
         <p style={{ color: style?.color || 'white' }}>{dados.endereco}</p>
+        <p style={{ color: style?.color || 'white' }}>{dados.descricao}</p>
         <Open $isOpen={isOpen}>{isOpen ? 'Aberto' : 'Fechado'}</Open>
       </Information>
     </Container>

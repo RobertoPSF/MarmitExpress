@@ -65,6 +65,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/pedidos").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET, "/pedidos/{id}", "/clientes/{id}/pedidos").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PUT, "/pedidos/{id}/status").hasRole("RESTAURANTE")
+                        .requestMatchers(HttpMethod.PUT, "pedidos/{id}/entregar").hasRole("CLIENTE")
 
                         .requestMatchers(HttpMethod.POST, "/pagamentos").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET, "/pagamentos/{id}/qrcode", "/pagamentos/{id}/status").hasRole("CLIENTE")

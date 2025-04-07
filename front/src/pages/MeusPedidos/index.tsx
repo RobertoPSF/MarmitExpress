@@ -6,7 +6,7 @@ import PedidoService from '../../services/PedidoService';
 
 export default function MeusPedidos() {
   useAuthRedirect();
-  const [pedidos, setPedidos] = useState([]);
+  const [pedidos, setPedidos] = useState<any[]>([]);
 
   useEffect(() => {
     const pedidoService = new PedidoService();
@@ -32,7 +32,7 @@ export default function MeusPedidos() {
   return (
     <Container>
       {pedidos.length > 0 ? (
-        pedidos.map((pedido) => <PedidoCard dados={pedido} />)
+        pedidos.map((pedido) => <PedidoCard key={pedido.id} dados={pedido} />)
       ) : (
         <h2
           style={{

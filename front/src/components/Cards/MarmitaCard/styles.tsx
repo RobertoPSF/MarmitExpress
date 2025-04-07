@@ -5,21 +5,26 @@ import { Icon } from '@iconify/react';
 export const Container = styled.div<{ isSelected: boolean }>`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: white;
   align-items: center;
   border-radius: 15px;
   display: flex;
-  width: 10rem;
-  height: 14rem;
-  padding: 10px;
+  width: 100%;
+  height: auto;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
+  padding: 10px;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
 
   h3 {
     position: absolute;
-    bottom: 0.5rem;
-    font-size: 0.9rem;
+    right: 10px;
+    bottom: 10px;
     font-weight: 600;
   }
 `;
@@ -33,8 +38,7 @@ export const Information = styled.div`
   height: 2.5rem;
   text-align: center;
 
-  p {
-    font-size: 1rem;
+  h2 {
     font-weight: 400;
     color: #293138;
   }
@@ -48,8 +52,8 @@ export const Img = styled(image)`
 
 export const StyledIcon = styled(Icon)`
   color: #24292e;
-  width: 100%;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border-radius: 10px;
   background-color: #f1f2f3;
 `;
@@ -71,7 +75,7 @@ const Button = styled.button`
   }
 `;
 
-export const IconAdd = styled(Icon)`
+export const IconDelete = styled(Icon)`
   color: red;
   width: 100%;
   height: 100%;
@@ -85,7 +89,7 @@ interface DeleteButtonProps {
 export const DeleteButton = ({ icon, onClick }: DeleteButtonProps) => {
   return (
     <Button onClick={onClick}>
-      <IconAdd icon={icon} />
+      <IconDelete icon={icon} />
     </Button>
   );
 };

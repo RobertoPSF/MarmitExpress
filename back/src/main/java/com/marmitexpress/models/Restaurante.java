@@ -57,4 +57,6 @@ public class Restaurante extends Usuario {
         this.listaDePedidos.add(pedido);
     }
 
+    public List<Pedido> getListaDePedidos() {return listaDePedidos;}
+
 }

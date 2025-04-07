@@ -2,20 +2,18 @@ import styled from 'styled-components';
 import image from '../../../assets/imageExemplo.svg?react';
 import { Icon } from '@iconify/react';
 
-export const Container = styled.div<{ isSelected: boolean }>`
+export const Container = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
   background-color: white;
   align-items: center;
   border-radius: 15px;
   display: flex;
-  width: 8rem;
-  height: 12rem;
+  width: 100%;
+  height: 100px;
   padding: 10px;
   gap: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
 
   h3 {
     position: absolute;
@@ -49,8 +47,8 @@ export const Img = styled(image)`
 
 export const StyledIcon = styled(Icon)`
   color: #24292e;
-  width: 100%;
-  height: auto;
+  width: 70px;
+  height: 70px;
   border-radius: 10px;
   background-color: #f1f2f3;
 `;

@@ -31,7 +31,12 @@ class ItemService extends CoreService {
   // Listar todos os itens
   async getItens(): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().get(this.baseRoute);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(this.baseRoute, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;
@@ -41,7 +46,12 @@ class ItemService extends CoreService {
   // Buscar um item por ID
   async getItemById(id: string): Promise<AxiosResponse | null> {
     try {
-      const response = await this.getApi().get(`${this.baseRoute}/${id}`);
+      const token = localStorage.getItem('authToken');
+      const response = await this.getApi().get(`${this.baseRoute}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       return null;

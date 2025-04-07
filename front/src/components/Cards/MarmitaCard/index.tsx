@@ -59,7 +59,7 @@ export default function MarmitaCard({
       )}
       <StyledIcon icon={'ph:bowl-food'} />
       <Information>
-        <p>{dados.nome}</p>
+        <h2>{dados.nome}</h2>
       </Information>
       <h3>{formatarMoeda(dados.preco)}</h3>
     </Container>

@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 50% 50%;
   min-height: 64.5vh;
-  margin: 4vh 0;
+  margin-top: -50px;
+  margin-bottom: 4vh;
+  gap: 50px;
+  width: 70vw;
 `;

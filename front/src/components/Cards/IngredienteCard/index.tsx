@@ -16,7 +16,6 @@ interface IngredienteCardProps {
 export default function IngredienteCard({
   dados,
   onClick,
-  isSelected,
   deletar,
 }: IngredienteCardProps) {
   if (!dados) {
@@ -46,8 +45,7 @@ export default function IngredienteCard({
   };
 
   return (
-    <Container onClick={onClick} isSelected={isSelected}>
-      {/* Exibe o botão de deletar se deletar for true */}
+    <Container onClick={onClick}>
       {deletar && (
         <DeleteButton icon={'mdi:delete-circle'} onClick={handleDelete} />
       )}

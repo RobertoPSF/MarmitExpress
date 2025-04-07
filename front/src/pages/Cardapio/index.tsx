@@ -5,6 +5,8 @@ import {
   RestauranteCard,
   ItensContainer,
   Section,
+  SectionIngredientes,
+  SectionItens,
 } from './styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -12,6 +14,9 @@ import ItemCard from '../../components/Cards/ItemCard';
 import MarmitaCard from '../../components/Cards/MarmitaCard';
 import IngredienteCard from '../../components/Cards/IngredienteCard';
 import RestaurantService from '../../services/RestauranteService';
+import PedidoAddMarmitaPopUp from '../../components/PopUps/PedidoAddMarmitaPopUp';
+import Input from '../../components/Input';
+import PedidoService from '../../services/PedidoService';
 
 interface Ingrediente {
   id: string;
@@ -46,14 +51,28 @@ export default function Cardapio() {
   const location = useLocation();
   const navigate = useNavigate();
   const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<
+    { id: string; nome: string; preco: number }[]
+  >([]);
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+
   const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
     [],
   );
+
+  const [marmitaSelecionada, setMarmitaSelecionada] = useState<string | null>(
+    null,
+  );
+
+  const openPedidoAddMarmitaPopUp = (idMarmita: string) => {
+    setMarmitaSelecionada(idMarmita);
+  };
+
   const [total, setTotal] = useState(0);
-  const [taxaEntrega, setTaxaEntrega] = useState(0); //Futuramente adicionar a Taxa de Entrega e adicionar valor ao pedido
+  const [endereco, setEndereco] = useState('');
   const restaurantService = new RestaurantService();
   const id = location.state?.id;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -70,42 +89,31 @@ export default function Cardapio() {
       .catch((error) => console.error('Erro ao buscar restaurante:', error));
   }, [id]);
 
-  const handleSelectMarmita = (marmita: Marmita) => {
-    setSelectedItems((prev) => {
-      const isSelected = prev.includes(marmita.id);
-      const updatedSelectedItems = isSelected
-        ? prev.filter((id) => id !== marmita.id)
-        : [...prev, marmita.id];
-
-      // Recalcula o total incluindo marmitas
-      const novoTotal =
-        (restaurante?.listaDeItems || [])
-          .filter((i) => updatedSelectedItems.includes(i.id))
-          .reduce((acc, curr) => acc + curr.preco, 0) +
-        (restaurante?.marmitas || [])
-          .filter((m) => updatedSelectedItems.includes(m.id))
-          .reduce((acc, curr) => acc + curr.preco, 0);
-
-      setTotal(novoTotal);
-      return updatedSelectedItems;
-    });
-  };
-
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
-      const isSelected = prev.includes(item.id);
-      const updatedSelectedItems = isSelected
-        ? prev.filter((id) => id !== item.id) // Remove o item se já estiver selecionado
-        : [...prev, item.id]; // Adiciona o item se ainda não estiver selecionado
+      const isSelected = prev.some((i) => i.id === item.id);
+      let updatedItems;
 
-      // Recalcula o total somando os preços dos itens selecionados
+      if (isSelected) {
+        updatedItems = prev.filter((i) => i.id !== item.id);
+        setSelectedItemIds((prevIds) => prevIds.filter((id) => id !== item.id));
+      } else {
+        updatedItems = [...prev, item];
+        setSelectedItemIds((prevIds) => [...prevIds, item.id]);
+      }
+
+      // Recalcular total
       const novoTotal =
-        restaurante?.listaDeItems
-          .filter((i) => updatedSelectedItems.includes(i.id))
-          .reduce((acc, curr) => acc + curr.preco, 0) || 0;
+        updatedItems.reduce((acc, curr) => acc + curr.preco, 0) +
+        selectedMarmitas.reduce((acc, curr) => {
+          const marmitaInfo = restaurante?.marmitas.find(
+            (m) => m.id === curr.idMarmita,
+          );
+          return marmitaInfo ? acc + marmitaInfo.preco : acc;
+        }, 0);
 
-      setTotal(novoTotal); // Atualiza o estado do total
-      return updatedSelectedItems;
+      setTotal(novoTotal);
+      return updatedItems;
     });
   };
 
@@ -117,12 +125,115 @@ export default function Cardapio() {
     );
   };
 
-  const isItemSelected = (item: Item) => selectedItems.includes(item.id);
+  const isItemSelected = (item: Item) => selectedItems.includes(item);
   const isIngredienteSelected = (ingrediente: Ingrediente) =>
     selectedIngredientes.includes(ingrediente.id);
 
-  const handleFinalizarCompra = () => {
-    navigate('/pagamento', { state: { itens: selectedItems, total } });
+  const handleFinalizarCompra = async () => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      alert('Faça Login para fazer um pedido.');
+      return;
+    }
+
+    if (!restaurante) return;
+
+    if (!endereco.trim()) {
+      alert('Informe o endereço de entrega antes de finalizar o pedido.');
+      return;
+    }
+
+    try {
+      const itens: {
+        itemId: string;
+        ingredientes: string[];
+        quantidade: number;
+      }[] = [];
+
+      // Agrupar marmitas por ID e ingredientes
+      const marmitaMap = new Map<string, Map<string, number>>();
+
+      selectedMarmitas.forEach(({ idMarmita, ingredientes }) => {
+        const key = ingredientes.sort().join(',');
+        const keyMap = marmitaMap.get(idMarmita) || new Map<string, number>();
+        keyMap.set(key, (keyMap.get(key) || 0) + 1);
+        marmitaMap.set(idMarmita, keyMap);
+      });
+
+      marmitaMap.forEach((ingredienteMap, idMarmita) => {
+        ingredienteMap.forEach((quantidade, ingredienteKey) => {
+          const ingredientesArray = ingredienteKey
+            ? ingredienteKey.split(',')
+            : [];
+          itens.push({
+            itemId: idMarmita,
+            ingredientes: ingredientesArray,
+            quantidade,
+          });
+        });
+      });
+
+      // Agrupar itens comuns
+      const itemMap = new Map<string, number>();
+      selectedItems.forEach((item) => {
+        itemMap.set(item.id, (itemMap.get(item.id) || 0) + 1);
+      });
+
+      itemMap.forEach((quantidade, itemId) => {
+        itens.push({
+          itemId,
+          ingredientes: [],
+          quantidade,
+        });
+      });
+
+      const pedidoData = {
+        itens,
+        endereco,
+        restauranteId: restaurante.id,
+      };
+
+      const pedidoService = new PedidoService();
+      console.log('📦 Enviando pedido:', JSON.stringify(pedidoData, null, 2));
+
+      const response = await pedidoService.createPedido(pedidoData);
+
+      if (response?.status === 200 || response?.status === 201) {
+        const pedidoId = response.data.id;
+        navigate(`/meus-pedidos/${pedidoId}`);
+      } else {
+        console.error('❌ Erro ao criar pedido:', response);
+        alert('Erro ao criar pedido. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('❌ Erro ao criar pedido:', error);
+      alert('Erro ao criar pedido. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEnderecoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndereco(event.target.value);
+  };
+
+  const [selectedMarmitas, setSelectedMarmitas] = useState<
+    { idMarmita: string; ingredientes: string[] }[]
+  >([]);
+
+  const handleAdicionarMarmitaAoPedido = (marmita: {
+    idMarmita: string;
+    ingredientes: string[];
+  }) => {
+    setSelectedMarmitas((prev) => [...prev, marmita]);
+
+    const marmitaInfo = restaurante?.marmitas.find(
+      (m) => m.id === marmita.idMarmita,
+    );
+    if (marmitaInfo) {
+      setTotal((prevTotal) => prevTotal + marmitaInfo.preco);
+    }
   };
 
   const formatarMoeda = (valor: number) =>
@@ -143,25 +254,32 @@ export default function Cardapio() {
     <Container>
       <ItensContainer>
         <RestauranteCard dados={restaurante} />
-        <h2>Marmitas</h2>
+        <h2>Marmitas *</h2>
         <Section>
           {restaurante?.marmitas.map((marmita) => (
             <MarmitaCard
               key={marmita.id}
-              dados={{
-                id: marmita.id,
-                nome: marmita.nome,
-                preco: marmita.preco,
-              }}
-              onClick={() => handleSelectItem(marmita)}
+              dados={marmita}
+              onClick={() => openPedidoAddMarmitaPopUp(marmita.id)}
               isSelected={isItemSelected(marmita)}
               deletar={false}
             />
           ))}
         </Section>
 
-        <h2>Acompanhamentos</h2>
-        <Section>
+        {/* Renderiza apenas UM pop-up, da marmita selecionada */}
+        {marmitaSelecionada && (
+          <PedidoAddMarmitaPopUp
+            idMarmita={marmitaSelecionada}
+            idRestaurante={id}
+            isOpen={!!marmitaSelecionada}
+            onClose={() => setMarmitaSelecionada(null)}
+            onAddMarmita={handleAdicionarMarmitaAoPedido}
+          />
+        )}
+
+        <h2>Acompanhamentos do dia</h2>
+        <SectionIngredientes>
           {restaurante?.ingredientes.map((ingrediente) => (
             <IngredienteCard
               key={ingrediente.id}
@@ -171,10 +289,10 @@ export default function Cardapio() {
               deletar={false}
             />
           ))}
-        </Section>
+        </SectionIngredientes>
 
-        <h2>Itens</h2>
-        <Section>
+        <h2>Itens *</h2>
+        <SectionItens>
           {(() => {
             const listaFiltrada =
               Array.isArray(restaurante?.listaDeItems) &&
@@ -197,31 +315,66 @@ export default function Cardapio() {
               />
             ));
           })()}
-        </Section>
+        </SectionItens>
       </ItensContainer>
 
       <ResumoContainer>
         <ResumoCompraPopup>
-          <h2>Seu pedido</h2>
+          <h2>Sua sacola </h2>
           <hr />
-          <p>Itens Selecionados:</p>
+          <p>
+            <b>Marmitas Selecionadas:</b>
+          </p>
           <ul>
-            {selectedItems.map((itemId) => {
-              const item = restaurante.listaDeItems.find(
-                (i) => i.id === itemId,
+            {selectedMarmitas.map((marmita) => {
+              const marmitaInfo = restaurante?.marmitas.find(
+                (m) => m.id === marmita.idMarmita,
               );
-              return item ? <li key={item.id}>- {item.nome}</li> : null;
+              return marmitaInfo ? (
+                <li key={marmita.idMarmita}>
+                  - {marmitaInfo.nome} ({' '}
+                  {marmita.ingredientes.length > 0
+                    ? marmita.ingredientes
+                        .map((id) => {
+                          const ing = restaurante?.ingredientes.find(
+                            (i) => i.id === id,
+                          );
+                          return ing ? ing.nome : 'Desconhecido';
+                        })
+                        .join(', ')
+                    : 'Nenhum'}
+                  )
+                </li>
+              ) : null;
             })}
           </ul>
+          <p>
+            <b>Itens Selecionados:</b>
+          </p>
+          <ul>
+            {selectedItems.map((item) => (
+              <li key={item.id}>
+                - {item.nome} ({formatarMoeda(item.preco)})
+              </li>
+            ))}
+          </ul>
+
           <hr />
-          <p>Taxa de Entrega: {formatarMoeda(taxaEntrega)}</p>
           <p>Total: {formatarMoeda(total)}</p>
+          <Input
+            name="endereco"
+            placeholder="Rua Exemplo, 123"
+            value={endereco}
+            onChange={handleEnderecoChange}
+            placeHolderContainer="Endereço de Entrega"
+          />
+
           <button
             className="finalizar-compra"
             onClick={handleFinalizarCompra}
             disabled={!restaurante.aceitandoPedidos}
           >
-            Fazer Pedido
+            {loading ? 'Finalizando...' : 'Fazer Pedido'}
           </button>
         </ResumoCompraPopup>
       </ResumoContainer>

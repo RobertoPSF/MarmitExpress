@@ -1,11 +1,13 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.PedidoResponseDTO;
+import com.marmitexpress.dto.AtualizarStatusPedido;
 import com.marmitexpress.dto.PedidoDTO;
 import com.marmitexpress.models.*;
 import com.marmitexpress.repositorys.*;
 import com.marmitexpress.services.ClienteService;
 import com.marmitexpress.services.PedidoService;
+import com.marmitexpress.services.RestauranteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,12 +31,15 @@ public class PedidoController {
     
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private RestauranteService restauranteService;
+
     @PostMapping
     public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoRequest) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
-        System.out.println("Pedido: " + pedidoRequest);
         try {
             Pedido pedido = pedidoService.criarPedido(pedidoRequest, cliente);
             return ResponseEntity.ok(pedido);
@@ -59,14 +63,14 @@ public class PedidoController {
     // Restaurante/Admin busca pedido por ID
     @GetMapping("/{id}")
     //@PreAuthorize("hasAnyRole('RESTAURANTE', 'ADMIN')")
-    public ResponseEntity<?> buscarPedido(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPedido(@PathVariable Long id) {
         Optional<Pedido> pedido = pedidoRepository.findById(id);
         return pedido.map(p -> ResponseEntity.ok(new PedidoResponseDTO(p))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Cliente pode cancelar um pedido
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> cancelarPedido(@PathVariable UUID id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> cancelarPedido(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
         
@@ -79,4 +83,52 @@ public class PedidoController {
         pedidoRepository.deleteById(id);
         return ResponseEntity.ok("Pedido cancelado.");
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> atualizarStatusPedido(@PathVariable Long id, @RequestBody AtualizarStatusPedido novoStatus) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Restaurante restauranteExistente = restauranteService.buscarRestaurantePorEmail(email);
+
+        if (restauranteExistente != null) {
+            Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+
+            if (pedidoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Pedido pedido = pedidoOpt.get();
+            pedido.setStatus(novoStatus.getStatus());
+            pedidoRepository.save(pedido);
+
+            return ResponseEntity.ok(new PedidoResponseDTO(pedido));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/entregar")
+    public ResponseEntity<?> marcarPedidoComoEntregue(@PathVariable Long id) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+
+        if (cliente != null) {
+            Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+
+            if (pedidoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Pedido pedido = pedidoOpt.get();
+            pedido.setStatus(StatusPedido.ENTREGUE);
+            pedidoRepository.save(pedido);
+
+            return ResponseEntity.ok(new PedidoResponseDTO(pedido));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+
 }

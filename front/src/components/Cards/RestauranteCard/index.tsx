@@ -5,6 +5,7 @@ interface Restaurante {
   nome: string;
   aceitandoPedidos: boolean;
   endereco: string;
+  descricao: string;
 }
 
 interface RestauranteCardProps {
@@ -25,6 +26,7 @@ function RestauranteCard({ dados, className }: RestauranteCardProps) {
       <Information>
         <h2>{dados.nome}</h2>
         <p>{dados.endereco}</p>
+        <p>{dados.descricao}</p>
         <Open $isOpen={isOpen}>{isOpen ? 'Aberto' : 'Fechado'}</Open>
       </Information>
     </Container>

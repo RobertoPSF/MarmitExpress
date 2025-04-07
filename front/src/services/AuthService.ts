@@ -12,6 +12,7 @@ class AuthService extends CoreService {
     chavePix?: string;
     endereco: string;
     telefone: string;
+    nomeProprietario?: string;
     role: 'CLIENTE' | 'RESTAURANTE';
   }): Promise<AxiosResponse | null> {
     try {

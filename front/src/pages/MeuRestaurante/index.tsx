@@ -1,7 +1,14 @@
-import { Container, Section, AddButton, TitleSection } from './styles';
+import {
+  Container,
+  Section,
+  AddButton,
+  TitleSection,
+  EditButton,
+} from './styles';
 import { useState, useEffect } from 'react';
 import AddItemPopUp from '../../components/PopUps/AddItemPopUp';
 import AddMarmitaPopUp from '../../components/PopUps/AddMarmitaPopUp';
+import EditLojaPopUp from '../../components/PopUps/EditLojaPopUp';
 import AddIngredientePopUp from '../../components/PopUps/AddIngredientePopUp';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
 import RestauranteService from '../../services/RestauranteService';
@@ -47,10 +54,6 @@ export default function MeuRestaurante() {
   useAuthRedirect();
 
   const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
-    [],
-  );
 
   useEffect(() => {
     const restauranteService = new RestauranteService();
@@ -66,23 +69,8 @@ export default function MeuRestaurante() {
       });
   }, []);
 
-  const handleSelectItem = (item: Item) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.includes(item.id)
-        ? prevSelected.filter((id) => id !== item.id)
-        : [...prevSelected, item.id],
-    );
-  };
-
-  const handleSelectIngrediente = (ingrediente: Ingrediente) => {
-    setSelectedIngredientes((prevSelected) =>
-      prevSelected.includes(ingrediente.id)
-        ? prevSelected.filter((id) => id !== ingrediente.id)
-        : [...prevSelected, ingrediente.id],
-    );
-  };
-
   const [isAddItemPopUpOpen, setIsAddItemPopUpOpen] = useState(false);
+  const [isEditLojaPopUpOpen, setIsOpenEditLojaPopUp] = useState(false);
   const [isAddMarmitaPopUpOpen, setIsAddMarmitaPopUpOpen] = useState(false);
   const [isAddIngredientePopUpOpen, setIsAddIngredientePopUpOpen] =
     useState(false);
@@ -96,13 +84,19 @@ export default function MeuRestaurante() {
   const openAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(true);
   const closeAddMarmitaPopUp = () => setIsAddMarmitaPopUpOpen(false);
 
-  const isItemSelected = (item: Item) => selectedItems.includes(item.id);
-  const isIngredienteSelected = (ingrediente: Ingrediente) =>
-    selectedIngredientes.includes(ingrediente.id);
+  const openEditLojaPopUp = () => setIsOpenEditLojaPopUp(true);
+  const closeEditLojaPopUp = () => setIsOpenEditLojaPopUp(false);
 
   return (
     <Container>
-      <RestauranteCard style={{ color: 'black' }} dados={restaurante} />
+      <TitleSection style={{ justifyContent: 'center' }}>
+        <RestauranteCard style={{ color: 'black' }} dados={restaurante} />
+        <EditButton icon={'lucide:edit'} onClick={openEditLojaPopUp} />
+        <EditLojaPopUp
+          isOpen={isEditLojaPopUpOpen}
+          onClose={closeEditLojaPopUp}
+        />
+      </TitleSection>
 
       <TitleSection>
         <h1>Tamanho da MarmitEx</h1>
@@ -119,8 +113,10 @@ export default function MeuRestaurante() {
             deletar={true}
             key={marmita.id}
             dados={{ id: marmita.id, nome: marmita.nome, preco: marmita.preco }}
-            onClick={() => handleSelectItem(marmita)}
-            isSelected={isItemSelected(marmita)}
+            onClick={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            isSelected={false}
           />
         ))}
       </Section>
@@ -141,9 +137,11 @@ export default function MeuRestaurante() {
           <IngredienteCard
             key={ingrediente.id}
             dados={ingrediente}
-            onClick={() => handleSelectIngrediente(ingrediente)}
-            isSelected={isIngredienteSelected(ingrediente)}
             deletar={true}
+            onClick={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            isSelected={false}
           />
         ))}
       </Section>
@@ -170,9 +168,11 @@ export default function MeuRestaurante() {
             <ItemCard
               key={item.id}
               dados={{ id: item.id, nome: item.nome, preco: item.preco }}
-              onClick={() => handleSelectItem(item)}
-              isSelected={isItemSelected(item)}
               deletar={true}
+              onClick={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              isSelected={false}
             />
           ));
         })()}

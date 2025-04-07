@@ -29,7 +29,7 @@ export const TitleSection = styled.div`
 export const Section = styled.div`
   display: flex;
   flex-direction: row;
-  width: 90%;
+  width: 100%;
   flex-wrap: wrap;
   gap: 1rem;
 
@@ -46,10 +46,8 @@ const Button = styled.button`
   height: 45px;
   cursor: pointer;
   display: flex;
-  align-self: end;
-  justify-self: end;
 
-  :hover {
+  &:hover {
     opacity: 0.7;
   }
 `;
@@ -68,6 +66,24 @@ export const AddButton = ({ icon, onClick }: AddButtonProps) => {
   return (
     <Button onClick={onClick}>
       <IconAdd icon={icon} />
+    </Button>
+  );
+};
+
+export const IconEdit = styled(Icon)`
+  width: 100%;
+  height: 100%;
+`;
+
+interface EditButtonProps {
+  icon: string;
+  onClick: () => void;
+}
+
+export const EditButton = ({ icon, onClick }: EditButtonProps) => {
+  return (
+    <Button onClick={onClick}>
+      <IconEdit icon={icon} />
     </Button>
   );
 };

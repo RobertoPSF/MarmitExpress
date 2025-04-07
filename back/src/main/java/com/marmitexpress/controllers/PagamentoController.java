@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
 @RestController
 @RequestMapping("/pagamentos")
 @CrossOrigin(origins = "${CORS_ORIGIN}", allowedHeaders = "")
@@ -51,7 +51,7 @@ public class PagamentoController {
     }   
 
     @GetMapping("/{id}/payload")
-    public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable UUID id) {
+    public ResponseEntity<Map<String, String>> obterPayloadPix(@PathVariable Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);
 
@@ -68,7 +68,7 @@ public class PagamentoController {
     }
 
     @PatchMapping("/{id}/confirmar")
-    public ResponseEntity<String> confirmarPagamento(@PathVariable UUID id) {
+    public ResponseEntity<String> confirmarPagamento(@PathVariable Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
 
@@ -85,7 +85,7 @@ public class PagamentoController {
     }
 
     @GetMapping("/{id}/status")
-    public ResponseEntity<String> verificarStatusPagamento(@PathVariable UUID id) {
+    public ResponseEntity<String> verificarStatusPagamento(@PathVariable Long id) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Cliente cliente = clienteService.buscarClientePorEmail(email);

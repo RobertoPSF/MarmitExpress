@@ -37,7 +37,6 @@ export default function Header() {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
-        console.log(payload);
         setUserRole(payload.role); // Pega a role do usuário
       } catch (error) {
         console.error('Erro ao decodificar o token:', error);

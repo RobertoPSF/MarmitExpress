@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Container,
   StyledIcon,
@@ -6,6 +7,7 @@ import {
   Informations,
   Line,
 } from './styles';
+import RestaurantService from '../../../services/RestauranteService';
 
 interface Pedido {
   id: string;
@@ -25,17 +27,34 @@ const formatarMoeda = (valor: number) =>
   );
 
 export default function PedidoCard({ dados }: PedidoCardProps) {
+  const [nomeRestaurante, setNomeRestaurante] = useState<string | null>(null);
+  const restaurantService = new RestaurantService();
+
+  useEffect(() => {
+    if (dados?.restauranteId) {
+      restaurantService
+        .getRestaurantById(dados.restauranteId)
+        .then((response) => {
+          if (response?.status === 200) {
+            setNomeRestaurante(response.data.nome);
+          } else {
+            console.warn('Nome do restaurante não encontrado.');
+          }
+        })
+        .catch((error) => console.error('Erro ao buscar restaurante:', error));
+    }
+  }, [dados?.restauranteId]);
+
   if (!dados) {
     return <p>Pedido não encontrado.</p>;
   }
 
   return (
-    <Container>
+    <Container to={`/meus-pedidos/${dados.id}`}>
       <Header>
         <Informations>
-          <p id="nomeRestaurante">Pedido no(a): {dados.restauranteId}</p>
-          {/* <p id="dataPedido">{dados.dataDoPedido}</p> */}
-          {/*Aqui tem outra data que não sei se é o horario que foi feito ou a hora da entrega*/}
+          <p id="nomeRestaurante">Pedido Nº{dados.id}</p>
+          <p> Comprada em: {nomeRestaurante || 'Restaurante desconhecido'}</p>
           <p id="totalPedido">Total: {formatarMoeda(dados.precoTotal)}</p>
         </Informations>
 
@@ -44,8 +63,6 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
       <Line />
       <Footer>
         <p>{dados.status}</p>
-        {/* <p>{dados.dataDoPedido}</p> */}
-        {/*Se for tirar uma data tira essa e deixa só o status do pedido no footer*/}
       </Footer>
     </Container>
   );

@@ -24,6 +24,7 @@ const RestauranteCadastroForm: React.FC = () => {
     chavePix: '',
     endereco: '',
     telefone: '',
+    nomeProprietario: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +37,16 @@ const RestauranteCadastroForm: React.FC = () => {
   };
 
   const validarFormulario = () => {
-    const { email, senha, nome, descricao, chavePix, endereco, telefone } =
-      formDataCadastro;
+    const {
+      email,
+      senha,
+      nome,
+      descricao,
+      chavePix,
+      endereco,
+      telefone,
+      nomeProprietario,
+    } = formDataCadastro;
     if (
       !email ||
       !senha ||
@@ -45,7 +54,8 @@ const RestauranteCadastroForm: React.FC = () => {
       !descricao ||
       !chavePix ||
       !endereco ||
-      !telefone
+      !telefone ||
+      !nomeProprietario
     ) {
       alert('Todos os campos são obrigatórios.');
       return false;
@@ -62,19 +72,40 @@ const RestauranteCadastroForm: React.FC = () => {
 
     try {
       const authService = new AuthService();
+      const {
+        email,
+        senha,
+        nome,
+        descricao,
+        chavePix,
+        endereco,
+        telefone,
+        nomeProprietario,
+      } = formDataCadastro;
+
       const response = await authService.registerUser({
-        email: formDataCadastro.email,
-        senha: formDataCadastro.senha,
-        nome: formDataCadastro.nome,
-        descricao: formDataCadastro.descricao,
-        chavePix: formDataCadastro.chavePix,
-        endereco: formDataCadastro.endereco,
-        telefone: formDataCadastro.telefone,
+        email,
+        senha,
+        nome,
+        descricao,
+        chavePix,
+        endereco,
+        telefone,
+        nomeProprietario,
         role: 'RESTAURANTE',
       });
 
       if (response && response.status === 201) {
-        alert('Cadastro realizado com sucesso!');
+        // Cadastro bem-sucedido, agora realizar login automático
+        const loginResponse = await authService.loginUser({ email, senha });
+
+        if (loginResponse?.data?.token) {
+          localStorage.setItem('authToken', loginResponse.data.token);
+          alert('Cadastro e login realizados com sucesso!');
+          window.location.href = '/meu-restaurante';
+        } else {
+          alert('Cadastro feito, mas não foi possível logar automaticamente.');
+        }
       } else {
         const errorMessage = await response?.statusText;
         alert(`Erro ao cadastrar: ${errorMessage}`);
@@ -117,6 +148,14 @@ const RestauranteCadastroForm: React.FC = () => {
         value={formDataCadastro.descricao}
         onChange={handleChangeCadastro}
         placeHolderContainer="Descrição"
+      />
+
+      <Input
+        name="nomeProprietario"
+        placeholder="Nome do Dono"
+        value={formDataCadastro.nomeProprietario}
+        onChange={handleChangeCadastro}
+        placeHolderContainer="Proprietário"
       />
 
       <Input

@@ -5,20 +5,27 @@ import { Icon } from '@iconify/react';
 export const Container = styled.div<{ isSelected: boolean }>`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: white;
   align-items: center;
   border-radius: 15px;
   display: flex;
-  width: 8rem;
-  height: 12rem;
+  width: 100%;
+  height: auto;
   padding: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
 
   h3 {
     position: absolute;
-    bottom: 0.5rem;
+    bottom: 10px;
+    right: 10px;
     font-size: 0.9rem;
     font-weight: 600;
   }
@@ -48,8 +55,8 @@ export const Img = styled(image)`
 
 export const StyledIcon = styled(Icon)`
   color: #24292e;
-  width: 100%;
-  height: auto;
+  width: 70px;
+  height: 70px;
   border-radius: 10px;
   background-color: #f1f2f3;
 `;
