@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ImgCard from '../../../assets/marmita.svg?react';
 
 export const Container = styled.div<{ isSelected: boolean }>`
   align-items: center;
@@ -10,8 +9,8 @@ export const Container = styled.div<{ isSelected: boolean }>`
   max-width: 15rem;
   padding: 1.5rem;
   position: relative;
-  border: 2px solid ${props => (props.isSelected ? '#313131' : 'transparent')};
-  
+  border: 2px solid ${(props) => (props.isSelected ? '#313131' : 'transparent')};
+
   h3 {
     font-size: 1rem;
     font-weight: 500;
@@ -23,7 +22,7 @@ export const Container = styled.div<{ isSelected: boolean }>`
     color: #24292e;
     max-width: 75%;
   }
-  
+
   justify-content: center;
   margin: 50px;
 `;
@@ -31,5 +30,5 @@ export const Container = styled.div<{ isSelected: boolean }>`
 export const Image = styled.img`
   min-width: 100%;
   max-width: 100%;
-  margin-bottom: 1.5rem;  
+  margin-bottom: 1.5rem;
 `;

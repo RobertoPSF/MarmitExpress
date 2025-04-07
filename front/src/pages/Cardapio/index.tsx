@@ -54,7 +54,7 @@ export default function Cardapio() {
   const [selectedItems, setSelectedItems] = useState<
     { id: string; nome: string; preco: number }[]
   >([]);
-  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+  const [, setSelectedItemIds] = useState<string[]>([]);
 
   const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
     [],

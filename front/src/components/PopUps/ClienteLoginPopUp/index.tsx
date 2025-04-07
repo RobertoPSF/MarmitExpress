@@ -26,10 +26,6 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
     setIsForgotPassword(false); // Reseta o estado de recuperação de senha
   };
 
-  const handleForgotPassword = () => {
-    setIsForgotPassword(true); // Altera para o formulário de recuperação de senha
-  };
-
   if (!isOpen) {
     return null; // Se o pop-up não estiver aberto, não renderiza nada
   }
@@ -49,10 +45,7 @@ const Login_PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
               </>
             ) : (
               <>
-                <ClienteLoginForm
-                  onClose={onClose}
-                  onForgotPassword={handleForgotPassword}
-                />
+                <ClienteLoginForm onClose={onClose} />
                 <p>ou</p>
                 <Button type="white" onClick={handleOpenRegister}>
                   Criar uma conta
