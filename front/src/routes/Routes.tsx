@@ -12,7 +12,6 @@ import TopContainer from '../components/TopContainer';
 import Header from '../components/Header';
 import Blank from '../pages/BlankPage';
 import Cardapio from '../pages/Cardapio';
-import Pagamento from '../pages/Pagamento';
 import Pedido from '../pages/Pedido';
 import PedidoRestaurante from '../pages/PedidoRestaurante';
 import MeuRestaurante from '../pages/MeuRestaurante';
@@ -37,7 +36,6 @@ export default function AppRoutes() {
         <Route path="/about/parceiro" element={<AboutParceiro />} />
         <Route path="/blank" element={<Blank />} />
         <Route path="/restaurante/:id/cardapio" element={<Cardapio />} />
-        <Route path="/pagamento" element={<Pagamento />} />
       </Routes>
     </BrowserRouter>
   );

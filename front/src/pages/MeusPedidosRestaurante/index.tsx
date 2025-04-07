@@ -6,7 +6,7 @@ import RestaurantService from '../../services/RestauranteService';
 
 export default function MeusPedidosRestaurante() {
   useAuthRedirect();
-  const [pedidos, setPedidos] = useState([]);
+  const [pedidos, setPedidos] = useState<any[]>([]);
 
   useEffect(() => {
     const restauranteService = new RestaurantService();
@@ -34,9 +34,7 @@ export default function MeusPedidosRestaurante() {
     <Container>
       {pedidos.length > 0 ? (
         pedidos.map((pedido) => (
-          <>
-            <PedidoCardRestaurante dados={pedido} />
-          </>
+          <PedidoCardRestaurante key={pedido.id} dados={pedido} />
         ))
       ) : (
         <h2 style={{ color: 'white' }}>Sem pedidos existentes.</h2>

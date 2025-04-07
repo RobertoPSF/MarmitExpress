@@ -130,14 +130,19 @@ export default function Cardapio() {
     selectedIngredientes.includes(ingrediente.id);
 
   const handleFinalizarCompra = async () => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      alert('Faça Login para fazer um pedido.');
+      return;
+    }
+
     if (!restaurante) return;
 
     if (!endereco.trim()) {
       alert('Informe o endereço de entrega antes de finalizar o pedido.');
       return;
     }
-
-    setLoading(true);
 
     try {
       const itens: {

@@ -13,6 +13,7 @@ import RestauranteService from '../../../services/RestauranteService';
 import PedidoService from '../../../services/PedidoService';
 import PagamentoService from '../../../services/PagamentoService';
 import IngredienteService from '../../../services/IngredienteService';
+// import QRCode from 'react-qr-code';
 
 interface Pagamento {
   id: string;
@@ -20,6 +21,7 @@ interface Pagamento {
   restauranteId: string;
   status: string;
   preco: number;
+  pagamentoId?: string; // <-- Verifica se existe um pagamento já
   itens: {
     id: string;
     item: {
@@ -39,12 +41,15 @@ interface PagamentoCardProps {
 }
 
 export default function PagamentoCard({ dados }: PagamentoCardProps) {
-  const { preco, itens, restauranteId } = dados;
+  const { preco, itens, restauranteId, pagamentoId } = dados;
+
   const [nomesIngredientes, setNomesIngredientes] = useState<
     Record<string, string>
   >({});
   const [restauranteNome, setRestauranteNome] =
     useState<string>('Carregando...');
+  const [pixPayload, setPixPayload] = useState<string | null>(null);
+  const [statusPagamento, setStatusPagamento] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,13 +103,27 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
     }
   }, [restauranteId]);
 
+  useEffect(() => {
+    async function fetchPayloadPix() {
+      if (dados.pagamentoId) {
+        try {
+          const pagamentoService = new PagamentoService();
+          const response = await pagamentoService.getPixPayload(
+            dados.pagamentoId,
+          );
+          setPixPayload(response?.data?.payload || 'Payload indisponível');
+        } catch (error) {
+          console.error('Erro ao buscar payload do Pix:', error);
+          setPixPayload('Erro ao carregar payload');
+        }
+      }
+    }
+
+    fetchPayloadPix();
+  }, [dados.pagamentoId]);
+
   const handleGenPagamento = async () => {
     try {
-      if (!dados.id) {
-        alert('Erro: ID do pedido não encontrado.');
-        return;
-      }
-
       const dadosPedido = {
         descricao: `Pedido Nº${dados.id}`,
         idPedido: dados.id,
@@ -112,16 +131,22 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
 
       const pagamentoService = new PagamentoService();
       const response = await pagamentoService.createPagamento(dadosPedido);
+      const responseStatusPagamento = await pagamentoService.getStatusPagamento(
+        response?.data.id,
+      );
 
       if (response?.data) {
-        alert('Gerado pagamento para Pedido!');
-        navigate(`/pagamento/${response.data.id}`);
+        alert('Pagamento gerado com sucesso!');
+        // Atualiza o estado local com o novo ID do pagamento
+        setPixPayload(response.data.qrCode || null); // se vier com qrCode direto
+        setStatusPagamento(responseStatusPagamento?.data || null); // se vier com qrCode direto
+        dados.pagamentoId = response.data.id; // força o campo local para disparar o useEffect
       } else {
-        alert('Erro ao gerar pagamento. Resposta inválida.');
+        alert('Erro ao gerar pagamento.');
       }
     } catch (error) {
-      console.error('Erro ao gerar pagamento para Pedido:', error);
-      alert('Erro ao gerar pagamento para Pedido. Tente novamente.');
+      console.error('Erro ao gerar pagamento:', error);
+      alert('Erro ao gerar pagamento.');
     }
   };
 
@@ -134,14 +159,16 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
       navigate('/restaurantes');
     } catch (error) {
       console.error('Erro ao cancelar pedido:', error);
-      alert('Erro ao cancelar o pedido. Tente novamente.');
+      alert('Erro ao cancelar o pedido.');
     }
   };
 
   return (
     <Container>
-      <p>Pedido Nº{dados.id}</p>
-
+      <Row>
+        <p>Pedido Nº{dados.id}</p>
+        <p>{dados.status}</p>
+      </Row>
       <RestauranteContent>
         <StyledIcon icon={'material-symbols:store-outline-rounded'} />
         <h3 id="nomeRestaurante">{restauranteNome}</h3>
@@ -161,22 +188,16 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
             </p>
           </ItemCard>
 
-          {/* Verifica se há acompanhamentos */}
-          {itemPedido.ingredientesPersonalizados &&
-            itemPedido.ingredientesPersonalizados.length > 0 && (
-              <>
-                {itemPedido.ingredientesPersonalizados.map(
-                  (idIngrediente, subIndex) => (
-                    <ItemCard key={`${index}-acomp-${subIndex}`}>
-                      <p id="acompanhamento">
-                        - {nomesIngredientes[idIngrediente] || 'Acompanhamento'}
-                      </p>
-                      <p id="itemPreco">--</p>
-                    </ItemCard>
-                  ),
-                )}
-              </>
-            )}
+          {itemPedido.ingredientesPersonalizados?.map(
+            (idIngrediente, subIndex) => (
+              <ItemCard key={`${index}-acomp-${subIndex}`}>
+                <p id="itemQuantidade">
+                  - {nomesIngredientes[idIngrediente] || 'Acompanhamento'}
+                </p>
+                <p id="itemPreco">--</p>
+              </ItemCard>
+            ),
+          )}
         </div>
       ))}
 
@@ -194,13 +215,40 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
         </Row>
       </div>
 
-      <Button type={'orange'} onClick={handleGenPagamento}>
-        Gerar Pagamento
-      </Button>
-      <p style={{ display: 'flex', justifyContent: 'center' }}>ou</p>
-      <Button onClick={handleCancel} type={''}>
-        Cancelar Pedido
-      </Button>
+      {dados.status === 'PENDENTE' && !pagamentoId && (
+        <>
+          <Button type={'orange'} onClick={handleGenPagamento}>
+            Gerar Pagamento
+          </Button>
+          <p style={{ display: 'flex', justifyContent: 'center' }}>ou</p>
+          <Button type="" onClick={handleCancel}>
+            Cancelar Pedido
+          </Button>
+        </>
+      )}
+
+      {dados.status === 'PENDENTE' && pagamentoId && pixPayload && (
+        <>
+          <Line />
+          <h3>Pix</h3>
+
+          <Row>
+            <h4>Código Copia e Cola:</h4>
+            <p>Status do pagamento: {statusPagamento || 'Carregando...'}</p>
+          </Row>
+          <pre
+            style={{
+              whiteSpace: 'pre-wrap',
+              background: '#f5f5f5',
+              padding: '1rem',
+              borderRadius: '8px',
+              wordBreak: 'break-word',
+            }}
+          >
+            {pixPayload}
+          </pre>
+        </>
+      )}
     </Container>
   );
 }

@@ -40,12 +40,19 @@ class PedidoService extends CoreService {
     status: string,
   ): Promise<AxiosResponse | null> {
     try {
+      const token = localStorage.getItem('authToken');
       const response = await this.getApi().put(
         `${this.baseRoute}/${id}/status`,
-        { status },
+        { status }, // corpo da requisição
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       return response;
     } catch (error) {
+      console.error('Erro ao atualizar status do pedido:', error);
       return null;
     }
   }

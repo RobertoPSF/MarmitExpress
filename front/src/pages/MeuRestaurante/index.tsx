@@ -54,10 +54,6 @@ export default function MeuRestaurante() {
   useAuthRedirect();
 
   const [restaurante, setRestaurante] = useState<Restaurante | null>(null);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
-    [],
-  );
 
   useEffect(() => {
     const restauranteService = new RestauranteService();
@@ -72,22 +68,6 @@ export default function MeuRestaurante() {
         console.error('Erro ao obter restaurante:', error);
       });
   }, []);
-
-  const handleSelectItem = (item: Item) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.includes(item.id)
-        ? prevSelected.filter((id) => id !== item.id)
-        : [...prevSelected, item.id],
-    );
-  };
-
-  const handleSelectIngrediente = (ingrediente: Ingrediente) => {
-    setSelectedIngredientes((prevSelected) =>
-      prevSelected.includes(ingrediente.id)
-        ? prevSelected.filter((id) => id !== ingrediente.id)
-        : [...prevSelected, ingrediente.id],
-    );
-  };
 
   const [isAddItemPopUpOpen, setIsAddItemPopUpOpen] = useState(false);
   const [isEditLojaPopUpOpen, setIsOpenEditLojaPopUp] = useState(false);
@@ -106,10 +86,6 @@ export default function MeuRestaurante() {
 
   const openEditLojaPopUp = () => setIsOpenEditLojaPopUp(true);
   const closeEditLojaPopUp = () => setIsOpenEditLojaPopUp(false);
-
-  const isItemSelected = (item: Item) => selectedItems.includes(item.id);
-  const isIngredienteSelected = (ingrediente: Ingrediente) =>
-    selectedIngredientes.includes(ingrediente.id);
 
   return (
     <Container>
@@ -137,8 +113,10 @@ export default function MeuRestaurante() {
             deletar={true}
             key={marmita.id}
             dados={{ id: marmita.id, nome: marmita.nome, preco: marmita.preco }}
-            onClick={() => handleSelectItem(marmita)}
-            isSelected={isItemSelected(marmita)}
+            onClick={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            isSelected={false}
           />
         ))}
       </Section>
@@ -159,9 +137,11 @@ export default function MeuRestaurante() {
           <IngredienteCard
             key={ingrediente.id}
             dados={ingrediente}
-            onClick={() => handleSelectIngrediente(ingrediente)}
-            isSelected={isIngredienteSelected(ingrediente)}
             deletar={true}
+            onClick={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            isSelected={false}
           />
         ))}
       </Section>
@@ -188,9 +168,11 @@ export default function MeuRestaurante() {
             <ItemCard
               key={item.id}
               dados={{ id: item.id, nome: item.nome, preco: item.preco }}
-              onClick={() => handleSelectItem(item)}
-              isSelected={isItemSelected(item)}
               deletar={true}
+              onClick={function (): void {
+                throw new Error('Function not implemented.');
+              }}
+              isSelected={false}
             />
           ));
         })()}

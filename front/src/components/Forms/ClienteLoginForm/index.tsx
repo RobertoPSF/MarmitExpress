@@ -34,7 +34,6 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
           const payload = JSON.parse(atob(token.split('.')[1]));
           const userRole = payload.role; // Obtém a role do usuário
 
-          alert('Login realizado com sucesso!');
           onClose(); // Fecha o modal de login
 
           // Redireciona com base na role do usuário

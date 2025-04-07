@@ -47,18 +47,30 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   const handleSubmitCadastro = async () => {
     try {
       const authService = new AuthService();
+      const { nome, email, senha, endereco, telefone } = formDataCadastro;
+
       const response = await authService.registerUser({
-        nome: formDataCadastro.nome,
-        email: formDataCadastro.email,
-        senha: formDataCadastro.senha,
-        endereco: formDataCadastro.endereco,
-        telefone: formDataCadastro.telefone,
+        nome,
+        email,
+        senha,
+        endereco,
+        telefone,
         role: 'CLIENTE',
       });
 
       if (response && response.status === 201) {
-        alert('Cadastro realizado com sucesso!');
-        onClose();
+        // Cadastro bem-sucedido, agora fazer login
+        const loginResponse = await authService.loginUser({ email, senha });
+
+        if (loginResponse?.data?.token) {
+          localStorage.setItem('authToken', loginResponse.data.token);
+          alert('Cadastro e login realizados com sucesso!');
+          window.location.href = '/meus-pedidos';
+          onClose(); // fecha o modal ou formulário
+          // Opcional: redirecionar para outra página, ex: navigate('/')
+        } else {
+          alert('Cadastro realizado, mas erro ao fazer login automático.');
+        }
       } else {
         alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
       }

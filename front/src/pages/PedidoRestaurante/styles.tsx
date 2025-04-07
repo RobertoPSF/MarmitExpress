@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const OpenButton = styled.button`
   &:hover {
     background-color: #0056b3;
-  };
+  }
   background-color: #007bff;
   border: none;
   border-radius: 4px;

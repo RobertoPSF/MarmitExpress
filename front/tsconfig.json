@@ -7,12 +7,16 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler", // ok pro Vite, mas veja abaixo!
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+
+    /* ⚠️ IMPORTANTE ADICIONAR */
+    "esModuleInterop": true, // <-- Adicione esta linha
+    "forceConsistentCasingInFileNames": true,
 
     /* Linting */
     "strict": true,

@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import java.util.UUID;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +13,8 @@ import java.time.LocalDateTime;
 public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
-    private UUID id;
+    @Column(updatable = false, nullable = false)
+    private Long id;
     
     private Double valor;
     private StatusPagamento status;
@@ -43,7 +42,7 @@ public class Pagamento {
     }
 
     // Getters e Setters
-    public UUID getId() {return id; }
+    public Long getId() {return id; }
 
     public Double getValor() {return valor; }
 

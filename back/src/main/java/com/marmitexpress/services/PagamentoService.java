@@ -48,7 +48,7 @@ public class PagamentoService {
     }
     
 
-    public boolean confirmarPagamento(UUID id) {
+    public boolean confirmarPagamento(Long id) {
         Pagamento pagamento = pagamentoRepository.findById(id)
             .orElseThrow(() -> new PagamentoNotFoundException());
 
@@ -61,7 +61,7 @@ public class PagamentoService {
         return true;
     }
 
-    public Pagamento buscarPagamentoPorId(UUID id) {
+    public Pagamento buscarPagamentoPorId(Long id) {
         return pagamentoRepository.findById(id)
             .orElseThrow(() -> new PagamentoNotFoundException());
     }
@@ -72,13 +72,13 @@ public class PagamentoService {
         String cidadeRestaurante = "CAMPINA GRANDE";
         double valor = pagamento.getValor();
         String txid = pagamento.getId().toString();
-        String descricao = "Pedido #" + pagamento.getPedido().getId().toString().substring(0, 8);
+        String descricao = "Pedido #" + pagamento.getPedido().getId();
     
         return PixGeneratorService.gerarPayloadPix(chavePix, valor, nomeProprietario, cidadeRestaurante, txid, descricao);
     }
     
 
-    public byte[] gerarQrCode(UUID pagamentoId) {
+    public byte[] gerarQrCode(Long pagamentoId) {
         Pagamento pagamento = buscarPagamentoPorId(pagamentoId);
         String payload = gerarPayloadPix(pagamento);
         return qrCodeService.generateQrCode(payload, 300, 300);

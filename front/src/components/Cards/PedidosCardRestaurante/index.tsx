@@ -30,8 +30,6 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
     return <p>Pedido não encontrado.</p>;
   }
 
-  console.log(dados);
-
   return (
     <Container to={`/pedidos/${dados.id}`}>
       <Header>
