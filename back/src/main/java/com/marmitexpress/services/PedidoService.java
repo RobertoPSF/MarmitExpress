@@ -36,7 +36,6 @@ public class PedidoService {
     private DetalhePedidoRepository detalhePedidoRepository;
 
     public Pedido criarPedido(PedidoDTO pedidoDTO, Cliente cliente) {
-        // Obter o restaurante e validar, similar ao que já existe.
         var restauranteOpt = restauranteRepository.findById(pedidoDTO.getRestauranteId());
         if (restauranteOpt.isEmpty()) {
             throw new RuntimeException("Restaurante não encontrado");
@@ -44,51 +43,56 @@ public class PedidoService {
         if (!restauranteOpt.get().isAceitandoPedidos()) {
             throw new RuntimeException("Restaurante não está aceitando pedidos no momento");
         }
-        
+    
         Pedido pedido = new Pedido();
         pedido.setRestaurante(restauranteOpt.get());
         pedido.setCliente(cliente);
         pedido.setEndereco(pedidoDTO.getEndereco());
         pedido.setStatus(StatusPedido.PENDENTE);
-        pedido.setPreco(0); // Inicialmente 0
-        
-        // Salva o pedido para gerar um ID
+        pedido.setPreco(0);
+    
         pedido = pedidoRepository.save(pedido);
-        
+    
         double total = 0;
         List<DetalhePedido> detalhePedidos = new ArrayList<>();
-        
+    
         for (ItemPedidoDTO itemDTO : pedidoDTO.getItens()) {
             DetalhePedido detalhe = new DetalhePedido();
             detalhe.setPedido(pedido);
             detalhe.setQuantidade(itemDTO.getQuantidade());
     
-            // Verifica se o DTO possui um itemId para item base
             if (itemDTO.getItemId() != null) {
-                // Recupera o item base do banco
                 Item baseItem = itemRepository.findById(itemDTO.getItemId())
                     .orElseThrow(() -> new RuntimeException("Item não encontrado para o ID: " + itemDTO.getItemId()));
+    
+                if (baseItem.getQuantidade() < itemDTO.getQuantidade()) {
+                    throw new RuntimeException("Estoque insuficiente para o item: " + baseItem.getNome());
+                }
+    
+                baseItem.setQuantidade(baseItem.getQuantidade() - itemDTO.getQuantidade());
+    
+                itemRepository.save(baseItem);
+    
                 detalhe.setItem(baseItem);
-                
-                if ((itemDTO.getIngredientes() != null && !itemDTO.getIngredientes().isEmpty())) {
+    
+                if (itemDTO.getIngredientes() != null && !itemDTO.getIngredientes().isEmpty()) {
                     detalhe.setIngredientesPersonalizados(itemDTO.getIngredientes());
                 }
-                    
+    
                 total += baseItem.getPreco() * detalhe.getQuantidade();
             }
-            
+    
             detalhePedidos.add(detalhe);
         }
-        
+    
         pedido.setItens(detalhePedidos);
         pedido.setPreco(total);
-        
-        // Salva os detalhes do pedido
+    
         detalhePedidoRepository.saveAll(detalhePedidos);
-        
-        // Atualiza o pedido com o preço total
+    
         return pedidoRepository.save(pedido);
     }
+    
     
 
     public List<Pedido> listarPedidos() {
