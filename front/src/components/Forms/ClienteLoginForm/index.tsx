@@ -17,13 +17,27 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
     setFormDataLogin({ ...formDataLogin, [e.target.name]: e.target.value });
   };
 
+  const isEmailValid = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   const handleSubmitLogin = async () => {
+    const { email, senha } = formDataLogin;
+
+    // Verificações mínimas
+    if (!email || !senha) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      alert('Digite um e-mail válido.');
+      return;
+    }
+
     try {
       const authService = new AuthService();
-      const response = await authService.loginUser({
-        email: formDataLogin.email,
-        senha: formDataLogin.senha,
-      });
+      const response = await authService.loginUser({ email, senha });
 
       if (response && response.status === 200) {
         const { token } = response.data;
@@ -31,7 +45,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
         onClose();
         window.location.href = '/';
       } else {
-        alert('Erro ao fazer login. Verifique os dados e tente novamente.');
+        alert('Senha ou Email incorretos. Verifique os dados e tente novamente.');
       }
     } catch (error) {
       console.error('Erro na requisição:', error);

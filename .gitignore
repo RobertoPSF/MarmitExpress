@@ -6,7 +6,7 @@ back/mvnw.cmd
 back/target
 
 # FRONTEND
-front/src/CoreService.ts
+front/src/services/CoreService.ts
 front/logs
 front/*.log
 front/npm-debug.log*
