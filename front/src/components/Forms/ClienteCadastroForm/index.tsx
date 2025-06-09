@@ -65,9 +65,8 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
         if (loginResponse?.data?.token) {
           localStorage.setItem('authToken', loginResponse.data.token);
           alert('Cadastro e login realizados com sucesso!');
-          window.location.href = '/meus-pedidos';
-          onClose(); // fecha o modal ou formulário
-          // Opcional: redirecionar para outra página, ex: navigate('/')
+          onClose();
+          window.location.href = '/';
         } else {
           alert('Cadastro realizado, mas erro ao fazer login automático.');
         }

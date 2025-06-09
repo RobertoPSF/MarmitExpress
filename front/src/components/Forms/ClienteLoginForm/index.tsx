@@ -27,27 +27,9 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
 
       if (response && response.status === 200) {
         const { token } = response.data;
-        localStorage.setItem('authToken', token); // Armazena o token
-
-        // Decodifica o token para obter a role
-        try {
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          const userRole = payload.role; // Obtém a role do usuário
-
-          onClose(); // Fecha o modal de login
-
-          // Redireciona com base na role do usuário
-          if (userRole === 'ROLE_CLIENTE') {
-            window.location.href = '/meus-pedidos';
-          } else if (userRole === 'ROLE_RESTAURANTE') {
-            window.location.href = '/meu-restaurante';
-          } else {
-            window.location.href = '/'; // Caso não tenha uma role válida, volta para a home
-          }
-        } catch (error) {
-          console.error('Erro ao decodificar o token:', error);
-          alert('Erro ao processar login.');
-        }
+        localStorage.setItem('authToken', token);
+        onClose();
+        window.location.href = '/';
       } else {
         alert('Erro ao fazer login. Verifique os dados e tente novamente.');
       }
