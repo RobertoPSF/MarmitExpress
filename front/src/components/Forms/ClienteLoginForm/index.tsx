@@ -2,12 +2,16 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService';
+import Notification from '../../Notification';
 
 interface ClienteLoginProps {
   onClose: () => void;
 }
 
 const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
+  
+
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -26,12 +30,12 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
 
     // Verificações mínimas
     if (!email || !senha) {
-      alert('Por favor, preencha todos os campos.');
+      setNotificacao({ message: "Por favor, preencha todos os campos.", type: "error" });
       return;
     }
 
     if (!isEmailValid(email)) {
-      alert('Digite um e-mail válido.');
+      setNotificacao({ message: "Digite um e-mail válido.", type: "error" });
       return;
     }
 
@@ -45,11 +49,11 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
         onClose();
         window.location.href = '/';
       } else {
-        alert('Senha ou Email incorretos. Verifique os dados e tente novamente.');
+        setNotificacao({ message: "Senha ou Email incorretos. Verifique os dados e tente novamente.", type: "error" });
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
+        setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });      
     }
   };
 
@@ -77,6 +81,13 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
       </Button>
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };
