@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
 import RestauranteService from '../../../services/RestauranteService';
+import Notification from '../../Notification';
 
 interface Ingrediente {
   id: string;
@@ -23,6 +24,7 @@ const AddMarmitaForm: React.FC<AddMarmitaProps> = ({
   idRestaurante,
   onAddMarmita, // <-- Recebendo callback
 }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [ingredientes, setIngredientes] = useState<Ingrediente[]>([]);
   const [selectedIngredientes, setSelectedIngredientes] = useState<string[]>(
     [],
@@ -92,6 +94,14 @@ const AddMarmitaForm: React.FC<AddMarmitaProps> = ({
       <Button type="orange" onClick={handleSubmitAddMarmita}>
         Adicionar Marmita ao Pedido
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

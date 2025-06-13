@@ -8,7 +8,7 @@ export const Container = styled.div`
   min-height: 64.5vh;
   width: 98vw;
   gap: 2vw;
-  margin-top: -30vh;
+  margin-top: -25vh;
   grid-template-columns: 70% 30%;
 
   @media (max-width: 999px) {
@@ -54,6 +54,7 @@ export const ResumoCompraPopup = styled.div`
   position: sticky;
   top: 100px;
   width: 100%;
+  margin-top: -15vh;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);

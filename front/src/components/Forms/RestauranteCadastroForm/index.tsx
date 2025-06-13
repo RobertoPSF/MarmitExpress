@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService';
+import Notification from '../../Notification';
 
 const formatPhoneNumber = (value: string) => {
   const rawValue = value.replace(/\D/g, '').slice(0, 11);
@@ -16,6 +17,7 @@ const formatPhoneNumber = (value: string) => {
 };
 
 const RestauranteCadastroForm: React.FC = () => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataCadastro, setFormDataCadastro] = useState({
     email: '',
     senha: '',
@@ -61,7 +63,7 @@ const RestauranteCadastroForm: React.FC = () => {
       return false;
     }
     if (telefone.replace(/\D/g, '').length !== 11) {
-      alert('Telefone inválido. Use o formato correto: (XX) 9XXXX-XXXX.');
+        setNotificacao({ message: "Telefone inválido. Use o formato correto: (XX) 9XXXX-XXXX", type: "error" });
       return false;
     }
     return true;
@@ -101,18 +103,24 @@ const RestauranteCadastroForm: React.FC = () => {
 
         if (loginResponse?.data?.token) {
           localStorage.setItem('authToken', loginResponse.data.token);
-          alert('Cadastro e login realizados com sucesso!');
-          window.location.href = '/meu-restaurante';
-        } else {
-          alert('Cadastro feito, mas não foi possível logar automaticamente.');
+          setNotificacao({ message: "Cadastro e login realizados com sucesso!", type: "success" });
+          
+          setTimeout(() => {
+            setNotificacao(null);
+             window.location.href = '/meu-restaurante';
+          }, 500);
+
+         } else {
+          setNotificacao({ message: "Cadastro feito, mas não foi possível logar automaticamente.", type: "error" });
         }
       } else {
         const errorMessage = await response?.statusText;
-        alert(`Erro ao cadastrar: ${errorMessage}`);
+        setNotificacao({ message: `Erro ao cadastrar: ${errorMessage}`, type: "error" });
+        console.error('Erro ao cadastrar:', response);
       }
     } catch (error) {
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
     }
   };
 
@@ -186,6 +194,14 @@ const RestauranteCadastroForm: React.FC = () => {
       <Button type="orange" onClick={handleSubmitCadastro}>
         Concluir Cadastro
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
 import RestauranteService from '../../../services/RestauranteService';
+import Notification from '../../Notification';
 
 interface Profile {
   aceitandoPedidos: boolean;
@@ -11,6 +12,7 @@ interface OpenLojaProps {
 }
 
 const OpenLojaForm: React.FC<OpenLojaProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [aceitandoPedidos, setAceitandoPedidos] = useState<boolean>(false);
   const restauranteService = new RestauranteService();
@@ -40,17 +42,22 @@ const OpenLojaForm: React.FC<OpenLojaProps> = ({ onClose }) => {
         aceitandoPedidos,
       });
       if (response?.status === 200) {
-        alert('Perfil atualizado com sucesso!');
-        onClose();
-        window.location.reload();
+
+        setNotificacao({ message: "Perfil atualizado com sucesso!", type: "success" });
+        
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal
+          window.location.reload(); // Recarrega a página após a atualização
+        }, 500);
+
       } else {
-        alert(
-          'Erro ao atualizar perfil. Verifique os dados e tente novamente.',
-        );
+        setNotificacao({ message: "Erro ao atualizar perfil. Verifique os dados e tente novamente!", type: "success" });
       }
     } catch (error) {
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
     }
   };
 
@@ -82,6 +89,14 @@ const OpenLojaForm: React.FC<OpenLojaProps> = ({ onClose }) => {
       <Button type="orange" onClick={handleSubmitPerfil}>
         Atualizar
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

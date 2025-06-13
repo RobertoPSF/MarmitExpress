@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import Button from '../../Button';
-import Text from '../../Text';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService'; // Importando o AuthService
+import Notification from '../../Notification';
 
 interface RestauranteLoginProps {
   onForgotPassword: () => void;
 }
 
-const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPassword }) => {
+const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
     senha: '',
@@ -27,18 +28,25 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPasswor
       });
 
       if (response && response.status === 200) {
-        alert('Login realizado com sucesso!');
         // Aqui você pode armazenar o token se necessário
         const { token } = response.data;
         localStorage.setItem('authToken', token); // Armazenar token localmente
-        alert('Login realizado com sucesso!');
-        window.location.href = '/meu-restaurante';
+        
+        setNotificacao({ message: "Login realizado com sucesso!", type: "success" });
+        // Fecha a notificação depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          window.location.href = '/meu-restaurante';
+        }, 500);
+
       } else {
-        alert('Erro ao fazer Login. Verifique os dados e tente novamente.');
+        const errorMessage = await response?.statusText;
+        setNotificacao({ message: `Erro ao fazer Login: ${errorMessage}`, type: "error" });
+        console.error('Erro ao fazer Login:', response);
       }
     } catch (error) {
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
     }
   };
 
@@ -62,11 +70,24 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPasswor
         onChange={handleChangeLogin}
       />
 
-      <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
+      {/* 
+        Descomente a linha abaixo se quiser adicionar a funcionalidade de esqueci minha senha
+        onForgotPassword deve ser uma função que você define para lidar com o evento de esquecimento de senha
+      
+        <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
+      */}
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

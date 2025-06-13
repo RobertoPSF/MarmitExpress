@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Container,
   LinkComponent,
@@ -21,23 +21,17 @@ export default function Header() {
   const [userRole, setUserRole] = useState(null);
   const token = localStorage.getItem('authToken');
 
-  const toggleLoginPopup = () => {
-    setIsLoginOpen(!isLoginOpen);
-  };
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggleEditProfilePopup = () => {
-    setIsEditProfileOpen(!isEditProfileOpen);
-  };
-
-  const toggleChangePasswordPopup = () => {
-    setIsChangePasswordOpen(!isChangePasswordOpen);
-  };
+  const toggleLoginPopup = () => setIsLoginOpen(!isLoginOpen);
+  const toggleEditProfilePopup = () => setIsEditProfileOpen(!isEditProfileOpen);
+  const toggleChangePasswordPopup = () => setIsChangePasswordOpen(!isChangePasswordOpen);
 
   useEffect(() => {
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
-        setUserRole(payload.role); // Pega a role do usuário
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setUserRole(payload.role);
       } catch (error) {
         console.error('Erro ao decodificar o token:', error);
         setUserRole(null);
@@ -50,6 +44,26 @@ export default function Header() {
     window.location.href = '/';
   };
 
+  // Fecha o dropdown ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <Container>
       <LinkComponent to={'/'}>
@@ -57,14 +71,12 @@ export default function Header() {
         <p>MarmitExpress</p>
       </LinkComponent>
 
+      {/* Links condicionais com base no role */}
       {token ? (
         userRole === 'ROLE_CLIENTE' ? (
           <>
             <LinkComponent to="/restaurantes">
-              <StyledIcon
-                icon={'material-symbols:store-outline-rounded'}
-                style={{ fontSize: 30 }}
-              />
+              <StyledIcon icon={'material-symbols:store-outline-rounded'} style={{ fontSize: 30 }} />
               <p>Restaurantes</p>
             </LinkComponent>
             <LinkComponent to="/meus-pedidos">
@@ -86,10 +98,7 @@ export default function Header() {
         ) : (
           <>
             <LinkComponent to="/restaurantes">
-              <StyledIcon
-                icon={'material-symbols:store-outline-rounded'}
-                style={{ fontSize: 30 }}
-              />
+              <StyledIcon icon={'material-symbols:store-outline-rounded'} style={{ fontSize: 30 }} />
               <p>Restaurantes</p>
             </LinkComponent>
             <InvisibleDiv />
@@ -98,18 +107,16 @@ export default function Header() {
       ) : (
         <>
           <LinkComponent to="/restaurantes">
-            <StyledIcon
-              icon={'material-symbols:store-outline-rounded'}
-              style={{ fontSize: 30 }}
-            />
+            <StyledIcon icon={'material-symbols:store-outline-rounded'} style={{ fontSize: 30 }} />
             <p>Restaurantes</p>
           </LinkComponent>
           <InvisibleDiv />
         </>
       )}
 
+      {/* Minha Conta */}
       {token ? (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }} ref={dropdownRef}>
           <PopUpButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <StyledIcon icon={'ph:user-bold'} />
             <p>Minha Conta</p>
@@ -117,15 +124,9 @@ export default function Header() {
 
           {isDropdownOpen && (
             <DropdownMenu>
-              <DropdownButton as="button" onClick={toggleEditProfilePopup}>
-                Editar Perfil
-              </DropdownButton>
-              <DropdownButton as="button" onClick={toggleChangePasswordPopup}>
-                Trocar Senha
-              </DropdownButton>
-              <DropdownButton as="button" onClick={handleLogout}>
-                Sair
-              </DropdownButton>
+              <DropdownButton as="button" onClick={toggleEditProfilePopup}>Editar Perfil</DropdownButton>
+              <DropdownButton as="button" onClick={toggleChangePasswordPopup}>Trocar Senha</DropdownButton>
+              <DropdownButton as="button" onClick={handleLogout}>Sair</DropdownButton>
             </DropdownMenu>
           )}
         </div>
@@ -136,21 +137,10 @@ export default function Header() {
         </PopUpButton>
       )}
 
-      {isLoginOpen && (
-        <ClienteLoginPopUp isOpen={isLoginOpen} onClose={toggleLoginPopup} />
-      )}
-      {isEditProfileOpen && (
-        <EditProfilePopUp
-          isOpen={isEditProfileOpen}
-          onClose={toggleEditProfilePopup}
-        />
-      )}
-      {isChangePasswordOpen && (
-        <ChangePasswordPopUp
-          isOpen={isChangePasswordOpen}
-          onClose={toggleChangePasswordPopup}
-        />
-      )}
+      {/* Modais */}
+      {isLoginOpen && <ClienteLoginPopUp isOpen={isLoginOpen} onClose={toggleLoginPopup} />}
+      {isEditProfileOpen && <EditProfilePopUp isOpen={isEditProfileOpen} onClose={toggleEditProfilePopup} />}
+      {isChangePasswordOpen && <ChangePasswordPopUp isOpen={isChangePasswordOpen} onClose={toggleChangePasswordPopup} />}
     </Container>
   );
 }
