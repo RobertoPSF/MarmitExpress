@@ -3,7 +3,20 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 64.5vh;
-  justify-content: center;
-  margin: 4vh 0;
+  justify-content: space-evenly;
+  min-height: 71vh;
+  padding: 0 15vw;
+  width: 100%;
+  margin-bottom: 10px;
+
+  span {
+    display: flex;
+    width: 100%;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #FFCD9F;
+    padding: 20px;
+    line-height: 1.5;
+  }
 `;

@@ -62,7 +62,12 @@ const RestauranteLoginForm: React.FC<RestauranteLoginProps> = ({ onForgotPasswor
         onChange={handleChangeLogin}
       />
 
-      <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
+      {/* 
+        Descomente a linha abaixo se quiser adicionar a funcionalidade de esqueci minha senha
+        onForgotPassword deve ser uma função que você define para lidar com o evento de esquecimento de senha
+      
+        <Text onClick={onForgotPassword}>Esqueceu a senha?</Text>
+      */}
 
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar

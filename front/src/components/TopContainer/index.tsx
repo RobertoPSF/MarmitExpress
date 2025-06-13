@@ -7,6 +7,12 @@ export default function TopContainer() {
   const path = location.pathname;
 
   const isCardapio = matchPath('/restaurante/:id/cardapio', path);
+  const isPCSSPage =
+    matchPath('/about/parceiro', path) ||
+    matchPath('/contato', path) ||
+    matchPath('/status', path) ||
+    matchPath('/sobre', path);
+
   const isDynamicPage =
     isCardapio ||
     matchPath('/meus-pedidos/:id', path) ||
@@ -14,7 +20,11 @@ export default function TopContainer() {
     matchPath('/restaurante/:id', path);
 
   return (
-    <Container $isHome={path === '/'} $isCardapio={!!isCardapio}>
+    <Container
+      $isHome={path === '/'}
+      $isCardapio={!!isCardapio}
+      $isPCSPage={!!isPCSSPage}
+    >
       {path === '/' ? (
         <>
           <Frase />
