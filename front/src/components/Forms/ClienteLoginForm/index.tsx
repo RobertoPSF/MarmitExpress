@@ -10,7 +10,6 @@ interface ClienteLoginProps {
 
 const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
   const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
-  
 
   const [formDataLogin, setFormDataLogin] = useState({
     email: '',
@@ -46,8 +45,15 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
       if (response && response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('authToken', token);
-        onClose();
-        window.location.href = '/';
+        setNotificacao({ message: "Login efetuado com sucesso!", type: "success" });
+        
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal
+          window.location.href = '/';
+        }, 500);
+        
       } else {
         setNotificacao({ message: "Senha ou Email incorretos. Verifique os dados e tente novamente.", type: "error" });
       }
@@ -81,6 +87,7 @@ const ClienteLoginForm: React.FC<ClienteLoginProps> = ({ onClose }) => {
       <Button type={'orange'} onClick={handleSubmitLogin}>
         Continuar
       </Button>
+      
       {notificacao && (
         <Notification
           message={notificacao.message}

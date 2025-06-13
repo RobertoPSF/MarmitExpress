@@ -2,24 +2,25 @@ import { useEffect, useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService';
+import Notification from '../../Notification';
 
 interface ChangePasswordProps {
   onClose: () => void;
 }
 
 const ChangePasswordForm: React.FC<ChangePasswordProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataChangePassword, setFormDataChangePassword] = useState({
     email: '',
     senha: '',
   });
+  const [isLoading, setIsLoading] = useState(false); // Estado para controlar botão desabilitado
 
   useEffect(() => {
-    // Obtém o token armazenado
     const token = localStorage.getItem('authToken');
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do JWT
-        console.log(payload);
+        const payload = JSON.parse(atob(token.split('.')[1]));
         setFormDataChangePassword((prev) => ({
           ...prev,
           email: payload.email,
@@ -40,6 +41,7 @@ const ChangePasswordForm: React.FC<ChangePasswordProps> = ({ onClose }) => {
   };
 
   const handleSubmitChangePassword = async () => {
+    setIsLoading(true);
     try {
       const authService = new AuthService();
       const response = await authService.changePassword({
@@ -48,16 +50,27 @@ const ChangePasswordForm: React.FC<ChangePasswordProps> = ({ onClose }) => {
       });
 
       if (response?.status === 200) {
-        alert('Senha alterada com sucesso!');
-        onClose(); // Fecha o modal de ChangePassword
+        setNotificacao({ message: "Senha alterada com sucesso!", type: "success" });
+
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal
+        }, 500);
       } else {
-        alert(
-          'Erro ao fazer alteração de senha. Verifique os dados e tente novamente.',
-        );
+        setNotificacao({
+          message: "Erro ao fazer alteração de senha. Verifique os dados e tente novamente.",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
+      setNotificacao({
+          message: "Erro ao conectar com o servidor.",
+          type: "error",
+        });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,9 +85,17 @@ const ChangePasswordForm: React.FC<ChangePasswordProps> = ({ onClose }) => {
         onChange={handleChangeChangePassword}
       />
 
-      <Button type="orange" onClick={handleSubmitChangePassword}>
-        Redefinir
+      <Button type="orange" onClick={handleSubmitChangePassword} disabled={isLoading}>
+        {isLoading ? 'Enviando...' : 'Redefinir'}
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

@@ -3,6 +3,7 @@ import Button from '../../Button';
 import Input from '../../Input';
 import RestauranteService from '../../../services/RestauranteService';
 import ClienteService from '../../../services/ClienteService';
+import Notification from '../../Notification';
 
 // Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
@@ -31,6 +32,7 @@ interface EditProfileProps {
 }
 
 const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const token = localStorage.getItem('authToken');
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -109,12 +111,16 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
           telefone: updatedData.telefone,
         });
         if (response?.status === 200) {
-          alert('Perfil atualizado com sucesso!');
-          onClose();
+          setNotificacao({ message: "Perfil atualizado com sucesso!", type: "success" });
+  
+          // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+          setTimeout(() => {
+            setNotificacao(null);
+            onClose(); // Fecha o modal
+          }, 500);
+          
         } else {
-          alert(
-            'Erro ao atualizar perfil. Verifique os dados e tente novamente.',
-          );
+          setNotificacao({ message: "Erro ao atualizar perfil. Verifique os dados e tente novamente.", type: "error" });
         }
       } else if (userRole === 'ROLE_RESTAURANTE') {
         const response = await restauranteService.updateMyProfile({
@@ -126,20 +132,23 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
           aceitandoPedidos: updatedData.aceitandoPedidos,
         });
         if (response?.status === 200) {
-          alert('Perfil atualizado com sucesso!');
-          onClose();
-          window.location.reload(); // Recarrega a página após a atualização
+          setNotificacao({ message: "Perfil atualizado com sucesso!", type: "success" });
+  
+          // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+          setTimeout(() => {
+            setNotificacao(null);
+            onClose(); // Fecha o modal
+          }, 500);
+
         } else {
-          alert(
-            'Erro ao atualizar perfil. Verifique os dados e tente novamente.',
-          );
+          setNotificacao({ message: "Erro ao atualizar perfil. Verifique os dados e tente novamente.", type: "error" });
         }
       } else {
-        alert('Erro ao atualizar perfil. Role desconhecida.');
+        setNotificacao({ message: "Erro ao atualizar perfil. Role desconhecida.", type: "error" });
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
     }
   };
 
@@ -188,6 +197,14 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ onClose }) => {
       <Button type="orange" onClick={handleSubmitPerfil}>
         Atualizar Perfil
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

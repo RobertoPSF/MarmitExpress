@@ -17,7 +17,7 @@ export const PopUpContainer = styled.div`
 export const PopUpContent = styled.div`
   align-items: center;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -30,17 +30,24 @@ export const PopUpContent = styled.div`
 export const CloseButton = styled.button`
   &:hover {
     cursor: pointer;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.1);
   }
   background: none;
+  border-radius: 50%;
   border: none;
   font-size: 1.2em;
   position: absolute;
-  right: 2px;
+  right: 5px;
   top: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
+
 export const StyledIcon = styled(Icon)`
   color: black;
   height: 2rem;
   font-size: 1.3rem;
-  margin-right: 5px;
 `;

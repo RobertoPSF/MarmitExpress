@@ -20,4 +20,9 @@ export const ButtonStyled = styled.button<{ type: string }>`
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.7;
+  }
 `;
