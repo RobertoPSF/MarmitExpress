@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import MarmitaService from '../../../services/MarmitaService';
+import Notification from '../../Notification';
 
 interface AddMarmitaProps {
   onClose: () => void;
 }
 
 const AddMarmitaForm: React.FC<AddMarmitaProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataAddMarmita, setFormDataAddMarmita] = useState({
     nomeMarmita: '',
     precoMarmita: 0,
@@ -40,16 +42,21 @@ const AddMarmitaForm: React.FC<AddMarmitaProps> = ({ onClose }) => {
       });
 
       if (response?.status === 200) {
-        alert('Marmita adicionado com sucesso!');
-        onClose(); // Fecha o modal de AddMarmita
-        window.location.reload(); // Recarrega a página após a atualização
+        setNotificacao({ message: "ItMarmita adicionado com sucesso!", type: "success" });
+        
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal
+          window.location.reload(); // Recarrega a página após a atualização
+        }, 500);
+
       } else {
-        alert(
-          'Erro ao adicionar Marmita. Verifique os dados e tente novamente.',
-        );
+
+        setNotificacao({ message: "Erro ao adicionar Marmita. Verifique os dados e tente novamente.", type: "success" });
       }
     } catch (error) {
-      alert(error);
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
     }
   };
@@ -83,6 +90,14 @@ const AddMarmitaForm: React.FC<AddMarmitaProps> = ({ onClose }) => {
       <Button type="orange" onClick={handleSubmitAddMarmita}>
         Adicionar Marmita
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import IngredienteService from '../../../services/IngredienteService';
+import Notification from '../../Notification';
 
 interface AddIngredienteProps {
   onClose: () => void;
 }
 
 const AddIngredienteForm: React.FC<AddIngredienteProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataAddIngrediente, setFormDataAddIngrediente] = useState({
     nomeIngrediente: '',
   });
@@ -34,16 +36,20 @@ const AddIngredienteForm: React.FC<AddIngredienteProps> = ({ onClose }) => {
       });
 
       if (response?.status === 200) {
-        alert('Ingrediente adicionado com sucesso!');
-        onClose(); // Fecha o modal de AddIngrediente
-        window.location.reload(); // Recarrega a página após a atualização
+        
+        setNotificacao({ message: "Ingrediente adicionado com sucesso!", type: "success" });
+        
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal de AddIngrediente
+          window.location.reload(); // Recarrega a página após a atualização
+        }, 500);
       } else {
-        alert(
-          'Erro ao adicionar Ingrediente. Verifique os dados e tente novamente.',
-        );
+        setNotificacao({ message: "Erro ao adicionar Ingrediente. Verifique os dados e tente novamente", type: "error" });
       }
     } catch (error) {
-      alert(error);
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
     }
   };
@@ -61,6 +67,14 @@ const AddIngredienteForm: React.FC<AddIngredienteProps> = ({ onClose }) => {
       <Button type="orange" onClick={handleSubmitAddIngrediente}>
         Adicionar Ingrediente
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

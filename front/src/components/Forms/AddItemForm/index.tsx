@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import ItemService from '../../../services/ItemService';
+import Notification from '../../Notification';
 
 interface AddItemProps {
   onClose: () => void;
 }
 
 const AddItemForm: React.FC<AddItemProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataAddItem, setFormDataAddItem] = useState({
     nomeItem: '',
     precoItem: 0,
@@ -40,14 +42,18 @@ const AddItemForm: React.FC<AddItemProps> = ({ onClose }) => {
       });
 
       if (response?.status === 200) {
-        alert('Item adicionado com sucesso!');
-        onClose(); // Fecha o modal de AddItem
-        window.location.reload(); // Recarrega a página após a atualização
+        setNotificacao({ message: "Item adicionado com sucesso!", type: "success" });
+        
+        // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+        setTimeout(() => {
+          setNotificacao(null);
+          onClose(); // Fecha o modal
+          window.location.reload(); // Recarrega a página após a atualização
+        }, 500);
       } else {
-        alert('Erro ao adicionar Item. Verifique os dados e tente novamente.');
-      }
+        setNotificacao({ message: "Item adicionado com sucesso!", type: "error" });      }
     } catch (error) {
-      alert(error);
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
     }
   };
@@ -81,6 +87,14 @@ const AddItemForm: React.FC<AddItemProps> = ({ onClose }) => {
       <Button type="orange" onClick={handleSubmitAddItem}>
         Adicionar Item
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };
