@@ -133,19 +133,6 @@ export const DropdownMenu = styled.div`
   z-index: 1000;
 `;
 
-export const DropdownItem = styled(NavLink)`
-  display: block;
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: background 0.2s ease-in-out;
-
-  &:hover {
-    background: #f1f1f1;
-  }
-`;
-
 export const DropdownButton = styled.button`
   &:hover {
     background: #f1f1f1;

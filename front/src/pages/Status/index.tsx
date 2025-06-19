@@ -33,8 +33,11 @@ export default function Status() {
   return (
     <Container>
       <StatusColumn>
+        <span>
+          📍 Página de status do site
+        </span>
         <div>
-          Health: <Response $isError={isError}>{statusMessage}</Response>
+          ● Health: <Response $isError={isError}>{statusMessage}</Response>
         </div>
       </StatusColumn>
     </Container>

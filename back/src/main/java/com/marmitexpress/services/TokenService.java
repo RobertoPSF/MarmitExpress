@@ -25,6 +25,8 @@ public class TokenService {
                     .withIssuer("auth-api")
                     .withSubject(usuario.getEmail())
                     .withClaim("role", usuario.getRole().getRole()) // Adiciona a role ao token
+                    .withClaim("email", usuario.getEmail()) // Adiciona o email ao token
+                    .withClaim("id", usuario.getId().toString()) // Adiciona o id ao token
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException e) {

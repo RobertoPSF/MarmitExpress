@@ -87,3 +87,4 @@ Após os contêineres estarem em execução, você pode acessar a aplicação da
 Para parar os contêineres em execução, você pode usar o seguinte comando:
 
 - docker-compose down
+- 

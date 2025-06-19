@@ -1,7 +1,9 @@
 # Documentação da API - RestauranteController
 
 Esta documentação detalha os endpoints relacionados à gestão de restaurantes na plataforma MarmitExpress.
-
+### Observação
+- O campo `nomeProprietario` é obrigatório para restaurantes e deve conter o nome do titular da conta vinculada à chave PIX (Se ela for do tipo Pessoa Física).
+- Para outros tipos de usuários (clientes e administradores), esse campo não é utilizado.
 ## Endpoints
 
 ### Listar todos os restaurantes
@@ -12,7 +14,8 @@ Esta documentação detalha os endpoints relacionados à gestão de restaurantes
 [
     {
         "id": "UUID",
-        "nome": "Nome do Restaurante",
+        "nomeRestaurante": "Nome do Restaurante",
+        "nomeProprietario": "Nome do Proprietário",
         "email": "email@restaurante.com",
         "endereco": "Endereço do restaurante",
         "telefone": "(00) 00000-0000",
@@ -37,7 +40,8 @@ Esta documentação detalha os endpoints relacionados à gestão de restaurantes
 ```json
 {
     "id": "UUID",
-    "nome": "Nome do Restaurante",
+    "nomeRestaurante": "Nome do Restaurante",
+    "nomeProprietario": "Nome do Proprietário",
     "email": "email@restaurante.com",
     "endereco": "Endereço do restaurante",
     "telefone": "(00) 00000-0000",
@@ -65,7 +69,8 @@ Esta documentação detalha os endpoints relacionados à gestão de restaurantes
 **Body:**
 ```json
 {
-    "nome": "Novo Nome",
+    "nomeRestaurante": "Novo Nome do Restaurante",
+    "nomeProprietario": "Novo Nome do Proprietário",
     "endereco": "Novo Endereço",
     "descricao": "Nova descrição",
     "aceitandoPedidos": true,

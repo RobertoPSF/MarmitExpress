@@ -1,13 +1,12 @@
 package com.marmitexpress.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.marmitexpress.models.Pedido;
 import com.marmitexpress.models.StatusPagamento;
 
 public record PagamentoResponseDTO(
-    UUID id,
+    Long id,
     Double valor,
     StatusPagamento status,
     String descricao,

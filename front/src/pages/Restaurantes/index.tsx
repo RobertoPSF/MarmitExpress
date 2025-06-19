@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import SidebarFiltros from '../../components/SideBarRestaurantsFilter';
 import CardRestaurante from '../../components/Cards/RestauranteCard';
 import { Container, DivRestaurantes } from './styles';
 import { NavLink } from 'react-router-dom';
@@ -25,12 +24,6 @@ interface Restaurante {
 }
 
 export default function Restaurantes() {
-  const [filtros, setFiltros] = useState({
-    area: '',
-    precoMin: 0,
-    precoMax: 999,
-    cozinha: '',
-  });
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -44,7 +37,10 @@ export default function Restaurantes() {
       setIsLoading(true);
       const response = await restaurantService.getRestaurants();
       if (response && response.status === 200) {
-        setRestaurantes(response.data);
+        const abertos = response.data.filter(
+          (r: Restaurante) => r.aceitandoPedidos === true,
+        );
+        setRestaurantes(abertos);
       } else {
         setError('Erro ao carregar restaurantes');
       }
@@ -54,26 +50,16 @@ export default function Restaurantes() {
     fetchRestaurants();
   }, []);
 
-  // Filtra os restaurantes de acordo com os filtros aplicados
-  const filteredRestaurants = restaurantes.filter((r) => {
-    return;
-    // (!filtros.area || r.endereco.includes(filtros.area)) &&
-    //   (!filtros.cozinha || r.descricao.includes(filtros.cozinha)) &&
-    //   r.preco >= (filtros.precoMin || 0) &&
-    //   r.preco <= (filtros.precoMax || 999);
-  });
-
   if (isLoading)
     return (
       <Container>
         <p style={{ color: 'white' }}>Carregando restaurantes...</p>
       </Container>
     );
-  if (error) return <p>{error}</p>;
+  if (error) return <Container style={{ color: 'white' }}>{error}</Container>;
 
   return (
     <Container>
-      <SidebarFiltros setFiltros={setFiltros} />
       <DivRestaurantes>
         {restaurantes.length > 0 ? (
           restaurantes.map((restaurante) => (
@@ -81,15 +67,13 @@ export default function Restaurantes() {
               style={{ height: '120px' }}
               key={restaurante.id}
               to={`/restaurante/${restaurante.id}/cardapio`}
-              state={{ restaurante }}
+              state={{ id: restaurante.id }}
             >
               <CardRestaurante dados={restaurante} />
             </NavLink>
           ))
         ) : (
-          <p style={{ color: 'white' }}>
-            Não existem Restaurantes cadastrados.
-          </p>
+          <h2 style={{ color: 'white' }}>Nenhum restaurante aberto!</h2>
         )}
       </DivRestaurantes>
     </Container>

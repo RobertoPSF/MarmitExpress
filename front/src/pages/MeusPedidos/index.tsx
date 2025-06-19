@@ -1,38 +1,50 @@
 import { Container } from './styles';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useAuthRedirect from '../../hooks/useAuthRedirect';
+import PedidoCard from '../../components/Cards/PedidosCard';
+import PedidoService from '../../services/PedidoService';
 
 export default function MeusPedidos() {
   useAuthRedirect();
-
-  const [pedidos, setPedidos] = useState([]);
+  const [pedidos, setPedidos] = useState<any[]>([]);
 
   useEffect(() => {
+    const pedidoService = new PedidoService();
     const token = localStorage.getItem('authToken');
-
-    fetch('http://localhost:8080/pedidos', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((retorno) => retorno.json())
-      .then((retorno_convertido) => setPedidos(retorno_convertido))
-      .catch((error) => {
-        console.error('Erro ao obter pedidos:', error);
-      });
+    if (token) {
+      try {
+        pedidoService
+          .getPedidosByCliente()
+          .then((response) => {
+            if (response?.data) {
+              setPedidos(response.data);
+            }
+          })
+          .catch((error) => {
+            console.error('Erro ao obter pedidos:', error);
+          });
+      } catch (error) {
+        console.error('Erro ao decodificar o token:', error);
+      }
+    }
   }, []);
 
   return (
     <Container>
-      <div>
-        {pedidos.length > 0 ? (
-          pedidos.map((pedido) => <div>{pedido}</div>)
-        ) : (
-          <p>Você ainda não tem pedidos.</p>
-        )}
-      </div>
+      {pedidos.length > 0 ? (
+        pedidos.map((pedido) => <PedidoCard key={pedido.id} dados={pedido} />)
+      ) : (
+        <h2
+          style={{
+            position: 'absolute',
+            alignSelf: 'center',
+            justifySelf: 'center',
+          }}
+        >
+          Você ainda não tem pedidos. <br />
+          Corre lá e faz um agoraa! :D
+        </h2>
+      )}
     </Container>
   );
 }

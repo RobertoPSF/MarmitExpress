@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService';
+import Notification from '../../Notification';
 
 const formatPhoneNumber = (value: string) => {
   const rawValue = value.replace(/\D/g, '').slice(0, 11);
@@ -16,6 +17,7 @@ const formatPhoneNumber = (value: string) => {
 };
 
 const RestauranteCadastroForm: React.FC = () => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
   const [formDataCadastro, setFormDataCadastro] = useState({
     email: '',
     senha: '',
@@ -24,6 +26,7 @@ const RestauranteCadastroForm: React.FC = () => {
     chavePix: '',
     endereco: '',
     telefone: '',
+    nomeProprietario: '',
   });
 
   const handleChangeCadastro = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +39,16 @@ const RestauranteCadastroForm: React.FC = () => {
   };
 
   const validarFormulario = () => {
-    const { email, senha, nome, descricao, chavePix, endereco, telefone } =
-      formDataCadastro;
+    const {
+      email,
+      senha,
+      nome,
+      descricao,
+      chavePix,
+      endereco,
+      telefone,
+      nomeProprietario,
+    } = formDataCadastro;
     if (
       !email ||
       !senha ||
@@ -45,13 +56,14 @@ const RestauranteCadastroForm: React.FC = () => {
       !descricao ||
       !chavePix ||
       !endereco ||
-      !telefone
+      !telefone ||
+      !nomeProprietario
     ) {
       alert('Todos os campos são obrigatórios.');
       return false;
     }
     if (telefone.replace(/\D/g, '').length !== 11) {
-      alert('Telefone inválido. Use o formato correto: (XX) 9XXXX-XXXX.');
+        setNotificacao({ message: "Telefone inválido. Use o formato correto: (XX) 9XXXX-XXXX", type: "error" });
       return false;
     }
     return true;
@@ -62,26 +74,53 @@ const RestauranteCadastroForm: React.FC = () => {
 
     try {
       const authService = new AuthService();
+      const {
+        email,
+        senha,
+        nome,
+        descricao,
+        chavePix,
+        endereco,
+        telefone,
+        nomeProprietario,
+      } = formDataCadastro;
+
       const response = await authService.registerUser({
-        email: formDataCadastro.email,
-        senha: formDataCadastro.senha,
-        nome: formDataCadastro.nome,
-        descricao: formDataCadastro.descricao,
-        chavePix: formDataCadastro.chavePix,
-        endereco: formDataCadastro.endereco,
-        telefone: formDataCadastro.telefone,
+        email,
+        senha,
+        nome,
+        descricao,
+        chavePix,
+        endereco,
+        telefone,
+        nomeProprietario,
         role: 'RESTAURANTE',
       });
 
       if (response && response.status === 201) {
-        alert('Cadastro realizado com sucesso!');
+        // Cadastro bem-sucedido, agora realizar login automático
+        const loginResponse = await authService.loginUser({ email, senha });
+
+        if (loginResponse?.data?.token) {
+          localStorage.setItem('authToken', loginResponse.data.token);
+          setNotificacao({ message: "Cadastro e login realizados com sucesso!", type: "success" });
+          
+          setTimeout(() => {
+            setNotificacao(null);
+             window.location.href = '/meu-restaurante';
+          }, 500);
+
+         } else {
+          setNotificacao({ message: "Cadastro feito, mas não foi possível logar automaticamente.", type: "error" });
+        }
       } else {
         const errorMessage = await response?.statusText;
-        alert(`Erro ao cadastrar: ${errorMessage}`);
+        setNotificacao({ message: `Erro ao cadastrar: ${errorMessage}`, type: "error" });
+        console.error('Erro ao cadastrar:', response);
       }
     } catch (error) {
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
     }
   };
 
@@ -120,6 +159,14 @@ const RestauranteCadastroForm: React.FC = () => {
       />
 
       <Input
+        name="nomeProprietario"
+        placeholder="Nome do Dono"
+        value={formDataCadastro.nomeProprietario}
+        onChange={handleChangeCadastro}
+        placeHolderContainer="Proprietário"
+      />
+
+      <Input
         name="chavePix"
         placeholder="Chave PIX do Restaurante"
         value={formDataCadastro.chavePix}
@@ -147,6 +194,14 @@ const RestauranteCadastroForm: React.FC = () => {
       <Button type="orange" onClick={handleSubmitCadastro}>
         Concluir Cadastro
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };

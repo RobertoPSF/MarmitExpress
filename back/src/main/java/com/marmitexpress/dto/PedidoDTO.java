@@ -1,28 +1,26 @@
 package com.marmitexpress.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
 public class PedidoDTO {
-    private Map<UUID, Integer> itensQuantidades;
-    private UUID restauranteId;
+    private List<ItemPedidoDTO> itens;
     private String endereco;
+    private UUID restauranteId;
 
     public PedidoDTO() {}
 
-    public PedidoDTO(Map<UUID, Integer> itensQuantidades, UUID restauranteId, String endereco) {
-        this.itensQuantidades = itensQuantidades;
-        this.restauranteId = restauranteId;
+    public PedidoDTO(List<ItemPedidoDTO> itens, String endereco, UUID restauranteId) {
+        this.itens = itens;
         this.endereco = endereco;
+        this.restauranteId = restauranteId;
     }
 
-    public Map<UUID, Integer> getItensQuantidades() { return itensQuantidades; }
-
-    public void setItensQuantidades(Map<UUID, Integer> itensQuantidades) { this.itensQuantidades = itensQuantidades; }
-
+    // Getters e Setters
+    public List<ItemPedidoDTO> getItens() { return itens; }
+    public void setItens(List<ItemPedidoDTO> itens) { this.itens = itens; }
+    public String getEndereco() { return endereco; }
+    public void setEndereco(String endereco) { this.endereco = endereco; }
     public UUID getRestauranteId() { return restauranteId; }
+    public void setRestauranteId(UUID restauranteId) { this.restauranteId = restauranteId; }
 }

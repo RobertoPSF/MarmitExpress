@@ -27,6 +27,7 @@ public class RestauranteController {
             .map(restaurante -> new RestauranteResponseDTO(
                 restaurante.getId(),
                 restaurante.getNome(),
+                restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
                 restaurante.getTelefone(),
@@ -35,7 +36,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ))
             .toList();
             
@@ -51,6 +53,7 @@ public class RestauranteController {
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restaurante.getId(),
                 restaurante.getNome(),
+                restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
                 restaurante.getTelefone(),
@@ -59,7 +62,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -74,6 +78,7 @@ public class RestauranteController {
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restaurante.getId(),
                 restaurante.getNome(),
+                restaurante.getNomeProprietario(),
                 restaurante.getEmail(),
                 restaurante.getEndereco(),
                 restaurante.getTelefone(),
@@ -82,7 +87,8 @@ public class RestauranteController {
                 restaurante.getChavePix(),
                 restaurante.getIngredientes(),
                 restaurante.getListaDeItems(),
-                restaurante.getMarmitas()
+                restaurante.getMarmitas(),
+                restaurante.getListaDePedidos()
             ));
         }
         return ResponseEntity.notFound().build();
@@ -105,6 +111,7 @@ public class RestauranteController {
             return ResponseEntity.ok(new RestauranteResponseDTO(
                 restauranteExistente.getId(),
                 restauranteExistente.getNome(),
+                restauranteExistente.getNomeProprietario(),
                 restauranteExistente.getEmail(),
                 restauranteExistente.getEndereco(),
                 restauranteExistente.getTelefone(),
@@ -113,7 +120,8 @@ public class RestauranteController {
                 restauranteExistente.getChavePix(),
                 restauranteExistente.getIngredientes(),
                 restauranteExistente.getListaDeItems(),
-                restauranteExistente.getMarmitas()
+                restauranteExistente.getMarmitas(),
+                restauranteExistente.getListaDePedidos()
             ));
         }
 

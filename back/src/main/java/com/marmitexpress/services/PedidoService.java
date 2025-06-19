@@ -1,5 +1,6 @@
 package com.marmitexpress.services;
 
+import com.marmitexpress.dto.ItemPedidoDTO;
 import com.marmitexpress.dto.PedidoDTO;
 import com.marmitexpress.exceptions.PedidoNotFoundException;
 import com.marmitexpress.models.Cliente;
@@ -17,24 +18,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+
     @Autowired
     private RestauranteRepository restauranteRepository;
+
     @Autowired
-    private ItemRepository ItemRepository;
+    private ItemRepository itemRepository;
+
     @Autowired
     private DetalhePedidoRepository detalhePedidoRepository;
 
-    public Pedido criarPedido(PedidoDTO pedidoRequestDTO, Cliente cliente) {
-        var restauranteOpt = restauranteRepository.findById(pedidoRequestDTO.getRestauranteId());
+    public Pedido criarPedido(PedidoDTO pedidoDTO, Cliente cliente) {
+        var restauranteOpt = restauranteRepository.findById(pedidoDTO.getRestauranteId());
         if (restauranteOpt.isEmpty()) {
             throw new RuntimeException("Restaurante não encontrado");
         }
@@ -42,61 +44,66 @@ public class PedidoService {
             throw new RuntimeException("Restaurante não está aceitando pedidos no momento");
         }
     
-        Map<UUID, Integer> itensQuantidades = pedidoRequestDTO.getItensQuantidades();
-        List<Item> Items = ItemRepository.findAllById(new ArrayList<>(itensQuantidades.keySet()));
-    
-        if (Items.isEmpty()) {
-            throw new RuntimeException("Nenhum Item encontrado");
-        }
-    
-        for (Item Item : Items) {
-            Integer quantidadeSolicitada = itensQuantidades.get(Item.getId());
-            if (quantidadeSolicitada > Item.getQuantidade()) {
-                throw new RuntimeException("Quantidade solicitada para o Item " + Item.getNome() + " excede o estoque disponível.");
-            }
-        }
-    
-        // ✅ Primeiro, cria e salva o Pedido no banco
         Pedido pedido = new Pedido();
         pedido.setRestaurante(restauranteOpt.get());
         pedido.setCliente(cliente);
-        pedido.setEndereco(pedidoRequestDTO.getEndereco());
+        pedido.setEndereco(pedidoDTO.getEndereco());
         pedido.setStatus(StatusPedido.PENDENTE);
-        pedido.setPreco(0); // Definido inicialmente como 0
+        pedido.setPreco(0);
     
-        pedido = pedidoRepository.save(pedido); // 🔥 Agora, o Pedido já tem um ID
+        pedido = pedidoRepository.save(pedido);
     
         double total = 0;
         List<DetalhePedido> detalhePedidos = new ArrayList<>();
     
-        for (Item Item : Items) {
-            Integer quantidadeSolicitada = itensQuantidades.get(Item.getId());
-            DetalhePedido detalhePedido = new DetalhePedido(null, pedido, Item, quantidadeSolicitada);
-            detalhePedidos.add(detalhePedido);
-            total += Item.getPreco() * quantidadeSolicitada;
+        for (ItemPedidoDTO itemDTO : pedidoDTO.getItens()) {
+            DetalhePedido detalhe = new DetalhePedido();
+            detalhe.setPedido(pedido);
+            detalhe.setQuantidade(itemDTO.getQuantidade());
+    
+            if (itemDTO.getItemId() != null) {
+                Item baseItem = itemRepository.findById(itemDTO.getItemId())
+                    .orElseThrow(() -> new RuntimeException("Item não encontrado para o ID: " + itemDTO.getItemId()));
+    
+                if (baseItem.getQuantidade() < itemDTO.getQuantidade()) {
+                    throw new RuntimeException("Estoque insuficiente para o item: " + baseItem.getNome());
+                }
+    
+                baseItem.setQuantidade(baseItem.getQuantidade() - itemDTO.getQuantidade());
+    
+                itemRepository.save(baseItem);
+    
+                detalhe.setItem(baseItem);
+    
+                if (itemDTO.getIngredientes() != null && !itemDTO.getIngredientes().isEmpty()) {
+                    detalhe.setIngredientesPersonalizados(itemDTO.getIngredientes());
+                }
+    
+                total += baseItem.getPreco() * detalhe.getQuantidade();
+            }
+    
+            detalhePedidos.add(detalhe);
         }
     
-        // Agora que temos os detalhes do pedido, podemos associá-los ao Pedido
         pedido.setItens(detalhePedidos);
-    
-        // ✅ Salvar os detalhes do pedido
-        detalhePedidoRepository.saveAll(detalhePedidos); 
-    
-        // ✅ Atualizar o preço e salvar o pedido novamente
         pedido.setPreco(total);
+    
+        detalhePedidoRepository.saveAll(detalhePedidos);
+    
         return pedidoRepository.save(pedido);
     }
+    
     
 
     public List<Pedido> listarPedidos() {
         return pedidoRepository.findAll();
     }
 
-    public Optional<Pedido> buscarPedidoPorId(UUID id) {
+    public Optional<Pedido> buscarPedidoPorId(Long id) {
         return pedidoRepository.findById(id);
     }
 
-    public void deletarPedido(UUID id) {
+    public void deletarPedido(Long id) {
         if (!pedidoRepository.existsById(id)) {
             throw new PedidoNotFoundException();
         }

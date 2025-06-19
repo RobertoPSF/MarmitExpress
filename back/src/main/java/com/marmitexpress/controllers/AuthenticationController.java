@@ -65,19 +65,25 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado.");
         }
 
+        if(data.role() == UsuarioRole.RESTAURANTE && data.nomeProprietario() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nome do proprietário é obrigatório para o restaurante.");
+        }
+        if(data.role() == UsuarioRole.RESTAURANTE && data.nomeProprietario().length() < 3) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nome do proprietário deve ter no mínimo 3 caracteres.");
+        }
         String encryptedPassword = passwordEncoder.encode(data.senha());
         
         Usuario newUsuario;
         if (data.role() == UsuarioRole.CLIENTE) {
             newUsuario = new Cliente(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else if (data.role() == UsuarioRole.RESTAURANTE) {
-            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
+            newUsuario = new Restaurante(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone(), data.nomeProprietario(), data.descricao(), data.chavePix());
         } else if (data.role() == UsuarioRole.ADMIN) {
             newUsuario = new Admin(data.nome(), data.email(), encryptedPassword, data.endereco(), data.telefone());
         } else {    
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido.");
         }
-        System.out.println(newUsuario);
+        System.out.println("Salvando usuário: " + newUsuario);
         usuarioRepository.save(newUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso.");
     }

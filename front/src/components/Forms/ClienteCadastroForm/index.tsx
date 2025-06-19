@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '../../Button';
 import Input from '../../Input';
 import AuthService from '../../../services/AuthService'; // Importando o AuthService
+import Notification from '../../Notification';
 
 // Função para aplicar a máscara de telefone
 const formatPhoneNumber = (value: string) => {
@@ -23,6 +24,8 @@ interface ClienteCadastroProps {
 }
 
 const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
+  const [notificacao, setNotificacao] = useState<null | { message: string; type?: "success" | "error" }>(null);
+
   const [formDataCadastro, setFormDataCadastro] = useState({
     telefone: '',
     nome: '',
@@ -47,29 +50,48 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
   const handleSubmitCadastro = async () => {
     try {
       const authService = new AuthService();
+      const { nome, email, senha, endereco, telefone } = formDataCadastro;
+
       const response = await authService.registerUser({
-        nome: formDataCadastro.nome,
-        email: formDataCadastro.email,
-        senha: formDataCadastro.senha,
-        endereco: formDataCadastro.endereco,
-        telefone: formDataCadastro.telefone,
+        nome,
+        email,
+        senha,
+        endereco,
+        telefone,
         role: 'CLIENTE',
       });
 
       if (response && response.status === 201) {
-        alert('Cadastro realizado com sucesso!');
-        onClose();
+        // Cadastro bem-sucedido, agora fazer login
+        const loginResponse = await authService.loginUser({ email, senha });
+
+        if (loginResponse?.data?.token) {
+          localStorage.setItem('authToken', loginResponse.data.token);
+
+          setNotificacao({ message: "Cadastro e login realizados com sucesso!", type: "success" });
+
+          // Fecha o modal depois de 0.5s (tempo suficiente para o usuário ler a notificação)
+          setTimeout(() => {
+            setNotificacao(null);
+            onClose(); // Fecha o modal
+            window.location.href = '/';
+          }, 500);
+
+        } else {
+          setNotificacao({ message: "Cadastro realizado, mas erro ao fazer login automático.", type: "error" });
+        }
       } else {
-        alert('Erro ao cadastrar. Verifique os dados e tente novamente.');
+        setNotificacao({ message: "Erro ao cadastrar. Verifique os dados e tente novamente.", type: "error" });
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
-      alert('Erro ao conectar com o servidor.');
+      setNotificacao({ message: "Erro ao conectar com o servidor.", type: "error" });
     }
   };
 
   return (
     <>
+      <p>Para se cadastrar, preencha os dados abaixo:</p>
       <Input
         name="telefone"
         placeholder="(00) 90000-0000"
@@ -114,6 +136,14 @@ const ClienteCadastroForm: React.FC<ClienteCadastroProps> = ({ onClose }) => {
       <Button type={'orange'} onClick={handleSubmitCadastro}>
         Concluir Cadastro
       </Button>
+
+      {notificacao && (
+        <Notification
+          message={notificacao.message}
+          type={notificacao.type}
+          onClose={() => setNotificacao(null)}
+        />
+      )}
     </>
   );
 };
