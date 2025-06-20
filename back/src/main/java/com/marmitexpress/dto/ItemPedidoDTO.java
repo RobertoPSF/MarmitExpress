@@ -2,7 +2,10 @@ package com.marmitexpress.dto;
 
 import java.util.List;
 import java.util.UUID;
+import lombok.*;
 
+@Getter
+@Setter
 public class ItemPedidoDTO {
     // Se informado, indica a marmita base registrada no banco.
     private UUID itemId;
@@ -19,17 +22,4 @@ public class ItemPedidoDTO {
         this.ingredientes = ingredientes;
         this.quantidade = quantidade;
     }
-
-    // Getters e Setters
-    public UUID getItemId() { return itemId; }
-
-    public void setItemId(UUID itemId) { this.itemId = itemId; }
-
-    public List<String> getIngredientes() { return ingredientes; }
-
-    public void setIngredientes(List<String> ingredientes) { this.ingredientes = ingredientes; }
-
-    public Integer getQuantidade() { return quantidade; }
-    
-    public void setQuantidade(Integer quantidade) { this.quantidade = quantidade; }
 }

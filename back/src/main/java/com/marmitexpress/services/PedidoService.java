@@ -1,17 +1,9 @@
 package com.marmitexpress.services;
 
-import com.marmitexpress.dto.ItemPedidoDTO;
-import com.marmitexpress.dto.PedidoDTO;
+import com.marmitexpress.dto.*;
 import com.marmitexpress.exceptions.PedidoNotFoundException;
-import com.marmitexpress.models.Cliente;
-import com.marmitexpress.models.DetalhePedido;
-import com.marmitexpress.models.Pedido;
-import com.marmitexpress.models.Item;
-import com.marmitexpress.models.StatusPedido;
-import com.marmitexpress.repositorys.DetalhePedidoRepository;
-import com.marmitexpress.repositorys.PedidoRepository;
-import com.marmitexpress.repositorys.ItemRepository;
-import com.marmitexpress.repositorys.RestauranteRepository;
+import com.marmitexpress.models.*;
+import com.marmitexpress.repositorys.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +25,9 @@ public class PedidoService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private IngredienteRepository ingredienteRepository;
+    
+    @Autowired
     private DetalhePedidoRepository detalhePedidoRepository;
 
     public Pedido criarPedido(PedidoDTO pedidoDTO, Cliente cliente) {
@@ -43,7 +38,31 @@ public class PedidoService {
         if (!restauranteOpt.get().isAceitandoPedidos()) {
             throw new RuntimeException("Restaurante não está aceitando pedidos no momento");
         }
-    
+
+        for (ItemPedidoDTO itemPedidoDTO: pedidoDTO.getItens()){
+            Item baseItem = itemRepository.findById(itemPedidoDTO.getItemId())
+            .orElseThrow(() -> new RuntimeException("Item não encontrado para o ID: " + itemPedidoDTO.getItemId()));
+
+            for (ItemIngrediente itemIng : baseItem.getIngredientes()){
+                Ingrediente ingrediente = itemIng.getIngrediente();
+                int quantidadeNecessaria = itemIng.getQuantidade() * itemPedidoDTO.getQuantidade();
+                if (ingrediente.getQuantidade() < quantidadeNecessaria) {
+                    throw new RuntimeException("Estoque insuficiente para o ingrediente: " + ingrediente.getNome());
+                }
+            }
+        }
+
+        for (ItemPedidoDTO itemDTO : pedidoDTO.getItens()){
+            Item baseItem = itemRepository.findById(itemDTO.getItemId()).get();
+
+            for (ItemIngrediente itemIng : baseItem.getIngredientes()){
+                Ingrediente ingrediente = itemIng.getIngrediente();
+                int quantidadeNecessaria = itemIng.getQuantidade() * itemDTO.getQuantidade();
+                ingrediente.setQuantidade(ingrediente.getQuantidade() - quantidadeNecessaria);
+                ingredienteRepository.save(ingrediente);
+            }
+        }
+
         Pedido pedido = new Pedido();
         pedido.setRestaurante(restauranteOpt.get());
         pedido.setCliente(cliente);

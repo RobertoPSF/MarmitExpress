@@ -17,7 +17,10 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
   "nome": "Arroz com Feijão",
   "preco": 12.5,
   "quantidade": 10,
-  "restauranteId": "UUID-do-restaurante"
+  "restauranteId": "UUID-do-restaurante",
+  "ingredientes": [
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+  ]
 }
 ```
 
@@ -29,6 +32,9 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
   "nome": "Arroz com Feijão",
   "preco": 12.5,
   "quantidade": 10,
+  "ingredientes": [
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+  ],
   "restauranteId": "UUID-do-restaurante"
 }
 ```
@@ -40,21 +46,9 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-<<<<<<< HEAD
-### Listar todos os Items
-
-=======
-<<<<<<< HEAD
-
-### Listar todos os Itens
-
-=======
 
 ### Listar todos os Items
 
-> > > > > > > main
-
->>>>>>> front
 **GET /itens**
 
 **Resposta (200 OK):**
@@ -66,6 +60,9 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
     "nome": "Arroz com Feijão",
     "preco": 12.5,
     "quantidade": 10,
+    "ingredientes": [
+      { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+    ],
     "restauranteId": "UUID-do-restaurante"
   }
 ]
@@ -85,8 +82,12 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
   "nome": "Arroz com Feijão",
   "preco": 12.5,
   "quantidade": 10,
+  "ingredientes": [
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+  ],
   "restauranteId": "UUID-do-restaurante"
 }
+
 ```
 
 **Restrições:**
@@ -103,9 +104,13 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ```json
 {
-  "nome": "Feijoada",
-  "preco": 15.0,
-  "quantidade": 5
+  "nome": "Arroz com Feijão",
+  "preco": 12.5,
+  "quantidade": 10,
+  "restauranteId": "UUID-do-restaurante",
+  "ingredientes": [
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+  ]
 }
 ```
 
@@ -114,9 +119,12 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 ```json
 {
   "id": "UUID-do-item",
-  "nome": "Feijoada",
-  "preco": 15.0,
-  "quantidade": 5,
+  "nome": "Arroz com Feijão",
+  "preco": 12.5,
+  "quantidade": 10,
+  "ingredientes": [
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+  ],
   "restauranteId": "UUID-do-restaurante"
 }
 ```
@@ -141,21 +149,9 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 ---
 
-<<<<<<< HEAD
-### Buscar Items de um Restaurante
-
-=======
-<<<<<<< HEAD
 
 ### Buscar Itens de um Restaurante
 
-=======
-
-### Buscar Items de um Restaurante
-
-> > > > > > > main
-
->>>>>>> front
 **GET /itens/restaurante/{restauranteId}**
 
 **Resposta (200 OK):**
@@ -167,6 +163,9 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
     "nome": "Arroz com Feijão",
     "preco": 12.5,
     "quantidade": 10,
+    "ingredientes": [
+      { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
+    ],
     "restauranteId": "UUID-do-restaurante"
   }
 ]
@@ -183,3 +182,6 @@ A API de Itens permite que restaurantes cadastrem, gerenciem e consultem os iten
 
 - Todos os endpoints que requerem autenticação validam o restaurante pelo email cadastrado.
 - Para qualquer erro de permissão ou item inexistente, a API retorna os códigos apropriados (`403` ou `404`).
+- Ao criar um pedido, o sistema verifica o estoque de todos os ingredientes necessários para os itens do pedido.
+- Se faltar algum ingrediente, o pedido não será criado e uma mensagem de erro será retornada.
+- O estoque dos ingredientes é descontado apenas após a verificação de disponibilidade para todo o pedido.

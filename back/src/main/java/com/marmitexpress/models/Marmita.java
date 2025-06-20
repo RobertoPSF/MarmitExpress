@@ -22,5 +22,5 @@ public class Marmita extends Item {
         joinColumns = @JoinColumn(name = "marmita_id"),
         inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
     )
-    private List<Ingrediente> ingredientes;
+    private List<ItemIngrediente> ingredientes;
 }

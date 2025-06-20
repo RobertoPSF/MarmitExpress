@@ -1,11 +1,8 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.dto.MarmitaDTO;
-import com.marmitexpress.dto.MarmitaResponseDTO;
-import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.models.Marmita;
-import com.marmitexpress.services.MarmitaService;
-import com.marmitexpress.services.RestauranteService;
+import com.marmitexpress.dto.*;
+import com.marmitexpress.models.*;
+import com.marmitexpress.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/marmitas")
@@ -26,6 +24,9 @@ public class MarmitaController {
     @Autowired
     private RestauranteService restauranteService;
 
+    @Autowired
+    private IngredienteService ingredienteService;
+
     @GetMapping("/restaurante/{restauranteId}")
     public ResponseEntity<List<MarmitaResponseDTO>> listarMarmitaByRestaurante(@PathVariable UUID restauranteId) {
         List<Marmita> marmitas = marmitaService.getMarmitasByRestaurante(restauranteId);
@@ -35,7 +36,9 @@ public class MarmitaController {
                 marmita.getNome(),
                 marmita.getPreco(),
                 marmita.getQuantidade(),
-                marmita.getIngredientes(),
+                marmita.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
                 marmita.getRestaurante().getId()
             ))
             .toList();
@@ -55,8 +58,13 @@ public class MarmitaController {
         novaMarmita.setNome(dto.getNome());
         novaMarmita.setPreco(dto.getPreco());
         novaMarmita.setQuantidade(dto.getQuantidade());
-        novaMarmita.setIngredientes(dto.getIngredientes());
         novaMarmita.setRestaurante(restaurante);
+        if (dto.getIngredientes()!= null){
+            List<ItemIngrediente> ingredientes = dto.getIngredientes().stream()
+                .map(ingDto -> new ItemIngrediente(null, novaMarmita, ingredienteService.buscaIngredientePorId(ingDto.getIngredienteId()), ingDto.getQuantidade()))
+                .collect(Collectors.toList());
+            novaMarmita.setIngredientes(ingredientes);
+        }
 
         Marmita marmitaSalva = marmitaService.criarMarmita(novaMarmita);
 
@@ -65,7 +73,9 @@ public class MarmitaController {
             marmitaSalva.getNome(),
             marmitaSalva.getPreco(),
             marmitaSalva.getQuantidade(),
-            marmitaSalva.getIngredientes(),
+            marmitaSalva.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             marmitaSalva.getRestaurante().getId()
         ));
     }
@@ -80,7 +90,9 @@ public class MarmitaController {
                 marmita.getNome(),
                 marmita.getPreco(),
                 marmita.getQuantidade(),
-                marmita.getIngredientes(),
+                marmita.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
                 marmita.getRestaurante().getId()
             ))
             .toList();
@@ -97,7 +109,9 @@ public class MarmitaController {
             marmita.getNome(),
             marmita.getPreco(),
             marmita.getQuantidade(),
-            marmita.getIngredientes(),
+            marmita.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             marmita.getRestaurante().getId()
         ))).orElse(ResponseEntity.notFound().build());
     }
@@ -120,7 +134,12 @@ public class MarmitaController {
         marmitaAtualizada.setNome(dto.getNome());
         marmitaAtualizada.setPreco(dto.getPreco());
         marmitaAtualizada.setQuantidade(dto.getQuantidade());
-        marmitaAtualizada.setIngredientes(dto.getIngredientes());
+        if (dto.getIngredientes()!= null){
+            List<ItemIngrediente> ingredientes = dto.getIngredientes().stream()
+                .map(ingDto -> new ItemIngrediente(null, marmitaAtualizada, ingredienteService.buscaIngredientePorId(ingDto.getIngredienteId()), ingDto.getQuantidade()))
+                .collect(Collectors.toList());
+            marmitaAtualizada.setIngredientes(ingredientes);
+        }
         marmitaAtualizada.setRestaurante(restaurante);
 
         Marmita marmitaSalva = marmitaService.atualizarMarmita(id, marmitaAtualizada);
@@ -130,7 +149,9 @@ public class MarmitaController {
             marmitaSalva.getNome(),
             marmitaSalva.getPreco(),
             marmitaSalva.getQuantidade(),
-            marmitaSalva.getIngredientes(),
+            marmitaSalva.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             marmitaSalva.getRestaurante().getId()
         ));
     }

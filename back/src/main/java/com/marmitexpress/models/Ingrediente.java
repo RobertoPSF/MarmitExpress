@@ -17,7 +17,8 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
-
+    @Column(nullable = false)
+    private Integer quantidade;
     private String nome;
 
     @ManyToOne
