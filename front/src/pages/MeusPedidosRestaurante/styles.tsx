@@ -22,7 +22,7 @@ export const FiltroWrapper = styled.div`
   align-items: center;
   gap: 8px;
   color: white;
-  margin-top: -40px;
+  margin-top: -51px;
 `;
 
 export const Select = styled.select`

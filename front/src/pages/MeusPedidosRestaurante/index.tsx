@@ -48,10 +48,28 @@ export default function MeusPedidosRestaurante() {
     }
   }, []);
 
-  /** memoriza a lista filtrada sempre que statusFiltro ou pedidos mudam */
   const pedidosFiltrados = useMemo(() => {
-    if (statusFiltro === 'TODOS') return pedidos;
-    return pedidos.filter((pedido) => pedido.status === statusFiltro);
+    const ordemStatus: Record<Status, number> = {
+      PENDENTE:    0,
+      EM_PREPARO:  1,
+      PRONTO:      2,
+      A_CAMINHO:   3,
+      ENTREGUE:    4,
+    };
+
+    /* 1) aplica filtro se houver */
+    const lista = statusFiltro === 'TODOS'
+      ? pedidos
+      : pedidos.filter((p) => p.status === statusFiltro);
+
+    /* 2) ordena: status desejado primeiro; empate → id DESC */
+    return lista
+      .slice() // cópia para não mutar o state
+      .sort((a, b) => {
+        const diffStatus = ordemStatus[a.status as Status] - ordemStatus[b.status as Status];
+        if (diffStatus !== 0) return diffStatus;                 // critério 1 → status
+        return Number(b.id) - Number(a.id);                      // critério 2 → id decrescente
+      });
   }, [pedidos, statusFiltro]);
 
   return (
@@ -78,7 +96,7 @@ export default function MeusPedidosRestaurante() {
               <PedidoCardRestaurante key={pedido.id} dados={pedido} />
             ))
           ) : (
-            <h2 style={{ color: 'black' }}>Sem pedidos para o filtro selecionado.</h2>
+            <h2 style={{ color: 'white' }}>Sem pedidos para o filtro selecionado.</h2>
           )}
       </ContainerPedidos>
     </Container>

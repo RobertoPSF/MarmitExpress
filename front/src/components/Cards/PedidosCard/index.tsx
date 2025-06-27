@@ -62,7 +62,7 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
       </Header>
       <Line />
       <Footer>
-        <p>{dados.status}</p>
+        <p><b>{dados.status}</b></p>
       </Footer>
     </Container>
   );
