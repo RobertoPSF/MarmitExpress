@@ -19,9 +19,10 @@ interface Pagamento {
   id: string;
   clienteId: string;
   restauranteId: string;
+  endereco: string;
   status: string;
   preco: number;
-  pagamentoId?: string; // <-- Verifica se existe um pagamento já
+  pagamentoId?: string | null;
   itens: {
     id: string;
     item: {
@@ -168,6 +169,10 @@ export default function PagamentoCard({ dados }: PagamentoCardProps) {
       <Row>
         <p>Pedido Nº{dados.id}</p>
         <p>{dados.status}</p>
+      </Row>
+      <Row>
+        <p>Endereço</p>
+        <p>{dados.endereco}</p>
       </Row>
       <RestauranteContent>
         <StyledIcon icon={'material-symbols:store-outline-rounded'} />

@@ -7,8 +7,7 @@ import PedidoService from '../../../services/PedidoService';
 
 interface Pagamento {
   id: string;
-  clienteId: string;
-  restauranteId: string;
+  endereco: string;
   status: string;
   preco: number;
   pagamentoId?: string;
@@ -33,7 +32,7 @@ interface PagamentoCardProps {
 export default function PagamentoRestauranteCard({
   dados,
 }: PagamentoCardProps) {
-  const { preco, itens, id, status } = dados;
+  const { preco, itens, id, status, endereco } = dados;
 
   const [nomesIngredientes, setNomesIngredientes] = useState<
     Record<string, string>
@@ -130,6 +129,14 @@ export default function PagamentoRestauranteCard({
       <Row>
         <p>Pedido Nº{id}</p>
         <p>{statusAtual}</p>
+      </Row>
+      <Row>
+        <p>Cliente</p>
+        <p>--</p>
+      </Row>
+      <Row>
+        <p>Endereço</p>
+        <p>{endereco}</p>
       </Row>
       <Line />
 

@@ -1,44 +1,81 @@
-import { Container, Response, StatusColumn } from './styles';
 import { useEffect, useState } from 'react';
-import HealthService from '../../services/HealthService';
+import axios from 'axios';
+import { Container, Response, StatusColumn } from './styles';
+
+const publicRoutes = [
+  { label: 'Health',        path: '/health'        },
+  { label: 'Restaurantes',  path: '/restaurantes'  },
+  { label: 'Ingredientes',  path: '/ingredientes'  },
+  { label: 'Itens',         path: '/itens'         },
+  { label: 'Marmitas',      path: '/marmitas'      },
+] as const;
+
+type RouteStatus = {
+  label: string;
+  ok: boolean | null;
+  message: string;
+};
 
 export default function Status() {
-  const [statusMessage, setStatusMessage] = useState<string>('Carregando...');
-  const [isError, setIsError] = useState<boolean>(false);
+  const [routeStatus, setRouteStatus] = useState<RouteStatus[]>(
+    publicRoutes.map(r => ({
+      label   : r.label,
+      ok      : null,
+      message : 'Carregando…',
+    })),
+  );
 
   useEffect(() => {
-    const fetchStatus = async () => {
-      const healthService = new HealthService();
+    const baseURL =
+      import.meta.env.VITE_API_URL?.toString().replace(/\/$/, '') ||
+      'http://localhost:8080';
 
-      try {
-        const response = await healthService.checkHealth();
+    Promise.all(
+      publicRoutes.map(async (route, idx) => {
+        try {
+          const res = await axios.get(`${baseURL}${route.path}`, { timeout: 10000 });
+          const ok = res.status < 500;
 
-        if (response && response.status === 200) {
-          setStatusMessage('Site funcionando corretamente');
-          setIsError(false);
-        } else {
-          setStatusMessage('Erro ao obter status do site');
-          setIsError(true);
+          return {
+            idx,
+            ok,
+            message:
+              ok && res.status !== 200
+                ? `Sem dados (${res.status})`
+                : 'OK',
+          };
+        } catch (err: any) {
+          const isTimeout = err?.code === 'ECONNABORTED';
+          return {
+            idx,
+            ok      : false,
+            message : isTimeout ? 'Timeout' : 'Erro',
+          };
         }
-      } catch (error) {
-        setStatusMessage('Erro ao conectar com o servidor');
-        setIsError(true);
-        console.error(error);
-      }
-    };
-
-    fetchStatus();
+      }),
+    ).then(results =>
+      setRouteStatus(prev =>
+        prev.map((r, i) => {
+          const res = results.find(res => res.idx === i)!;
+          return { ...r, ok: res.ok, message: res.message };
+        }),
+      ),
+    );
   }, []);
 
   return (
     <Container>
       <StatusColumn>
-        <span>
-          📍 Página de status do site
-        </span>
-        <div>
-          ● Health: <Response $isError={isError}>{statusMessage}</Response>
-        </div>
+        <span>📍 Status das rotas</span>
+
+        {routeStatus.map(({ label, ok, message }) => (
+          <div key={label}>
+            ● {label}:{' '}
+            <Response $isError={ok === false}>
+              {ok === null ? 'Carregando…' : message}
+            </Response>
+          </div>
+        ))}
       </StatusColumn>
     </Container>
   );

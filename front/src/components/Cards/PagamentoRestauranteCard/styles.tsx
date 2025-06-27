@@ -5,12 +5,14 @@ import { Icon } from '@iconify/react';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 50rem;
-  max-width: 50rem;
+  max-width: 700px;
+  min-width: 300px;
+  width: 90%;
   background-color: white;
   border-radius: 15px;
   padding: 2rem;
   gap: 10px;
+  height: 67.1vh;
   margin-top: -10vh;
   margin-bottom: 5vh;
   transition: box-shadow 0.2s ease-in-out;
