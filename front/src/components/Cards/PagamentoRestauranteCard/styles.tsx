@@ -11,6 +11,7 @@ export const Container = styled.div`
   border-radius: 15px;
   padding: 2rem;
   gap: 10px;
+  height: 67.1vh;
   margin-top: -10vh;
   margin-bottom: 5vh;
   transition: box-shadow 0.2s ease-in-out;

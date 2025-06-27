@@ -45,7 +45,7 @@ export default function PedidoCard({ dados }: PedidoCardProps) {
       </Header>
       <Line />
       <Footer>
-        <p>{dados.status}</p>
+        <p><b>{dados.status}</b></p>
         {/* <p>{dados.dataDoPedido}</p> */}
         {/*Se for tirar uma data tira essa e deixa só o status do pedido no footer*/}
       </Footer>
