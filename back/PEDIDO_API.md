@@ -160,6 +160,40 @@ Altera o status do pedido para **ENTREGUE**.
 - **404 Not Found**: Pedido não encontrado.
 
 ---
+
+### Resumo do Pedido
+
+**GET** `/pedidos/{id}/resumo`
+
+#### Descrição
+Retorna um resumo detalhado do pedido, incluindo informações do cliente, endereço de entrega, itens, quantidades, ingredientes personalizados (se houver), preços e subtotal.  
+Disponível para o cliente dono do pedido e para o restaurante responsável.
+
+#### Resposta (200 OK):
+
+```json
+{
+  "idPedido": 123,
+  "status": "PENDENTE",
+  "nomeCliente": "João da Silva",
+  "enderecoRestaurante": "Rua do Restaurante, 123",
+  "itens": [
+    {
+      "nomeItem": "Marmita de Frango",
+      "quantidade": 2,
+      "precoUnitario": 20.0,
+      "subtotal": 40.0,
+      "ingredientes": ["Sem cebola", "Extra batata"]
+    }
+  ],
+  "precoTotal": 40.0
+}
+```
+
+- **403 Forbidden**: Se o usuário não for o cliente dono ou o restaurante responsável.
+- **404 Not Found**: Se o pedido não existir.
+
+---
 ## Observações sobre Controle de Estoque
 
 - Ao criar um pedido, o sistema verifica o estoque de todos os ingredientes necessários para os itens/marmitas do pedido.

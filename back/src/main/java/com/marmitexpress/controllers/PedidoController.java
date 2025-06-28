@@ -1,6 +1,7 @@
 package com.marmitexpress.controllers;
 
 import com.marmitexpress.dto.PedidoResponseDTO;
+import com.marmitexpress.dto.ResumoPedidoDTO;
 import com.marmitexpress.dto.AtualizarStatusPedido;
 import com.marmitexpress.dto.PedidoDTO;
 import com.marmitexpress.models.*;
@@ -130,5 +131,25 @@ public class PedidoController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{id}/resumo")
+    public ResponseEntity<?> getResumoPedido(@PathVariable Long id){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+        Restaurante restaurante = restauranteService.buscarRestaurantePorEmail(email);
+
+        Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
+        if (pedidoOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Pedido não encontrado.");
+        }
+        Pedido pedido = pedidoOpt.get();
+        boolean isCliente = cliente != null && pedido.getCliente().equals(cliente);
+        boolean isRestaurante = restaurante != null && pedido.getRestaurante().equals(restaurante);
+        if (!isCliente && !isRestaurante) {
+            return ResponseEntity.status(403).body("Você não tem permissão para ver este resumo de pedido.");
+        }
+
+        ResumoPedidoDTO resumo = pedidoService.gerarResumoPedido(id);
+        return ResponseEntity.ok(resumo);
+    }
 
 }
