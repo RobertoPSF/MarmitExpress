@@ -16,8 +16,8 @@
   "preco": 25.50,
   "quantidade": 10,
   "ingredientes": [
-    { "id": "UUID-do-ingrediente", "nome": "Arroz" },
-    { "id": "UUID-do-ingrediente", "nome": "Feijão" }
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 },
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 80 }
   ],
   "restauranteId": "UUID-do-restaurante"
 }
@@ -31,8 +31,8 @@
   "preco": 25.50,
   "quantidade": 10,
   "ingredientes": [
-    { "id": "UUID-do-ingrediente", "nome": "Arroz" },
-    { "id": "UUID-do-ingrediente", "nome": "Feijão" }
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 },
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 80 }
   ],
   "restauranteId": "UUID-do-restaurante"
 }
@@ -51,7 +51,7 @@
     "preco": 15.00,
     "quantidade": 5,
     "ingredientes": [
-      { "id": "UUID-do-ingrediente", "nome": "Macarrão" }
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
     ],
     "restauranteId": "UUID-do-restaurante"
   }
@@ -70,7 +70,7 @@
   "preco": 20.00,
   "quantidade": 3,
   "ingredientes": [
-    { "id": "UUID-do-ingrediente", "nome": "Frango" }
+  { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
   ],
   "restauranteId": "UUID-do-restaurante"
 }
@@ -89,8 +89,7 @@
     "preco": 30.00,
     "quantidade": 8,
     "ingredientes": [
-      { "id": "UUID-do-ingrediente", "nome": "Arroz" },
-      { "id": "UUID-do-ingrediente", "nome": "Carne" }
+    { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
     ],
     "restauranteId": "UUID-do-restaurante"
   }
@@ -108,7 +107,7 @@
   "preco": 35.00,
   "quantidade": 12,
   "ingredientes": [
-    { "id": "UUID-do-ingrediente", "nome": "Peixe" }
+  { "ingredienteId": "UUID-do-ingrediente", "quantidade": 100 }
   ],
   "restauranteId": "UUID-do-restaurante"
 }
@@ -135,3 +134,8 @@
 #### Resposta
 - **204 No Content** caso a exclusão seja bem-sucedida.
 - **403 Forbidden** se o restaurante não tiver permissão para excluir.
+## Observações
+
+- O campo `ingredientes` deve conter a lista de ingredientes e a quantidade de cada um usada na receita da marmita.
+- O estoque dos ingredientes é verificado e descontado apenas após a confirmação do pedido.
+- Alterações na receita afetam apenas pedidos futuros.

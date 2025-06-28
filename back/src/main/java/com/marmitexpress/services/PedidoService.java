@@ -111,8 +111,6 @@ public class PedidoService {
     
         return pedidoRepository.save(pedido);
     }
-    
-    
 
     public List<Pedido> listarPedidos() {
         return pedidoRepository.findAll();
@@ -127,5 +125,35 @@ public class PedidoService {
             throw new PedidoNotFoundException();
         }
         pedidoRepository.deleteById(id);
+    }
+
+    public ResumoPedidoDTO gerarResumoPedido(Long pedidoId) {
+    Pedido pedido = pedidoRepository.findById(pedidoId)
+        .orElseThrow(() -> new RuntimeException("Pedido não encontrado para o ID: " + pedidoId));
+
+    ResumoPedidoDTO resumo = new ResumoPedidoDTO();
+    resumo.idPedido = pedido.getId();
+    resumo.status = pedido.getStatus().toString();
+    resumo.nomeCliente = pedido.getCliente().getNome();
+    resumo.enderecoEntrega = pedido.getRestaurante().getEndereco();
+    resumo.precoTotal = pedido.getPreco();
+
+    resumo.itens = pedido.getItens().stream().map(detalhe -> {
+        ResumoPedidoDTO.ItemResumo item = new ResumoPedidoDTO.ItemResumo();
+        item.nomeItem = detalhe.getItem().getNome();
+        item.quantidade = detalhe.getQuantidade();
+        item.precoUnitario = detalhe.getItem().getPreco();
+        item.subtotal = detalhe.getItem().getPreco() * detalhe.getQuantidade();
+        // Preferir ingredientes personalizados, se existirem
+        if (detalhe.getIngredientesPersonalizados() != null && !detalhe.getIngredientesPersonalizados().isEmpty()) {
+            item.ingredientes = detalhe.getIngredientesPersonalizados();
+        } else {
+            item.ingredientes = detalhe.getItem().getIngredientes().stream()
+                .map(itemIng -> itemIng.getIngrediente().getNome())
+                .toList();
+        }
+        return item;
+    }).toList();
+        return resumo;
     }
 }
