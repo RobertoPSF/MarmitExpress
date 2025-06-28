@@ -32,27 +32,37 @@ public class IngredienteService {
             throw new IllegalArgumentException("O nome do ingrediente não pode estar vazio.");
         }
 
-        Ingrediente ingrediente = new Ingrediente(null, ingredienteDTO.getNome(), restaurante);
+        Ingrediente ingrediente = new Ingrediente(
+            null, 
+            ingredienteDTO.getQuantidade(),
+            ingredienteDTO.getNome(),
+            restaurante
+            );
         Ingrediente savedIngrediente = ingredienteRepository.save(ingrediente);
-        return new IngredienteResponseDTO(savedIngrediente.getId(), savedIngrediente.getNome(), restauranteId);
+        return new IngredienteResponseDTO(savedIngrediente.getId(), savedIngrediente.getQuantidade(), savedIngrediente.getNome(), restauranteId);
     }
 
     public List<IngredienteResponseDTO> getIngredientesByRestaurante(UUID restauranteId) {
         return ingredienteRepository.findByRestauranteId(restauranteId).stream()
-                .map(ingrediente -> new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getNome(), restauranteId))
+                .map(ingrediente -> new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getQuantidade(), ingrediente.getNome(), restauranteId))
                 .collect(Collectors.toList());
     }
 
     public List<IngredienteResponseDTO> getAllIngredientes() {
         return ingredienteRepository.findAll().stream()
-                .map(ingrediente -> new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getNome(), ingrediente.getRestaurante().getId()))
+                .map(ingrediente -> new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getQuantidade(), ingrediente.getNome(), ingrediente.getRestaurante().getId()))
                 .collect(Collectors.toList());
     }
 
     public IngredienteResponseDTO getIngredienteById(UUID id) {
         Ingrediente ingrediente = ingredienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ingrediente não encontrado"));
-        return new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getNome(), ingrediente.getRestaurante().getId());
+        return new IngredienteResponseDTO(ingrediente.getId(), ingrediente.getQuantidade(), ingrediente.getNome(), ingrediente.getRestaurante().getId());
+    }
+
+    public Ingrediente buscaIngredientePorId(UUID id){
+        return ingredienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Ingrediente não encontrado"));
     }
 
     public IngredienteResponseDTO updateIngrediente(UUID ingredienteId, UUID restauranteId, IngredienteDTO ingredienteDTO) {
@@ -69,7 +79,7 @@ public class IngredienteService {
 
         ingrediente.setNome(ingredienteDTO.getNome());
         Ingrediente updatedIngrediente = ingredienteRepository.save(ingrediente);
-        return new IngredienteResponseDTO(updatedIngrediente.getId(), updatedIngrediente.getNome(), restauranteId);
+        return new IngredienteResponseDTO(updatedIngrediente.getId(), updatedIngrediente.getQuantidade(), updatedIngrediente.getNome(), restauranteId);
     }
 
     public void deleteIngrediente(UUID ingredienteId, UUID restauranteId) {

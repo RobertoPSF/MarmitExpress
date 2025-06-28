@@ -2,9 +2,7 @@ package com.marmitexpress.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
-
+import java.util.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,7 +23,9 @@ public class Item {
     private byte[] foto;
 
     @ManyToOne
-
     @JsonIgnore
     private Restaurante restaurante;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemIngrediente> ingredientes = new ArrayList<>();
 }

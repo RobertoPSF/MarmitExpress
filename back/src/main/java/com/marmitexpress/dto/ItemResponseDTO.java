@@ -1,5 +1,6 @@
 package com.marmitexpress.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 public record ItemResponseDTO (
@@ -7,5 +8,6 @@ public record ItemResponseDTO (
     String nome,
     double preco,
     int quantidade,
+    List<ItemIngredienteDTO> ingredientes,
     UUID restauranteId
 ) {}

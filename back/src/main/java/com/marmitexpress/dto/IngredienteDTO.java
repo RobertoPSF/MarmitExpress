@@ -9,11 +9,13 @@ import lombok.Setter;
 @Setter
 public class IngredienteDTO {
     private String nome;
+    private Integer quantidade;
     private UUID restauranteId;
 
     public IngredienteDTO() {}
 
-    public IngredienteDTO(String nome) {
+    public IngredienteDTO(String nome, Integer quantidade) {
         this.nome = nome;
+        this.quantidade = quantidade;
     }
 }

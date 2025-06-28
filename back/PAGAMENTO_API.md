@@ -1,17 +1,26 @@
 # API de Pagamentos - MarmitExpress
 
 ## Introdução
+<<<<<<< HEAD
+=======
 
+>>>>>>> front
 A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmação de pagamentos. Esta API suporta transações via PIX, fornecendo payloads para QR Code e atualizando o status dos pagamentos.
 
 ## Endpoints
 
 ### 1. Criar Pagamento
+<<<<<<< HEAD
+**POST** `/pagamentos`
+
+#### Request Body:
+=======
 
 **POST** `/pagamentos`
 
 #### Request Body:
 
+>>>>>>> front
 ```json
 {
   "descricao": "Pedido de almoço",
@@ -43,7 +52,6 @@ A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmaç�
 ```
 
 #### Respostas:
-
 - `403 FORBIDDEN`: Se o cliente não estiver autenticado.
 
 ---
@@ -61,7 +69,6 @@ A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmaç�
 ```
 
 #### Respostas:
-
 - `403 FORBIDDEN`: Se o cliente não estiver autenticado.
 - `404 NOT FOUND`: Se o pagamento não for encontrado.
 
@@ -78,7 +85,6 @@ A API de Pagamentos do MarmitExpress permite a criação, consulta e confirmaç�
 ```
 
 #### Respostas:
-
 - `403 FORBIDDEN`: Se o usuário não for um restaurante autorizado.
 - `404 NOT FOUND`: Se o pagamento já estiver confirmado ou não existir.
 

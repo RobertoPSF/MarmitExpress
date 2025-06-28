@@ -1,11 +1,8 @@
 package com.marmitexpress.controllers;
 
-import com.marmitexpress.dto.ItemDTO;
-import com.marmitexpress.dto.ItemResponseDTO;
-import com.marmitexpress.models.Item;
-import com.marmitexpress.models.Restaurante;
-import com.marmitexpress.services.ItemService;
-import com.marmitexpress.services.RestauranteService;
+import com.marmitexpress.dto.*;
+import com.marmitexpress.models.*;
+import com.marmitexpress.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +23,8 @@ public class ItemController {
     private ItemService itemService;
 
     @Autowired
+    private IngredienteService ingredienteService;
+    @Autowired
     private RestauranteService restauranteService;
 
     @PostMapping
@@ -37,7 +36,7 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item novoItem = new Item(null, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
+        Item novoItem = new Item(null, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante, null);
 
         Item itemSalvo = itemService.criarItem(novoItem);
 
@@ -46,6 +45,9 @@ public class ItemController {
             itemSalvo.getNome(),
             itemSalvo.getPreco(),
             itemSalvo.getQuantidade(),
+            itemSalvo.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             itemSalvo.getRestaurante().getId()
         ));
     }
@@ -59,6 +61,9 @@ public class ItemController {
                 item.getNome(),
                 item.getPreco(),
                 item.getQuantidade(),
+                item.getIngredientes().stream()
+                    .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                    .collect(Collectors.toList()),
                 item.getRestaurante().getId()
             ))
             .toList();
@@ -75,6 +80,9 @@ public class ItemController {
             item.getNome(),
             item.getPreco(),
             item.getQuantidade(),
+            item.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             item.getRestaurante().getId()
         ))).orElse(ResponseEntity.notFound().build());
     }
@@ -93,7 +101,18 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Item itemAtualizado = new Item(id, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante);
+        Item itemAtualizado = new Item(id, dto.getNome(), dto.getPreco(), dto.getQuantidade(), null, restaurante, null);
+        if (dto.getIngredientes() !=null){
+            List<ItemIngrediente> ingredientes = dto.getIngredientes().stream()
+            .map(ingDto -> new ItemIngrediente(
+                null,
+                itemAtualizado,
+                ingredienteService.buscaIngredientePorId(ingDto.getIngredienteId()),
+                ingDto.getQuantidade()
+            ))
+            .collect(Collectors.toList());
+            itemAtualizado.setIngredientes(ingredientes);
+        }
         Item itemSalvo = itemService.atualizarItem(id, itemAtualizado);
 
         return ResponseEntity.ok(new ItemResponseDTO(
@@ -101,6 +120,9 @@ public class ItemController {
             itemSalvo.getNome(),
             itemSalvo.getPreco(),
             itemSalvo.getQuantidade(),
+            itemSalvo.getIngredientes().stream()
+                .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                .collect(Collectors.toList()),
             itemSalvo.getRestaurante().getId()
         ));
     }
@@ -140,6 +162,9 @@ public class ItemController {
                 item.getNome(),
                 item.getPreco(),
                 item.getQuantidade(),
+                item.getIngredientes().stream()
+                    .map(ing -> new ItemIngredienteDTO(ing.getIngrediente().getId(), ing.getQuantidade()))
+                    .collect(Collectors.toList()),
                 item.getRestaurante().getId()
             ))
             .collect(Collectors.toList());

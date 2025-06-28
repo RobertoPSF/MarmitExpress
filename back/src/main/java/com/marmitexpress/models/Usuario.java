@@ -31,7 +31,7 @@ public abstract class Usuario implements UserDetails {
     @Column(nullable = false)
     private String endereco;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String telefone;
 
     @Column(nullable = false)

@@ -7,7 +7,8 @@
 **POST** `/pedidos`
 
 #### Descrição
-Cria um novo pedido para o cliente autenticado.
+Cria um novo pedido para o cliente autenticado.  
+**Agora o sistema verifica o estoque de cada ingrediente dos itens/marmitas do pedido. Se faltar algum ingrediente, o pedido não será criado.**
 
 #### Requisição
 ```json
@@ -15,8 +16,7 @@ Cria um novo pedido para o cliente autenticado.
   "itens": [
     {
       "itemId": "UUID do item",
-      "ingredientes": ["Ingrediente 1", "Ingrediente 2"],
-      "quantidade": 1
+      "quantidade": 2
     }
   ],
   "endereco": "Rua Exemplo, 123",
@@ -26,7 +26,10 @@ Cria um novo pedido para o cliente autenticado.
 
 #### Resposta
 - **200 OK**: Pedido criado com sucesso.
-- **400 Bad Request**: Erro ao criar pedido.
+- **400 Bad Request**: 
+{
+  "message": "Estoque insuficiente para o ingrediente: Arroz"
+}.
 
 ---
 
@@ -157,3 +160,8 @@ Altera o status do pedido para **ENTREGUE**.
 - **404 Not Found**: Pedido não encontrado.
 
 ---
+## Observações sobre Controle de Estoque
+
+- Ao criar um pedido, o sistema verifica o estoque de todos os ingredientes necessários para os itens/marmitas do pedido.
+- Se faltar algum ingrediente, o pedido não será criado e uma mensagem de erro será retornada.
+- O estoque dos ingredientes é descontado apenas após a verificação de disponibilidade para todo o pedido.

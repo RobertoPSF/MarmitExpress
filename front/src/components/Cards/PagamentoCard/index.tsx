@@ -8,12 +8,39 @@ import {
 } from './styles';
 import Button from '../../Button';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+
+interface Restaurante {
+  id: string;
+  nome: string;
+  endereco: string;
+  descricao: string;
+  telefone: string;
+  aceitandoPedidos: boolean;
+  chavePix: string;
+  itens: { id: string; nome: string; preco: number; quantidade: number }[];
+  pedidos: {
+    id: string;
+    clienteId: string;
+    status: string;
+    dataHora: string;
+    valorTotal: number;
+    itens: { ItemId: string; quantidade: number; precoUnitario: number }[];
+  }[];
+}
+
+interface Item {
+  nome: string;
+  valor?: number;
+}
+=======
 import { useEffect, useState } from 'react';
 import RestauranteService from '../../../services/RestauranteService';
 import PedidoService from '../../../services/PedidoService';
 import PagamentoService from '../../../services/PagamentoService';
 import IngredienteService from '../../../services/IngredienteService';
 // import QRCode from 'react-qr-code';
+>>>>>>> front
 
 interface Pagamento {
   id: string;
